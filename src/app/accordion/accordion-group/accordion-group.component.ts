@@ -2,6 +2,7 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
 import {AccordionComponent} from '../accordion.component';
+import {AccordionService} from '../../_services/accordion.service';
 
 @Component({
   selector: 'app-accordion-group',
@@ -11,14 +12,14 @@ import {AccordionComponent} from '../accordion.component';
       state('down' , style({ height: '*', display: 'block' })),
       state('up', style({ height: 0, display: 'none' })),
       state('firstLoad', style({ height: 0, display: 'none' })),
-      transition('up => down', animate('400ms')),
-      transition('down => up', animate('400ms')),
+      transition('up => down', animate('300ms')),
+      transition('down => up', animate('300ms')),
       transition('firstLoad => *', animate('0ms'))
     ])
   ]
 })
 export class AccordionGroupComponent implements OnDestroy, OnInit {
-  private _isOpen: boolean = false;
+  private _isOpen = false;
   state = 'firstLoad';
 
   @Input() heading: string;
@@ -27,7 +28,7 @@ export class AccordionGroupComponent implements OnDestroy, OnInit {
   set isOpen(value: boolean) {
     this._isOpen = value;
     if (value) {
-      this.accordion.closeOthers(this);
+      // this.accordion.closeOthers(this);
     }
   }
 
@@ -35,12 +36,18 @@ export class AccordionGroupComponent implements OnDestroy, OnInit {
     return this._isOpen;
   }
 
-  constructor(private accordion: AccordionComponent) {
+  constructor(private accordion: AccordionComponent, private accordionService: AccordionService) {
     this.accordion.addGroup(this);
   }
 
   ngOnInit() {
-    this.state = 'firstLoad';
+    this.state = 'up';
+    this.accordionService.openAllChanged
+      .subscribe(
+        (status: boolean) => {
+          this.isOpen = status;
+        }
+      )
   }
 
   ngOnDestroy() {
@@ -50,6 +57,5 @@ export class AccordionGroupComponent implements OnDestroy, OnInit {
   toggleOpen(event: MouseEvent): void {
     event.preventDefault();
     this.isOpen = !this.isOpen;
-    this.state = this.isOpen ? 'down' : 'up';
   }
 }

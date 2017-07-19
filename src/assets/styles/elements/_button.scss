@@ -68,6 +68,14 @@ $btn-white: #fff;
         background: $bg-hover;
     }
 
+    &.-out-shadow {
+      box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
+    }
+
+    &.-icon {
+      padding: 0 10px;
+    }
+
     &.-hollow{
         color: $bg-color;
         background: transparent;
@@ -107,4 +115,8 @@ $btn-white: #fff;
 
 .btn-red{
     @include create-button($btn-text-color, $btn-red);
+}
+
+.btn-white{
+    @include create-button(#939393, $white);
 }

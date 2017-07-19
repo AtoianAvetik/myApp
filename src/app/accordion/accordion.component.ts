@@ -1,6 +1,6 @@
-import { Component, HostBinding, Input, OnDestroy } from '@angular/core';
+import {Component, HostBinding, OnInit} from '@angular/core';
 import { AccordionGroupComponent } from './accordion-group/accordion-group.component';
-import {animate, state, style, transition, trigger} from "@angular/animations";
+import {AccordionService} from '../_services/accordion.service';
 
 @Component({
   selector: 'app-accordion',
@@ -9,10 +9,16 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
   `
 })
 
-export class AccordionComponent {
+export class AccordionComponent implements OnInit {
   @HostBinding('attr.class') class = 'panel-group';
 
   groups: Array<AccordionGroupComponent> = [];
+
+  constructor() {}
+
+  ngOnInit() {
+
+  }
 
   addGroup(group: AccordionGroupComponent): void {
     this.groups.push(group);

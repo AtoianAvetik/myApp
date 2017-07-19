@@ -14,12 +14,10 @@ import { PasswordsComponent } from './passwords/passwords.component';
 import { PassListComponent } from './pass-list/pass-list.component';
 import { PassListItemComponent } from './pass-list/pass-list-item/pass-list-item.component';
 import { ModalComponent } from './modal/modal.component';
-
-import { ModalService } from './_services/modal.service';
-import { PassItemService } from './_services/pass-item.service';
-import { DataService } from './_services/data.service';
 import { AccordionComponent } from './accordion/accordion.component';
 import { AccordionGroupComponent } from './accordion/accordion-group/accordion-group.component';
+
+import { DataService } from './_services/data.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -48,7 +46,7 @@ const appRoutes: Routes = [
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [ModalService, DataService, PassItemService],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

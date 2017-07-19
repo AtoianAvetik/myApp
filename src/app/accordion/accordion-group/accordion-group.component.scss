@@ -1,5 +1,5 @@
 .panel {
-  margin-bottom: 5px;
+  margin-bottom: .5em;
 }
 
 .panel-group {
@@ -8,20 +8,34 @@
 
 .panel-heading {
   color: #4D5E6E;
-  font-size: 15px;
   position: relative;
-  line-height: 36px;
   border-bottom: 1px solid #D2D4D5;
 
   &_title {
-    height: 38px;
-    padding-right: 24px;
     display: inline-block;
     vertical-align: top;
     cursor: pointer;
+    font-size: 15px;
+    padding: 1em 1em 1em 0;
+
+    span {
+      display: inline-block;
+      vertical-align: middle;
+    }
 
     &:hover {
       opacity: 0.7;
+    }
+  }
+
+  &_icon {
+    margin-left: 10px;
+    font-size: 12px;
+    display: inline-block;
+    transition: transform .3s linear;
+
+    .-opened & {
+      transform: rotate(90deg);
     }
   }
 }

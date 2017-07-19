@@ -7,7 +7,8 @@ import { ModalService } from '../_services/modal.service';
 @Component({
   selector: 'app-pass-list',
   templateUrl: './pass-list.component.html',
-  styleUrls: ['./pass-list.component.scss']
+  styleUrls: ['./pass-list.component.scss'],
+  providers: [ModalService, PassItemService]
 })
 export class PassListComponent implements OnInit {
   passItems: PassItem[];

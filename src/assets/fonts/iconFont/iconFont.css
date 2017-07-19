@@ -1,11 +1,11 @@
 @font-face {
 	font-family: 'iconFont';
-	src: url('iconFont.eot?1500381685');
-	src: url('iconFont.eot?1500381685#iefix') format('embedded-opentype'),
-		 url('iconFont.svg?1500381685#iconFont') format('svg'),
-		 url('iconFont.woff?1500381685') format('woff'),
-		 url('iconFont.woff?1500381685') format('woff2'),
-		 url('iconFont.ttf?1500381685') format('truetype');
+	src: url('iconFont.eot?1500473425');
+	src: url('iconFont.eot?1500473425#iefix') format('embedded-opentype'),
+		 url('iconFont.svg?1500473425#iconFont') format('svg'),
+		 url('iconFont.woff?1500473425') format('woff'),
+		 url('iconFont.woff?1500473425') format('woff2'),
+		 url('iconFont.ttf?1500473425') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -40,6 +40,8 @@
 
 .icon-lock:before { content: "\6C"; }
 .icon-arrow-left:before { content: "\4C"; }
-.icon-home:before { content: "\48"; }
 .icon-edit:before { content: "\45"; }
 .icon-delete:before { content: "\44"; }
+.icon-home:before { content: "\48"; }
+.icon-arrow-v2:before { content: "\52"; }
+.icon-next:before { content: "\4F"; }

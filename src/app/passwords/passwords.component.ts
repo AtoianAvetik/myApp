@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AccordionService } from '../_services/accordion.service';
+import { ModalService } from '../_services/modal.service';
+
 @Component({
   selector: 'app-passwords',
   templateUrl: './passwords.component.html',
-  styleUrls: ['./passwords.component.scss']
+  styleUrls: ['./passwords.component.scss'],
+  providers: [ModalService, AccordionService]
 })
 export class PasswordsComponent implements OnInit {
-  isGroupOpen = false;
+  isGroupsOpen = false;
 
   groups: Array<any> = [
     {
@@ -23,9 +27,20 @@ export class PasswordsComponent implements OnInit {
     }
   ];
 
-  constructor() { }
+  constructor(private modalService: ModalService, private accordionService:  AccordionService) { }
 
   ngOnInit() {
   }
 
+  toggleGroups() {
+    this.accordionService.openAllChanged.emit(this.isGroupsOpen);
+  }
+
+  openModal(id: string) {
+    this.modalService.modalOpened.emit(id);
+  }
+
+  closeModal(id: string) {
+    this.modalService.modalClosed.emit(id);
+  }
 }
