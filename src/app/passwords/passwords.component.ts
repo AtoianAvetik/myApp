@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
 import { AccordionService } from '../_services/accordion.service';
 import { ModalService } from '../_services/modal.service';
@@ -11,6 +11,8 @@ import { ModalService } from '../_services/modal.service';
 })
 export class PasswordsComponent implements OnInit {
   isGroupsOpen = false;
+  @ViewChild('folderNameInput') folderNameInputRef: ElementRef;
+  @ViewChild('folderContentInput') folderContentInputRef: ElementRef;
 
   groups: Array<any> = [
     {
@@ -30,6 +32,14 @@ export class PasswordsComponent implements OnInit {
   constructor(private modalService: ModalService, private accordionService:  AccordionService) { }
 
   ngOnInit() {
+  }
+
+  addFolder() {
+    const folderName = this.folderNameInputRef.nativeElement.value;
+    const folderContent = this.folderContentInputRef.nativeElement.value;
+    const folder = {heading: folderName, content: folderContent};
+
+    this.groups.push(folder);
   }
 
   toggleGroups() {

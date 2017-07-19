@@ -1,6 +1,6 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { AccordionGroupComponent } from './accordion-group/accordion-group.component';
-import {AccordionService} from '../_services/accordion.service';
+import { AccordionService } from '../_services/accordion.service';
 
 @Component({
   selector: 'app-accordion',
@@ -12,32 +12,18 @@ import {AccordionService} from '../_services/accordion.service';
 export class AccordionComponent implements OnInit {
   @HostBinding('attr.class') class = 'panel-group';
 
-  groups: Array<AccordionGroupComponent> = [];
+  groups: AccordionGroupComponent[] = [];
 
-  constructor() {}
+  constructor(private accordionService: AccordionService) {}
 
   ngOnInit() {
-
-  }
-
-  addGroup(group: AccordionGroupComponent): void {
-    this.groups.push(group);
-  }
-
-  closeOthers(openGroup: AccordionGroupComponent): void {
-    this.groups.forEach((group: AccordionGroupComponent) => {
-      if (group !== openGroup) {
-        group.isOpen = false;
-        group.state = 'up';
-      } else {
-      }
-    });
-  }
-
-  removeGroup(group: AccordionGroupComponent): void {
-    const index = this.groups.indexOf(group);
-    if (index !== -1) {
-      this.groups.splice(index, 1);
-    }
+    console.log(this.groups);
+    this.accordionService.groupsChanged
+      .subscribe(
+        (groups: AccordionGroupComponent[]) => {
+          this.groups = groups;
+          console.log(groups);
+        }
+      );
   }
 }

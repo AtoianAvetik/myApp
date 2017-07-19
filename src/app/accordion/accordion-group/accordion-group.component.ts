@@ -1,7 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
-import {AccordionComponent} from '../accordion.component';
 import {AccordionService} from '../../_services/accordion.service';
 
 @Component({
@@ -13,35 +12,29 @@ import {AccordionService} from '../../_services/accordion.service';
       state('up', style({ height: 0, display: 'none' })),
       state('firstLoad', style({ height: 0, display: 'none' })),
       transition('up => down', animate('300ms')),
-      transition('down => up', animate('300ms')),
-      transition('firstLoad => *', animate('0ms'))
+      transition('down => up', animate('300ms'))
     ])
   ]
 })
-export class AccordionGroupComponent implements OnDestroy, OnInit {
+export class AccordionGroupComponent implements OnInit, OnDestroy {
   private _isOpen = false;
-  state = 'firstLoad';
 
   @Input() heading: string;
 
   @Input()
   set isOpen(value: boolean) {
     this._isOpen = value;
-    if (value) {
-      // this.accordion.closeOthers(this);
-    }
   }
 
   get isOpen() {
     return this._isOpen;
   }
 
-  constructor(private accordion: AccordionComponent, private accordionService: AccordionService) {
-    this.accordion.addGroup(this);
+  constructor(private accordionService: AccordionService) {
+    this.accordionService.addGroup(this);
   }
 
   ngOnInit() {
-    this.state = 'up';
     this.accordionService.openAllChanged
       .subscribe(
         (status: boolean) => {
@@ -51,10 +44,10 @@ export class AccordionGroupComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
-    this.accordion.removeGroup(this);
+    this.accordionService.removeGroup(this);
   }
 
-  toggleOpen(event: MouseEvent): void {
+  toggleOpen(event: MouseEvent) {
     event.preventDefault();
     this.isOpen = !this.isOpen;
   }
