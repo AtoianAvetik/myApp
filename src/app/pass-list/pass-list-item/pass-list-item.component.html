@@ -1,0 +1,15 @@
+<div class="page-content-table_cell">{{ passItem.serviceName }}</div>
+<div class="page-content-table_cell">{{ passItem.userName }}</div>
+<div class="page-content-table_cell">{{ passItem.email }}</div>
+<div class="page-content-table_cell">{{ passItem.pass }}</div>
+<div class="page-content-table_cell -actions">
+  <div class="btn-group">
+    <button class="action-btn btn-success -hollow" (click)="onSelectPassItem(id);setItem();openModal('edit-modal')">
+      <i class="icon-edit"></i>
+    </button>
+    <button class="action-btn btn-red -hollow" (click)="onSelectPassItem(id);openModal('delete-modal')">
+      <i class="icon-delete"></i>
+    </button>
+  </div>
+</div>
+

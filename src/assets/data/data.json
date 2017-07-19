@@ -1,0 +1,14 @@
+[
+  {
+    "serviceName": "Service Test 1",
+    "userName": "testUser 1",
+    "email": "test1@test.test",
+    "pass": "testtesttest1"
+  },
+  {
+    "serviceName": "Service Test 2",
+    "userName": "testUser 2",
+    "email": "test2@test.test",
+    "pass": "testtesttest2"
+  }
+]

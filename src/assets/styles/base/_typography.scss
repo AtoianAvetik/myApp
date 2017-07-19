@@ -1,0 +1,70 @@
+h1{
+    font-size: em(50);
+}
+
+h2{
+    font-size: em(40);
+}
+
+h3{
+    font-size: em(32);
+}
+
+h4{
+    font-size: em(24);
+}
+
+h5{
+    font-size: em(21);
+}
+
+h6{
+    font-size: em(18);
+}
+
+p{
+    font-size: $base-font;
+    line-height: 1.5;
+    margin-bottom: .5em;
+
+    &.-highlighted{
+        color: $orange;
+    }
+}
+
+span{
+    &.-highlighted{
+        color: $orange;
+    }
+}
+
+.heading{
+    font-family: $heading-font;
+    margin: .5em 0;
+    font-weight: 600;
+    line-height: 1.1;
+
+    &.-h1{
+        font-size: em(50);
+    }
+
+    &.-h2{
+        font-size: em(40);
+    }
+
+    &.-h3{
+        font-size: em(32);
+    }
+
+    &.-h4{
+        font-size: em(24);
+    }
+
+    &.-h5{
+        font-size: em(21);
+    }
+
+    &.-h6{
+        font-size: em(18);
+    }
+}

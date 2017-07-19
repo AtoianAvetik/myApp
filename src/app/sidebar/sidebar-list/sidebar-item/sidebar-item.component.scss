@@ -1,0 +1,73 @@
+.sidebar-item {
+  color: $light-gray;
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $gray - #060809;
+  }
+
+  &.-active {
+    background-color: $dark;
+    color: $white;
+  }
+
+  &_text {
+    display: inline-block;
+    white-space: nowrap;
+    vertical-align: top;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 60px;
+    box-sizing: border-box;
+    width: 100%;
+    opacity: 0;
+    font-size: 18px;
+    line-height: 50px;
+    height: 50px;
+    outline: none;
+
+    .-expanded & {
+      opacity: 1;
+      transition: width .3s cubic-bezier(.55, 0, .1, 1);
+    }
+
+    .-header & {
+      line-height: 60px;
+      height: 60px;
+    }
+  }
+
+  &_icon {
+    position: absolute;
+    top: 50%;
+    left: 30px;
+    transform: translate(-50%,-50%);
+
+    &.-animated {
+      transform: translate(-50%,-50%) rotateY(180deg);
+      transition: transform 0.3s linear;
+
+      .-expanded & {
+        transform: translate(-50%,-50%);
+      }
+    }
+
+    .icon {
+      font-size: 30px;
+      color: $light-gray;
+
+      &.icon-arrow-left {
+        font-size: 16px;
+      }
+
+      &.icon-home {
+        font-size: 22px;
+      }
+    }
+
+    .-active & {
+      color: $white;
+    }
+  }
+}

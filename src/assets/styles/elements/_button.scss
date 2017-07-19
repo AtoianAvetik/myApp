@@ -1,0 +1,110 @@
+/*--------------------------------------/
+ General
+--------------------------------------*/
+$btn-font-family: $text-font;
+$btn-font-size: $base-font;
+$btn-height: 34px;
+$btn-border-radius: 2px;
+$btn-padding: 0 20px;
+$btn-font-weight: bold;
+
+/*--------------------------------------/
+ Colors
+--------------------------------------*/
+$btn-bg: #999 !default;
+$btn-text-color: #fff !default;
+$btn-primary: $blue-dark;
+$btn-success: $green;
+$btn-dark: $dark;
+$btn-red: $red;
+$btn-white: #fff;
+
+.btn-pure{
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-family: $btn-font-family;
+    font-size: $btn-font-size;
+}
+
+.btn{
+    position: relative;
+    display: inline-block;
+    background: $btn-white;
+    font-family: $btn-font-family;
+    height: $btn-height;
+    font-weight: $btn-font-weight;
+    border-radius: $btn-border-radius;
+    padding: $btn-padding;
+    font-size: $btn-font-size;
+    cursor: pointer;
+    outline: none;
+    line-height: $btn-height - 1px;
+    white-space: nowrap;
+    margin: 0 5px;
+    transition: background .2s linear, color .2s linear;
+    border: 1px solid transparent;
+
+    &:disabled, &.-disabled{
+        cursor: default;
+        opacity: 0.25;
+    }
+
+    &:hover{
+        text-decoration: none;
+    }
+}
+
+@mixin create-button($text-color, $bg) {
+    $bg-color: $bg;
+    $bg-hover: $bg - #111;
+
+    @extend .btn;
+    color: $text-color;
+    background: $bg-color;
+
+    &:hover{
+        background: $bg-hover;
+    }
+
+    &.-hollow{
+        color: $bg-color;
+        background: transparent;
+        border-color: $bg-color;
+
+        &:hover{
+            background: $bg-hover;
+            color: $text-color;
+        }
+    }
+}
+
+.btn-group{
+    width: auto;
+    margin: 0 -5px -10px;
+
+    .btn{
+        margin-bottom: 10px;
+    }
+}
+
+.btn-default{
+    @include create-button($btn-text-color, $btn-bg);
+}
+
+.btn-primary{
+    @include create-button($btn-text-color, $btn-primary);
+}
+
+.btn-success{
+    @include create-button($btn-text-color, $btn-success);
+}
+
+.btn-dark{
+    @include create-button($btn-text-color, $btn-dark);
+}
+
+.btn-red{
+    @include create-button($btn-text-color, $btn-red);
+}

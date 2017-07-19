@@ -1,0 +1,8 @@
+.main-container {
+  padding-left: 65px;
+  transition: padding .4s cubic-bezier(.55, 0, .1, 1);
+
+  .-expanded & {
+    padding-left: 240px;
+  }
+}

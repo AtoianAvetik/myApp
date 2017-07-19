@@ -1,0 +1,36 @@
+@mixin media($value) {
+    // If the key exists in the map
+    @if not unitless($value) {
+
+        @media screen and (max-width: $value) {
+            @content;
+        }
+
+    } @else {
+        @if index($media-breakpoints, $value) {
+            // Prints a media query based on the value
+            @media screen and (max-width: #{$value}px) {
+                @content;
+            }
+        }
+            // If the key doesn't exist in the map
+
+        @else {
+            @warn "Breakpoint mixin supports: "+$media-breakpoints+"; breakpoint was "+$value;
+        }
+    }
+}
+
+@mixin onlyMedia($value) {
+    @media screen and (width: $value) {
+        @content;
+    }
+}
+
+@mixin minMedia($value) {
+    @media screen and (min-width: $value) {
+        @content;
+    }
+}
+
+

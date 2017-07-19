@@ -1,0 +1,31 @@
+.panel {
+  margin-bottom: 5px;
+}
+
+.panel-group {
+  width: 100%;
+}
+
+.panel-heading {
+  color: #4D5E6E;
+  font-size: 15px;
+  position: relative;
+  line-height: 36px;
+  border-bottom: 1px solid #D2D4D5;
+
+  &_title {
+    height: 38px;
+    padding-right: 24px;
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+
+.panel-content {
+  overflow: hidden;
+}

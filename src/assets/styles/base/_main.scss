@@ -1,0 +1,91 @@
+body{
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-code-container-color: rgba(0, 0, 0, 0);
+    -webkit-text-size-adjust: 100%;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-family: $text-font;
+    font-size: $base-font;
+    color: $base-color;
+
+    &.-backdrop{
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    @include media(1024) {
+      font-size: 14px;
+    }
+}
+
+.container{
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+//-----------------------------------------
+//Code guide styles
+//-----------------------------------------
+
+.container{
+    width: 960px;
+}
+
+.page-content {
+  margin-top: 30px;
+  width: 100%;
+}
+
+.page-controls {
+  margin-top: 30px;
+}
+
+.page-content-table {
+  border: 1px solid $gray;
+  border-radius: 4px;
+  min-width: 900px;
+
+  &_header {
+    font-weight: bold;
+    font-size: em(20);
+    border-bottom: 1px solid $gray;
+  }
+
+  &_row {
+    border-bottom: 1px solid $gray;
+    display: flex;
+    flex-flow: row wrap;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &_cell {
+    flex: 1 0 19%;
+    padding: 15px;
+    border-right: 1px solid $gray;
+    display: flex;
+    align-items: center;
+    word-break: break-word;
+
+    &.-actions {
+      flex: 0 0 120px;
+    }
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+
+  .action-btn {
+    height: auto;
+    line-height: 1;
+    padding: 5px;
+  }
+}

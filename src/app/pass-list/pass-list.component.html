@@ -1,0 +1,108 @@
+<section class="page-controls">
+  <div class="container">
+    <div class="btn-group">
+      <button class="btn-primary" (click)="openModal('add-modal')">Add Pass</button>
+    </div>
+  </div>
+</section>
+<section class="page-content">
+  <div class="container">
+    <div class="page-content-table">
+      <div class="page-content-table_header">
+        <div class="page-content-table_row">
+          <div class="page-content-table_cell">Service Name</div>
+          <div class="page-content-table_cell">User Name</div>
+          <div class="page-content-table_cell">Email</div>
+          <div class="page-content-table_cell">Pass</div>
+          <div class="page-content-table_cell -actions">Actions</div>
+        </div>
+      </div>
+      <div class="page-content-table_content">
+        <div pass-list-item class="page-content-table_row"
+          *ngFor="let passItem of passItems; let i = index"
+          [passItem]="passItem"
+          [id]="i">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-modal id="add-modal">
+  <div class="modal">
+    <div class="modal_content">
+      <h1 class="heading -h2">Add Modal!</h1>
+      <div class="row -column no-gutters">
+        <div class="form-group">
+          <label for="serviceName">Service:</label>
+          <input class="form-control" id="serviceName" type="text" name="serviceName" #serviceNameInput>
+        </div>
+        <div class="form-group">
+          <label for="userName">User Name:</label>
+          <input class="form-control" id="userName" type="text" name="userName" #userNameInput>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input class="form-control" id="email" type="text" name="email" #emailInput>
+        </div>
+        <div class="form-group">
+          <label for="pass">Password:</label>
+          <input class="form-control" id="pass" type="text" name="pass" #passInput>
+        </div>
+      </div>
+      <div class="row no-gutters -end">
+        <div class="btn-group">
+          <button class="btn-success" (click)="onAddPassItem();closeModal('add-modal');">Add</button>
+          <button class="btn-default" (click)="closeModal('add-modal')">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <button class="close-btn" (click)="closeModal('add-modal')"></button>
+  </div>
+</app-modal>
+
+<app-modal id="edit-modal">
+  <div class="modal">
+    <div class="modal_content">
+      <h1 class="heading -h2">Edit Modal!</h1>
+      <div class="row -column no-gutters">
+        <div class="form-group">
+          <label for="newServiceName">Service:</label>
+          <input class="form-control" id="newServiceName" type="text" name="newServiceName" #newServiceNameInput [value]="selectedServiceName">
+        </div>
+        <div class="form-group">
+          <label for="newUserName">User Name:</label>
+          <input class="form-control" id="newUserName" type="text" name="newUserName" #newUserNameInput [value]="selectedUserName">
+        </div>
+        <div class="form-group">
+          <label for="newEmail">Email:</label>
+          <input class="form-control" id="newEmail" type="text" name="newEmail" #newEmailInput [value]="selectedEmail">
+        </div>
+        <div class="form-group">
+          <label for="newPass">Password:</label>
+          <input class="form-control" id="newPass" type="text" name="newPass" #newPassInput [value]="selectedPass">
+        </div>
+      </div>
+      <div class="row no-gutters -end">
+        <div class="btn-group">
+          <button class="btn-success" (click)="onEditPassItem();closeModal('edit-modal');">Save</button>
+          <button class="btn-default" (click)="closeModal('edit-modal')">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <button class="close-btn" (click)="closeModal('edit-modal')"></button>
+  </div>
+</app-modal>
+
+<app-modal id="delete-modal">
+  <div class="modal">
+    <div class="modal_content">
+      <h1 class="heading -h2">Delete Modal!</h1>
+      <div class="btn-group">
+        <button class="btn-red" (click)="onDeletePassItem();closeModal('delete-modal')">Delete</button>
+        <button class="btn-default" (click)="closeModal('delete-modal')">Cancel</button>
+      </div>
+    </div>
+    <button class="close-btn" (click)="closeModal('delete-modal')"></button>
+  </div>
+</app-modal>

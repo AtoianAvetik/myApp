@@ -1,0 +1,12 @@
+<div class="panel panel-default" [ngClass]="{'-opened': isOpen}">
+  <div class="panel-heading" (click)="toggleOpen($event)">
+    <h4 class="panel-heading_title">
+      <a href tabindex="0"><span>{{heading}}</span></a>
+    </h4>
+  </div>
+  <div class="panel-content" [@slide]='state' >
+    <div class="panel-content_body">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>
