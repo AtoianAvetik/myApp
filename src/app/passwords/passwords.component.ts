@@ -10,14 +10,33 @@ import { ModalService } from '../_services/modal.service';
   providers: [ModalService, AccordionService]
 })
 export class PasswordsComponent implements OnInit {
-  isGroupsOpen = false;
+  isFoldersOpened = false;
   @ViewChild('folderNameInput') folderNameInputRef: ElementRef;
   @ViewChild('folderContentInput') folderContentInputRef: ElementRef;
 
-  groups: Array<any> = [
+  folders: Array<any> = [
     {
       heading: 'Accordion header 1',
-      content: ' I’m a dynamic content to show in angular 2 accordion : )'
+      content: [
+        {
+         serviceName: 'Test Service 1',
+         userName: 'testUser1',
+         email: 'test1@test.test',
+         password: '12345QcvD_s'
+        },
+        {
+         serviceName: 'Test Service 2',
+         userName: 'testUser2',
+         email: 'test2@test.test',
+         password: '12345QcvD_s'
+        },
+        {
+         serviceName: 'Test Service 3',
+         userName: 'testUser3',
+         email: 'test3@test.test',
+         password: '12345QcvD_s'
+        }
+      ]
     },
     {
       heading: 'Accordion header 2',
@@ -39,11 +58,11 @@ export class PasswordsComponent implements OnInit {
     const folderContent = this.folderContentInputRef.nativeElement.value;
     const folder = {heading: folderName, content: folderContent};
 
-    this.groups.push(folder);
+    this.folders.push(folder);
   }
 
   toggleGroups() {
-    this.accordionService.openAllChanged.emit(this.isGroupsOpen);
+    this.accordionService.openAllChanged.emit(this.isFoldersOpened);
   }
 
   openModal(id: string) {

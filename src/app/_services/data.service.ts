@@ -9,6 +9,56 @@ import { PassItem } from '../_models/pass-item.model';
 export class DataService {
   private passData: Observable<PassItem[]>;
   private passValues: PassItem[] = [];
+  private tablesData = [
+    {
+      id: 'table1',
+      title: 'Table 1',
+      headers: {
+        col1: 'Column 1',
+        col2: 'Column 2',
+        col3: 'Column 3',
+        col4: 'Column 4'
+      },
+      content: [
+        {
+          col1: 'Cell 1',
+          col2: 'Cell 2',
+          col3: 'Cell 3',
+          col4: 'Cell 4',
+        },
+        {
+          col1: 'Cell 5',
+          col2: 'Cell 6',
+          col3: 'Cell 7',
+          col4: 'Cell 8',
+        }
+      ]
+    },
+    {
+      id: 'table2',
+      title: 'Table 2',
+      headers: {
+        col1: 'Column 1',
+        col2: 'Column 2',
+        col3: 'Column 3',
+        col4: 'Column 4'
+      },
+      content: [
+        {
+          col1: 'Cell 9',
+          col2: 'Cell 10',
+          col3: 'Cell 11',
+          col4: 'Cell 12',
+        },
+        {
+          col1: 'Cell 13',
+          col2: 'Cell 14',
+          col3: 'Cell 15',
+          col4: 'Cell 16',
+        }
+      ]
+    }
+  ];
 
   constructor(@Inject(Http) private http: Http) {
     this.passData = this.http.get('/assets/data/data.json').map(res => res.json() as PassItem[]);
@@ -23,6 +73,10 @@ export class DataService {
 
   getPassItems() {
     return this.passValues;
+  }
+
+  getTablesData() {
+    return this.tablesData;
   }
 
 }

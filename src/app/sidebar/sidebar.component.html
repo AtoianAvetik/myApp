@@ -1,33 +1,43 @@
-<div class="sidebar-item -header" (click)="toggleSidebar()">
-  <span class="sidebar-item_icon -animated">
-    <i class="icon icon-arrow-left"></i>
-  </span>
-  <span class="sidebar-item_text">Collapse</span>
-</div>
-<div class="sidebar-list">
-  <div class="sidebar-item"
-       role="presentation"
-       routerLinkActive="-active"
-       [routerLinkActiveOptions]="{exact: true}">
-    <span class="sidebar-item_icon">
-      <i class="icon icon-home"></i>
+<div class="sidebar">
+  <div class="sidebar-item -header" (click)="toggleSidebar()">
+    <span class="sidebar-item_icon -animated">
+      <i class="icon icon-arrow-left"></i>
     </span>
-    <span class="sidebar-item_text" routerLink="/">Home</span>
+    <span class="sidebar-item_text">Collapse</span>
   </div>
-  <div class="sidebar-item"
-       role="presentation"
-       routerLinkActive="-active">
-    <span class="sidebar-item_icon">
-      <i class="icon icon-lock"></i>
-    </span>
-    <span class="sidebar-item_text" routerLink="passwords">Passwords</span>
-  </div>
-  <div class="sidebar-item"
-       role="presentation"
-       routerLinkActive="-active">
-    <span class="sidebar-item_icon">
-      <i class="icon icon-lock"></i>
-    </span>
-    <span class="sidebar-item_text" routerLink="pass-list">Pass List</span>
+  <div class="sidebar-list">
+    <div class="sidebar-item"
+         role="presentation"
+         routerLinkActive="-active"
+         [routerLinkActiveOptions]="{exact: true}">
+      <span class="sidebar-item_icon">
+        <i class="icon icon-home"></i>
+      </span>
+      <span class="sidebar-item_text" routerLink="/">Home</span>
+    </div>
+    <div class="sidebar-item"
+         role="presentation"
+         routerLinkActive="-active">
+      <span class="sidebar-item_icon">
+        <i class="icon icon-lock"></i>
+      </span>
+      <span class="sidebar-item_text" routerLink="passwords">Passwords</span>
+    </div>
+    <div class="sidebar-item"
+         role="presentation"
+         routerLinkActive="-active">
+      <span class="sidebar-item_icon">
+        <i class="icon icon-lock"></i>
+      </span>
+      <span class="sidebar-item_text" routerLink="pass-list">Pass List</span>
+    </div>
+    <div class="sidebar-item"
+         role="presentation"
+         routerLinkActive="-active">
+      <span class="sidebar-item_icon">
+        <i class="icon icon-table"></i>
+      </span>
+      <span class="sidebar-item_text" routerLink="test-table">Test Table</span>
+    </div>
   </div>
 </div>

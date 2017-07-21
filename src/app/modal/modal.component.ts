@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
+import {Component, ElementRef, Input, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
 import * as $ from 'jquery';
 
 import { ModalService } from '../_services/modal.service';
@@ -9,7 +9,9 @@ import { ModalService } from '../_services/modal.service';
   template: `
     <ng-content></ng-content>
     <div class="backdrop"></div>
-  `
+  `,
+  styleUrls: ['./modal.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class ModalComponent implements OnInit, OnDestroy {

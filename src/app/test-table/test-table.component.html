@@ -1,0 +1,64 @@
+<section class="page-controls">
+  <div class="container">
+    <div class="row no-gutters -between -middle">
+      <div class="heading -h3">Test Tables</div>
+      <div class="btn-group">
+        <button class="page-controls_btn btn-primary -out-shadow" openModal data-modal="add-table">Add</button>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="page-content" *ngFor="let table of tablesData; let i = index">
+  <div class="container">
+    <div class="row no-gutters">
+      <h4 class="heading -h4">{{ table.title }}</h4>
+      <app-content-table [data]="table" [tableIndex]="i"></app-content-table>
+    </div>
+  </div>
+</section>
+
+<app-modal id="add-table">
+  <div class="modal">
+    <div class="modal_content">
+      <h3 class="heading -h3">Add Table!</h3>
+
+      <div class="form-group">
+        <label for="tableName">Folder Name:</label>
+        <select name="tableName" id="tableName">
+          <option value="">Table 1</option>
+          <option value="">Table 2</option>
+        </select>
+        <ng-select [allowClear]="true"
+                   [items]="tables"
+                   (data)="onSelectTable($event)"
+                   placeholder="Choose table"
+                   class="page-select"></ng-select>
+      </div>
+
+      <div class="form-group">
+        <label for="col1">Col 1:</label>
+        <input class="form-control" id="col1" type="text" name="col1" #Col1Input>
+      </div>
+      <div class="form-group">
+        <label for="col2">Col 2:</label>
+        <input class="form-control" id="col2" type="text" name="col2" #Col2Input>
+      </div>
+      <div class="form-group">
+        <label for="col3">Col 3:</label>
+        <input class="form-control" id="col3" type="text" name="col3" #Col3Input>
+      </div>
+      <div class="form-group">
+        <label for="col4">Col 4:</label>
+        <input class="form-control" id="col4" type="text" name="col4" #Col4Input>
+      </div>
+
+      <div class="row no-gutters -end">
+        <div class="btn-group">
+          <button class="btn-success" (click)="addTableRow({col1: Col1Input.value,col2: Col2Input.value,col3: Col3Input.value,col4: Col4Input.value});closeModal('add-table');">Add</button>
+          <button class="btn-default" (click)="closeModal('add-table')">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <button class="close-btn" (click)="closeModal('add-table')"></button>
+  </div>
+</app-modal>

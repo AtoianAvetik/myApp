@@ -1,0 +1,11 @@
+<div class="page-content-table_cell" *ngFor="let content of item | keys">{{ content.value }}</div>
+<div class="page-content-table_cell -actions">
+  <div class="btn-group">
+    <button class="action-btn btn-success -hollow" (click)="onSelectTableRow();openModal('edit-table')">
+      <i class="icon-edit"></i>
+    </button>
+    <button class="action-btn btn-red -hollow" (click)="onSelectTableRow();openModal('delete-table')">
+      <i class="icon-delete"></i>
+    </button>
+  </div>
+</div>

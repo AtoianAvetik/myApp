@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
 import {AccordionService} from '../../_services/accordion.service';
@@ -6,6 +6,8 @@ import {AccordionService} from '../../_services/accordion.service';
 @Component({
   selector: 'app-accordion-group',
   templateUrl: './accordion-group.component.html',
+  styleUrls: ['./accordion-group.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('slide', [
       state('down' , style({ height: '*', display: 'block' })),

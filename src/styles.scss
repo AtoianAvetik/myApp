@@ -1,1 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
+/*--------------------------------------/
+ core
+--------------------------------------*/
+@import "assets/styles/core/reset";
+@import "assets/styles/core/media";
+@import "assets/styles/core/variables";
+@import "assets/styles/core/mixins";
+@import "assets/styles/core/functions";
+
+/*--------------------------------------/
+ plugins
+--------------------------------------*/
+
+/*-----------------------------------------/
+  Grid
+------------------------------------------*/
+@import "assets/styles/grid/grid";
+
+//----------------- base -----------------//
+@import "assets/styles/base/fonts";
+@import "assets/fonts/iconFont/iconFont.css";
+@import "assets/styles/base/main";
+@import "assets/styles/base/typography";
+@import "assets/styles/base/zindex";
+
+//----------------- elements -----------------//
+@import "assets/styles/elements/button";
+@import "assets/styles/elements/forms";
+@import "assets/styles/elements/select";
+
+//----------------- mixins -----------------//
+
+//----------------- utilities -----------------//
+@import "assets/styles/utilities/helpers";
+
+//----------------- vendors -----------------//

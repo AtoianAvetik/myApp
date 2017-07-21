@@ -3,12 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
+import { SelectModule } from 'ng2-select';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { SidebarListComponent } from './sidebar/sidebar-list/sidebar-list.component';
-import { SidebarItemComponent } from './sidebar/sidebar-list/sidebar-item/sidebar-item.component';
 import { HomeComponent } from './home/home.component';
 import { PasswordsComponent } from './passwords/passwords.component';
 import { PassListComponent } from './pass-list/pass-list.component';
@@ -16,13 +15,22 @@ import { PassListItemComponent } from './pass-list/pass-list-item/pass-list-item
 import { ModalComponent } from './modal/modal.component';
 import { AccordionComponent } from './accordion/accordion.component';
 import { AccordionGroupComponent } from './accordion/accordion-group/accordion-group.component';
+import { ContentTableComponent } from './content-table/content-table.component';
+import { ContentTableRowComponent } from './content-table/content-table-row/content-table-row.component';
 
 import { DataService } from './_services/data.service';
+import { KeysPipe } from "./_pipes/keys.pipe";
+
+import { TestTableComponent } from './test-table/test-table.component';
+import {ContentTableService} from "./_services/content-table.service";
+
+import { SharedModule } from './shared/shared.module';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'pass-list', component: PassListComponent },
-  { path: 'passwords', component: PasswordsComponent }
+  { path: 'passwords', component: PasswordsComponent },
+  { path: 'test-table', component: TestTableComponent }
 ];
 
 @NgModule({
@@ -33,20 +41,24 @@ const appRoutes: Routes = [
     PassListItemComponent,
     ModalComponent,
     SidebarComponent,
-    SidebarListComponent,
-    SidebarItemComponent,
     HomeComponent,
     PasswordsComponent,
     AccordionComponent,
-    AccordionGroupComponent
+    AccordionGroupComponent,
+    ContentTableComponent,
+    ContentTableRowComponent,
+    TestTableComponent,
+    KeysPipe
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes)
+    SelectModule,
+    RouterModule.forRoot(appRoutes),
+    SharedModule
   ],
-  providers: [DataService],
+  providers: [DataService, ContentTableService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

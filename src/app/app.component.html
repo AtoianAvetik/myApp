@@ -1,5 +1,5 @@
 <div class="wraper" [class.-expanded]="isSidebarExpanded">
-  <app-sidebar class="sidebar" (toogleSidebarChange)="onToogleSidebar($event)"></app-sidebar>
+  <app-sidebar (toogleSidebarChange)="onToogleSidebar($event)"></app-sidebar>
   <div class="main-container">
     <app-header></app-header>
     <router-outlet></router-outlet>
