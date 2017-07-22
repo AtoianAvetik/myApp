@@ -1,6 +1,6 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 
-import { AccordionGroupComponent } from '../accordion/accordion-group/accordion-group.component';
+import { AccordionGroupComponent } from '../components/accordion/accordion-group/accordion-group.component';
 
 @Injectable()
 export class AccordionService {

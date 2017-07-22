@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit} from '@angular/core';
 
-import {ContentTableService} from '../_services/content-table.service';
-import {DataService} from '../_services/data.service';
+import {ContentTableService} from '../../_services/content-table.service';
+import {DataService} from '../../_services/data.service';
 
 @Component({
   selector: 'app-test-table',

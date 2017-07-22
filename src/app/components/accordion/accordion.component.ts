@@ -1,6 +1,6 @@
 import {Component, HostBinding, OnInit, ViewEncapsulation} from '@angular/core';
 import { AccordionGroupComponent } from './accordion-group/accordion-group.component';
-import { AccordionService } from '../_services/accordion.service';
+import { AccordionService } from '../../_services/accordion.service';
 
 @Component({
   selector: 'app-accordion',

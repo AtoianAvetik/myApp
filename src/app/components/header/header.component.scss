@@ -1,5 +1,5 @@
-@import '../../assets/styles/core/variables';
-@import '../../assets/styles/core/mixins';
+@import '../../../assets/styles/core/_variables';
+@import '../../../assets/styles/core/_mixins';
 
 .page-header {
   background: $red;
@@ -23,7 +23,6 @@
       padding-top: 0;
       padding-bottom: 0;
       vertical-align: top;
-      border: none;
       font-size: 18px;
       width: 100%;
 

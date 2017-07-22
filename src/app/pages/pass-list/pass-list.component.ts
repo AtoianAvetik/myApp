@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
-import { PassItemService } from '../_services/pass-item.service';
-import { PassItem } from '../_models/pass-item.model';
+import { PassItemService } from '../../_services/pass-item.service';
+import { PassItem } from '../../_models/pass-item.model';
 
 @Component({
   selector: 'app-pass-list',

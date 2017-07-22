@@ -1,11 +1,11 @@
-import {Directive, ElementRef, HostListener, ViewChild} from '@angular/core';
+import {Directive, ElementRef, HostListener} from '@angular/core';
 
 import {ModalService} from '../_services/modal.service';
 
 @Directive({
-  selector: '[closeModal]'
+  selector: '[openModal]'
 })
-export class closeModalDirective {
+export class OpenModalDirective {
   private id: string;
 
   constructor(private modalService: ModalService, private elm: ElementRef) {
@@ -13,6 +13,6 @@ export class closeModalDirective {
   }
 
   @HostListener('click') onClick() {
-    this.modalService.modalClosed.emit(this.id);
+    this.modalService.modalOpened.emit(this.id);
   }
 }

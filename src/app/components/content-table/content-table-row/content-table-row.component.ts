@@ -1,6 +1,6 @@
 import {Component, HostBinding, Input} from '@angular/core';
 
-import {ContentTableService} from '../../_services/content-table.service';
+import {ContentTableService} from '../../../_services/content-table.service';
 
 @Component({
   selector: '[content-table-row]',

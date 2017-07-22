@@ -6,25 +6,31 @@ import { RouterModule, Routes } from '@angular/router';
 import { SelectModule } from 'ng2-select';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { HomeComponent } from './home/home.component';
-import { PasswordsComponent } from './passwords/passwords.component';
-import { PassListComponent } from './pass-list/pass-list.component';
-import { PassListItemComponent } from './pass-list/pass-list-item/pass-list-item.component';
-import { ModalComponent } from './modal/modal.component';
-import { AccordionComponent } from './accordion/accordion.component';
-import { AccordionGroupComponent } from './accordion/accordion-group/accordion-group.component';
-import { ContentTableComponent } from './content-table/content-table.component';
-import { ContentTableRowComponent } from './content-table/content-table-row/content-table-row.component';
 
+/* Components */
+import { HeaderComponent } from './components/header/header.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { AccordionComponent } from './components/accordion/accordion.component';
+import { AccordionGroupComponent } from './components/accordion/accordion-group/accordion-group.component';
+import { ContentTableComponent } from './components/content-table/content-table.component';
+import { ContentTableRowComponent } from './components/content-table/content-table-row/content-table-row.component';
+
+/* Services */
 import { ModalService } from './_services/modal.service';
 import { DataService } from './_services/data.service';
 import { ContentTableService } from './_services/content-table.service';
-import { SharedModule } from './shared/shared.module';
-import { KeysPipe } from './_pipes/keys.pipe';
 
-import { TestTableComponent } from './test-table/test-table.component';
+/* Pages */
+import { HomeComponent } from './pages/home/home.component';
+import { PassListComponent } from './pages/pass-list/pass-list.component';
+import { PassListItemComponent } from './pages/pass-list/pass-list-item/pass-list-item.component';
+import { PasswordsComponent } from './pages/passwords/passwords.component';
+import { TestTableComponent } from './pages/test-table/test-table.component';
+
+/* Modules */
+import { DirectivesModule } from './_directives/directives.module';
+import { PipesModule } from './_pipes/pipes.module';
 
 
 const appRoutes: Routes = [
@@ -48,8 +54,7 @@ const appRoutes: Routes = [
     AccordionGroupComponent,
     ContentTableComponent,
     ContentTableRowComponent,
-    TestTableComponent,
-    KeysPipe
+    TestTableComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +62,8 @@ const appRoutes: Routes = [
     HttpModule,
     SelectModule,
     RouterModule.forRoot(appRoutes),
-    SharedModule
+    DirectivesModule,
+    PipesModule
   ],
   providers: [ModalService, DataService, ContentTableService],
   bootstrap: [AppComponent]

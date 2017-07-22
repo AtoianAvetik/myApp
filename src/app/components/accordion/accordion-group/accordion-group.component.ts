@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
-import {AccordionService} from '../../_services/accordion.service';
+import {AccordionService} from '../../../_services/accordion.service';
 
 @Component({
   selector: 'app-accordion-group',

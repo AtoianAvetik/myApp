@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 
-import { PassItem } from '../../_models/pass-item.model';
-import { PassItemService } from '../../_services/pass-item.service';
+import { PassItem } from '../../../_models/pass-item.model';
+import { PassItemService } from '../../../_services/pass-item.service';
 
 @Component({
   selector: '[pass-list-item]',

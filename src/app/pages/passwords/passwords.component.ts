@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
-import { AccordionService } from '../_services/accordion.service';
+import { AccordionService } from '../../_services/accordion.service';
 
 @Component({
   selector: 'app-passwords',

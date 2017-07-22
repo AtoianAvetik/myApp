@@ -1,4 +1,4 @@
-@import '../../assets/styles/core/variables';
+@import '../../../assets/styles/core/variables';
 
 .sidebar {
   background: $gray;
@@ -8,7 +8,7 @@
   right: 0;
   bottom: 0;
   width: 65px;
-  font-family: "Myriad Pro";
+  font-family: "Myriad Pro", sans-serif;
   font-weight: 600;
   transition: width .4s cubic-bezier(.55, 0, .1, 1);
 

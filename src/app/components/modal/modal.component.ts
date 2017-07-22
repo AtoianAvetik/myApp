@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
 import * as $ from 'jquery';
 
-import { ModalService } from '../_services/modal.service';
+import { ModalService } from '../../_services/modal.service';
 
 @Component({
   moduleId: module.id.toString(),
