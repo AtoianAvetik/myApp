@@ -15,11 +15,14 @@ import { AccordionComponent } from './components/accordion/accordion.component';
 import { AccordionGroupComponent } from './components/accordion/accordion-group/accordion-group.component';
 import { ContentTableComponent } from './components/content-table/content-table.component';
 import { ContentTableRowComponent } from './components/content-table/content-table-row/content-table-row.component';
+import { ContentListComponent } from './components/content-list/content-list.component';
+import { ContentListItemComponent } from './components/content-list/content-list-item/content-list-item.component';
 
 /* Services */
 import { ModalService } from './_services/modal.service';
 import { DataService } from './_services/data.service';
 import { ContentTableService } from './_services/content-table.service';
+import { ContentListService } from './_services/content-list.service';
 
 /* Pages */
 import { HomeComponent } from './pages/home/home.component';
@@ -54,7 +57,9 @@ const appRoutes: Routes = [
     AccordionGroupComponent,
     ContentTableComponent,
     ContentTableRowComponent,
-    TestTableComponent
+    TestTableComponent,
+    ContentListComponent,
+    ContentListItemComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +70,7 @@ const appRoutes: Routes = [
     DirectivesModule,
     PipesModule
   ],
-  providers: [ModalService, DataService, ContentTableService],
+  providers: [ModalService, DataService, ContentTableService, ContentListService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,13 +1,11 @@
-import { EventEmitter, Injectable, Output } from "@angular/core";
-
-import {DataService} from "./data.service";
+import { EventEmitter, Injectable } from '@angular/core';
 
 @Injectable()
 export class ContentTableService {
   tableRowSelected = new EventEmitter<number>();
   tablesData;
 
-  constructor(private dataService: DataService) { }
+  constructor() { }
 
   addRow(tableIndex, row) {
     this.tablesData[tableIndex].content.push(row);

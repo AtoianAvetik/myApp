@@ -59,6 +59,72 @@ export class DataService {
       ]
     }
   ];
+  private passwordsData = [
+    {
+      folderName: 'Folder 1',
+      content: [
+          {
+            serviceName: 'Service Test 1',
+            url: '/',
+            userName: 'testUser 1',
+            email: 'test1@test.test',
+            pass: 'testtesttest1'
+          },
+          {
+            serviceName: 'Service Test 2',
+            url: '/',
+            userName: 'testUser 2',
+            email: 'test2@test.test',
+            pass: 'testtesttest2'
+          },
+          {
+            serviceName: 'Service Test 3',
+            url: '/',
+            userName: 'testUser 3',
+            email: 'test2@test.test',
+            pass: 'testtesttest3'
+          }
+        ]
+    },
+    {
+      folderName: 'Folder 2',
+      content: [
+          {
+            serviceName: 'Service Test 1',
+            url: '/',
+            userName: 'testUser 1',
+            email: 'test1@test.test',
+            pass: 'testtesttest1'
+          },
+          {
+            serviceName: 'Service Test 2',
+            url: '/',
+            userName: 'testUser 2',
+            email: 'test2@test.test',
+            pass: 'testtesttest2'
+          }
+        ]
+    },
+    {
+      folderName: 'Folder 3',
+      content: [
+          {
+            serviceName: 'Service Test 2',
+            url: '/',
+            userName: 'testUser 2',
+            email: 'test2@test.test',
+            pass: 'testtesttest2'
+          },
+          {
+            serviceName: 'Service Test 3',
+            url: '/',
+            userName: 'testUser 3',
+            email: 'test2@test.test',
+            pass: 'testtesttest3'
+          }
+        ]
+    }
+  ];
 
   constructor(@Inject(Http) private http: Http) {
     this.passData = this.http.get('/assets/data/data.json').map(res => res.json() as PassItem[]);
@@ -77,6 +143,10 @@ export class DataService {
 
   getTablesData() {
     return this.tablesData;
+  }
+
+  getPasswordsData() {
+    return this.passwordsData;
   }
 
 }

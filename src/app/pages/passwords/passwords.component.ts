@@ -1,6 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
 import { AccordionService } from '../../_services/accordion.service';
+import { ContentListService } from '../../_services/content-list.service';
+import { DataService } from '../../_services/data.service';
 
 @Component({
   selector: 'app-passwords',
@@ -12,52 +14,22 @@ export class PasswordsComponent implements OnInit {
   isFoldersOpened = false;
   @ViewChild('folderNameInput') folderNameInputRef: ElementRef;
   @ViewChild('folderContentInput') folderContentInputRef: ElementRef;
+  foldersData;
 
-  folders: Array<any> = [
-    {
-      heading: 'Accordion header 1',
-      content: [
-        {
-         serviceName: 'Test Service 1',
-         userName: 'testUser1',
-         email: 'test1@test.test',
-         password: '12345QcvD_s'
-        },
-        {
-         serviceName: 'Test Service 2',
-         userName: 'testUser2',
-         email: 'test2@test.test',
-         password: '12345QcvD_s'
-        },
-        {
-         serviceName: 'Test Service 3',
-         userName: 'testUser3',
-         email: 'test3@test.test',
-         password: '12345QcvD_s'
-        }
-      ]
-    },
-    {
-      heading: 'Accordion header 2',
-      content: 'I’m a dynamic content to show in angular 2 accordion : )'
-    },
-    {
-      heading: 'Accordion header 3',
-      content: 'I’m a dynamic content to show in angular 2 accordion : ) '
-    }
-  ];
-
-  constructor(private accordionService:  AccordionService) { }
+  constructor(private accordionService:  AccordionService, private dataService: DataService, private contentListService: ContentListService) { }
 
   ngOnInit() {
+    this.foldersData = this.contentListService.listsData = this.dataService.getPasswordsData();
   }
 
-  addFolder() {
+  addEmptyFolder() {
     const folderName = this.folderNameInputRef.nativeElement.value;
-    const folderContent = this.folderContentInputRef.nativeElement.value;
-    const folder = {heading: folderName, content: folderContent};
+    const folder = {
+      folderName: folderName,
+      content: []
+    }
 
-    this.folders.push(folder);
+    this.contentListService.addList(folder);
   }
 
   toggleGroups() {
