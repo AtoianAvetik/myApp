@@ -32,6 +32,11 @@ body{
 //Code guide styles
 //-----------------------------------------
 
+.wrapper {
+  position: relative;
+  min-height: 100%;
+}
+
 .container{
     width: 960px;
 }

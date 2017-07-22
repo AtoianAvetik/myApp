@@ -1,7 +1,6 @@
 import {Component, HostBinding, Input} from '@angular/core';
 
-import {ModalService} from "../../_services/modal.service";
-import {ContentTableService} from "../../_services/content-table.service";
+import {ContentTableService} from '../../_services/content-table.service';
 
 @Component({
   selector: '[content-table-row]',
@@ -13,13 +12,9 @@ export class ContentTableRowComponent {
   @Input() tableRowIndex;
   @HostBinding('attr.class') class = 'page-content-table_row';
 
-  constructor(private modalService: ModalService, private contentTableService: ContentTableService) { }
+  constructor(private contentTableService: ContentTableService) { }
 
   onSelectTableRow() {
     this.contentTableService.tableRowSelected.emit(this.tableRowIndex);
-  }
-
-  openModal(id: string) {
-    this.modalService.modalOpened.emit(id);
   }
 }

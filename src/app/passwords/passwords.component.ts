@@ -1,13 +1,12 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
 import { AccordionService } from '../_services/accordion.service';
-import { ModalService } from '../_services/modal.service';
 
 @Component({
   selector: 'app-passwords',
   templateUrl: './passwords.component.html',
   styleUrls: ['./passwords.component.scss'],
-  providers: [ModalService, AccordionService]
+  providers: [AccordionService]
 })
 export class PasswordsComponent implements OnInit {
   isFoldersOpened = false;
@@ -48,7 +47,7 @@ export class PasswordsComponent implements OnInit {
     }
   ];
 
-  constructor(private modalService: ModalService, private accordionService:  AccordionService) { }
+  constructor(private accordionService:  AccordionService) { }
 
   ngOnInit() {
   }
@@ -63,13 +62,5 @@ export class PasswordsComponent implements OnInit {
 
   toggleGroups() {
     this.accordionService.openAllChanged.emit(this.isFoldersOpened);
-  }
-
-  openModal(id: string) {
-    this.modalService.modalOpened.emit(id);
-  }
-
-  closeModal(id: string) {
-    this.modalService.modalClosed.emit(id);
   }
 }

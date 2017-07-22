@@ -42,12 +42,12 @@
       </div>
       <div class="row no-gutters -end">
         <div class="btn-group">
-          <button class="btn-success" (click)="onEditTableRow({col1: editCol1Input.value,col2: editCol2Input.value,col3: editCol3Input.value,col4: editCol4Input.value});closeModal('edit-table');">Edit</button>
-          <button class="btn-default" (click)="closeModal('edit-table')">Cancel</button>
+          <button class="btn-success" closeModal data-modal="edit-table" (click)="onEditTableRow({col1: editCol1Input.value,col2: editCol2Input.value,col3: editCol3Input.value,col4: editCol4Input.value});">Edit</button>
+          <button class="btn-default" closeModal data-modal="edit-table">Cancel</button>
         </div>
       </div>
     </div>
-    <button class="close-btn" (click)="closeModal('edit-table')"></button>
+    <button class="close-btn" closeModal data-modal="edit-table"></button>
   </div>
 </app-modal>
 
@@ -56,10 +56,10 @@
     <div class="modal_content">
       <h1 class="heading -h4">Are you sure you want to delete this row?</h1>
       <div class="btn-group">
-        <button class="btn-red" (click)="onDeleteTableRow();closeModal('delete-table')">Delete</button>
-        <button class="btn-default" (click)="closeModal('delete-table')">Cancel</button>
+        <button class="btn-red" closeModal data-modal="delete-table" (click)="onDeleteTableRow();">Delete</button>
+        <button class="btn-default" closeModal data-modal="delete-table">Cancel</button>
       </div>
     </div>
-    <button class="close-btn" (click)="closeModal('delete-table')"></button>
+    <button class="close-btn" closeModal data-modal="delete-table"></button>
   </div>
 </app-modal>

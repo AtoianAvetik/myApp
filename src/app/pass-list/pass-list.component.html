@@ -1,7 +1,7 @@
 <section class="page-controls">
   <div class="container">
     <div class="btn-group">
-      <button class="btn-primary" (click)="openModal('add-modal')">Add Pass</button>
+      <button class="btn-primary" openModal data-modal="add-modal">Add Pass</button>
     </div>
   </div>
 </section>
@@ -52,12 +52,12 @@
       </div>
       <div class="row no-gutters -end">
         <div class="btn-group">
-          <button class="btn-success" (click)="onAddPassItem();closeModal('add-modal');">Add</button>
-          <button class="btn-default" (click)="closeModal('add-modal')">Cancel</button>
+          <button class="btn-success" closeModal data-modal="add-modal" (click)="onAddPassItem();">Add</button>
+          <button class="btn-default" closeModal data-modal="add-modal">Cancel</button>
         </div>
       </div>
     </div>
-    <button class="close-btn" (click)="closeModal('add-modal')"></button>
+    <button class="close-btn" closeModal data-modal="add-modal"></button>
   </div>
 </app-modal>
 
@@ -85,12 +85,12 @@
       </div>
       <div class="row no-gutters -end">
         <div class="btn-group">
-          <button class="btn-success" (click)="onEditPassItem();closeModal('edit-modal');">Save</button>
-          <button class="btn-default" (click)="closeModal('edit-modal')">Cancel</button>
+          <button class="btn-success" closeModal data-modal="edit-modal" (click)="onEditPassItem();">Save</button>
+          <button class="btn-default" closeModal data-modal="edit-modal" >Cancel</button>
         </div>
       </div>
     </div>
-    <button class="close-btn" (click)="closeModal('edit-modal')"></button>
+    <button class="close-btn" closeModal data-modal="edit-modal"></button>
   </div>
 </app-modal>
 
@@ -99,10 +99,10 @@
     <div class="modal_content">
       <h1 class="heading -h2">Delete Modal!</h1>
       <div class="btn-group">
-        <button class="btn-red" (click)="onDeletePassItem();closeModal('delete-modal')">Delete</button>
-        <button class="btn-default" (click)="closeModal('delete-modal')">Cancel</button>
+        <button class="btn-red" closeModal data-modal="delete-modal" (click)="onDeletePassItem();">Delete</button>
+        <button class="btn-default" closeModal data-modal="delete-modal">Cancel</button>
       </div>
     </div>
-    <button class="close-btn" (click)="closeModal('delete-modal')"></button>
+    <button class="close-btn" closeModal data-modal="delete-modal"></button>
   </div>
 </app-modal>

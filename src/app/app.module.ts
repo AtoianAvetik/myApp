@@ -18,13 +18,14 @@ import { AccordionGroupComponent } from './accordion/accordion-group/accordion-g
 import { ContentTableComponent } from './content-table/content-table.component';
 import { ContentTableRowComponent } from './content-table/content-table-row/content-table-row.component';
 
+import { ModalService } from './_services/modal.service';
 import { DataService } from './_services/data.service';
-import { KeysPipe } from "./_pipes/keys.pipe";
+import { ContentTableService } from './_services/content-table.service';
+import { SharedModule } from './shared/shared.module';
+import { KeysPipe } from './_pipes/keys.pipe';
 
 import { TestTableComponent } from './test-table/test-table.component';
-import {ContentTableService} from "./_services/content-table.service";
 
-import { SharedModule } from './shared/shared.module';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -58,7 +59,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     SharedModule
   ],
-  providers: [DataService, ContentTableService],
+  providers: [ModalService, DataService, ContentTableService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,13 +2,12 @@ import {Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { PassItemService } from '../_services/pass-item.service';
 import { PassItem } from '../_models/pass-item.model';
-import { ModalService } from '../_services/modal.service';
 
 @Component({
   selector: 'app-pass-list',
   templateUrl: './pass-list.component.html',
   styleUrls: ['./pass-list.component.scss'],
-  providers: [ModalService, PassItemService]
+  providers: [PassItemService]
 })
 export class PassListComponent implements OnInit {
   passItems: PassItem[];
@@ -22,7 +21,7 @@ export class PassListComponent implements OnInit {
   @ViewChild('newEmailInput') newEmailInputRef: ElementRef;
   @ViewChild('newPassInput') newPassInputRef: ElementRef;
 
-  constructor(private passItemService: PassItemService, private modalService: ModalService) { }
+  constructor(private passItemService: PassItemService) { }
 
   ngOnInit() {
     this.passItems = this.passItemService.getPassItems();
@@ -70,14 +69,6 @@ export class PassListComponent implements OnInit {
 
   onDeletePassItem() {
     this.passItemService.deletePassItem(this.selectedPassItemId);
-  }
-
-  openModal(id: string) {
-    this.modalService.modalOpened.emit(id);
-  }
-
-  closeModal(id: string) {
-    this.modalService.modalClosed.emit(id);
   }
 
   clearInputs() {

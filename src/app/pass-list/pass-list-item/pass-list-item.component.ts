@@ -1,7 +1,6 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 import { PassItem } from '../../_models/pass-item.model';
-import { ModalService } from '../../_services/modal.service';
 import { PassItemService } from '../../_services/pass-item.service';
 
 @Component({
@@ -13,13 +12,9 @@ export class PassListItemComponent implements OnInit {
   @Input() passItem: PassItem;
   @Input() id: number;
 
-  constructor(private modalService: ModalService, private passItemService: PassItemService) { }
+  constructor(private passItemService: PassItemService) { }
 
   ngOnInit() {
-  }
-
-  openModal(id: string) {
-    this.modalService.modalOpened.emit(id);
   }
 
   onSelectPassItem(id: number) {

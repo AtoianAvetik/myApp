@@ -54,11 +54,11 @@
 
       <div class="row no-gutters -end">
         <div class="btn-group">
-          <button class="btn-success" (click)="addTableRow({col1: Col1Input.value,col2: Col2Input.value,col3: Col3Input.value,col4: Col4Input.value});closeModal('add-table');">Add</button>
-          <button class="btn-default" (click)="closeModal('add-table')">Cancel</button>
+          <button class="btn-success" closeModal data-modal="add-table" (click)="addTableRow({col1: Col1Input.value,col2: Col2Input.value,col3: Col3Input.value,col4: Col4Input.value})">Add</button>
+          <button class="btn-default" closeModal data-modal="add-table">Cancel</button>
         </div>
       </div>
     </div>
-    <button class="close-btn" (click)="closeModal('add-table')"></button>
+    <button class="close-btn" closeModal data-modal="add-table"></button>
   </div>
 </app-modal>

@@ -1,13 +1,11 @@
 import {Component, HostBinding, Injectable, Input, OnInit} from '@angular/core';
 
-import { ModalService } from '../_services/modal.service';
-import { ContentTableService } from "../_services/content-table.service";
+import { ContentTableService } from '../_services/content-table.service';
 
 @Component({
   selector: 'app-content-table',
   templateUrl: './content-table.component.html',
-  styleUrls: ['./content-table.component.scss'],
-  providers: [ModalService]
+  styleUrls: ['./content-table.component.scss']
 })
 @Injectable()
 export class ContentTableComponent implements OnInit {
@@ -16,7 +14,7 @@ export class ContentTableComponent implements OnInit {
   @Input() tableIndex;
   @HostBinding('attr.class') class = 'page-content-table';
 
-  constructor(private modalService: ModalService, private contentTableService: ContentTableService) { }
+  constructor(private contentTableService: ContentTableService) { }
 
   ngOnInit() {
     this.contentTableService.tableRowSelected
@@ -33,13 +31,5 @@ export class ContentTableComponent implements OnInit {
 
   onDeleteTableRow() {
     this.contentTableService.deleteRow(this.tableIndex,this.selectedTableRowIndex);
-  }
-
-  openModal(id: string) {
-    this.modalService.modalOpened.emit(id);
-  }
-
-  closeModal(id: string) {
-    this.modalService.modalClosed.emit(id);
   }
 }

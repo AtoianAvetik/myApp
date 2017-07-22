@@ -1,6 +1,6 @@
 import {Directive, ElementRef, HostListener, ViewChild} from '@angular/core';
 
-import {ModalService} from "../_services/modal.service";
+import {ModalService} from '../_services/modal.service';
 
 @Directive({
   selector: '[openModal]'
@@ -8,13 +8,11 @@ import {ModalService} from "../_services/modal.service";
 export class openModalDirective {
   private id: string;
 
-  constructor(private modalService: ModalService,private elm: ElementRef){
-    this.id = elm.nativeElement.getAttribute('modal');
-    console.log(elm.nativeElement);
+  constructor(private modalService: ModalService, private elm: ElementRef) {
+    this.id = elm.nativeElement.getAttribute('data-modal');
   }
 
   @HostListener('click') onClick() {
-    console.log(this.id);
-    // this.modalService.modalOpened.emit(this.id);
+    this.modalService.modalOpened.emit(this.id);
   }
 }
