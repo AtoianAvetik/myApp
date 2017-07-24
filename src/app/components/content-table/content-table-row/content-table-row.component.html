@@ -1,5 +1,5 @@
-<div class="page-content-table_cell" *ngFor="let content of item | keys">{{ content.value }}</div>
-<div class="page-content-table_cell -actions">
+<div class="page-table_cell" *ngFor="let content of item | keys">{{ content.value }}</div>
+<div class="page-table_cell -actions">
   <div class="btn-group">
     <button class="action-btn btn-success -hollow" openModal data-modal="edit-table" (click)="onSelectTableRow();">
       <i class="icon-edit"></i>

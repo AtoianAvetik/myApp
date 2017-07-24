@@ -1,1 +1,22 @@
-<div *ngFor="let content of item | keys">{{ content.value }}</div>
+<div class="page-list-item" tabindex="0" [class.-selected]="isItemSelected">
+  <div class="page-list-item_inner-content">
+    <div class="page-list-item_checkbox">
+      <button class="page-checkbox"></button>
+    </div>
+    <div class="page-list-item_info">
+      <div class="page-info-table">
+        <ng-content></ng-content>
+        <div class="page-button-cell">
+          <button class="btn-white -hollow" openModal data-modal="item-modal" title="Edit" (click)="onSelectedItem();onEditItem();">
+            <i class="icon-edit"></i>
+          </button>
+        </div>
+        <div class="page-button-cell">
+          <button class="btn-white -hollow" openModal data-modal="delete-item" title="Delete" (click)="onSelectedItem()">
+            <i class="icon-delete"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

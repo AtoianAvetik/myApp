@@ -10,7 +10,7 @@ import {ContentTableService} from '../../../_services/content-table.service';
 export class ContentTableRowComponent {
   @Input() item;
   @Input() tableRowIndex;
-  @HostBinding('attr.class') class = 'page-content-table_row';
+  @HostBinding('attr.class') class = 'page-table_row';
 
   constructor(private contentTableService: ContentTableService) { }
 

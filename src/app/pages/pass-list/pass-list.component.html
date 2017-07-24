@@ -7,18 +7,18 @@
 </section>
 <section class="page-content">
   <div class="container">
-    <div class="page-content-table">
-      <div class="page-content-table_header">
-        <div class="page-content-table_row">
-          <div class="page-content-table_cell">Service Name</div>
-          <div class="page-content-table_cell">User Name</div>
-          <div class="page-content-table_cell">Email</div>
-          <div class="page-content-table_cell">Pass</div>
-          <div class="page-content-table_cell -actions">Actions</div>
+    <div class="page-table">
+      <div class="page-table_header">
+        <div class="page-table_row">
+          <div class="page-table_cell">Service Name</div>
+          <div class="page-table_cell">User Name</div>
+          <div class="page-table_cell">Email</div>
+          <div class="page-table_cell">Pass</div>
+          <div class="page-table_cell -actions">Actions</div>
         </div>
       </div>
-      <div class="page-content-table_content">
-        <div pass-list-item class="page-content-table_row"
+      <div class="page-table_content">
+        <div pass-list-item class="page-table_row"
           *ngFor="let passItem of passItems; let i = index"
           [passItem]="passItem"
           [id]="i">

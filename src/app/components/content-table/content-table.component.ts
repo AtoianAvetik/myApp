@@ -12,7 +12,7 @@ export class ContentTableComponent implements OnInit {
   selectedTableRowIndex: number;
   @Input() data;
   @Input() tableIndex;
-  @HostBinding('attr.class') class = 'page-content-table';
+  @HostBinding('attr.class') class = 'page-table';
 
   constructor(private contentTableService: ContentTableService) { }
 

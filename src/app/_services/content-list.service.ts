@@ -3,20 +3,22 @@ import { EventEmitter, Injectable } from '@angular/core';
 @Injectable()
 export class ContentListService {
   listItemSelected = new EventEmitter<number>();
+  listSelected = new EventEmitter<number>();
+  editSelectedItem = new EventEmitter();
   listsData;
 
   constructor() { }
 
-  addItem(listIndex, row) {
-    this.listsData[listIndex].content.push(row);
+  addItem(listIndex, item) {
+    this.listsData[listIndex].content.push(item);
   }
 
-  deleteItem(listIndex, rowIndex) {
-    this.listsData[listIndex].content.splice(rowIndex, 1);
+  deleteItem(listIndex, itemIndex) {
+    this.listsData[listIndex].content.splice(itemIndex, 1);
   }
 
-  editItem(listIndex, itemIndex, row) {
-    this.listsData[listIndex].content[itemIndex] = row;
+  editItem(listIndex, itemIndex, item) {
+    this.listsData[listIndex].content[itemIndex] = item;
   }
 
   addList(list) {
