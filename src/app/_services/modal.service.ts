@@ -7,6 +7,8 @@ export class ModalService {
   private modals: any[] = [];
   modalOpened = new EventEmitter<string>();
   modalClosed = new EventEmitter<string>();
+  isModalClosed = new EventEmitter();
+  isModalOpened = new EventEmitter();
 
   add(modal: Modal) {
     // add modal to array of active modals

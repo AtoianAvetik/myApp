@@ -3,6 +3,7 @@ import {Component, ElementRef, EventEmitter, OnInit, ViewChild} from '@angular/c
 import { AccordionService } from '../../_services/accordion.service';
 import { ContentListService } from '../../_services/content-list.service';
 import { DataService } from '../../_services/data.service';
+import {ModalService} from "../../_services/modal.service";
 
 @Component({
   selector: 'app-passwords',
@@ -11,22 +12,25 @@ import { DataService } from '../../_services/data.service';
   providers: [AccordionService]
 })
 export class PasswordsComponent implements OnInit {
-  isFoldersOpened = false;
-  isAddItem: boolean = false;
-  isEditItem: boolean = false;
   @ViewChild('folderNameInput') folderNameInputRef: ElementRef;
   @ViewChild('serviceNameInput') serviceNameInputRef: ElementRef;
   @ViewChild('userNameInput') userNameInputRef: ElementRef;
   @ViewChild('emailInput') emailInputRef: ElementRef;
   @ViewChild('linkInput') linkInputRef: ElementRef;
   @ViewChild('passInput') passInputRef: ElementRef;
-  folderSelected = new EventEmitter<number>();
   foldersData;
   folders: Array<any> = [];
+  isFoldersOpened = false;
+  isAddItem: boolean = false;
+  isEditItem: boolean = false;
+  folderSelected = new EventEmitter<number>();
   listSelectedIndex: number;
   listItemSelectedIndex: number;
 
-  constructor(private accordionService:  AccordionService, private dataService: DataService, private contentListService: ContentListService) { }
+  constructor(private accordionService:  AccordionService,
+              private dataService: DataService,
+              private contentListService: ContentListService,
+              private modalService: ModalService) { }
 
   ngOnInit() {
     this.foldersData = this.contentListService.listsData = this.dataService.getPasswordsData();
@@ -49,11 +53,7 @@ export class PasswordsComponent implements OnInit {
       .subscribe(
         () => {
           this.isEditItem = true;
-          this.serviceNameInputRef.nativeElement.value = this.foldersData[this.listSelectedIndex].content[this.listItemSelectedIndex].serviceName;
-          this.userNameInputRef.nativeElement.value = this.foldersData[this.listSelectedIndex].content[this.listItemSelectedIndex].userName;
-          this.emailInputRef.nativeElement.value = this.foldersData[this.listSelectedIndex].content[this.listItemSelectedIndex].email;
-          this.linkInputRef.nativeElement.value = this.foldersData[this.listSelectedIndex].content[this.listItemSelectedIndex].url;
-          this.passInputRef.nativeElement.value = this.foldersData[this.listSelectedIndex].content[this.listItemSelectedIndex].pass;
+          this.setInputsSelectedItem();
         }
       );
     this.folderSelected
@@ -62,7 +62,13 @@ export class PasswordsComponent implements OnInit {
           this.listSelectedIndex = index;
         }
       );
-
+    this.modalService.isModalClosed
+      .subscribe(
+        () => {
+          this.isEditItem = false;
+          this.isAddItem = false;
+        }
+      );
   }
 
   toggleGroups() {
@@ -84,40 +90,50 @@ export class PasswordsComponent implements OnInit {
   }
 
   onAddPassItem() {
-    const serviceName = this.serviceNameInputRef.nativeElement.value;
-    const userName = this.userNameInputRef.nativeElement.value;
-    const email = this.emailInputRef.nativeElement.value;
-    const link = this.linkInputRef.nativeElement.value;
-    const pass = this.passInputRef.nativeElement.value;
-    const item = {
-      serviceName: serviceName,
-      url: link,
-      userName: userName,
-      email: email,
-      pass: pass
-    };
-
-    this.contentListService.addItem(this.listSelectedIndex, item);
+    this.contentListService.addItem(this.listSelectedIndex, this.getInputs());
+    this.clearInputs();
   }
 
   onEditPassItem() {
-    const serviceName = this.serviceNameInputRef.nativeElement.value;
-    const userName = this.userNameInputRef.nativeElement.value;
-    const email = this.emailInputRef.nativeElement.value;
-    const link = this.linkInputRef.nativeElement.value;
-    const pass = this.passInputRef.nativeElement.value;
-    const item = {
-      serviceName: serviceName,
-      url: link,
-      userName: userName,
-      email: email,
-      pass: pass
-    };
-
-    this.contentListService.editItem(this.listSelectedIndex, this.listItemSelectedIndex, item);
+    this.contentListService.editItem(this.listSelectedIndex, this.listItemSelectedIndex, this.getInputs());
+    this.clearInputs();
   }
 
   onDeletePassItem() {
     this.contentListService.deleteItem(this.listSelectedIndex, this.listItemSelectedIndex);
+  }
+
+  getInputs() {
+    let item = {
+      serviceName: '',
+      url: '',
+      userName: '',
+      email: '',
+      pass: ''
+    };
+
+    item.serviceName = this.serviceNameInputRef.nativeElement.value;
+    item.userName = this.userNameInputRef.nativeElement.value;
+    item.email = this.emailInputRef.nativeElement.value;
+    item.url = this.linkInputRef.nativeElement.value;
+    item.pass = this.passInputRef.nativeElement.value;
+
+    return item;
+  }
+
+  setInputsSelectedItem() {
+    this.serviceNameInputRef.nativeElement.value = this.foldersData[this.listSelectedIndex].content[this.listItemSelectedIndex].serviceName;
+    this.userNameInputRef.nativeElement.value = this.foldersData[this.listSelectedIndex].content[this.listItemSelectedIndex].userName;
+    this.emailInputRef.nativeElement.value = this.foldersData[this.listSelectedIndex].content[this.listItemSelectedIndex].email;
+    this.linkInputRef.nativeElement.value = this.foldersData[this.listSelectedIndex].content[this.listItemSelectedIndex].url;
+    this.passInputRef.nativeElement.value = this.foldersData[this.listSelectedIndex].content[this.listItemSelectedIndex].pass;
+  }
+
+  clearInputs() {
+    this.serviceNameInputRef.nativeElement.value = '';
+    this.userNameInputRef.nativeElement.value = '';
+    this.emailInputRef.nativeElement.value = '';
+    this.linkInputRef.nativeElement.value = '';
+    this.passInputRef.nativeElement.value = '';
   }
 }

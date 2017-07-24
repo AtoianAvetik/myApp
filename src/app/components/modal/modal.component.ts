@@ -72,6 +72,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     this.element.addClass('-active');
     $('.backdrop').addClass('-active');
     $('body').addClass('backstage');
+    this.modalService.isModalOpened.emit();
   }
 
   // close modal
@@ -79,5 +80,6 @@ export class ModalComponent implements OnInit, OnDestroy {
     this.element.removeClass('-active');
     $('.backdrop').removeClass('-active');
     $('body').removeClass('backstage');
+    this.modalService.isModalClosed.emit();
   }
 }
