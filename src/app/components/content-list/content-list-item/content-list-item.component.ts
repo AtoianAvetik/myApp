@@ -10,6 +10,7 @@ export class ContentListItemComponent implements OnInit {
   @Input() item;
   @Input() listIndex;
   @Input() itemIndex;
+  @Input() activeViewType: string = 'list';
   isItemSelected: boolean = false;
 
   constructor(private contentListService: ContentListService) { }

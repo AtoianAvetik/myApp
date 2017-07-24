@@ -1,11 +1,11 @@
 @font-face {
 	font-family: 'iconFont';
-	src: url('iconFont.eot?1500544941');
-	src: url('iconFont.eot?1500544941#iefix') format('embedded-opentype'),
-		 url('iconFont.svg?1500544941#iconFont') format('svg'),
-		 url('iconFont.woff?1500544941') format('woff'),
-		 url('iconFont.woff?1500544941') format('woff2'),
-		 url('iconFont.ttf?1500544941') format('truetype');
+	src: url('iconFont.eot?1500922677');
+	src: url('iconFont.eot?1500922677#iefix') format('embedded-opentype'),
+		 url('iconFont.svg?1500922677#iconFont') format('svg'),
+		 url('iconFont.woff?1500922677') format('woff'),
+		 url('iconFont.woff?1500922677') format('woff2'),
+		 url('iconFont.ttf?1500922677') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -46,3 +46,5 @@
 .icon-arrow-v2:before { content: "\52"; }
 .icon-next:before { content: "\4F"; }
 .icon-table:before { content: "\54"; }
+.icon-list:before { content: "\55"; }
+.icon-tile:before { content: "\56"; }

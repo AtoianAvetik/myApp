@@ -64,7 +64,7 @@ $btn-white: #fff;
     color: $text-color;
     background: $bg-color;
 
-    &:hover{
+    &:hover, &.-active{
         background: $bg-hover;
     }
 
@@ -81,7 +81,7 @@ $btn-white: #fff;
         background: transparent;
         border-color: $bg-color;
 
-        &:hover{
+        &:hover, &.-active{
             background: $bg-hover;
             color: $text-color;
         }

@@ -26,6 +26,7 @@ export class PasswordsComponent implements OnInit {
   folderSelected = new EventEmitter<number>();
   listSelectedIndex: number;
   listItemSelectedIndex: number;
+  activeViewType: string = 'list';
 
   constructor(private accordionService:  AccordionService,
               private dataService: DataService,
