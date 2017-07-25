@@ -1,9 +1,10 @@
 import {Component, ElementRef, EventEmitter, OnInit, ViewChild} from '@angular/core';
+import { SelectComponent } from 'ng2-select/ng2-select';
 
 import { AccordionService } from '../../_services/accordion.service';
 import { ContentListService } from '../../_services/content-list.service';
 import { DataService } from '../../_services/data.service';
-import {ModalService} from "../../_services/modal.service";
+import { ModalService } from "../../_services/modal.service";
 
 @Component({
   selector: 'app-passwords',
@@ -18,6 +19,7 @@ export class PasswordsComponent implements OnInit {
   @ViewChild('emailInput') emailInputRef: ElementRef;
   @ViewChild('linkInput') linkInputRef: ElementRef;
   @ViewChild('passInput') passInputRef: ElementRef;
+  @ViewChild('select') select: SelectComponent;
   foldersData;
   folders: Array<any> = [];
   isFoldersOpened = false;
@@ -80,6 +82,10 @@ export class PasswordsComponent implements OnInit {
     this.folderSelected.emit(data.id - 1);
   }
 
+  addFolderToList(folderName: string) {
+    this.folders.push({id: this.folders.length + 1, text: folderName});
+  }
+
   addEmptyFolder() {
     const folderName = this.folderNameInputRef.nativeElement.value;
     const folder = {
@@ -87,17 +93,16 @@ export class PasswordsComponent implements OnInit {
       content: []
     };
 
+    this.addFolderToList(folderName);
     this.contentListService.addList(folder);
   }
 
   onAddPassItem() {
     this.contentListService.addItem(this.listSelectedIndex, this.getInputs());
-    this.clearInputs();
   }
 
   onEditPassItem() {
     this.contentListService.editItem(this.listSelectedIndex, this.listItemSelectedIndex, this.getInputs());
-    this.clearInputs();
   }
 
   onDeletePassItem() {

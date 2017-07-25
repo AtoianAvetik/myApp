@@ -1,4 +1,4 @@
-<div class="page-list-item -{{ activeViewType }}" [class.-selected]="isItemSelected">
+<div class="page-list-item -{{ activeViewType }}" [class.-selected]="isItemSelected" [class.-focus]="isItemFocused" (click)="stopPropagation($event);onSelectedItem()">
   <div class="inner-wrap">
     <div class="page-list_checkbox">
       <button class="page-checkbox"></button>
@@ -7,12 +7,12 @@
       <div class="page-list_info-table">
         <ng-content></ng-content>
         <div class="page-list_button-cell">
-          <button class="page-list_button" openModal data-modal="item-modal" title="Edit" (click)="onSelectedItem();onEditItem();">
+          <button class="page-list_button" openModal data-modal="item-modal" title="Edit" (click)="stopPropagation($event);onFocusItem();onEditItem();">
             <i class="icon-edit"></i>
           </button>
         </div>
         <div class="page-list_button-cell">
-          <button class="page-list_button" openModal data-modal="delete-item" title="Delete" (click)="onSelectedItem()">
+          <button class="page-list_button" openModal data-modal="delete-item" title="Delete" (click)="stopPropagation($event);onFocusItem()">
             <i class="icon-delete"></i>
           </button>
         </div>

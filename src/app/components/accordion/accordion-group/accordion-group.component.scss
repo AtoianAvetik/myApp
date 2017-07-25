@@ -1,5 +1,7 @@
 .panel {
   margin-bottom: .5em;
+  padding: 0 10px;
+  overflow: hidden;
 }
 
 .panel-group {
@@ -38,8 +40,4 @@
       transform: rotate(90deg);
     }
   }
-}
-
-.panel-content {
-  overflow: hidden;
 }

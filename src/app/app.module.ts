@@ -34,6 +34,7 @@ import { TestTableComponent } from './pages/test-table/test-table.component';
 /* Modules */
 import { DirectivesModule } from './_directives/directives.module';
 import { PipesModule } from './_pipes/pipes.module';
+import {AppService} from "./_services/app.service";
 
 
 const appRoutes: Routes = [
@@ -70,7 +71,7 @@ const appRoutes: Routes = [
     DirectivesModule,
     PipesModule
   ],
-  providers: [ModalService, DataService, ContentTableService, ContentListService],
+  providers: [AppService, ModalService, DataService, ContentTableService, ContentListService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

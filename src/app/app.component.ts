@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {AppService} from "./_services/app.service";
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   isSidebarExpanded = true;
 
-  constructor() {
+  constructor(private appService: AppService) {
 
   }
 
@@ -16,4 +17,7 @@ export class AppComponent {
     this.isSidebarExpanded = status;
   }
 
+  onWrapClick() {
+    this.appService.appWrapClicked.emit();
+  }
 }
