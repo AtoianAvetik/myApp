@@ -1,4 +1,6 @@
-import {EventEmitter} from "@angular/core";
+import { Subject } from 'rxjs/Subject';
+
 export class AppService {
-  appWrapClicked = new EventEmitter();
+  appWrapClicked = new Subject();
+  toogleSidebarChange = new Subject<boolean>();
 }

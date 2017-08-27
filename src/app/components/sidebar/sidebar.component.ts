@@ -1,4 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
+
+import { AppService } from '../../_services/app.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -6,17 +8,13 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from 
   styleUrls: ['./sidebar.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SidebarComponent implements OnInit {
-  @Input() isExpand = true;
-  @Output() toogleSidebarChange = new EventEmitter<boolean>();
+export class SidebarComponent {
+  isExpand = true;
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  constructor(private appService: AppService) { }
 
   toggleSidebar() {
     this.isExpand = !this.isExpand;
-    this.toogleSidebarChange.emit(this.isExpand);
+    this.appService.toogleSidebarChange.next(this.isExpand);
   }
 }

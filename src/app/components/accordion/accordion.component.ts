@@ -1,6 +1,4 @@
-import {Component, HostBinding, OnInit, ViewEncapsulation} from '@angular/core';
-import { AccordionGroupComponent } from './accordion-group/accordion-group.component';
-import { AccordionService } from '../../_services/accordion.service';
+import { Component, HostBinding, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-accordion',
@@ -11,19 +9,6 @@ import { AccordionService } from '../../_services/accordion.service';
   encapsulation: ViewEncapsulation.None
 })
 
-export class AccordionComponent implements OnInit {
+export class AccordionComponent {
   @HostBinding('attr.class') class = 'panel-group';
-
-  groups: AccordionGroupComponent[] = [];
-
-  constructor(private accordionService: AccordionService) {}
-
-  ngOnInit() {
-    this.accordionService.groupsChanged
-      .subscribe(
-        (groups: AccordionGroupComponent[]) => {
-          this.groups = groups;
-        }
-      );
-  }
 }

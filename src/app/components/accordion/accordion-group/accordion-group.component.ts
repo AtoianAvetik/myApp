@@ -1,7 +1,7 @@
-import {Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {animate, state, style, transition, trigger} from '@angular/animations';
-
-import {AccordionService} from '../../../_services/accordion.service';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-accordion-group',
@@ -18,10 +18,11 @@ import {AccordionService} from '../../../_services/accordion.service';
     ])
   ]
 })
-export class AccordionGroupComponent implements OnInit, OnDestroy {
+export class AccordionGroupComponent implements OnInit {
   private _isOpen = false;
 
   @Input() heading: string;
+  @Input() openAllChanged: Observable<boolean> = new Subject<boolean>();
 
   @Input()
   set isOpen(value: boolean) {
@@ -32,21 +33,13 @@ export class AccordionGroupComponent implements OnInit, OnDestroy {
     return this._isOpen;
   }
 
-  constructor(private accordionService: AccordionService) {
-    this.accordionService.addGroup(this);
-  }
-
   ngOnInit() {
-    this.accordionService.openAllChanged
+    this.openAllChanged
       .subscribe(
         (status: boolean) => {
           this.isOpen = status;
         }
       )
-  }
-
-  ngOnDestroy() {
-    this.accordionService.removeGroup(this);
   }
 
   toggleOpen(event: MouseEvent) {

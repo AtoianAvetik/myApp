@@ -1,16 +1,15 @@
-import {Component, ElementRef, EventEmitter, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 import { SelectComponent } from 'ng2-select/ng2-select';
 
-import { AccordionService } from '../../_services/accordion.service';
 import { ContentListService } from '../../_services/content-list.service';
 import { DataService } from '../../_services/data.service';
-import { ModalService } from "../../_services/modal.service";
+import { ModalService } from '../../_services/modal.service';
 
 @Component({
   selector: 'app-passwords',
   templateUrl: './passwords.component.html',
-  styleUrls: ['./passwords.component.scss'],
-  providers: [AccordionService]
+  styleUrls: ['./passwords.component.scss']
 })
 export class PasswordsComponent implements OnInit {
   @ViewChild('folderNameInput') folderNameInputRef: ElementRef;
@@ -23,15 +22,16 @@ export class PasswordsComponent implements OnInit {
   foldersData;
   folders: Array<any> = [];
   isFoldersOpened = false;
+  openAllChanged = new Subject<boolean>();
   isAddItem: boolean = false;
   isEditItem: boolean = false;
-  folderSelected = new EventEmitter<number>();
+  folderSelected = new Subject<number>();
   listSelectedIndex: number;
   listItemSelectedIndex: number;
   activeViewType: string = 'list';
 
-  constructor(private accordionService:  AccordionService,
-              private dataService: DataService,
+
+  constructor(private dataService: DataService,
               private contentListService: ContentListService,
               private modalService: ModalService) { }
 
@@ -75,11 +75,11 @@ export class PasswordsComponent implements OnInit {
   }
 
   toggleGroups() {
-    this.accordionService.openAllChanged.emit(this.isFoldersOpened);
+    this.openAllChanged.next(this.isFoldersOpened);
   }
 
   onSelectTable(data) {
-    this.folderSelected.emit(data.id - 1);
+    this.folderSelected.next(data.id - 1);
   }
 
   addFolderToList(folderName: string) {

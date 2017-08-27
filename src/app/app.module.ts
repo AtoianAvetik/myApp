@@ -34,7 +34,7 @@ import { TestTableComponent } from './pages/test-table/test-table.component';
 /* Modules */
 import { DirectivesModule } from './_directives/directives.module';
 import { PipesModule } from './_pipes/pipes.module';
-import {AppService} from "./_services/app.service";
+import { AppService } from './_services/app.service';
 
 
 const appRoutes: Routes = [
