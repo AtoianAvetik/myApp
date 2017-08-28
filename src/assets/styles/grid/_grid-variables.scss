@@ -58,8 +58,8 @@ $row_modifiers: row column start center end around between items-top items-middl
 // adapting to different screen sizes, for use in media queries.
 
 $grid-breakpoints: $media-grid;
-@include _assert-ascending($grid-breakpoints, "$grid-breakpoints");
-@include _assert-starts-at-zero($grid-breakpoints);
+//@include _assert-ascending($grid-breakpoints, "$grid-breakpoints");
+//@include _assert-starts-at-zero($grid-breakpoints);
 
 // Grid columns
 //

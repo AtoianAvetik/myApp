@@ -1,4 +1,5 @@
-import { Component, ElementRef, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import { SelectComponent } from 'ng2-select/ng2-select';
 
@@ -12,23 +13,24 @@ import { ModalService } from '../../_services/modal.service';
   styleUrls: ['./passwords.component.scss']
 })
 export class PasswordsComponent implements OnInit {
-  @ViewChild('folderNameInput') folderNameInputRef: ElementRef;
-  @ViewChild('serviceNameInput') serviceNameInputRef: ElementRef;
-  @ViewChild('userNameInput') userNameInputRef: ElementRef;
-  @ViewChild('emailInput') emailInputRef: ElementRef;
-  @ViewChild('linkInput') linkInputRef: ElementRef;
-  @ViewChild('passInput') passInputRef: ElementRef;
   @ViewChild('select') select: SelectComponent;
   foldersData;
   folders: Array<any> = [];
   isFoldersOpened = false;
   openAllChanged = new Subject<boolean>();
-  isAddItem: boolean = false;
-  isEditItem: boolean = false;
+  isAddPasswordMode = false;
+  isEditPasswordMode = false;
+  isDeletePasswordMode = false;
+  isAddFolderMode = false;
+  isEditFolderMode = false;
+  isDeleteFolderMode = false;
   folderSelected = new Subject<number>();
   listSelectedIndex: number;
   listItemSelectedIndex: number;
   activeViewType: string = 'list';
+
+  passwordForm: FormGroup;
+  folderForm: FormGroup;
 
 
   constructor(private dataService: DataService,
@@ -46,6 +48,12 @@ export class PasswordsComponent implements OnInit {
           this.listSelectedIndex = index;
         }
       );
+    this.folderSelected
+      .subscribe(
+        (index: number) => {
+          this.listSelectedIndex = index;
+        }
+      );
     this.contentListService.listItemSelected
       .subscribe(
         (index: number) => {
@@ -55,23 +63,30 @@ export class PasswordsComponent implements OnInit {
     this.contentListService.editSelectedItem
       .subscribe(
         () => {
-          this.isEditItem = true;
-          this.setInputsSelectedItem();
+          this.isEditPasswordMode = true;
+          this.initForms();
         }
       );
-    this.folderSelected
-      .subscribe(
-        (index: number) => {
-          this.listSelectedIndex = index;
-        }
-      );
-    this.modalService.isModalClosed
+    this.contentListService.deleteSelectedItem
       .subscribe(
         () => {
-          this.isEditItem = false;
-          this.isAddItem = false;
+          this.isDeletePasswordMode = true;
+          this.initForms();
         }
       );
+    this.initForms();
+  }
+
+  resetForms() {
+    this.isAddPasswordMode = false;
+    this.isEditPasswordMode = false;
+    this.isDeletePasswordMode = false;
+    this.isAddFolderMode = false;
+    this.isEditFolderMode = false;
+    this.isDeleteFolderMode = false;
+
+    this.passwordForm.reset();
+    this.folderForm.reset();
   }
 
   toggleGroups() {
@@ -86,60 +101,73 @@ export class PasswordsComponent implements OnInit {
     this.folders.push({id: this.folders.length + 1, text: folderName});
   }
 
-  addEmptyFolder() {
-    const folderName = this.folderNameInputRef.nativeElement.value;
-    const folder = {
-      folderName: folderName,
-      content: []
+  onSubmit() {
+    const newPassword = {
+      serviceName: this.passwordForm.get('serviceName').value,
+      url: this.passwordForm.get('url').value,
+      userName: this.passwordForm.get('userName').value,
+      email: this.passwordForm.get('email').value,
+      pass: this.passwordForm.get('pass').value
     };
 
-    this.addFolderToList(folderName);
-    this.contentListService.addList(folder);
+    if ( this.isAddPasswordMode ) {
+      this.contentListService.addItem(this.listSelectedIndex, newPassword);
+    }
+    if ( this.isEditPasswordMode ) {
+      this.contentListService.editItem(this.listSelectedIndex, this.listItemSelectedIndex, newPassword);
+    }
+    if ( this.isDeletePasswordMode ) {
+      this.contentListService.deleteItem(this.listSelectedIndex, this.listItemSelectedIndex);
+    }
+
+    if ( this.isAddFolderMode ) {
+      const folderName = this.folderForm.get('folderName').value;
+      const folder = {
+        folderName: folderName,
+        content: []
+      };
+
+      this.addFolderToList(folderName);
+      this.contentListService.addList(folder);
+    }
+    if ( this.isEditFolderMode ) {
+    }
+    if ( this.isDeleteFolderMode ) {
+    }
+
+    this.resetForms();
   }
 
-  onAddPassItem() {
-    this.contentListService.addItem(this.listSelectedIndex, this.getInputs());
-  }
+  private initForms() {
+    let serviceName = '';
+    let url = '';
+    let userName = '';
+    let email = '';
+    let pass = '';
+    let folderName = '';
 
-  onEditPassItem() {
-    this.contentListService.editItem(this.listSelectedIndex, this.listItemSelectedIndex, this.getInputs());
-  }
+    if ( this.isEditPasswordMode ) {
+      const selectedPassword = this.foldersData[this.listSelectedIndex].content[this.listItemSelectedIndex];
+      serviceName = selectedPassword.serviceName;
+      url = selectedPassword.url;
+      userName = selectedPassword.userName;
+      email = selectedPassword.email;
+      pass = selectedPassword.pass;
+    }
+    if ( this.isEditFolderMode ) {
+      folderName = this.folders[this.listSelectedIndex];
+    }
 
-  onDeletePassItem() {
-    this.contentListService.deleteItem(this.listSelectedIndex, this.listItemSelectedIndex);
-  }
+    this.passwordForm = new FormGroup({
+      'serviceName': new FormControl(serviceName, Validators.required),
+      'url': new FormControl(url, Validators.required),
+      'userName': new FormControl(userName, Validators.required),
+      'email': new FormControl(email, Validators.required),
+      'pass': new FormControl(pass, Validators.required),
+    });
 
-  getInputs() {
-    let item = {
-      serviceName: '',
-      url: '',
-      userName: '',
-      email: '',
-      pass: ''
-    };
-
-    item.serviceName = this.serviceNameInputRef.nativeElement.value;
-    item.userName = this.userNameInputRef.nativeElement.value;
-    item.email = this.emailInputRef.nativeElement.value;
-    item.url = this.linkInputRef.nativeElement.value;
-    item.pass = this.passInputRef.nativeElement.value;
-
-    return item;
-  }
-
-  setInputsSelectedItem() {
-    this.serviceNameInputRef.nativeElement.value = this.foldersData[this.listSelectedIndex].content[this.listItemSelectedIndex].serviceName;
-    this.userNameInputRef.nativeElement.value = this.foldersData[this.listSelectedIndex].content[this.listItemSelectedIndex].userName;
-    this.emailInputRef.nativeElement.value = this.foldersData[this.listSelectedIndex].content[this.listItemSelectedIndex].email;
-    this.linkInputRef.nativeElement.value = this.foldersData[this.listSelectedIndex].content[this.listItemSelectedIndex].url;
-    this.passInputRef.nativeElement.value = this.foldersData[this.listSelectedIndex].content[this.listItemSelectedIndex].pass;
-  }
-
-  clearInputs() {
-    this.serviceNameInputRef.nativeElement.value = '';
-    this.userNameInputRef.nativeElement.value = '';
-    this.emailInputRef.nativeElement.value = '';
-    this.linkInputRef.nativeElement.value = '';
-    this.passInputRef.nativeElement.value = '';
+    this.folderForm = new FormGroup({
+      'folderName': new FormControl(folderName, Validators.required)
+    });
   }
 }

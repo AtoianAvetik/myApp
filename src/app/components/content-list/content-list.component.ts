@@ -1,6 +1,4 @@
-import {Component, HostBinding, Input, OnInit} from '@angular/core';
-
-import {ContentListService} from "../../_services/content-list.service";
+import { Component, HostBinding } from '@angular/core';
 
 @Component({
   selector: '[content-list]',
@@ -9,10 +7,8 @@ import {ContentListService} from "../../_services/content-list.service";
   `,
   styleUrls: ['./content-list.component.scss']
 })
-export class ContentListComponent implements OnInit {
+export class ContentListComponent {
   @HostBinding('attr.class') listClass = 'page-list';
 
   constructor() { }
-
-  ngOnInit() { }
 }

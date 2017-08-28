@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 import { SelectModule } from 'ng2-select';
 
 import { AppComponent } from './app.component';
@@ -66,6 +67,7 @@ const appRoutes: Routes = [
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
+    ReactiveFormsModule,
     SelectModule,
     RouterModule.forRoot(appRoutes),
     DirectivesModule,

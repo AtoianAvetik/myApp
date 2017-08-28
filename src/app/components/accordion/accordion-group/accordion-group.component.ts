@@ -18,6 +18,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
     ])
   ]
 })
+
 export class AccordionGroupComponent implements OnInit {
   private _isOpen = false;
 

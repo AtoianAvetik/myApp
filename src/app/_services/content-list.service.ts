@@ -1,10 +1,12 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class ContentListService {
-  listItemSelected = new EventEmitter<number>();
-  listSelected = new EventEmitter<number>();
-  editSelectedItem = new EventEmitter();
+  listItemSelected = new Subject<number>();
+  listSelected = new Subject<number>();
+  editSelectedItem = new Subject();
+  deleteSelectedItem = new Subject();
   listsData;
 
   constructor() { }

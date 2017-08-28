@@ -7,12 +7,12 @@
       <div class="page-list_info-table">
         <ng-content></ng-content>
         <div class="page-list_button-cell">
-          <button class="page-list_button" openModal data-modal="item-modal" title="Edit" (click)="stopPropagation($event);onFocusItem();onEditItem();">
+          <button class="page-list_button" type="button" openModal data-modal="item-modal" title="Edit" (click)="stopPropagation($event);onFocusItem();onEditItem();">
             <i class="icon-edit"></i>
           </button>
         </div>
         <div class="page-list_button-cell">
-          <button class="page-list_button" openModal data-modal="delete-item" title="Delete" (click)="stopPropagation($event);onFocusItem()">
+          <button class="page-list_button" type="button" openModal data-modal="item-modal" title="Delete" (click)="stopPropagation($event);onFocusItem();onDeleteItem();">
             <i class="icon-delete"></i>
           </button>
         </div>
