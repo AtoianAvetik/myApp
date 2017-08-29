@@ -3,7 +3,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ContentListService } from "../../../_services/content-list.service";
 import { ModalService } from "../../../_services/modal.service";
 import { AppService } from "../../../_services/app.service";
-import { logger } from 'codelyzer/util/logger';
 
 @Component({
   selector: '[content-list-item]',
@@ -11,17 +10,23 @@ import { logger } from 'codelyzer/util/logger';
   styleUrls: ['./content-list-item.component.scss']
 })
 export class ContentListItemComponent implements OnInit {
-  @Input() listIndex;
+  @Input() listId;
   @Input() itemIndex;
-  @Input() activeViewType: string = 'list';
-  @Input() isItemSelected: boolean = false;
-  @Input() isItemFocused: boolean = false;
+  activeViewType: string = 'list';
+  isItemSelected: boolean = false;
+  isItemFocused: boolean = false;
 
   constructor(private contentListService: ContentListService,
               private modalService: ModalService,
               private appService: AppService) { }
 
   ngOnInit() {
+    this.contentListService.viewTypeChanged
+      .subscribe(
+        (type: string) => {
+          this.activeViewType = type;
+        }
+      );
     this.appService.appWrapClicked
       .subscribe(
         () => {
@@ -48,14 +53,13 @@ export class ContentListItemComponent implements OnInit {
   onFocusItem() {
     this.isItemFocused = true;
     this.contentListService.listItemSelected.next(this.itemIndex);
-    this.contentListService.listSelected.next(this.listIndex);
+    this.contentListService.listSelected.next(this.listId);
   }
 
   onSelectedItem() {
     this.isItemSelected = !this.isItemSelected;
     this.contentListService.listItemSelected.next(this.itemIndex);
-    this.contentListService.listSelected.next(this.listIndex);
-    console.log( this.listIndex + ' - ' + this.itemIndex );
+    this.contentListService.listSelected.next(this.listId);
   }
 
   stopPropagation(event) {

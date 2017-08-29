@@ -6,6 +6,7 @@ import { SelectComponent } from 'ng2-select/ng2-select';
 import { ContentListService } from '../../_services/content-list.service';
 import { DataService } from '../../_services/data.service';
 import { ModalService } from '../../_services/modal.service';
+import { AppService } from '../../_services/app.service';
 
 @Component({
   selector: 'app-passwords',
@@ -15,43 +16,46 @@ import { ModalService } from '../../_services/modal.service';
 export class PasswordsComponent implements OnInit {
   @ViewChild('select') select: SelectComponent;
   foldersData;
-  folders: Array<any> = [];
+  folderSelected = new Subject<number>();
   isFoldersOpened = false;
-  openAllChanged = new Subject<boolean>();
+
   isAddPasswordMode = false;
   isEditPasswordMode = false;
   isDeletePasswordMode = false;
   isAddFolderMode = false;
   isEditFolderMode = false;
   isDeleteFolderMode = false;
-  folderSelected = new Subject<number>();
-  listSelectedIndex: number;
+
+  activeViewType = 'list';
+  folderSelectedId: number;
   listItemSelectedIndex: number;
-  activeViewType: string = 'list';
 
   passwordForm: FormGroup;
   folderForm: FormGroup;
 
-
   constructor(private dataService: DataService,
               private contentListService: ContentListService,
+              private appService: AppService,
               private modalService: ModalService) { }
 
   ngOnInit() {
     this.foldersData = this.contentListService.listsData = this.dataService.getPasswordsData();
-    this.foldersData.forEach((folder, index) => {
-      this.folders.push({id: index + 1, text: folder.folderName});
-    });
+    this.dataService.passwordsDataChanged
+      .subscribe(
+        (data: any) => {
+          this.foldersData = this.contentListService.listsData = data;
+        }
+      );
     this.contentListService.listSelected
       .subscribe(
-        (index: number) => {
-          this.listSelectedIndex = index;
+        (id: number) => {
+          this.folderSelectedId = id;
         }
       );
     this.folderSelected
       .subscribe(
-        (index: number) => {
-          this.listSelectedIndex = index;
+        (id: number) => {
+          this.folderSelectedId = id;
         }
       );
     this.contentListService.listItemSelected
@@ -90,15 +94,11 @@ export class PasswordsComponent implements OnInit {
   }
 
   toggleGroups() {
-    this.openAllChanged.next(this.isFoldersOpened);
+    this.appService.toogleAccordionsChange.next(this.isFoldersOpened);
   }
 
   onSelectTable(data) {
-    this.folderSelected.next(data.id - 1);
-  }
-
-  addFolderToList(folderName: string) {
-    this.folders.push({id: this.folders.length + 1, text: folderName});
+    this.folderSelected.next(data.id);
   }
 
   onSubmit() {
@@ -111,23 +111,26 @@ export class PasswordsComponent implements OnInit {
     };
 
     if ( this.isAddPasswordMode ) {
-      this.contentListService.addItem(this.listSelectedIndex, newPassword);
+      this.contentListService.addItem(this.folderSelectedId, newPassword);
     }
     if ( this.isEditPasswordMode ) {
-      this.contentListService.editItem(this.listSelectedIndex, this.listItemSelectedIndex, newPassword);
+      this.contentListService.editItem(this.folderSelectedId, this.listItemSelectedIndex, newPassword);
     }
     if ( this.isDeletePasswordMode ) {
-      this.contentListService.deleteItem(this.listSelectedIndex, this.listItemSelectedIndex);
+      this.contentListService.deleteItem(this.folderSelectedId, this.listItemSelectedIndex);
     }
 
     if ( this.isAddFolderMode ) {
       const folderName = this.folderForm.get('folderName').value;
+      const id = parseInt(this.foldersData.categories[this.foldersData.categories.length - 1].id) + 1;
       const folder = {
-        folderName: folderName,
-        content: []
+        id: id,
+        name: folderName,
+        content: [],
+        parentCategory: [],
+        childCategories: []
       };
 
-      this.addFolderToList(folderName);
       this.contentListService.addList(folder);
     }
     if ( this.isEditFolderMode ) {
@@ -147,7 +150,7 @@ export class PasswordsComponent implements OnInit {
     let folderName = '';
 
     if ( this.isEditPasswordMode ) {
-      const selectedPassword = this.foldersData[this.listSelectedIndex].content[this.listItemSelectedIndex];
+      const selectedPassword = this.foldersData.content[this.folderSelectedId][this.listItemSelectedIndex];
       serviceName = selectedPassword.serviceName;
       url = selectedPassword.url;
       userName = selectedPassword.userName;
@@ -155,7 +158,9 @@ export class PasswordsComponent implements OnInit {
       pass = selectedPassword.pass;
     }
     if ( this.isEditFolderMode ) {
-      folderName = this.folders[this.listSelectedIndex];
+      // folderName = this.foldersData.folders.find(function (folder) {
+      //   // return folder.id === id;
+      // });
     }
 
     this.passwordForm = new FormGroup({

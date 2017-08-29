@@ -13,7 +13,6 @@ import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { AccordionComponent } from './components/accordion/accordion.component';
-import { AccordionGroupComponent } from './components/accordion/accordion-group/accordion-group.component';
 import { ContentTableComponent } from './components/content-table/content-table.component';
 import { ContentTableRowComponent } from './components/content-table/content-table-row/content-table-row.component';
 import { ContentListComponent } from './components/content-list/content-list.component';
@@ -36,6 +35,7 @@ import { TestTableComponent } from './pages/test-table/test-table.component';
 import { DirectivesModule } from './_directives/directives.module';
 import { PipesModule } from './_pipes/pipes.module';
 import { AppService } from './_services/app.service';
+import { PasswordsGroupComponent } from './pages/passwords/passwords-group/passwords-group.component';
 
 
 const appRoutes: Routes = [
@@ -56,12 +56,12 @@ const appRoutes: Routes = [
     HomeComponent,
     PasswordsComponent,
     AccordionComponent,
-    AccordionGroupComponent,
     ContentTableComponent,
     ContentTableRowComponent,
     TestTableComponent,
     ContentListComponent,
-    ContentListItemComponent
+    ContentListItemComponent,
+    PasswordsGroupComponent
   ],
   imports: [
     BrowserModule,

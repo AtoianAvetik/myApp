@@ -2,6 +2,7 @@ import {Injectable, Inject} from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map'
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { PassItem } from '../_models/pass-item.model';
 
@@ -9,6 +10,8 @@ import { PassItem } from '../_models/pass-item.model';
 export class DataService {
   private passData: Observable<PassItem[]>;
   private passValues: PassItem[] = [];
+  private passwordsData: Observable<any>;
+  private passwordsValues = {};
   private tablesData = [
     {
       id: 'table1',
@@ -59,82 +62,24 @@ export class DataService {
       ]
     }
   ];
-  private passwordsData = [
-    {
-      folderName: 'Folder 1',
-      content: [
-          {
-            serviceName: 'Service Test 1',
-            url: '/',
-            userName: 'testUser 1',
-            email: 'test1@test.test',
-            pass: 'testtesttest1'
-          },
-          {
-            serviceName: 'Service Test 2',
-            url: '/',
-            userName: 'testUser 2',
-            email: 'test2@test.test',
-            pass: 'testtesttest2'
-          },
-          {
-            serviceName: 'Service Test 3',
-            url: '/',
-            userName: 'testUser 3',
-            email: 'test2@test.test',
-            pass: 'testtesttest3'
-          }
-        ]
-    },
-    {
-      folderName: 'Folder 2',
-      content: [
-          {
-            serviceName: 'Service Test 1',
-            url: '/',
-            userName: 'testUser 1',
-            email: 'test1@test.test',
-            pass: 'testtesttest1'
-          },
-          {
-            serviceName: 'Service Test 2',
-            url: '/',
-            userName: 'testUser 2',
-            email: 'test2@test.test',
-            pass: 'testtesttest2'
-          }
-        ]
-    },
-    {
-      folderName: 'Folder 3',
-      content: [
-          {
-            serviceName: 'Service Test 2',
-            url: '/',
-            userName: 'testUser 2',
-            email: 'test2@test.test',
-            pass: 'testtesttest2'
-          },
-          {
-            serviceName: 'Service Test 3',
-            url: '/',
-            userName: 'testUser 3',
-            email: 'test2@test.test',
-            pass: 'testtesttest3'
-          }
-        ]
-    }
-  ];
+  passwordsDataChanged = new Subject<any>();
 
   constructor(@Inject(Http) private http: Http) {
     this.passData = this.http.get('/assets/data/data.json').map(res => res.json() as PassItem[]);
+    this.passwordsData = this.http.get('/assets/data/passwords.json').map(res => res.json());
 
-    const subscription = this.passData.subscribe(value => {
+    const subscriber = this.passData.subscribe(value => {
         value.forEach(element => {
           this.passValues.push(element);
         });
       }
     );
+    const subscriber1 = this.passwordsData.subscribe(value => {
+        this.passwordsValues = value;
+        this.passwordsDataChanged.next(this.passwordsValues);
+      }
+    );
+
   }
 
   getPassItems() {
@@ -146,7 +91,7 @@ export class DataService {
   }
 
   getPasswordsData() {
-    return this.passwordsData;
+    return this.passwordsValues;
   }
 
 }

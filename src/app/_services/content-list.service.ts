@@ -1,29 +1,34 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class ContentListService {
   listItemSelected = new Subject<number>();
   listSelected = new Subject<number>();
+  viewTypeChanged = new Subject<string>();
   editSelectedItem = new Subject();
   deleteSelectedItem = new Subject();
   listsData;
 
   constructor() { }
 
-  addItem(listIndex, item) {
-    this.listsData[listIndex].content.push(item);
+  addItem(listId, item) {
+    this.listsData.categoriesData[listId].content.push(item);
   }
 
-  deleteItem(listIndex, itemIndex) {
-    this.listsData[listIndex].content.splice(itemIndex, 1);
+  deleteItem(listId, itemIndex) {
+    this.listsData.categoriesData[listId].content.splice(itemIndex, 1);
   }
 
-  editItem(listIndex, itemIndex, item) {
-    this.listsData[listIndex].content[itemIndex] = item;
+  editItem(listId, itemIndex, item) {
+    this.listsData.categoriesData[listId].content[itemIndex] = item;
   }
 
   addList(list) {
-    this.listsData.push(list);
+    this.listsData.categories.push({
+      id: list.id,
+      text: list.name
+    });
+    this.listsData.categoriesData[list.id] = list;
   }
 }

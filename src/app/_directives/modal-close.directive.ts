@@ -1,6 +1,6 @@
-import {Directive, ElementRef, HostListener} from '@angular/core';
+import { Directive, ElementRef, HostListener } from '@angular/core';
 
-import {ModalService} from '../_services/modal.service';
+import { ModalService } from '../_services/modal.service';
 
 @Directive({
   selector: '[closeModal]'
