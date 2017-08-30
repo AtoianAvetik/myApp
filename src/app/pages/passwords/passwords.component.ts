@@ -85,16 +85,29 @@ export class PasswordsComponent implements OnInit {
 
   updateFolders(data: any) {
     this.foldersData = data;
+    let folderName;
 
     if ( this.foldersData.categoriesIdArray ) {
       let newFoldersArray = [];
       let newFoldersIdArray = [];
       this.foldersData.categoriesIdArray.forEach((folderId) => {
-        newFoldersArray.push({id: this.foldersData.categories[folderId].id, text: this.foldersData.categories[folderId].name});
-        newFoldersIdArray.push(this.foldersData.categories[folderId].id);
+        const folder = this.foldersData.categories[folderId];
+        folderName = folder.name;
+        setHierarchicalFolderName(folder);
+        newFoldersArray.push({id: folder.id, text: folderName});
+        newFoldersIdArray.push(folder.id);
       });
       this.folders = newFoldersArray;
       this.foldersIdArray = newFoldersIdArray;
+    }
+
+    function setHierarchicalFolderName(folder) {
+      if ( folder.parentCategory.length > 0 ) {
+        folderName = data.categories[folder.parentCategory[0]].name + '/' + folderName;
+        if ( data.categories[folder.parentCategory[0]].parentCategory.length > 0 ) {
+          setHierarchicalFolderName(data.categories[folder.parentCategory[0]]);
+        }
+      }
     }
   }
 

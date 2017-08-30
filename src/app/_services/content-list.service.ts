@@ -8,7 +8,6 @@ export class ContentListService {
   viewTypeChanged = new Subject<string>();
   editSelectedItem = new Subject();
   deleteSelectedItem = new Subject();
-  listChanged = new Subject();
 
   constructor() { }
 }
