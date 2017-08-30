@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 
 import { ContentListService } from '../../../_services/content-list.service';
 
@@ -7,8 +7,11 @@ import { ContentListService } from '../../../_services/content-list.service';
   templateUrl: './passwords-group.component.html',
   styleUrls: ['./passwords-group.component.scss']
 })
-export class PasswordsGroupComponent implements OnInit {
+export class PasswordsGroupComponent implements OnInit, OnChanges {
   @Input() foldersData;
+  @Input() foldersList;
+  @Input() isChildComponent = false;
+  curLevelList = [];
   activeViewType = 'list';
 
   constructor(private contentListService: ContentListService) { }
@@ -20,6 +23,20 @@ export class PasswordsGroupComponent implements OnInit {
           this.activeViewType = type;
         }
       );
+    this.updateFolders();
   }
 
+  ngOnChanges() {
+    this.updateFolders();
+  }
+
+  updateFolders() {
+    this.curLevelList = [];
+
+    this.foldersList.forEach((folderId) => {
+      if (this.isChildComponent || !this.foldersData.categories[folderId].parentCategory.length) {
+        this.curLevelList.push(folderId);
+      }
+    });
+  }
 }

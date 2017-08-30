@@ -16,6 +16,8 @@ import { AppService } from '../../_services/app.service';
 export class PasswordsComponent implements OnInit {
   @ViewChild('select') select: SelectComponent;
   foldersData;
+  folders: Array<any> = [];
+  foldersIdArray: Array<any> = [];
   folderSelected = new Subject<number>();
   isFoldersOpened = false;
 
@@ -39,11 +41,11 @@ export class PasswordsComponent implements OnInit {
               private modalService: ModalService) { }
 
   ngOnInit() {
-    this.foldersData = this.contentListService.listsData = this.dataService.getPasswordsData();
+    this.updateFolders(this.dataService.getPasswordsData());
     this.dataService.passwordsDataChanged
       .subscribe(
         (data: any) => {
-          this.foldersData = this.contentListService.listsData = data;
+          this.updateFolders(data);
         }
       );
     this.contentListService.listSelected
@@ -81,6 +83,21 @@ export class PasswordsComponent implements OnInit {
     this.initForms();
   }
 
+  updateFolders(data: any) {
+    this.foldersData = data;
+
+    if ( this.foldersData.categoriesIdArray ) {
+      let newFoldersArray = [];
+      let newFoldersIdArray = [];
+      this.foldersData.categoriesIdArray.forEach((folderId) => {
+        newFoldersArray.push({id: this.foldersData.categories[folderId].id, text: this.foldersData.categories[folderId].name});
+        newFoldersIdArray.push(this.foldersData.categories[folderId].id);
+      });
+      this.folders = newFoldersArray;
+      this.foldersIdArray = newFoldersIdArray;
+    }
+  }
+
   resetForms() {
     this.isAddPasswordMode = false;
     this.isEditPasswordMode = false;
@@ -97,6 +114,11 @@ export class PasswordsComponent implements OnInit {
     this.appService.toogleAccordionsChange.next(this.isFoldersOpened);
   }
 
+  changeViewType(type: string) {
+    this.activeViewType = type;
+    this.contentListService.viewTypeChanged.next(type);
+  }
+
   onSelectTable(data) {
     this.folderSelected.next(data.id);
   }
@@ -111,18 +133,19 @@ export class PasswordsComponent implements OnInit {
     };
 
     if ( this.isAddPasswordMode ) {
-      this.contentListService.addItem(this.folderSelectedId, newPassword);
+      this.dataService.addPassword(this.folderSelectedId, newPassword);
     }
     if ( this.isEditPasswordMode ) {
-      this.contentListService.editItem(this.folderSelectedId, this.listItemSelectedIndex, newPassword);
+      this.dataService.editPassword(this.folderSelectedId, this.listItemSelectedIndex, newPassword);
     }
     if ( this.isDeletePasswordMode ) {
-      this.contentListService.deleteItem(this.folderSelectedId, this.listItemSelectedIndex);
+      this.dataService.deletePassword(this.folderSelectedId, this.listItemSelectedIndex);
     }
 
     if ( this.isAddFolderMode ) {
       const folderName = this.folderForm.get('folderName').value;
-      const id = parseInt(this.foldersData.categories[this.foldersData.categories.length - 1].id) + 1;
+      const id = (parseInt(this.foldersData.categoriesIdArray[this.foldersData.categoriesIdArray.length - 1]) + 1).toString();
+
       const folder = {
         id: id,
         name: folderName,
@@ -131,7 +154,7 @@ export class PasswordsComponent implements OnInit {
         childCategories: []
       };
 
-      this.contentListService.addList(folder);
+      this.dataService.addPasswordCategory(folder);
     }
     if ( this.isEditFolderMode ) {
     }
@@ -139,6 +162,7 @@ export class PasswordsComponent implements OnInit {
     }
 
     this.resetForms();
+    this.updateFolders(this.foldersData);
   }
 
   private initForms() {
@@ -150,7 +174,7 @@ export class PasswordsComponent implements OnInit {
     let folderName = '';
 
     if ( this.isEditPasswordMode ) {
-      const selectedPassword = this.foldersData.content[this.folderSelectedId][this.listItemSelectedIndex];
+      const selectedPassword = this.foldersData.categories[this.folderSelectedId].content[this.listItemSelectedIndex];
       serviceName = selectedPassword.serviceName;
       url = selectedPassword.url;
       userName = selectedPassword.userName;

@@ -11,7 +11,7 @@ export class DataService {
   private passData: Observable<PassItem[]>;
   private passValues: PassItem[] = [];
   private passwordsData: Observable<any>;
-  private passwordsValues = {};
+  private passwordsValues: {categories,categoriesIdArray} = {categories: {},categoriesIdArray: []};
   private tablesData = [
     {
       id: 'table1',
@@ -92,6 +92,27 @@ export class DataService {
 
   getPasswordsData() {
     return this.passwordsValues;
+  }
+
+  addPassword(categoryId, item) {
+    this.passwordsValues.categories[categoryId].content.push(item);
+    this.passwordsDataChanged.next(this.passwordsValues);
+  }
+
+  deletePassword(categoryId, itemIndex) {
+    this.passwordsValues.categories[categoryId].content.splice(itemIndex, 1);
+    this.passwordsDataChanged.next(this.passwordsValues);
+  }
+
+  editPassword(categoryId, itemIndex, item) {
+    this.passwordsValues.categories[categoryId].content[itemIndex] = item;
+    this.passwordsDataChanged.next(this.passwordsValues);
+  }
+
+  addPasswordCategory(category) {
+    this.passwordsValues.categoriesIdArray.push(category.id);
+    this.passwordsValues.categories[category.id] = category;
+    this.passwordsDataChanged.next(this.passwordsValues);
   }
 
 }
