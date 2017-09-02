@@ -7,6 +7,7 @@ import { ContentListService } from '../../_services/content-list.service';
 import { DataService } from '../../_services/data.service';
 import { ModalService } from '../../_services/modal.service';
 import { AppService } from '../../_services/app.service';
+import { PasswordCategory } from '../../_models/password-category.model';
 
 @Component({
   selector: 'app-passwords',
@@ -15,9 +16,9 @@ import { AppService } from '../../_services/app.service';
 })
 export class PasswordsComponent implements OnInit {
   @ViewChild('select') select: SelectComponent;
-  foldersData;
-  folders: Array<any> = [];
-  foldersIdArray: Array<any> = [];
+  foldersData: {[name: string]: PasswordCategory};
+  folders: Array<any>;
+  foldersIdArray: Array<any>;
   folderSelected = new Subject<number>();
   isFoldersOpened = false;
 
@@ -84,31 +85,9 @@ export class PasswordsComponent implements OnInit {
   }
 
   updateFolders(data: any) {
-    this.foldersData = data;
-    let folderName;
-
-    if ( this.foldersData.categoriesIdArray ) {
-      let newFoldersArray = [];
-      let newFoldersIdArray = [];
-      this.foldersData.categoriesIdArray.forEach((folderId) => {
-        const folder = this.foldersData.categories[folderId];
-        folderName = folder.name;
-        setHierarchicalFolderName(folder);
-        newFoldersArray.push({id: folder.id, text: folderName});
-        newFoldersIdArray.push(folder.id);
-      });
-      this.folders = newFoldersArray;
-      this.foldersIdArray = newFoldersIdArray;
-    }
-
-    function setHierarchicalFolderName(folder) {
-      if ( folder.parentCategory.length > 0 ) {
-        folderName = data.categories[folder.parentCategory[0]].name + '/' + folderName;
-        if ( data.categories[folder.parentCategory[0]].parentCategory.length > 0 ) {
-          setHierarchicalFolderName(data.categories[folder.parentCategory[0]]);
-        }
-      }
-    }
+    this.foldersData = data.categories;
+    this.folders = data.categoriesArray;
+    this.foldersIdArray = data.categoriesIdArray;
   }
 
   resetForms() {
@@ -156,17 +135,10 @@ export class PasswordsComponent implements OnInit {
     }
 
     if ( this.isAddFolderMode ) {
-      const folderName = this.folderForm.get('folderName').value;
-      const id = (parseInt(this.foldersData.categoriesIdArray[this.foldersData.categoriesIdArray.length - 1]) + 1).toString();
+      const folderName = this.folderForm.get('folderName').value.toString();
+      const id = (parseInt(this.foldersIdArray[this.foldersIdArray.length - 1]) + 1).toString();
 
-      const folder = {
-        id: id,
-        name: folderName,
-        content: [],
-        parentCategory: [],
-        childCategories: []
-      };
-
+      const folder = new PasswordCategory(id, folderName, [], [], []);
       this.dataService.addPasswordCategory(folder);
     }
     if ( this.isEditFolderMode ) {
@@ -175,7 +147,6 @@ export class PasswordsComponent implements OnInit {
     }
 
     this.resetForms();
-    this.updateFolders(this.foldersData);
   }
 
   private initForms() {
@@ -187,7 +158,7 @@ export class PasswordsComponent implements OnInit {
     let folderName = '';
 
     if ( this.isEditPasswordMode ) {
-      const selectedPassword = this.foldersData.categories[this.folderSelectedId].content[this.listItemSelectedIndex];
+      const selectedPassword = this.foldersData[this.folderSelectedId].content[this.listItemSelectedIndex];
       serviceName = selectedPassword.serviceName;
       url = selectedPassword.url;
       userName = selectedPassword.userName;

@@ -5,13 +5,16 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 import { PassItem } from '../_models/pass-item.model';
+import { PasswordCategory } from '../_models/password-category.model';
 
 @Injectable()
 export class DataService {
   private passData: Observable<PassItem[]>;
   private passValues: PassItem[] = [];
   private passwordsData: Observable<any>;
-  private passwordsValues: {categories,categoriesIdArray} = {categories: {},categoriesIdArray: []};
+  private passwordsCategories: {[name: string]: PasswordCategory} = {};
+  private passwordsCategoriesArray: Array<any> = [];
+  private passwordsCategoriesIdArray: Array<any> = [];
   private tablesData = [
     {
       id: 'table1',
@@ -66,7 +69,7 @@ export class DataService {
 
   constructor(@Inject(Http) private http: Http) {
     this.passData = this.http.get('/assets/data/data.json').map(res => res.json() as PassItem[]);
-    this.passwordsData = this.http.get('/assets/data/passwords.json').map(res => res.json());
+    this.passwordsData = this.http.get('/assets/data/passwords.json').map(res => res.json() as {[name: string]: {[name: string]: PasswordCategory}});
 
     const subscriber = this.passData.subscribe(value => {
         value.forEach(element => {
@@ -75,8 +78,8 @@ export class DataService {
       }
     );
     const subscriber1 = this.passwordsData.subscribe(value => {
-        this.passwordsValues = value;
-        this.passwordsDataChanged.next(this.passwordsValues);
+      console.log(value);
+      this.updatePasswordsCategories(value.categories);
       }
     );
 
@@ -91,28 +94,59 @@ export class DataService {
   }
 
   getPasswordsData() {
-    return this.passwordsValues;
+    return {
+      categories: this.passwordsCategories,
+      categoriesArray: this.passwordsCategoriesArray,
+      categoriesIdArray: this.passwordsCategoriesIdArray
+    }
   }
 
   addPassword(categoryId, item) {
-    this.passwordsValues.categories[categoryId].content.push(item);
-    this.passwordsDataChanged.next(this.passwordsValues);
+    this.passwordsCategories[categoryId].content.push(item);
   }
-
   deletePassword(categoryId, itemIndex) {
-    this.passwordsValues.categories[categoryId].content.splice(itemIndex, 1);
-    this.passwordsDataChanged.next(this.passwordsValues);
+    this.passwordsCategories[categoryId].content.splice(itemIndex, 1);
   }
-
   editPassword(categoryId, itemIndex, item) {
-    this.passwordsValues.categories[categoryId].content[itemIndex] = item;
-    this.passwordsDataChanged.next(this.passwordsValues);
+    this.passwordsCategories[categoryId].content[itemIndex] = item;
   }
+  addPasswordCategory(category: PasswordCategory) {
+    this.passwordsCategories[category.id] = category;
+    this.updatePasswordsCategories(this.passwordsCategories);
+  }
+  updatePasswordsCategories(passwordsCategories) {
+    let categoryName;
+    this.passwordsCategories = passwordsCategories;
+    const newPasswordsCategoriesArray = [];
+    const newPasswordsCategoriesIdArray = [];
 
-  addPasswordCategory(category) {
-    this.passwordsValues.categoriesIdArray.push(category.id);
-    this.passwordsValues.categories[category.id] = category;
-    this.passwordsDataChanged.next(this.passwordsValues);
+    for ( const category in passwordsCategories ) {
+      if (passwordsCategories.hasOwnProperty(category)) {
+        const categoryId = passwordsCategories[category].id;
+        categoryName = passwordsCategories[category].name;
+        setHierarchicalCategoryName(passwordsCategories[category]);
+        newPasswordsCategoriesArray.push({id: categoryId, text: categoryName});
+        newPasswordsCategoriesIdArray.push(categoryId);
+      }
+    }
+
+    this.passwordsCategoriesArray = newPasswordsCategoriesArray;
+    this.passwordsCategoriesIdArray = newPasswordsCategoriesIdArray;
+
+    this.passwordsDataChanged.next({
+      categories: this.passwordsCategories,
+      categoriesArray: this.passwordsCategoriesArray,
+      categoriesIdArray: this.passwordsCategoriesIdArray
+    });
+
+    function setHierarchicalCategoryName(category) {
+      if ( category.parentCategory.length > 0 ) {
+        categoryName = passwordsCategories[category.parentCategory[0]].name + '/' + categoryName;
+        if ( passwordsCategories[category.parentCategory[0]].parentCategory.length > 0 ) {
+          setHierarchicalCategoryName(passwordsCategories[category.parentCategory[0]]);
+        }
+      }
+    }
   }
 
 }
