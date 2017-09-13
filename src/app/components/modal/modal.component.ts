@@ -7,8 +7,9 @@ import { ModalService } from '../../_services/modal.service';
   moduleId: module.id.toString(),
   selector: 'app-modal',
   template: `
-    <ng-content></ng-content>
-    <div class="backdrop"></div>
+    <div class="backdrop">
+      <ng-content></ng-content>
+    </div>
   `,
   styleUrls: ['./modal.component.scss'],
   encapsulation: ViewEncapsulation.None
@@ -70,7 +71,7 @@ export class ModalComponent implements OnInit, OnDestroy {
   // open modal
   open(): void {
     this.element.addClass('-active');
-    $('.backdrop').addClass('-active');
+    this.element.find('.backdrop').addClass('-active');
     $('body').addClass('backstage');
     this.modalService.isModalOpened.emit();
   }
@@ -78,7 +79,7 @@ export class ModalComponent implements OnInit, OnDestroy {
   // close modal
   close(): void {
     this.element.removeClass('-active');
-    $('.backdrop').removeClass('-active');
+    this.element.find('.backdrop').removeClass('-active');
     $('body').removeClass('backstage');
     this.modalService.isModalClosed.emit();
   }
