@@ -1,7 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs/Subject';
-import { SelectComponent } from 'ng2-select/ng2-select';
 
 import { ContentListService } from '../../_services/content-list.service';
 import { DataService } from '../../_services/data.service';
@@ -15,11 +13,9 @@ import { PasswordCategory } from '../../_models/password-category.model';
   styleUrls: ['./passwords.component.scss']
 })
 export class PasswordsComponent implements OnInit {
-  @ViewChild('select') select: SelectComponent;
   foldersData: {[name: string]: PasswordCategory};
   folders: Array<any>;
   foldersIdArray: Array<any>;
-  folderSelected = new Subject<number>();
   isFoldersOpened = false;
 
   isAddPasswordMode = false;
@@ -32,7 +28,6 @@ export class PasswordsComponent implements OnInit {
 
   activeViewType = 'list';
   listSelectedId: number;
-  folderSelectedId: number;
   activeFolder: Array<any> = [];
   listItemSelectedIndex: number;
 
@@ -56,12 +51,6 @@ export class PasswordsComponent implements OnInit {
       .subscribe(
         (id: number) => {
           this.listSelectedId = id;
-        }
-      );
-    this.folderSelected
-      .subscribe(
-        (id: number) => {
-          this.folderSelectedId = id;
         }
       );
     this.contentListService.listItemSelected
@@ -122,13 +111,13 @@ export class PasswordsComponent implements OnInit {
   }
 
   onSelectTable(data) {
-    this.folderSelected.next(data.id);
+    this.passwordForm.controls['folderSelect'].setValue([data.id]);
 
     if ( this.isEditPasswordMode ) {
       this.isTransferPasswordMode = true;
     }
 
-    if ( this.folderSelectedId === this.listSelectedId ) {
+    if ( data.id === this.listSelectedId ) {
       this.isTransferPasswordMode = false;
     }
   }
@@ -144,11 +133,11 @@ export class PasswordsComponent implements OnInit {
     };
 
     if ( this.isAddPasswordMode ) {
-      this.dataService.addPassword(this.folderSelectedId, newPassword);
+      this.dataService.addPassword(this.passwordForm.get('folderSelect').value, newPassword);
     }
     if ( this.isEditPasswordMode ) {
       if ( this.isTransferPasswordMode ) {
-        this.dataService.transferPassword(this.listSelectedId, this.folderSelectedId, this.listItemSelectedIndex, newPassword);
+        this.dataService.transferPassword(this.listSelectedId, this.passwordForm.get('folderSelect').value, this.listItemSelectedIndex, newPassword);
       } else {
         this.dataService.editPassword(this.listSelectedId, this.listItemSelectedIndex, newPassword);
       }
@@ -177,6 +166,7 @@ export class PasswordsComponent implements OnInit {
     let email = '';
     let pass = '';
     let desc = '';
+    let folderSelect: any = '';
     let folderName = '';
 
     if ( this.isEditPasswordMode ) {
@@ -187,6 +177,7 @@ export class PasswordsComponent implements OnInit {
       email = selectedPassword.email;
       pass = selectedPassword.pass;
       desc = selectedPassword.desc;
+      folderSelect = this.listSelectedId;
 
       this.activeFolder= [this.folders[this.listSelectedId - 1]];
     }
@@ -204,6 +195,7 @@ export class PasswordsComponent implements OnInit {
       'email': new FormControl(email, Validators.required),
       'pass': new FormControl(pass, Validators.required),
       'desc': new FormControl(desc),
+      'folderSelect': new FormControl(folderSelect, Validators.required),
     });
 
     this.folderForm = new FormGroup({
