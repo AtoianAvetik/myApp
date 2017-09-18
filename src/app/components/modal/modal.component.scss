@@ -20,15 +20,14 @@ body.backstage {
   height: 100%;
   z-index: 55;
   background-color: rgba(0, 0, 0, 0.7);
-  opacity: 0;
-  visibility: hidden;
   overflow-y: auto;
-  transition: opacity .3s linear, visibility .3s linear;
+  overflow-x: hidden;
+}
 
-  .-active & {
-    opacity: 1;
-    visibility: visible;
-  }
+.modal-wrap {
+  display: flex;
+  width: 100%;
+  justify-content: center;
 }
 
 .modal {
@@ -36,18 +35,8 @@ body.backstage {
   width: 90%;
   max-width: 625px;
   z-index: 60;
-  opacity: 0;
   background: #F2F4F5;
-  visibility: hidden;
   backface-visibility: hidden;
-  transition: opacity .3s linear, visibility .3s linear, transform .4s cubic-bezier(0.680, -0.550, 0.265, 1.550);
-  transform: scale(0, 0);
-
-  .-active & {
-    opacity: 1;
-    visibility: visible;
-    transform: scale(1.0, 1.0);
-  }
 
   &.-item {
     max-width: 800px;

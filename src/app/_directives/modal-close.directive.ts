@@ -13,6 +13,6 @@ export class CloseModalDirective {
   }
 
   @HostListener('click') onClick() {
-    this.modalService.modalClosed.emit(this.id);
+    this.modalService.modalClosed.next(this.id);
   }
 }

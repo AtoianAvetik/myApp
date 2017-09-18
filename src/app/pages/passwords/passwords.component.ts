@@ -81,6 +81,12 @@ export class PasswordsComponent implements OnInit {
           this.initForms();
         }
       );
+    this.modalService.isModalClosed
+      .subscribe(
+        () => {
+          this.resetForms();
+        }
+      );
     this.initForms();
   }
 
@@ -145,8 +151,6 @@ export class PasswordsComponent implements OnInit {
     }
     if ( this.isDeleteFolderMode ) {
     }
-
-    this.resetForms();
   }
 
   private initForms() {

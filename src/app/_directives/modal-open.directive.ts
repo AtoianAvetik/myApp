@@ -13,6 +13,6 @@ export class OpenModalDirective {
   }
 
   @HostListener('click') onClick() {
-    this.modalService.modalOpened.emit(this.id);
+    this.modalService.modalOpened.next(this.id);
   }
 }

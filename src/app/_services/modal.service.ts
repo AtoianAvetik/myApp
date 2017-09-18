@@ -1,14 +1,14 @@
-import { EventEmitter } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 import * as _ from 'underscore';
 
 import { Modal } from '../_models/modal.model';
 
 export class ModalService {
   private modals: any[] = [];
-  modalOpened = new EventEmitter<string>();
-  modalClosed = new EventEmitter<string>();
-  isModalClosed = new EventEmitter();
-  isModalOpened = new EventEmitter();
+  modalOpened = new Subject<string>();
+  modalClosed = new Subject<string>();
+  isModalClosed = new Subject();
+  isModalOpened = new Subject();
 
   add(modal: Modal) {
     // add modal to array of active modals
@@ -19,17 +19,5 @@ export class ModalService {
     // remove modal from array of active modals
     const modalToRemove = _.findWhere(this.modals, { id: id });
     this.modals = _.without(this.modals, modalToRemove);
-  }
-
-  open(id: string) {
-    // open modal specified by id
-    const modal = _.findWhere(this.modals, { id: id });
-    modal.open();
-  }
-
-  close(id: string) {
-    // close modal specified by id
-    const modal = _.find(this.modals, { id: id });
-    modal.close();
   }
 }
