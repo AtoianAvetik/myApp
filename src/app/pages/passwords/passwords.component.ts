@@ -24,13 +24,16 @@ export class PasswordsComponent implements OnInit {
 
   isAddPasswordMode = false;
   isEditPasswordMode = false;
+  isTransferPasswordMode = false;
   isDeletePasswordMode = false;
   isAddFolderMode = false;
   isEditFolderMode = false;
   isDeleteFolderMode = false;
 
   activeViewType = 'list';
+  listSelectedId: number;
   folderSelectedId: number;
+  activeFolder: Array<any> = [];
   listItemSelectedIndex: number;
 
   passwordForm: FormGroup;
@@ -52,7 +55,7 @@ export class PasswordsComponent implements OnInit {
     this.contentListService.listSelected
       .subscribe(
         (id: number) => {
-          this.folderSelectedId = id;
+          this.listSelectedId = id;
         }
       );
     this.folderSelected
@@ -103,6 +106,7 @@ export class PasswordsComponent implements OnInit {
     this.isAddFolderMode = false;
     this.isEditFolderMode = false;
     this.isDeleteFolderMode = false;
+    this.isTransferPasswordMode = false;
 
     this.passwordForm.reset();
     this.folderForm.reset();
@@ -119,6 +123,14 @@ export class PasswordsComponent implements OnInit {
 
   onSelectTable(data) {
     this.folderSelected.next(data.id);
+
+    if ( this.isEditPasswordMode ) {
+      this.isTransferPasswordMode = true;
+    }
+
+    if ( this.folderSelectedId === this.listSelectedId ) {
+      this.isTransferPasswordMode = false;
+    }
   }
 
   onSubmit() {
@@ -127,17 +139,22 @@ export class PasswordsComponent implements OnInit {
       url: this.passwordForm.get('url').value,
       userName: this.passwordForm.get('userName').value,
       email: this.passwordForm.get('email').value,
-      pass: this.passwordForm.get('pass').value
+      pass: this.passwordForm.get('pass').value,
+      desc: this.passwordForm.get('desc').value
     };
 
     if ( this.isAddPasswordMode ) {
       this.dataService.addPassword(this.folderSelectedId, newPassword);
     }
     if ( this.isEditPasswordMode ) {
-      this.dataService.editPassword(this.folderSelectedId, this.listItemSelectedIndex, newPassword);
+      if ( this.isTransferPasswordMode ) {
+        this.dataService.transferPassword(this.listSelectedId, this.folderSelectedId, this.listItemSelectedIndex, newPassword);
+      } else {
+        this.dataService.editPassword(this.listSelectedId, this.listItemSelectedIndex, newPassword);
+      }
     }
     if ( this.isDeletePasswordMode ) {
-      this.dataService.deletePassword(this.folderSelectedId, this.listItemSelectedIndex);
+      this.dataService.deletePassword(this.listSelectedId, this.listItemSelectedIndex);
     }
 
     if ( this.isAddFolderMode ) {
@@ -159,18 +176,23 @@ export class PasswordsComponent implements OnInit {
     let userName = '';
     let email = '';
     let pass = '';
+    let desc = '';
     let folderName = '';
 
     if ( this.isEditPasswordMode ) {
-      const selectedPassword = this.foldersData[this.folderSelectedId].content[this.listItemSelectedIndex];
+      const selectedPassword = this.foldersData[this.listSelectedId].content[this.listItemSelectedIndex];
       serviceName = selectedPassword.serviceName;
       url = selectedPassword.url;
       userName = selectedPassword.userName;
       email = selectedPassword.email;
       pass = selectedPassword.pass;
+      desc = selectedPassword.desc;
+
+      this.activeFolder= [this.folders[this.listSelectedId - 1]];
     }
     if ( this.isEditFolderMode ) {
       // folderName = this.foldersData.folders.find(function (folder) {
+
       //   // return folder.id === id;
       // });
     }
@@ -181,10 +203,13 @@ export class PasswordsComponent implements OnInit {
       'userName': new FormControl(userName, Validators.required),
       'email': new FormControl(email, Validators.required),
       'pass': new FormControl(pass, Validators.required),
+      'desc': new FormControl(desc),
     });
 
     this.folderForm = new FormGroup({
       'folderName': new FormControl(folderName, Validators.required)
     });
+
+    console.log( this.passwordForm );
   }
 }

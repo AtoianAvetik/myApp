@@ -110,6 +110,10 @@ export class DataService {
   editPassword(categoryId, itemIndex, item) {
     this.passwordsCategories[categoryId].content[itemIndex] = item;
   }
+  transferPassword(prevCategoryId, categoryId, itemIndex, item) {
+    this.passwordsCategories[prevCategoryId].content.splice(itemIndex, 1);
+    this.passwordsCategories[categoryId].content.push(item);
+  }
   addPasswordCategory(category: PasswordCategory) {
     this.passwordsCategories[category.id] = category;
     this.updatePasswordsCategories(this.passwordsCategories);

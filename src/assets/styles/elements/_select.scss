@@ -363,4 +363,24 @@ body > .ui-select-bootstrap.open{
     box-shadow: 0 6px 12px rgba(0,0,0,.175);
 
   }
+
+  .ui-select-toggle > .caret {
+    line-height: 1;
+    font-size: 9px;
+    margin-top: 1px !important;
+    transform: translateY(-50%);
+
+    &:after {
+      font-family: "iconFont" !important;
+      content: '\64';
+      font-style: normal !important;
+      font-weight: normal !important;
+      font-variant: normal !important;
+      text-transform: none !important;
+      speak: none;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  }
 }
