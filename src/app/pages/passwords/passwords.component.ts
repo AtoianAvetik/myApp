@@ -110,8 +110,14 @@ export class PasswordsComponent implements OnInit {
     this.contentListService.viewTypeChanged.next(type);
   }
 
-  onSelectTable(data) {
-    this.passwordForm.controls['folderSelect'].setValue([data.id]);
+  onSelectFolder(data) {
+    if ( this.isAddPasswordMode || this.isEditPasswordMode ) {
+      this.passwordForm.controls['folderSelect'].setValue([data.id]);
+    }
+
+    if ( this.isAddFolderMode || this.isEditFolderMode ) {
+      this.folderForm.controls['folderSelect'].setValue([data.id]);
+    }
 
     if ( this.isEditPasswordMode ) {
       this.isTransferPasswordMode = true;
@@ -147,10 +153,11 @@ export class PasswordsComponent implements OnInit {
     }
 
     if ( this.isAddFolderMode ) {
+      const parentFolder = this.folderForm.get('folderSelect').value ? [this.folderForm.get('folderSelect').value.toString()] : [];
       const folderName = this.folderForm.get('folderName').value.toString();
       const id = (parseInt(this.foldersIdArray[this.foldersIdArray.length - 1]) + 1).toString();
 
-      const folder = new PasswordCategory(id, folderName, [], [], []);
+      const folder = new PasswordCategory(id, folderName, [], parentFolder, []);
       this.dataService.addPasswordCategory(folder);
     }
     if ( this.isEditFolderMode ) {
@@ -166,7 +173,7 @@ export class PasswordsComponent implements OnInit {
     let email = '';
     let pass = '';
     let desc = '';
-    let folderSelect: any = '';
+    let folderSelect: any = null;
     let folderName = '';
 
     if ( this.isEditPasswordMode ) {
@@ -199,9 +206,8 @@ export class PasswordsComponent implements OnInit {
     });
 
     this.folderForm = new FormGroup({
-      'folderName': new FormControl(folderName, Validators.required)
+      'folderName': new FormControl(folderName, Validators.required),
+      'folderSelect': new FormControl(folderSelect)
     });
-
-    console.log( this.passwordForm );
   }
 }

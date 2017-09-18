@@ -116,6 +116,11 @@ export class DataService {
   }
   addPasswordCategory(category: PasswordCategory) {
     this.passwordsCategories[category.id] = category;
+
+    if ( category.parentCategory.length ) {
+      this.passwordsCategories[category.parentCategory[0]].childCategories.push(category.id);
+    }
+
     this.updatePasswordsCategories(this.passwordsCategories);
   }
   updatePasswordsCategories(passwordsCategories) {
