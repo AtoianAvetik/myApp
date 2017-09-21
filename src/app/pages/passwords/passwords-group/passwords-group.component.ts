@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, DoCheck, Input, OnInit } from '@angular/core';
 
 import { ContentListService } from '../../../_services/content-list.service';
 import { PasswordCategory } from '../../../_models/password-category.model';
@@ -8,7 +8,7 @@ import { PasswordCategory } from '../../../_models/password-category.model';
   templateUrl: './passwords-group.component.html',
   styleUrls: ['./passwords-group.component.scss']
 })
-export class PasswordsGroupComponent implements OnInit, OnChanges {
+export class PasswordsGroupComponent implements OnInit, DoCheck {
   @Input() foldersData: {[name: string]: PasswordCategory};
   @Input() foldersList: Array<any>;
   @Input() isChildComponent = false;
@@ -24,10 +24,9 @@ export class PasswordsGroupComponent implements OnInit, OnChanges {
           this.activeViewType = type;
         }
       );
-    this.updateFolders();
   }
 
-  ngOnChanges() {
+  ngDoCheck() {
     this.updateFolders();
   }
 

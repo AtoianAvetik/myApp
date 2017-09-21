@@ -118,10 +118,14 @@ export class PasswordsComponent implements OnInit {
     this.contentListService.viewTypeChanged.next(type);
   }
 
+  editFolders() {
+    console.log( '1' );
+  }
+
   onSelectFolder(data) {
     let formControl: FormControl;
     if ( this.isAddPasswordMode || this.isEditPasswordMode ) {
-      formControl = <FormControl>this.passwordForm.get( 'folderSelect' );
+      formControl = <FormControl>this.passwordForm.get('folderSelect');
     }
     if ( this.isAddFolderMode || this.isEditFolderMode ) {
       formControl = <FormControl>this.folderForm.get('folderSelect');
