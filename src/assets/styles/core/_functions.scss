@@ -6,3 +6,8 @@
 @function em($number){
 	@return ($number / to-number($base-font) ) + em;
 }
+
+@function to-em($target, $context: $base-font) {
+  @if $target == 0 { @return 0 }
+  @return $target / $context + 0em;
+}

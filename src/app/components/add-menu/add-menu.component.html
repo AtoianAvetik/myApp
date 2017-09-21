@@ -1,0 +1,33 @@
+<div
+  class="add-menu -to-right"
+  [ngClass]="{'-open': open}"
+  (mouseenter)="open = true"
+  (mouseleave)="open = false">
+  <ul class="add-menu-items" *ngIf="menuItemsArray.length > 1">
+    <li
+      class="add-menu-item"
+      *ngFor="let item of menuItemsArray.slice(1)"
+      (click)="click(item.id)">
+      <span>{{ item.name }}</span>
+      <div class="add-menu-item_icon">
+        <i class="icon-{{ item.icon }}"></i>
+      </div>
+    </li>
+  </ul>
+  <div class="add-menu-button">
+    <div
+      class="add-menu-item -custom"
+      (click)="click(menuItemsArray[0].id)">
+      <span>{{ menuItemsArray[0].name }}</span>
+      <div class="add-menu-item_icon">
+        <i class="icon-{{ menuItemsArray[0].icon }}"></i>
+      </div>
+    </div>
+    <div
+      class="add-menu-item">
+      <div class="add-menu-item_icon">
+        <i class="icon-plus"></i>
+      </div>
+    </div>
+  </div>
+</div>

@@ -36,6 +36,7 @@ import { DirectivesModule } from './_directives/directives.module';
 import { PipesModule } from './_pipes/pipes.module';
 import { AppService } from './_services/app.service';
 import { PasswordsGroupComponent } from './pages/passwords/passwords-group/passwords-group.component';
+import { AddMenuComponent } from './components/add-menu/add-menu.component';
 
 
 const appRoutes: Routes = [
@@ -61,7 +62,8 @@ const appRoutes: Routes = [
     TestTableComponent,
     ContentListComponent,
     ContentListItemComponent,
-    PasswordsGroupComponent
+    PasswordsGroupComponent,
+    AddMenuComponent
   ],
   imports: [
     BrowserModule,

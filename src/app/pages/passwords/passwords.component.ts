@@ -6,6 +6,7 @@ import { DataService } from '../../_services/data.service';
 import { ModalService } from '../../_services/modal.service';
 import { AppService } from '../../_services/app.service';
 import { PasswordCategory } from '../../_models/password-category.model';
+import { AddMenuItem } from '../../_models/add-menu-item.model';
 
 @Component({
   selector: 'app-passwords',
@@ -34,10 +35,13 @@ export class PasswordsComponent implements OnInit {
   passwordForm: FormGroup;
   folderForm: FormGroup;
 
+  addMenuItemsArray: Array<AddMenuItem>;
+
   constructor(private dataService: DataService,
               private contentListService: ContentListService,
               private appService: AppService,
-              private modalService: ModalService) { }
+              private modalService: ModalService) {
+  }
 
   ngOnInit() {
     this.updateFolders(this.dataService.getPasswordsData());
@@ -80,6 +84,10 @@ export class PasswordsComponent implements OnInit {
         }
       );
     this.initForms();
+    this.addMenuItemsArray = [
+      {id: 'item-modal', name: 'Add password', icon: 'add-site'},
+      {id: 'folder-modal', name: 'Add folder', icon: 'folder-add'}
+    ];
   }
 
   updateFolders(data: any) {
@@ -111,21 +119,23 @@ export class PasswordsComponent implements OnInit {
   }
 
   onSelectFolder(data) {
+    let formControl: FormControl;
     if ( this.isAddPasswordMode || this.isEditPasswordMode ) {
-      this.passwordForm.controls['folderSelect'].setValue([data.id]);
+      formControl = <FormControl>this.passwordForm.get( 'folderSelect' );
     }
-
     if ( this.isAddFolderMode || this.isEditFolderMode ) {
-      this.folderForm.controls['folderSelect'].setValue([data.id]);
+      formControl = <FormControl>this.folderForm.get('folderSelect');
     }
 
     if ( this.isEditPasswordMode ) {
       this.isTransferPasswordMode = true;
     }
-
     if ( data.id === this.listSelectedId ) {
       this.isTransferPasswordMode = false;
     }
+
+    formControl.markAsDirty();
+    formControl.setValue([data.id]);
   }
 
   onSubmit() {
@@ -209,5 +219,16 @@ export class PasswordsComponent implements OnInit {
       'folderName': new FormControl(folderName, Validators.required),
       'folderSelect': new FormControl(folderSelect)
     });
+  }
+
+  addMenuClicked(data) {
+    const id = data.id;
+    if ( id === 'item-modal' ) {
+      this.isAddPasswordMode = true;
+    }
+    if ( id === 'folder-modal' ) {
+      this.isAddFolderMode = true;
+    }
+    this.modalService.modalOpened.next(id);
   }
 }

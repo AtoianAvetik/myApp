@@ -1,0 +1,103 @@
+@import '../../../assets/styles/core/variables';
+@import '../../../assets/styles/core/functions';
+
+.add-menu {
+  position: fixed;
+  bottom: 20px;
+  margin-right: 20px;
+  cursor: pointer;
+  z-index: 3;
+
+  &.-to-left {
+    left: 10px;
+  }
+
+  &.-to-right {
+    right: 10px;
+  }
+}
+
+.add-menu-items {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  width: 0;
+  transition: max-height 0.55s cubic-bezier(.55,0,.1,1), opacity 0.55s cubic-bezier(.55,0,.1,1);
+
+  .-open & {
+    max-height: 400px;
+    opacity: 1;
+    width: auto;
+  }
+}
+
+.add-menu-item {
+  text-align: right;
+  margin: 0 0 20px 0;
+  cursor: pointer;
+  font-size: 15px;
+
+  &:hover {
+    span {
+      background: rgba(0,0,0,0.5);
+    }
+  }
+
+  .add-menu-button & {
+    margin: 0;
+
+    &.-custom {
+      display: none;
+
+      .-open & {
+        display: block;
+      }
+    }
+
+    .-open & {
+      display: none;
+    }
+  }
+
+  &_icon {
+    $w: 45px;
+    $f_s: 15px;
+    $f_s_l: 18px;
+    font-size: $f_s;
+    height: to-em($w, $f_s);
+    width: to-em($w, $f_s);
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    box-shadow: 0 0 20px -5px rgba(0,0,0,0.7);
+    border-radius: 50%;
+    margin: 0 -(to-em($w, $f_s_l) - to-em($w, $f_s))/2;
+    color: $gray;
+    background: #fff;
+
+    .add-menu-button & {
+      font-size: $f_s_l;
+      margin: 0;
+      box-shadow: 0 0 30px -2px rgba(0,0,0,0.7);
+      background-color: $red;
+      color: $white;
+    }
+
+    i {
+      font-size: to-em(17px,$f_s);
+      line-height: 1;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  span {
+    margin-right: 20px;
+    padding: 4px 8px;
+    background: rgba(0,0,0,0.6);
+    line-height: 1;
+    color: $white;
+  }
+}
