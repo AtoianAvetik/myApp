@@ -26,6 +26,7 @@ export class PasswordsComponent implements OnInit {
   isAddFolderMode = false;
   isEditFolderMode = false;
   isDeleteFolderMode = false;
+  isAdditionalOptionsMode = false;
 
   activeViewType = 'list';
   listSelectedId: number;
@@ -36,6 +37,12 @@ export class PasswordsComponent implements OnInit {
   folderForm: FormGroup;
 
   addMenuItemsArray: Array<AddMenuItem>;
+  siteLogoArray = [
+    "https://www.google.com.ua/favicon.ico",
+    "https://www.google.com.ua/favicon.ico",
+    "https://www.google.com.ua/favicon.ico",
+    "https://www.google.com.ua/favicon.ico"
+  ];
 
   constructor(private dataService: DataService,
               private contentListService: ContentListService,
@@ -104,6 +111,7 @@ export class PasswordsComponent implements OnInit {
     this.isEditFolderMode = false;
     this.isDeleteFolderMode = false;
     this.isTransferPasswordMode = false;
+    this.isAdditionalOptionsMode = false;
 
     this.passwordForm.reset();
     this.folderForm.reset();
@@ -187,6 +195,8 @@ export class PasswordsComponent implements OnInit {
     let email = '';
     let pass = '';
     let desc = '';
+    let img = '';
+    let chooseImage = false;
     let folderSelect: any = null;
     let folderName = '';
 
@@ -217,12 +227,16 @@ export class PasswordsComponent implements OnInit {
       'pass': new FormControl(pass, Validators.required),
       'desc': new FormControl(desc),
       'folderSelect': new FormControl(folderSelect, Validators.required),
+      'additionalOptions': new FormGroup({
+        'chooseImage': new FormControl(chooseImage)
+      })
     });
 
     this.folderForm = new FormGroup({
       'folderName': new FormControl(folderName, Validators.required),
       'folderSelect': new FormControl(folderSelect)
     });
+
   }
 
   addMenuClicked(data) {

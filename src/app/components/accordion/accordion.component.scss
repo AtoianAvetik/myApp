@@ -16,6 +16,10 @@
   position: relative;
   border-bottom: 1px solid #D2D4D5;
 
+  .modal & {
+    border-bottom: none;
+  }
+
   &_title {
     display: inline-block;
     vertical-align: top;

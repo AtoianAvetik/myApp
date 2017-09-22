@@ -37,6 +37,43 @@
       outline: 0;
     }
   }
+
+  input[type=checkbox] {
+    & + label {
+      display: inline-block;
+      position: relative;
+      padding-left: 30px;
+      cursor: pointer;
+
+      &:before, &:after {
+        position: absolute;
+        cursor: pointer;
+        border-radius: 25%;
+      }
+
+      &:before {
+        content: '';
+        top: 0;
+        left: 0;
+        width: 16px;
+        height: 16px;
+        border: 1px solid $blue-dark;
+        background-color: transparent;
+        color: inherit;
+      }
+    }
+
+    &:checked + label {
+      &:after {
+        content: '';
+        top: 3px;
+        left: 3px;
+        width: 10px;
+        height: 10px;
+        background-color: $red;
+      }
+    }
+  }
 }
 
 input.ng-invalid.ng-touched,
