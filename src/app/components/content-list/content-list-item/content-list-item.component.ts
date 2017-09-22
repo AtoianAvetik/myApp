@@ -12,6 +12,7 @@ import { AppService } from "../../../_services/app.service";
 export class ContentListItemComponent implements OnInit {
   @Input() listId;
   @Input() itemIndex;
+  @Input() itemImg;
   activeViewType: string = 'list';
   isItemSelected: boolean = false;
   isItemFocused: boolean = false;

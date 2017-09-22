@@ -5,5 +5,17 @@
         home works!
       </p>
     </div>
+    <div class="row no-gutters">
+      <div class="form-group">
+        <img class="avatar img-circle" src="{{file_src}}" alt=""/>
+      </div>
+      <div class="form-group">
+        <label for="upload">
+          <input id="upload" type="file" (change)="imageChange($event)"/>
+        </label>
+      </div>
+    </div>
+    <img src="{{ newImg }}" alt="">
+    <img src="{{ img.url }}" alt="" *ngFor="let img of imagesArray">
   </div>
 </section>

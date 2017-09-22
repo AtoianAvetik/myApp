@@ -139,11 +139,11 @@ body{
     width: 55px;
   }
 
-  &_icon {
+  &_img {
     position: relative;
   }
 
-  &_icon-overlay {
+  &_img-overlay {
     background-color: rgba(77, 94, 110, .4);
     display: none;
     position: absolute;
@@ -173,6 +173,10 @@ body{
       &.-show-large {
         display: none !important;
       }
+    }
+
+    p {
+      margin: 0;
     }
 
     .name {
@@ -243,6 +247,7 @@ body{
     bottom: 0;
     left: 0;
     margin: auto;
+    max-width: 100%;
   }
 }
 
@@ -261,11 +266,11 @@ body{
       color: #FFF;
       background-color: rgba(77, 94, 110, .4);
 
-      .page-list_icon {
+      .page-list_img {
         background: $white;
       }
 
-      .page-list_icon-overlay {
+      .page-list_img-overlay {
         visibility: visible;
       }
 
@@ -280,7 +285,7 @@ body{
       position: relative;
     }
 
-    .page-list_icon {
+    .page-list_img {
       width: 150px;
       height: 100%;
       display: inline-block;
@@ -304,7 +309,7 @@ body{
       margin: auto;
     }
 
-    .page-list_icon-overlay {
+    .page-list_img-overlay {
       display: block;
       visibility: hidden;
     }
@@ -337,10 +342,10 @@ body{
     background-color: #FFF;
     position: relative;
     vertical-align: top;
-    height: 130px;
+    height: 160px;
 
     &:hover, &.-selected, &.-focus {
-      .page-list_icon-overlay {
+      .page-list_img-overlay {
         display: block;
       }
 
@@ -353,9 +358,9 @@ body{
       display: none;
     }
 
-    .page-list_icon {
+    .page-list_img {
       width: 100%;
-      height: 78px;
+      height: 108px;
     }
 
     .page-checkbox {
