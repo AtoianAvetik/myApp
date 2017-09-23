@@ -38,10 +38,10 @@ export class PasswordsComponent implements OnInit {
 
   addMenuItemsArray: Array<AddMenuItem>;
   siteLogoArray = [
-    "https://www.google.com.ua/favicon.ico",
-    "https://www.google.com.ua/favicon.ico",
-    "https://www.google.com.ua/favicon.ico",
-    "https://www.google.com.ua/favicon.ico"
+    'https://www.google.com.ua/favicon.ico',
+    'https://www.google.com.ua/favicon.ico',
+    'https://www.google.com.ua/favicon.ico',
+    'https://www.google.com.ua/favicon.ico'
   ];
 
   constructor(private dataService: DataService,
@@ -177,7 +177,7 @@ export class PasswordsComponent implements OnInit {
     if ( this.isAddFolderMode ) {
       const parentFolder = this.folderForm.get('folderSelect').value ? [this.folderForm.get('folderSelect').value.toString()] : [];
       const folderName = this.folderForm.get('folderName').value.toString();
-      const id = (parseInt(this.foldersIdArray[this.foldersIdArray.length - 1]) + 1).toString();
+      const id = (parseInt(this.foldersIdArray[this.foldersIdArray.length - 1], 10) + 1).toString();
 
       const folder = new PasswordCategory(id, folderName, [], parentFolder, []);
       this.dataService.addPasswordCategory(folder);
@@ -210,7 +210,7 @@ export class PasswordsComponent implements OnInit {
       desc = selectedPassword.desc;
       folderSelect = this.listSelectedId;
 
-      this.activeFolder= [this.folders[this.listSelectedId - 1]];
+      this.activeFolder = [this.folders[this.listSelectedId - 1]];
     }
     if ( this.isEditFolderMode ) {
       // folderName = this.foldersData.folders.find(function (folder) {
@@ -237,6 +237,10 @@ export class PasswordsComponent implements OnInit {
       'folderSelect': new FormControl(folderSelect)
     });
 
+  }
+
+  choose($data) {
+    console.log($data);
   }
 
   addMenuClicked(data) {
