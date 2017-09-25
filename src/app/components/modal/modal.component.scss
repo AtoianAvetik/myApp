@@ -45,6 +45,7 @@ body.backstage {
 
   &.-item {
     max-width: 800px;
+    max-height: 650px;
   }
 
   &.-folder {
@@ -150,22 +151,34 @@ body.backstage {
       transform: rotate(-45deg);
     }
   }
+}
 
-  .site-logo {
-    width: 100%;
-    display: block;
-    padding: 15px;
-    background-image: url("../../../assets/img/img_bg.png");
-    text-align: center;
-    vertical-align: middle;
+.image-wrap {
+  position: relative;
+  width: 100%;
+  padding: 15px;
+  background-image: url("../../../assets/img/img_bg.png");
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+
+  .modal-sidebar & {
+    height: 100px;
     cursor: pointer;
+  }
 
-    &.-selected {
-      box-shadow: 0 0 5px 2px $blue;
-    }
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
 
-    & + .site-logo {
-      margin-top: 30px;
-    }
+  &.-selected {
+    box-shadow: 0 0 5px 2px $blue;
+  }
+
+  & + .image-wrap {
+    margin-top: 30px;
   }
 }

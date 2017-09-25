@@ -7,6 +7,7 @@ import { ModalService } from '../../_services/modal.service';
 import { AppService } from '../../_services/app.service';
 import { PasswordCategory } from '../../_models/password-category.model';
 import { AddMenuItem } from '../../_models/add-menu-item.model';
+import { ValidatorsService } from '../../_services/validators.service';
 
 @Component({
   selector: 'app-passwords',
@@ -37,17 +38,21 @@ export class PasswordsComponent implements OnInit {
   folderForm: FormGroup;
 
   addMenuItemsArray: Array<AddMenuItem>;
-  siteLogoArray = [
+  passwordsImageArray = [
     'https://www.google.com.ua/favicon.ico',
     'https://www.google.com.ua/favicon.ico',
     'https://www.google.com.ua/favicon.ico',
     'https://www.google.com.ua/favicon.ico'
   ];
+  selectedImage = null;
+  previewImage = null;
+  uploadImageMode = false;
 
   constructor(private dataService: DataService,
               private contentListService: ContentListService,
               private appService: AppService,
-              private modalService: ModalService) {
+              private modalService: ModalService,
+              private validatorsService: ValidatorsService) {
   }
 
   ngOnInit() {
@@ -112,6 +117,9 @@ export class PasswordsComponent implements OnInit {
     this.isDeleteFolderMode = false;
     this.isTransferPasswordMode = false;
     this.isAdditionalOptionsMode = false;
+    this.activeFolder = [];
+    this.previewImage = [];
+    this.selectedImage = null;
 
     this.passwordForm.reset();
     this.folderForm.reset();
@@ -157,7 +165,8 @@ export class PasswordsComponent implements OnInit {
       userName: this.passwordForm.get('userName').value,
       email: this.passwordForm.get('email').value,
       pass: this.passwordForm.get('pass').value,
-      desc: this.passwordForm.get('desc').value
+      desc: this.passwordForm.get('desc').value,
+      img: this.passwordForm.get('image').value
     };
 
     if ( this.isAddPasswordMode ) {
@@ -196,7 +205,6 @@ export class PasswordsComponent implements OnInit {
     let pass = '';
     let desc = '';
     let img = '';
-    let chooseImage = false;
     let folderSelect: any = null;
     let folderName = '';
 
@@ -208,8 +216,10 @@ export class PasswordsComponent implements OnInit {
       email = selectedPassword.email;
       pass = selectedPassword.pass;
       desc = selectedPassword.desc;
+      img = selectedPassword.img;
       folderSelect = this.listSelectedId;
 
+      this.previewImage = selectedPassword.img;
       this.activeFolder = [this.folders[this.listSelectedId - 1]];
     }
     if ( this.isEditFolderMode ) {
@@ -221,26 +231,33 @@ export class PasswordsComponent implements OnInit {
 
     this.passwordForm = new FormGroup({
       'serviceName': new FormControl(serviceName, Validators.required),
-      'url': new FormControl(url, Validators.required),
+      'url': new FormControl(url, [Validators.required, this.validatorsService.url.bind(this.validatorsService)]),
       'userName': new FormControl(userName, Validators.required),
-      'email': new FormControl(email, Validators.required),
+      'email': new FormControl(email, [Validators.required, this.validatorsService.email.bind(this.validatorsService)]),
       'pass': new FormControl(pass, Validators.required),
       'desc': new FormControl(desc),
       'folderSelect': new FormControl(folderSelect, Validators.required),
-      'additionalOptions': new FormGroup({
-        'chooseImage': new FormControl(chooseImage)
-      })
+      'previewImage': new FormGroup({
+        'image': new FormControl(img),
+        'imageUrl': new FormControl(null, this.validatorsService.image.bind(this.validatorsService)),
+        'uploadImage': new FormControl(null),
+        'chooseImage': new FormControl(null)
+      }),
+      'additionalOptions': new FormGroup({})
     });
 
     this.folderForm = new FormGroup({
       'folderName': new FormControl(folderName, Validators.required),
       'folderSelect': new FormControl(folderSelect)
     });
-
   }
 
-  choose($data) {
-    console.log($data);
+  selectPreviewImage(image) {
+    this.passwordForm.get('previewImage.imageUrl').setValue(image);
+  }
+
+  uploadImage(data) {
+    console.log( data );
   }
 
   addMenuClicked(data) {

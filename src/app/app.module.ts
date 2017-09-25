@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { SelectModule } from 'ng2-select';
 
 import { AppComponent } from './app.component';
@@ -37,6 +37,7 @@ import { PipesModule } from './_pipes/pipes.module';
 import { AppService } from './_services/app.service';
 import { PasswordsGroupComponent } from './pages/passwords/passwords-group/passwords-group.component';
 import { AddMenuComponent } from './components/add-menu/add-menu.component';
+import { ValidatorsService } from './_services/validators.service';
 
 
 const appRoutes: Routes = [
@@ -75,7 +76,7 @@ const appRoutes: Routes = [
     DirectivesModule,
     PipesModule
   ],
-  providers: [AppService, ModalService, DataService, ContentTableService, ContentListService],
+  providers: [AppService, ModalService, DataService, ContentTableService, ContentListService, ValidatorsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

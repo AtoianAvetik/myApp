@@ -29,6 +29,17 @@
   &.-active {
     background-color: $dark;
     color: $white;
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 3px;
+      background: red;
+    }
   }
 
   &_text {
