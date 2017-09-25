@@ -39,6 +39,7 @@ import { PasswordsGroupComponent } from './pages/passwords/passwords-group/passw
 import { AddMenuComponent } from './components/add-menu/add-menu.component';
 import { ValidatorsService } from './_services/validators.service';
 import { LoaderComponent } from './components/loader/loader.component';
+import { LoaderService } from './_services/loader.service';
 
 
 const appRoutes: Routes = [
@@ -78,7 +79,7 @@ const appRoutes: Routes = [
     DirectivesModule,
     PipesModule
   ],
-  providers: [AppService, ModalService, DataService, ContentTableService, ContentListService, ValidatorsService],
+  providers: [AppService, ModalService, DataService, ContentTableService, ContentListService, ValidatorsService, LoaderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

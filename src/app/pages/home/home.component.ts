@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BunnyImage } from 'bunnyjs/src/file/image';
 import { ImgToBase64Service } from '../../_services/img-to-base64.service';
 import { GetLogoService } from '../../_services/get-logo.service';
+import { LoaderService } from '../../_services/loader.service';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,10 @@ export class HomeComponent implements OnInit {
   newImg: string;
   imagesArray = [];
 
-  constructor(private imgToBase64: ImgToBase64Service, private getLogo: GetLogoService) {
+  constructor(
+    private imgToBase64: ImgToBase64Service,
+    private getLogo: GetLogoService,
+    private loaderService: LoaderService) {
     this.file_src = "https://www.google.com.ua/favicon.ico";
   }
 
@@ -43,6 +47,10 @@ export class HomeComponent implements OnInit {
 
     // this.getLogo.getSiteLogoArray('http://www.deezer.com/', 6);
     // this.getLogo.getSiteLogo('google.com');
+  }
+
+  loaderOpen() {
+    this.loaderService.loaderOpened.next('home');
   }
 
   imageChange(input) {
