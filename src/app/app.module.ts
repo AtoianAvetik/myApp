@@ -38,6 +38,7 @@ import { AppService } from './_services/app.service';
 import { PasswordsGroupComponent } from './pages/passwords/passwords-group/passwords-group.component';
 import { AddMenuComponent } from './components/add-menu/add-menu.component';
 import { ValidatorsService } from './_services/validators.service';
+import { LoaderComponent } from './components/loader/loader.component';
 
 
 const appRoutes: Routes = [
@@ -64,7 +65,8 @@ const appRoutes: Routes = [
     ContentListComponent,
     ContentListItemComponent,
     PasswordsGroupComponent,
-    AddMenuComponent
+    AddMenuComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,

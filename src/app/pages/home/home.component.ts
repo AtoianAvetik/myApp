@@ -41,8 +41,8 @@ export class HomeComponent implements OnInit {
         }
       );
 
-    this.getLogo.getSiteLogoArray('http://www.deezer.com/', 6);
-    this.getLogo.getSiteLogo('google.com');
+    // this.getLogo.getSiteLogoArray('http://www.deezer.com/', 6);
+    // this.getLogo.getSiteLogo('google.com');
   }
 
   imageChange(input) {
