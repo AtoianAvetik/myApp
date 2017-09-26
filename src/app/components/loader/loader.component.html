@@ -1,7 +1,11 @@
-<div class="page-loader -single">
+<div
+  class="page-loader"
+  [ngClass]="{'-single': !content}"
+  [@loader]='isPresent ? "open" : "close"'
+  (@loader.done)="animationDone($event)">
   <div class="page-loader_overlay"></div>
   <div class="page-loader_wrapper">
-    <div class="spinner">
+    <div class="page-loader_spinner">
       <div class="sk-circle">
         <div class="sk-circle1 sk-child"></div>
         <div class="sk-circle2 sk-child"></div>
@@ -17,5 +21,6 @@
         <div class="sk-circle12 sk-child"></div>
       </div>
     </div>
+    <p *ngIf="content">{{ content }}</p>
   </div>
 </div>

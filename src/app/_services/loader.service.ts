@@ -5,10 +5,8 @@ import { Loader } from '../_models/loader.model';
 
 export class LoaderService {
   loaders: Array<Loader> = [];
-  loaderOpened = new Subject<string>();
-  loaderClosed = new Subject<string>();
-  isloaderClosed = new Subject();
-  isloaderOpened = new Subject();
+  isloaderClosed = new Subject<boolean>();
+  isloaderOpened = new Subject<boolean>();
 
   add(loader: Loader) {
     // add loader to array of active loaders
@@ -19,5 +17,11 @@ export class LoaderService {
     // remove loader from array of active loaders
     const loaderToRemove = _.findWhere(this.loaders, { id: id });
     this.loaders = _.without(this.loaders, loaderToRemove);
+  }
+
+  create(data:{id: string, content?: string}) {
+    const loader = _.findWhere(this.loaders, { id: data.id });
+    loader.content = data.content ? data.content: null;
+    return loader;
   }
 }

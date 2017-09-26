@@ -1,101 +1,75 @@
-import {Component, ElementRef, Input, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
-import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
-import * as $ from 'jquery';
+import {
+  Component, Input, OnInit, OnDestroy, ViewEncapsulation
+} from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { LoaderService } from '../../_services/loader.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
-  moduleId: module.id.toString(),
   selector: 'app-loader',
   templateUrl: './loader.component.html',
   styleUrls: ['./loader.component.scss'],
   encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('loader', [
-      state('open', style({opacity: 1})),
-      state('close', style({opacity: 0})),
-      transition('close => open', animate('0.4s linear')),
-      transition('open => close', animate('0.4s linear'))
+      state('open', style({opacity: 1, visibility: 'visible'})),
+      state('close', style({opacity: 0, visibility: 'hidden'})),
+      transition('close => open', animate('0.3s linear')),
+      transition('open => close', animate('0.2s linear'))
     ])
   ]
 })
 
 export class LoaderComponent implements OnInit, OnDestroy {
   @Input() id: string;
-  private element: $;
-  private _isOpen = false;
-  openSubscription: Subscription;
-  closeSubscription: Subscription;
+  content: string = null;
+  private _isPresent = false;
 
   @Input()
-  set isOpen(value: boolean) {
-    this._isOpen = value;
+  set isPresent(value: boolean) {
+    this._isPresent = value;
   }
 
-  get isOpen() {
-    return this._isOpen;
+  get isPresent() {
+    return this._isPresent;
   }
 
-  constructor(private loaderService: LoaderService, private el: ElementRef) {
-    this.element = $(el.nativeElement);
-  }
+  constructor(private loaderService: LoaderService) {}
 
   ngOnInit(): void {
-    const loader = this;
-
     // ensure id attribute exists
     if (!this.id) {
-      console.error('modal must have an id');
+      console.error('loader must have an id');
       return;
     }
 
     // add self (this loader instance) to the loader service so it's accessible from controllers
     this.loaderService.add(this);
-
-    // subscribe events
-    this.openSubscription = this.loaderService.loaderOpened
-      .subscribe(
-        (id: string) => {
-          if ( id === this.id ) {
-            this.open();
-          }
-        }
-      );
-
-    this.closeSubscription = this.loaderService.loaderClosed
-      .subscribe(
-        (id: string) => {
-          if ( id === this.id ) {
-            this.close();
-          }
-        }
-      );
   }
 
   // remove self from loader service when directive is destroyed
   ngOnDestroy(): void {
     this.loaderService.remove(this.id);
-    this.element.remove();
-    this.openSubscription.unsubscribe();
-    this.closeSubscription.unsubscribe();
   }
 
   // open loader
-  open(): void {
-    this.element.children().addClass('-active');
-    this.isOpen = true;
+  present(): Observable<boolean> | Promise<boolean> {
+    this.isPresent = true;
+    return this.loaderService.isloaderOpened;
   }
 
-  // close modal
-  close(): void {
-    this.element.children().removeClass('-active');
-    this.isOpen = false;
+  // close loader
+  dismiss(): void {
+    this.isPresent = false;
   }
 
   animationDone(event) {
     if ( event.toState === 'close' ) {
       this.loaderService.isloaderClosed.next();
+    }
+    if ( event.toState === 'open' ) {
+      this.loaderService.isloaderOpened.next();
     }
   }
 }

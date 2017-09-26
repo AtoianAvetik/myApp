@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, Component,
+  OnInit
+} from '@angular/core';
 import { BunnyImage } from 'bunnyjs/src/file/image';
 import { ImgToBase64Service } from '../../_services/img-to-base64.service';
 import { GetLogoService } from '../../_services/get-logo.service';
@@ -10,10 +13,11 @@ import { LoaderService } from '../../_services/loader.service';
   styleUrls: ['./home.component.scss'],
   providers: [ImgToBase64Service, GetLogoService]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   file_src: string;
   newImg: string;
   imagesArray = [];
+  loader;
 
   constructor(
     private imgToBase64: ImgToBase64Service,
@@ -49,8 +53,29 @@ export class HomeComponent implements OnInit {
     // this.getLogo.getSiteLogo('google.com');
   }
 
+  ngAfterViewInit() {
+    this.loader = this.loaderService.create({
+      id: 'home',
+      content: 'Loading..'
+    });
+
+    this.loader.present().subscribe(() =>{
+      setTimeout(() => {
+        this.loader.dismiss();
+      },3000)
+    });
+  }
+
   loaderOpen() {
-    this.loaderService.loaderOpened.next('home');
+    this.loader = this.loaderService.create({
+      id: 'home'
+    });
+
+    this.loader.present().subscribe(() =>{
+      setTimeout(() => {
+        this.loader.dismiss();
+      },3000)
+    });
   }
 
   imageChange(input) {

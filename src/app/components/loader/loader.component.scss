@@ -5,13 +5,9 @@
   bottom: 0;
   position: absolute;
   z-index: 1000;
+  display: flex;
   align-items: center;
   justify-content: center;
-  display: none;
-
-  &.-active {
-    display: flex;
-  }
 
   &_overlay {
     left: 0;
@@ -28,23 +24,43 @@
     display: inline-block;
     background: #fff;
     z-index: 3;
+    padding: 12px 20px 9px;
+    border-radius: 5px;
 
     .-single & {
       background-color: transparent;
     }
+
+    p {
+      display: inline-block;
+      margin-left: 12px;
+      line-height: 1.2;
+      margin-bottom: 0;
+    }
   }
 
   &_spinner {
-
+    display: inline-block;
+    vertical-align: middle;
   }
 }
 
 //Spinner
 .sk-circle {
   margin: 0 auto;
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
   position: relative;
+
+  .-single & {
+    width: 40px;
+    height: 40px;
+
+    .sk-child:before {
+      width: 15%;
+      height: 15%;
+    }
+  }
 
   .sk-child {
     width: 100%;
@@ -57,8 +73,8 @@
       content: '';
       display: block;
       margin: 0 auto;
-      width: 15%;
-      height: 15%;
+      width: 11%;
+      height: 11%;
       background-color: #333;
       border-radius: 100%;
       -webkit-animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
