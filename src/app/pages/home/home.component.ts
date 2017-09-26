@@ -1,7 +1,5 @@
-import {
-  AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, Component,
-  OnInit
-} from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+
 import { BunnyImage } from 'bunnyjs/src/file/image';
 import { ImgToBase64Service } from '../../_services/img-to-base64.service';
 import { GetLogoService } from '../../_services/get-logo.service';
@@ -22,7 +20,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   constructor(
     private imgToBase64: ImgToBase64Service,
     private getLogo: GetLogoService,
-    private loaderService: LoaderService) {
+    private LoaderService: LoaderService) {
     this.file_src = "https://www.google.com.ua/favicon.ico";
   }
 
@@ -54,7 +52,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.loader = this.loaderService.create({
+    this.loader = this.LoaderService.create({
       id: 'home',
       content: 'Loading..'
     });
@@ -62,19 +60,20 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.loader.present().subscribe(() =>{
       setTimeout(() => {
         this.loader.dismiss();
-      },3000)
+      },1000)
     });
   }
 
-  loaderOpen() {
-    this.loader = this.loaderService.create({
-      id: 'home'
+  loaderOpen(id: string) {
+    this.loader = this.LoaderService.create({
+      id: id,
+      content: id
     });
 
     this.loader.present().subscribe(() =>{
       setTimeout(() => {
         this.loader.dismiss();
-      },3000)
+      },1000)
     });
   }
 

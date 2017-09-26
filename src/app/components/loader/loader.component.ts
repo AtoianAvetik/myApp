@@ -1,5 +1,5 @@
 import {
-  Component, Input, OnInit, OnDestroy, ViewEncapsulation
+  Component, Input, OnInit, OnDestroy, ViewEncapsulation, ChangeDetectorRef
 } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
@@ -7,12 +7,12 @@ import { LoaderService } from '../../_services/loader.service';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
-  selector: 'app-loader',
+  selector: 'app-loader-component',
   templateUrl: './loader.component.html',
   styleUrls: ['./loader.component.scss'],
   encapsulation: ViewEncapsulation.None,
   animations: [
-    trigger('loader', [
+    trigger('loading', [
       state('open', style({opacity: 1, visibility: 'visible'})),
       state('close', style({opacity: 0, visibility: 'hidden'})),
       transition('close => open', animate('0.3s linear')),
@@ -35,7 +35,7 @@ export class LoaderComponent implements OnInit, OnDestroy {
     return this._isPresent;
   }
 
-  constructor(private loaderService: LoaderService) {}
+  constructor(private LoaderService: LoaderService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     // ensure id attribute exists
@@ -45,18 +45,19 @@ export class LoaderComponent implements OnInit, OnDestroy {
     }
 
     // add self (this loader instance) to the loader service so it's accessible from controllers
-    this.loaderService.add(this);
+    this.LoaderService.add(this);
   }
 
   // remove self from loader service when directive is destroyed
   ngOnDestroy(): void {
-    this.loaderService.remove(this.id);
+    this.LoaderService.remove(this.id);
   }
 
   // open loader
   present(): Observable<boolean> | Promise<boolean> {
     this.isPresent = true;
-    return this.loaderService.isloaderOpened;
+    this.cdr.detectChanges();
+    return this.LoaderService.isloaderOpened;
   }
 
   // close loader
@@ -66,10 +67,10 @@ export class LoaderComponent implements OnInit, OnDestroy {
 
   animationDone(event) {
     if ( event.toState === 'close' ) {
-      this.loaderService.isloaderClosed.next();
+      this.LoaderService.isloaderClosed.next();
     }
     if ( event.toState === 'open' ) {
-      this.loaderService.isloaderOpened.next();
+      this.LoaderService.isloaderOpened.next();
     }
   }
 }

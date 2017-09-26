@@ -79,6 +79,9 @@ const appRoutes: Routes = [
     DirectivesModule,
     PipesModule
   ],
+  entryComponents: [
+    LoaderComponent
+  ],
   providers: [AppService, ModalService, DataService, ContentTableService, ContentListService, ValidatorsService, LoaderService],
   bootstrap: [AppComponent]
 })

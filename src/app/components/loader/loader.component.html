@@ -1,8 +1,8 @@
 <div
   class="page-loader"
   [ngClass]="{'-single': !content}"
-  [@loader]='isPresent ? "open" : "close"'
-  (@loader.done)="animationDone($event)">
+  [@loading]='isPresent ? "open" : "close"'
+  (@loading.done)="animationDone($event)">
   <div class="page-loader_overlay"></div>
   <div class="page-loader_wrapper">
     <div class="page-loader_spinner">

@@ -20,8 +20,12 @@ export class LoaderService {
   }
 
   create(data:{id: string, content?: string}) {
-    const loader = _.findWhere(this.loaders, { id: data.id });
-    loader.content = data.content ? data.content: null;
+    let loader = _.findWhere(this.loaders, { id: data.id });
+    if (!loader) {
+      return null;
+    } else {
+      loader.content = data.content ? data.content: null;
+    }
     return loader;
   }
 }

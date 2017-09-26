@@ -1,4 +1,4 @@
-<section class="page-content">
+<section class="page-content" [loader]="'home-2'">
   <div class="container">
     <div class="row no-gutters">
       <p>
@@ -6,7 +6,7 @@
       </p>
     </div>
     <div class="row no-gutters">
-      <div class="form-group">
+      <div class="form-group" [loader]="'home-3'">
         <img class="avatar img-circle" src="{{file_src}}" alt=""/>
       </div>
       <div class="form-group">
@@ -19,5 +19,7 @@
     <img src="{{ img.url }}" alt="" *ngFor="let img of imagesArray">
   </div>
 </section>
-<button (click)="loaderOpen()">Loader</button>
-<app-loader [id]="'home'"></app-loader>
+<button (click)="loaderOpen('home')">Loader 1</button>
+<button (click)="loaderOpen('home-2')">Loader 2</button>
+<button (click)="loaderOpen('home-3')">Loader 3</button>
+<app-loader-component [id]="'home'"></app-loader-component>
