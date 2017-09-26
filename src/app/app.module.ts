@@ -40,6 +40,7 @@ import { AddMenuComponent } from './components/add-menu/add-menu.component';
 import { ValidatorsService } from './_services/validators.service';
 import { LoaderComponent } from './components/loader/loader.component';
 import { LoaderService } from './_services/loader.service';
+import { GetLogoService } from './_services/get-logo.service';
 
 
 const appRoutes: Routes = [
@@ -82,7 +83,7 @@ const appRoutes: Routes = [
   entryComponents: [
     LoaderComponent
   ],
-  providers: [AppService, ModalService, DataService, ContentTableService, ContentListService, ValidatorsService, LoaderService],
+  providers: [AppService, ModalService, DataService, ContentTableService, ContentListService, ValidatorsService, LoaderService, GetLogoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

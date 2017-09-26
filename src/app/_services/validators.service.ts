@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 export class ValidatorsService {
   private regexes = {
     url: /^(https?:\/\/)?([\w\.]+)\.([a-z]{2,6}\.?)(\/[\w\.]*)*\/?$/,
-    imageUrl: /^(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)$/,
+    imageUrl: /(?:(?:https?:\/\/))[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/=]*)/,
     email: /^[\w\d.+]+@[\w\d]+(?:\.[a-z]{2,4}){1,2}$/
   };
 

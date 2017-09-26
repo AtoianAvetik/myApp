@@ -8,6 +8,8 @@ import { AppService } from '../../_services/app.service';
 import { PasswordCategory } from '../../_models/password-category.model';
 import { AddMenuItem } from '../../_models/add-menu-item.model';
 import { ValidatorsService } from '../../_services/validators.service';
+import { GetLogoService } from '../../_services/get-logo.service';
+import { LoaderService } from '../../_services/loader.service';
 
 @Component({
   selector: 'app-passwords',
@@ -47,12 +49,15 @@ export class PasswordsComponent implements OnInit {
   selectedImage = null;
   previewImage = null;
   uploadImageMode = false;
+  getImagesLoader;
 
   constructor(private dataService: DataService,
               private contentListService: ContentListService,
               private appService: AppService,
               private modalService: ModalService,
-              private validatorsService: ValidatorsService) {
+              private getLogo: GetLogoService,
+              private validatorsService: ValidatorsService,
+              private loaderService: LoaderService) {
   }
 
   ngOnInit() {
@@ -93,6 +98,20 @@ export class PasswordsComponent implements OnInit {
       .subscribe(
         () => {
           this.resetForms();
+        }
+      );
+    this.getLogo.loaded
+      .subscribe(
+        (data: any) => {
+          if ( data instanceof Array ) {
+            for (let i = 0; i < data.length; i++) {
+              this.passwordsImageArray.push(data[i].url);
+              (i === data.length - 1) && this.getImagesLoader.dismiss();
+            }
+          }
+        },
+        (error: any) => {
+          console.error(error);
         }
       );
     this.initForms();
@@ -219,7 +238,6 @@ export class PasswordsComponent implements OnInit {
       img = selectedPassword.img;
       folderSelect = this.listSelectedId;
 
-      this.previewImage = selectedPassword.img;
       this.activeFolder = [this.folders[this.listSelectedId - 1]];
     }
     if ( this.isEditFolderMode ) {
@@ -250,6 +268,20 @@ export class PasswordsComponent implements OnInit {
       'folderName': new FormControl(folderName, Validators.required),
       'folderSelect': new FormControl(folderSelect)
     });
+  }
+
+  updateImagesArray() {
+    this.passwordsImageArray = [];
+    this.getImagesLoader = this.loaderService.create({
+      id: 'getImages'
+    });
+
+    let sub = this.getImagesLoader.present().subscribe(
+      () => {
+        this.getLogo.getSiteLogoArray(this.passwordForm.get('url').value, 6);
+        sub.unsubscribe();
+      }
+    );
   }
 
   selectPreviewImage(image) {
