@@ -9,10 +9,10 @@ import { SelectModule } from 'ng2-select';
 import { AppComponent } from './app.component';
 
 /* Components */
-import { HeaderComponent } from './components/header/header.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { ModalComponent } from './components/modal/modal.component';
-import { AccordionComponent } from './components/accordion/accordion.component';
+import { HeaderComponent } from './core/header/header.component';
+import { SidebarComponent } from './core/sidebar/sidebar.component';
+import { ModalComponent } from './_modules/modal/modal.component';
+import { AccordionComponent } from './_modules/accordion/accordion.component';
 import { ContentTableComponent } from './components/content-table/content-table.component';
 import { ContentTableRowComponent } from './components/content-table/content-table-row/content-table-row.component';
 import { ContentListComponent } from './components/content-list/content-list.component';
@@ -38,7 +38,7 @@ import { AppService } from './_services/app.service';
 import { PasswordsGroupComponent } from './pages/passwords/passwords-group/passwords-group.component';
 import { AddMenuComponent } from './components/add-menu/add-menu.component';
 import { ValidatorsService } from './_services/validators.service';
-import { LoaderComponent } from './components/loader/loader.component';
+import { LoaderComponent } from './_modules/loader/loader.component';
 import { LoaderService } from './_services/loader.service';
 import { GetLogoService } from './_services/get-logo.service';
 

@@ -30,8 +30,8 @@ import { Subscription } from 'rxjs/Subscription';
       transition('open => close', animate('0.4s cubic-bezier(0.680, -0.550, 0.19, 1.130)'))
     ]),
     trigger('backdrop', [
-      state('open', style({opacity: 1, visibility: 'visible'})),
-      state('close', style({opacity: 0, visibility: 'hidden'})),
+      state('open', style({opacity: 1})),
+      state('close', style({opacity: 0, display: 'none'})),
       transition('close => open', animate('300ms')),
       transition('open => close', animate('600ms'))
     ])
