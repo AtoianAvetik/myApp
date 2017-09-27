@@ -41,6 +41,8 @@ import { ValidatorsService } from './_services/validators.service';
 import { LoaderComponent } from './_modules/loader/loader.component';
 import { LoaderService } from './_services/loader.service';
 import { GetLogoService } from './_services/get-logo.service';
+import { FolderComponent } from './forms/folder/folder.component';
+import { PasswordComponent } from './forms/password/password.component';
 
 
 const appRoutes: Routes = [
@@ -68,7 +70,9 @@ const appRoutes: Routes = [
     ContentListItemComponent,
     PasswordsGroupComponent,
     AddMenuComponent,
-    LoaderComponent
+    LoaderComponent,
+    PasswordComponent,
+    FolderComponent
   ],
   imports: [
     BrowserModule,

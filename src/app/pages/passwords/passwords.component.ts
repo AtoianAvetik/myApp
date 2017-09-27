@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 import { ContentListService } from '../../_services/content-list.service';
 import { DataService } from '../../_services/data.service';
@@ -7,7 +7,6 @@ import { ModalService } from '../../_services/modal.service';
 import { AppService } from '../../_services/app.service';
 import { PasswordCategory } from '../../_models/password-category.model';
 import { AddMenuItem } from '../../_models/add-menu-item.model';
-import { ValidatorsService } from '../../_services/validators.service';
 import { GetLogoService } from '../../_services/get-logo.service';
 import { LoaderService } from '../../_services/loader.service';
 
@@ -17,27 +16,19 @@ import { LoaderService } from '../../_services/loader.service';
   styleUrls: ['./passwords.component.scss']
 })
 export class PasswordsComponent implements OnInit {
+  @ViewChild('folderForm') folderFormCmp;
+  @ViewChild('passwordForm') passwordFormCmp;
   foldersData: {[name: string]: PasswordCategory};
   folders: Array<any>;
   foldersIdArray: Array<any>;
   isFoldersOpened = false;
 
-  isAddPasswordMode = false;
-  isEditPasswordMode = false;
-  isTransferPasswordMode = false;
-  isDeletePasswordMode = false;
-  isAddFolderMode = false;
-  isEditFolderMode = false;
-  isDeleteFolderMode = false;
-  isAdditionalOptionsMode = false;
+  passwordMode: string = 'add';
+  folderMode: string = 'add';
 
   activeViewType = 'list';
   listSelectedId: number;
-  activeFolder: Array<any> = [];
   listItemSelectedIndex: number;
-
-  passwordForm: FormGroup;
-  folderForm: FormGroup;
 
   addMenuItemsArray: Array<AddMenuItem>;
   passwordsImageArray = [
@@ -47,8 +38,6 @@ export class PasswordsComponent implements OnInit {
     'https://www.google.com.ua/favicon.ico'
   ];
   selectedImage = null;
-  previewImage = null;
-  uploadImageMode = false;
   getImagesLoader;
 
   constructor(private dataService: DataService,
@@ -56,11 +45,11 @@ export class PasswordsComponent implements OnInit {
               private appService: AppService,
               private modalService: ModalService,
               private getLogo: GetLogoService,
-              private validatorsService: ValidatorsService,
               private loaderService: LoaderService) {
   }
 
   ngOnInit() {
+    this.initForms();
     this.updateFolders(this.dataService.getPasswordsData());
     this.dataService.passwordsDataChanged
       .subscribe(
@@ -83,15 +72,14 @@ export class PasswordsComponent implements OnInit {
     this.contentListService.editSelectedItem
       .subscribe(
         () => {
-          this.isEditPasswordMode = true;
-          this.initForms();
+          this.passwordMode = 'edit';
+          this.passwordFormCmp.updateForm();
         }
       );
     this.contentListService.deleteSelectedItem
       .subscribe(
         () => {
-          this.isDeletePasswordMode = true;
-          this.initForms();
+          this.passwordMode = 'delete';
         }
       );
     this.modalService.isModalClosed
@@ -114,7 +102,6 @@ export class PasswordsComponent implements OnInit {
           console.error(error);
         }
       );
-    this.initForms();
     this.addMenuItemsArray = [
       {id: 'item-modal', name: 'Add password', icon: 'add-site'},
       {id: 'folder-modal', name: 'Add folder', icon: 'folder-add'}
@@ -127,21 +114,22 @@ export class PasswordsComponent implements OnInit {
     this.foldersIdArray = data.categoriesIdArray;
   }
 
+  initForms() {
+    this.passwordFormCmp.initForm();
+    this.folderFormCmp.initForm();
+  }
+
+  testInit() {
+    // this.passwordFormCmp.initForm();
+    console.log( this.passwordFormCmp.form );
+  }
+
   resetForms() {
-    this.isAddPasswordMode = false;
-    this.isEditPasswordMode = false;
-    this.isDeletePasswordMode = false;
-    this.isAddFolderMode = false;
-    this.isEditFolderMode = false;
-    this.isDeleteFolderMode = false;
-    this.isTransferPasswordMode = false;
-    this.isAdditionalOptionsMode = false;
-    this.activeFolder = [];
-    this.previewImage = [];
+    // this.mode = 'add';
     this.selectedImage = null;
 
-    this.passwordForm.reset();
-    this.folderForm.reset();
+    this.passwordFormCmp.reset();
+    this.folderFormCmp.reset();
   }
 
   toggleGroups() {
@@ -157,117 +145,8 @@ export class PasswordsComponent implements OnInit {
     console.log( '1' );
   }
 
-  onSelectFolder(data) {
-    let formControl: FormControl;
-    if ( this.isAddPasswordMode || this.isEditPasswordMode ) {
-      formControl = <FormControl>this.passwordForm.get('folderSelect');
-    }
-    if ( this.isAddFolderMode || this.isEditFolderMode ) {
-      formControl = <FormControl>this.folderForm.get('folderSelect');
-    }
-
-    if ( this.isEditPasswordMode ) {
-      this.isTransferPasswordMode = true;
-    }
-    if ( data.id === this.listSelectedId ) {
-      this.isTransferPasswordMode = false;
-    }
-
-    formControl.markAsDirty();
-    formControl.setValue([data.id]);
-  }
-
-  onSubmit() {
-    const newPassword = {
-      serviceName: this.passwordForm.get('serviceName').value,
-      url: this.passwordForm.get('url').value,
-      userName: this.passwordForm.get('userName').value,
-      email: this.passwordForm.get('email').value,
-      pass: this.passwordForm.get('pass').value,
-      desc: this.passwordForm.get('desc').value,
-      img: this.passwordForm.get('image').value
-    };
-
-    if ( this.isAddPasswordMode ) {
-      this.dataService.addPassword(this.passwordForm.get('folderSelect').value, newPassword);
-    }
-    if ( this.isEditPasswordMode ) {
-      if ( this.isTransferPasswordMode ) {
-        this.dataService.transferPassword(this.listSelectedId, this.passwordForm.get('folderSelect').value, this.listItemSelectedIndex, newPassword);
-      } else {
-        this.dataService.editPassword(this.listSelectedId, this.listItemSelectedIndex, newPassword);
-      }
-    }
-    if ( this.isDeletePasswordMode ) {
-      this.dataService.deletePassword(this.listSelectedId, this.listItemSelectedIndex);
-    }
-
-    if ( this.isAddFolderMode ) {
-      const parentFolder = this.folderForm.get('folderSelect').value ? [this.folderForm.get('folderSelect').value.toString()] : [];
-      const folderName = this.folderForm.get('folderName').value.toString();
-      const id = (parseInt(this.foldersIdArray[this.foldersIdArray.length - 1], 10) + 1).toString();
-
-      const folder = new PasswordCategory(id, folderName, [], parentFolder, []);
-      this.dataService.addPasswordCategory(folder);
-    }
-    if ( this.isEditFolderMode ) {
-    }
-    if ( this.isDeleteFolderMode ) {
-    }
-  }
-
-  private initForms() {
-    let serviceName = '';
-    let url = '';
-    let userName = '';
-    let email = '';
-    let pass = '';
-    let desc = '';
-    let img = '';
-    let folderSelect: any = null;
-    let folderName = '';
-
-    if ( this.isEditPasswordMode ) {
-      const selectedPassword = this.foldersData[this.listSelectedId].content[this.listItemSelectedIndex];
-      serviceName = selectedPassword.serviceName;
-      url = selectedPassword.url;
-      userName = selectedPassword.userName;
-      email = selectedPassword.email;
-      pass = selectedPassword.pass;
-      desc = selectedPassword.desc;
-      img = selectedPassword.img;
-      folderSelect = this.listSelectedId;
-
-      this.activeFolder = [this.folders[this.listSelectedId - 1]];
-    }
-    if ( this.isEditFolderMode ) {
-      // folderName = this.foldersData.folders.find(function (folder) {
-
-      //   // return folder.id === id;
-      // });
-    }
-
-    this.passwordForm = new FormGroup({
-      'serviceName': new FormControl(serviceName, Validators.required),
-      'url': new FormControl(url, [Validators.required, this.validatorsService.url.bind(this.validatorsService)]),
-      'userName': new FormControl(userName, Validators.required),
-      'email': new FormControl(email, [Validators.required, this.validatorsService.email.bind(this.validatorsService)]),
-      'pass': new FormControl(pass, Validators.required),
-      'desc': new FormControl(desc),
-      'folderSelect': new FormControl(folderSelect, Validators.required),
-      'previewImage': new FormGroup({
-        'image': new FormControl(img),
-        'imageUrl': new FormControl(null, this.validatorsService.image.bind(this.validatorsService)),
-        'uploadImage': new FormControl(null),
-        'chooseImage': new FormControl(null)
-      }),
-      'additionalOptions': new FormGroup({})
-    });
-
-    this.folderForm = new FormGroup({
-      'folderName': new FormControl(folderName, Validators.required),
-      'folderSelect': new FormControl(folderSelect)
-    });
+  deleteItem() {
+    this.dataService.deletePassword(this.listSelectedId, this.listItemSelectedIndex);
   }
 
   updateImagesArray() {
@@ -278,28 +157,20 @@ export class PasswordsComponent implements OnInit {
 
     let sub = this.getImagesLoader.present().subscribe(
       () => {
-        this.getLogo.getSiteLogoArray(this.passwordForm.get('url').value, 6);
+        this.getLogo.getSiteLogoArray(this.passwordFormCmp.get('url').value, 6);
         sub.unsubscribe();
       }
     );
   }
 
   selectPreviewImage(image) {
-    this.passwordForm.get('previewImage.imageUrl').setValue(image);
-  }
-
-  uploadImage(data) {
-    console.log( data );
+    this.passwordFormCmp.selectPreviewImage(image);
   }
 
   addMenuClicked(data) {
     const id = data.id;
-    if ( id === 'item-modal' ) {
-      this.isAddPasswordMode = true;
-    }
-    if ( id === 'folder-modal' ) {
-      this.isAddFolderMode = true;
-    }
+    this.passwordMode = 'add';
+    this.folderMode = 'add';
     this.modalService.modalOpened.next(id);
   }
 }

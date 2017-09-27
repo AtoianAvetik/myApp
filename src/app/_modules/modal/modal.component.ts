@@ -129,5 +129,8 @@ export class ModalComponent implements OnInit, OnDestroy {
     if ( event.toState === 'close' ) {
       this.modalService.isModalClosed.next();
     }
+    if ( event.toState === 'open' ) {
+      this.modalService.isModalOpened.next();
+    }
   }
 }

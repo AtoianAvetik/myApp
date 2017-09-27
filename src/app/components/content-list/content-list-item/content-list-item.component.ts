@@ -43,22 +43,27 @@ export class ContentListItemComponent implements OnInit {
       );
   }
 
-  onEditItem() {
+  onEditItem(event) {
+    this.stopPropagation(event);
+    this.onFocusItem();
     this.contentListService.editSelectedItem.next();
   }
 
-  onDeleteItem() {
+  onDeleteItem(event) {
+    this.stopPropagation(event);
+    this.onFocusItem();
     this.contentListService.deleteSelectedItem.next();
   }
 
-  onFocusItem() {
-    this.isItemFocused = true;
+  onSelectedItem(event) {
+    this.stopPropagation(event);
+    this.isItemSelected = !this.isItemSelected;
     this.contentListService.listItemSelected.next(this.itemIndex);
     this.contentListService.listSelected.next(this.listId);
   }
 
-  onSelectedItem() {
-    this.isItemSelected = !this.isItemSelected;
+  onFocusItem() {
+    this.isItemFocused = true;
     this.contentListService.listItemSelected.next(this.itemIndex);
     this.contentListService.listSelected.next(this.listId);
   }
