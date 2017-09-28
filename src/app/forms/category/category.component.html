@@ -8,7 +8,7 @@
         type="text"
         formControlName="categoryName">
     </div>
-    <div class="form-group">
+    <div class="form-group" *ngIf="categories.length > 0">
       <label for="parentCategorySelect">Add as a subfolder to:</label>
       <select
         name="parentCategorySelect"

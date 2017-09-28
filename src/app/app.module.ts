@@ -9,7 +9,6 @@ import { SelectModule } from 'ng2-select';
 import { AppComponent } from './app.component';
 
 /* Components */
-import { HeaderComponent } from './core/header/header.component';
 import { SidebarComponent } from './core/sidebar/sidebar.component';
 import { ModalComponent } from './_modules/modal/modal.component';
 import { AccordionComponent } from './_modules/accordion/accordion.component';
@@ -41,8 +40,9 @@ import { ValidatorsService } from './_services/validators.service';
 import { LoaderComponent } from './_modules/loader/loader.component';
 import { LoaderService } from './_services/loader.service';
 import { GetLogoService } from './_services/get-logo.service';
-import { FolderComponent } from './forms/folder/folder.component';
+import { CategoryComponent } from './forms/category/category.component';
 import { PasswordComponent } from './forms/password/password.component';
+import { SearchComponent } from './core/search/search.component';
 
 
 const appRoutes: Routes = [
@@ -55,7 +55,6 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
     PassListComponent,
     PassListItemComponent,
     ModalComponent,
@@ -72,7 +71,8 @@ const appRoutes: Routes = [
     AddMenuComponent,
     LoaderComponent,
     PasswordComponent,
-    FolderComponent
+    CategoryComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

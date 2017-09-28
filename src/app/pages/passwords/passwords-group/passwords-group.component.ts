@@ -34,7 +34,7 @@ export class PasswordsGroupComponent implements OnInit, DoCheck {
     this.curLevelList = [];
 
     this.foldersList.forEach((folderId) => {
-      if (this.isChildComponent || !this.foldersData[folderId].parentCategory.length) {
+      if (this.isChildComponent || !this.foldersData[folderId].parentCategory) {
         this.curLevelList.push(folderId);
       }
     });

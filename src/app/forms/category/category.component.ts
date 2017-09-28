@@ -5,14 +5,13 @@ import { DataService } from '../../_services/data.service';
 import { PasswordCategory } from '../../_models/password-category.model';
 
 @Component({
-  selector: 'app-folder',
-  templateUrl: './folder.component.html',
-  styleUrls: ['./folder.component.scss']
+  selector: 'app-category',
+  templateUrl: './category.component.html',
+  styleUrls: ['./category.component.scss']
 })
-export class FolderComponent implements OnInit {
+export class CategoryComponent implements OnInit {
   @Input() mode: string = 'add';
   @Input() categories: Array<any> = [];
-  @Input() categoriesIdArray: Array<any> = [];
   private categoryName: string = '';
   private categorySelect: any = null;
   form: FormGroup;
@@ -55,16 +54,32 @@ export class FolderComponent implements OnInit {
   }
 
   submit() {
-    this.form['submitted'] = true;
     if (this.form.valid) {
       if ( this.mode === 'add' ) {
-        const parentFolder = this.form.get('categorySelect').value ? [this.form.get('categorySelect').value.toString()] : [];
+        const parentFolder = this.form.get('categorySelect').value ? this.form.get('categorySelect').value.toString() : null;
         const categoryName = this.form.get('categoryName').value.toString();
-        const id = (parseInt(this.categoriesIdArray[this.categoriesIdArray.length - 1], 10) + 1).toString();
 
-        const category = new PasswordCategory(id, categoryName, [], parentFolder, []);
-        this.dataService.addPasswordCategory(category);
+        this.createId(this.categories, 'ct', 1).then((id) => {
+          const category = new PasswordCategory(id, categoryName, [], parentFolder, []);
+          this.dataService.addPasswordCategory(category);
+        });
       }
+    }
+  }
+
+  createId(array, val, index) {
+    let newValue = val + index;
+
+    const found = array.some(function (el) {
+      return el.id === newValue;
+    });
+
+    if ( found ) {
+      return this.createId(array, val, index + 1);
+    } else {
+      return new Promise((resolve) => {
+        resolve(newValue);
+      });
     }
   }
 }

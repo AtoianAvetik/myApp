@@ -1,0 +1,18 @@
+<div class="page-search">
+  <form id="search-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="search-form">
+      <input
+        type="search"
+        id="menu_search"
+        class="search-control"
+        placeholder="Search"
+        formControlName="searchTerm">
+      <button class="search-submit" type="submit">
+        <i class="icon-search"></i>
+      </button>
+      <button class="search-submit -single" type="button" (click)="openSidebar()">
+        <i class="icon-search"></i>
+      </button>
+    </div>
+  </form>
+</div>

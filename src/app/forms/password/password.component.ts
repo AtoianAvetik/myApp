@@ -67,7 +67,7 @@ export class PasswordComponent implements OnInit, OnChanges {
 
 
     if ( this.mode === 'edit') {
-      this.activeCategory = [this.categories[this.categoryId - 1]];
+      this.activeCategory = [this.categories.find((el, index) => el.id === this.categoryId)];
 
       const password = this.categoriesData[this.categoryId].content[this.itemIndex];
       updatedValues.serviceName = password.serviceName;

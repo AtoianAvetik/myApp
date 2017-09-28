@@ -1,43 +1,59 @@
-<div class="sidebar">
-  <div class="sidebar-item -header" (click)="toggleSidebar()">
-    <span class="sidebar-item_icon -animated">
-      <i class="icon icon-arrow-left"></i>
-    </span>
-    <span class="sidebar-item_text">Collapse</span>
-  </div>
-  <div class="sidebar-list">
-    <div class="sidebar-item"
-         role="presentation"
-         routerLinkActive="-active"
-         [routerLinkActiveOptions]="{exact: true}">
-      <span class="sidebar-item_icon">
-        <i class="icon icon-home"></i>
+<div class="page-sidebar">
+  <div class="page-sidebar_container">
+    <div class="nav-link -header" (click)="toggleSidebar()">
+      <span class="nav-link_icon -animated">
+        <i class="icon icon-arrow-left"></i>
       </span>
-      <span class="sidebar-item_text" routerLink="/">Home</span>
+      <span class="nav-link_text">Collapse</span>
     </div>
-    <div class="sidebar-item"
-         role="presentation"
-         routerLinkActive="-active">
-      <span class="sidebar-item_icon">
-        <i class="icon icon-lock"></i>
-      </span>
-      <span class="sidebar-item_text" routerLink="passwords">Passwords</span>
-    </div>
-    <div class="sidebar-item"
-         role="presentation"
-         routerLinkActive="-active">
-      <span class="sidebar-item_icon">
-        <i class="icon icon-lock"></i>
-      </span>
-      <span class="sidebar-item_text" routerLink="pass-list">Pass List</span>
-    </div>
-    <div class="sidebar-item"
-         role="presentation"
-         routerLinkActive="-active">
-      <span class="sidebar-item_icon">
-        <i class="icon icon-table"></i>
-      </span>
-      <span class="sidebar-item_text" routerLink="test-table">Test Table</span>
+    <div class="page-sidebar_devider -zero-top"></div>
+    <header role="banner" class="page-logo">
+      <a lang="en" data-type="home" href="/ru/">
+        <span class="logo -main">
+          MyApp
+        </span>
+      </a>
+    </header>
+    <app-search></app-search>
+    <div class="navigation">
+      <ul class="nav nav_main">
+        <li class="nav-link"
+             role="presentation"
+             routerLinkActive="-active"
+             [routerLinkActiveOptions]="{exact: true}">
+          <span class="nav-link_icon">
+            <i class="icon icon-home"></i>
+          </span>
+          <span class="nav-link_text" routerLink="/">Home</span>
+        </li>
+      </ul>
+      <div class="page-sidebar_devider"></div>
+      <ul class="nav nav_main">
+        <li class="nav-link"
+             role="presentation"
+             routerLinkActive="-active">
+          <span class="nav-link_icon">
+            <i class="icon icon-lock"></i>
+          </span>
+          <span class="nav-link_text" routerLink="passwords">Passwords</span>
+        </li>
+        <li class="nav-link"
+             role="presentation"
+             routerLinkActive="-active">
+          <span class="nav-link_icon">
+            <i class="icon icon-lock"></i>
+          </span>
+          <span class="nav-link_text" routerLink="pass-list">Pass List</span>
+        </li>
+        <li class="nav-link"
+             role="presentation"
+             routerLinkActive="-active">
+          <span class="nav-link_icon">
+            <i class="icon icon-table"></i>
+          </span>
+          <span class="nav-link_text" routerLink="test-table">Test Table</span>
+        </li>
+      </ul>
     </div>
   </div>
 </div>

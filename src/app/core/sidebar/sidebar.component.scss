@@ -1,29 +1,40 @@
 @import '../../../assets/styles/core/_variables';
 
-.sidebar {
-  background: $gray;
-  position: absolute;
+.page-sidebar {
+  background: $dark-gray;
+  position: fixed;
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
   width: 65px;
+  user-select: none;
   font-family: "Myriad Pro", sans-serif;
-  font-weight: 600;
+  font-weight: 500;
   transition: width .4s cubic-bezier(.55, 0, .1, 1);
 
   .-expanded & {
-    width: 240px;
+    width: 220px;
+  }
+
+  &_devider {
+    background-color: #32323d;
+    height: 1px;
+    margin: 8px 12px;
+
+    &.-zero-top {
+      margin-top: 0;
+    }
   }
 }
 
-.sidebar-item {
+.nav-link {
   color: $light-gray;
   position: relative;
   cursor: pointer;
 
   &:hover {
-    background-color: $gray - #060809;
+    background-color: $dark;
   }
 
   &.-active {
@@ -52,7 +63,7 @@
     box-sizing: border-box;
     width: 100%;
     opacity: 0;
-    font-size: 18px;
+    font-size: 16px;
     line-height: 50px;
     height: 50px;
     outline: none;
@@ -84,19 +95,20 @@
     }
 
     .icon {
-      font-size: 30px;
+      display: block;
+      font-size: 20px;
       color: $light-gray;
 
       &.icon-arrow-left {
-        font-size: 13px;
+        font-size: 10px;
       }
 
       &.icon-home {
-        font-size: 22px;
+        font-size: 16px;
       }
 
       &.icon-table {
-        font-size: 25px;
+        font-size: 17px;
       }
 
       .-active & {
@@ -104,4 +116,12 @@
       }
     }
   }
+}
+
+.page-logo {
+  color: $white;
+  font-size: 30px;
+  text-align: center;
+  margin: 24px 10px;
+  overflow: hidden;
 }

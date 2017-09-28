@@ -117,8 +117,8 @@ export class DataService {
   addPasswordCategory(category: PasswordCategory) {
     this.passwordsCategories[category.id] = category;
 
-    if ( category.parentCategory.length ) {
-      this.passwordsCategories[category.parentCategory[0]].childCategories.push(category.id);
+    if ( category.parentCategory ) {
+      this.passwordsCategories[category.parentCategory].childCategories.push(category.id);
     }
 
     this.updatePasswordsCategories(this.passwordsCategories);
@@ -149,10 +149,10 @@ export class DataService {
     });
 
     function setHierarchicalCategoryName(category) {
-      if ( category.parentCategory.length > 0 ) {
-        categoryName = passwordsCategories[category.parentCategory[0]].name + '/' + categoryName;
-        if ( passwordsCategories[category.parentCategory[0]].parentCategory.length > 0 ) {
-          setHierarchicalCategoryName(passwordsCategories[category.parentCategory[0]]);
+      if ( category.parentCategory ) {
+        categoryName = passwordsCategories[category.parentCategory].name + '/' + categoryName;
+        if ( passwordsCategories[category.parentCategory].parentCategory > 0 ) {
+          setHierarchicalCategoryName(passwordsCategories[category.parentCategory]);
         }
       }
     }
