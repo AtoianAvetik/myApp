@@ -47,6 +47,10 @@
     padding: 0;
     opacity: 0;
     visibility: hidden;
+
+    &:focus {
+      background-color: $white;
+    }
   }
 
   .search-submit {

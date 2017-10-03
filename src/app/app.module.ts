@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 
 /* Components */
 import { SidebarComponent } from './core/sidebar/sidebar.component';
-import { ModalComponent } from './_modules/modal/modal.component';
+import { ModalComponent } from './_modules/modals/modal/modal.component';
 import { AccordionComponent } from './_modules/accordion/accordion.component';
 import { ContentTableComponent } from './components/content-table/content-table.component';
 import { ContentTableRowComponent } from './components/content-table/content-table-row/content-table-row.component';
@@ -22,6 +22,7 @@ import { ModalService } from './_services/modal.service';
 import { DataService } from './_services/data.service';
 import { ContentTableService } from './_services/content-table.service';
 import { ContentListService } from './_services/content-list.service';
+import { PanelService } from './_services/panel.service';
 
 /* Pages */
 import { HomeComponent } from './pages/home/home.component';
@@ -43,6 +44,9 @@ import { GetLogoService } from './_services/get-logo.service';
 import { CategoryComponent } from './forms/category/category.component';
 import { PasswordComponent } from './forms/password/password.component';
 import { SearchComponent } from './core/search/search.component';
+import { PanelComponent } from './_modules/panels/panel/panel.component';
+import { PanelsComponent } from './_modules/panels/panels.component';
+import { ModalsComponent } from './_modules/modals/modals.component';
 
 
 const appRoutes: Routes = [
@@ -72,7 +76,10 @@ const appRoutes: Routes = [
     LoaderComponent,
     PasswordComponent,
     CategoryComponent,
-    SearchComponent
+    SearchComponent,
+    PanelComponent,
+    PanelsComponent,
+    ModalsComponent
   ],
   imports: [
     BrowserModule,
@@ -87,7 +94,7 @@ const appRoutes: Routes = [
   entryComponents: [
     LoaderComponent
   ],
-  providers: [AppService, ModalService, DataService, ContentTableService, ContentListService, ValidatorsService, LoaderService, GetLogoService],
+  providers: [AppService, ModalService, PanelService, DataService, ContentTableService, ContentListService, ValidatorsService, LoaderService, GetLogoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

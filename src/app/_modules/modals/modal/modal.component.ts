@@ -1,23 +1,17 @@
-import {Component, ElementRef, Input, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
+import { Component, ElementRef, Input, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 
-import * as $ from 'jquery';
-
-import { ModalService } from '../../_services/modal.service';
+import { ModalService } from '../../../_services/modal.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   moduleId: module.id.toString(),
   selector: 'app-modal',
   template: `
-    <div class="backdrop"
-         [@backdrop]='isOpen ? "open" : "close"'
-         (@backdrop.done)="animationDone($event)">
-      <div class="modal-wrap"
-        [@modal]='isOpen ? "open" : "close"'
-        (@modal.done)="animationDone($event)">
-        <ng-content></ng-content>
-      </div>
+    <div class="modal-wrap"
+      [@modal]='isOpen ? "open" : "close"'
+      (@modal.done)="animationDone($event)">
+      <ng-content></ng-content>
     </div>
   `,
   styleUrls: ['./modal.component.scss'],
@@ -28,22 +22,16 @@ import { Subscription } from 'rxjs/Subscription';
       state('close', style({opacity: 0, transform: 'scale(0, 0)'})),
       transition('close => open', animate('0.4s cubic-bezier(0.680, -0.550, 0.265, 1.550)')),
       transition('open => close', animate('0.4s cubic-bezier(0.680, -0.550, 0.19, 1.130)'))
-    ]),
-    trigger('backdrop', [
-      state('open', style({opacity: 1})),
-      state('close', style({opacity: 0, display: 'none'})),
-      transition('close => open', animate('300ms')),
-      transition('open => close', animate('600ms'))
     ])
   ]
 })
 
 export class ModalComponent implements OnInit, OnDestroy {
   @Input() id: string;
-  private element: $;
   private _isOpen = false;
   openSubscription: Subscription;
   closeSubscription: Subscription;
+  element;
 
   @Input()
   set isOpen(value: boolean) {
@@ -54,8 +42,9 @@ export class ModalComponent implements OnInit, OnDestroy {
     return this._isOpen;
   }
 
-  constructor(private modalService: ModalService, private el: ElementRef) {
-    this.element = $(el.nativeElement);
+  constructor(private modalService: ModalService,
+              private el: ElementRef) {
+    this.element = this.el.nativeElement;
   }
 
   ngOnInit(): void {
@@ -67,12 +56,10 @@ export class ModalComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // move element to bottom of page (just before </body>) so it can be displayed above everything else
-    this.element.appendTo('body');
-
     // close modal on background click
-    this.element.on('click', (e: any) => {
-      const target = $(e.target);
+    this.element.addEventListener('click', (e: any) => {
+      console.log( e );
+      const target = e.target;
       if (!target.closest('.modal').length) {
         this.modalService.modalClosed.next(this.id);
       }
@@ -104,24 +91,20 @@ export class ModalComponent implements OnInit, OnDestroy {
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
     this.modalService.remove(this.id);
-    this.element.remove();
+    this.element.parentNode.removeChild(this.element);
     this.openSubscription.unsubscribe();
     this.closeSubscription.unsubscribe();
   }
 
   // open modal
   open(): void {
-    this.element.addClass('-active');
-    this.element.find('.backdrop').addClass('-active');
-    $('body').addClass('backstage');
+    document.body.classList.add('backstage');
     this.isOpen = true;
   }
 
   // close modal
   close(): void {
-    this.element.removeClass('-active');
-    this.element.find('.backdrop').removeClass('-active');
-    $('body').removeClass('backstage');
+    document.body.classList.remove('backstage');
     this.isOpen = false;
   }
 

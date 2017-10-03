@@ -1,5 +1,7 @@
 <div class="wrapper" [class.-expanded]="isSidebarExpanded" (click)="onWrapClick();">
   <app-sidebar></app-sidebar>
+  <app-panels></app-panels>
+  <app-modals></app-modals>
   <div class="main-container">
     <router-outlet></router-outlet>
   </div>
