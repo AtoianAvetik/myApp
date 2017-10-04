@@ -60,8 +60,8 @@ export class PanelComponent implements OnInit, OnDestroy {
   };
   openSubscription: Subscription;
   closeSubscription: Subscription;
-  openState: string;
-  closeState: string;
+  private openState: string;
+  private closeState: string;
   element;
   el: ElementRef;
 
@@ -83,6 +83,7 @@ export class PanelComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     //direction
+    console.log(this.dir);
     switch (this.dir) {
       case 'left':
         this.openState = this.appService.isSidebarExpanded ? this.statuses.left.expanded.open : this.statuses.left.collapsed.open;
@@ -94,25 +95,21 @@ export class PanelComponent implements OnInit, OnDestroy {
               this.closeState = status ? this.statuses.left.expanded.close : this.statuses.left.collapsed.close;
             }
           );
+        console.log(this.closeState);
         break;
       case 'right':
         this.openState =  this.statuses.right.open;
         this.closeState = this.statuses.right.close;
+        console.log(this.closeState);
         break;
     }
+        console.log(this.closeState);
 
     // ensure id attribute exists
     if (!this.id) {
       console.error('panel must have an id');
       return;
     }
-
-    // close modal on background click
-    this.element.addEventListener('click', (e: any) => {
-      if (!e.target.closest('.modal')) {
-        this.panelService.panelWillClosed.next(this.id);
-      }
-    });
 
     // add self (this panel instance) to the panel service so it's accessible from controllers
     this.panelService.add(this);
@@ -123,6 +120,7 @@ export class PanelComponent implements OnInit, OnDestroy {
         (id: string) => {
           if ( id === this.id ) {
             this.open();
+            this.panelService.activePanel = this.id;
           }
         }
       );
@@ -132,6 +130,7 @@ export class PanelComponent implements OnInit, OnDestroy {
         (id: string) => {
           if ( id === this.id ) {
             this.close();
+            this.panelService.activePanel = null;
           }
         }
       );
@@ -156,7 +155,7 @@ export class PanelComponent implements OnInit, OnDestroy {
   }
 
   animationAction(event) {
-    switch(event.phaseName) {
+    switch (event.phaseName) {
       case 'start':
         switch (event.toState) {
           case this.statuses.left.expanded.open: this.panelService.panelOpeningDidStart.next(); break;

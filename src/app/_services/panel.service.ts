@@ -5,6 +5,7 @@ import { Panel } from '../_models/panel.model';
 
 export class PanelService {
   private panels: any[] = [];
+  activePanel: string;
   panelWillOpened = new Subject<string>();
   panelWillClosed = new Subject<string>();
   panelClosingDidStart = new Subject();

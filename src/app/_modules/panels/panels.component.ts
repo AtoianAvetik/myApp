@@ -42,8 +42,9 @@ export class PanelsComponent implements OnInit {
     this.panelService.isPanelsChanged
       .subscribe(
         (data: Array<Panel>) => {
-          console.log( data );
-          for (let panel of data) {
+          console.log(data.length);
+          (data.length < 1) && (this.isOpen = false);
+          for (const panel of data) {
             this.elRef.nativeElement.querySelector('.panel-container').appendChild(panel.el.nativeElement);
           }
         }
@@ -58,8 +59,15 @@ export class PanelsComponent implements OnInit {
       .subscribe(
         () => {
           this.isOpen = false;
+          console.log('1');
         }
       );
-  }
 
+
+    this.elRef.nativeElement.querySelector('.panel-overlay').addEventListener('click', (e: any) => {
+      if (!e.target.closest('.panel')) {
+        this.panelService.panelWillClosed.next(this.panelService.activePanel);
+      }
+    });
+  }
 }
