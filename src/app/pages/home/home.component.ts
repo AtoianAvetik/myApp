@@ -53,14 +53,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     // this.loader = this.LoaderService.create({
-    //   id: 'home',
-    //   content: 'Loading..'
+    //   id: 'home'
     // });
     //
     // this.loader.present().subscribe(() =>{
     //   setTimeout(() => {
     //     this.loader.dismiss();
-    //   },1000)
+    //   }, 1000)
     // });
   }
 
