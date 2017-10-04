@@ -13,6 +13,6 @@ export class ClosePanelDirective {
   }
 
   @HostListener('click') onClick() {
-    this.panelService.panelClosed.next(this.id);
+    this.panelService.panelWillClosed.next(this.id);
   }
 }

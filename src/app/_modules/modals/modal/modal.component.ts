@@ -1,8 +1,8 @@
 import { Component, ElementRef, Input, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Subscription } from 'rxjs/Subscription';
 
 import { ModalService } from '../../../_services/modal.service';
-import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   moduleId: module.id.toString(),
@@ -10,7 +10,8 @@ import { Subscription } from 'rxjs/Subscription';
   template: `
     <div class="modal-wrap"
       [@modal]='isOpen ? "open" : "close"'
-      (@modal.done)="animationDone($event)">
+      (@modal.start)="animationAction($event)"
+      (@modal.done)="animationAction($event)">
       <ng-content></ng-content>
     </div>
   `,
@@ -32,6 +33,7 @@ export class ModalComponent implements OnInit, OnDestroy {
   openSubscription: Subscription;
   closeSubscription: Subscription;
   element;
+  el;
 
   @Input()
   set isOpen(value: boolean) {
@@ -43,13 +45,12 @@ export class ModalComponent implements OnInit, OnDestroy {
   }
 
   constructor(private modalService: ModalService,
-              private el: ElementRef) {
-    this.element = this.el.nativeElement;
+              private elRef: ElementRef) {
+    this.el = this.elRef;
+    this.element = this.elRef.nativeElement;
   }
 
   ngOnInit(): void {
-    const modal = this;
-
     // ensure id attribute exists
     if (!this.id) {
       console.error('modal must have an id');
@@ -58,10 +59,8 @@ export class ModalComponent implements OnInit, OnDestroy {
 
     // close modal on background click
     this.element.addEventListener('click', (e: any) => {
-      console.log( e );
-      const target = e.target;
-      if (!target.closest('.modal').length) {
-        this.modalService.modalClosed.next(this.id);
+      if (!e.target.closest('.modal')) {
+        this.modalService.modalWillClosed.next(this.id);
       }
     });
 
@@ -69,7 +68,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     this.modalService.add(this);
 
     // subscribe events
-    this.openSubscription = this.modalService.modalOpened
+    this.openSubscription = this.modalService.modalWillOpened
       .subscribe(
         (id: string) => {
           if ( id === this.id ) {
@@ -78,7 +77,7 @@ export class ModalComponent implements OnInit, OnDestroy {
         }
       );
 
-    this.closeSubscription = this.modalService.modalClosed
+    this.closeSubscription = this.modalService.modalWillClosed
       .subscribe(
         (id: string) => {
           if ( id === this.id ) {
@@ -108,12 +107,20 @@ export class ModalComponent implements OnInit, OnDestroy {
     this.isOpen = false;
   }
 
-  animationDone(event) {
-    if ( event.toState === 'close' ) {
-      this.modalService.isModalClosed.next();
-    }
-    if ( event.toState === 'open' ) {
-      this.modalService.isModalOpened.next();
+  animationAction(event) {
+    switch(event.phaseName) {
+      case 'start':
+        switch (event.toState) {
+          case 'open':  this.modalService.modalOpeningDidStart.next(); break;
+          case 'close':  this.modalService.modalClosingDidStart.next(); break;
+        }
+        break;
+      case 'done':
+        switch (event.toState) {
+          case 'open':  this.modalService.modalOpeningDidDone.next(); break;
+          case 'close':  this.modalService.modalClosingDidDone.next(); break;
+        }
+        break;
     }
   }
 }

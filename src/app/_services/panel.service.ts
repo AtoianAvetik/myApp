@@ -4,11 +4,13 @@ import * as _ from 'underscore';
 import { Panel } from '../_models/panel.model';
 
 export class PanelService {
-  private panels: Array<Panel> = [];
-  panelOpened = new Subject<string>();
-  panelClosed = new Subject<string>();
-  isPanelClosed = new Subject();
-  isPanelOpened = new Subject();
+  private panels: any[] = [];
+  panelWillOpened = new Subject<string>();
+  panelWillClosed = new Subject<string>();
+  panelClosingDidStart = new Subject();
+  panelClosingDidDone = new Subject();
+  panelOpeningDidStart = new Subject();
+  panelOpeningDidDone = new Subject();
   isPanelsChanged = new Subject();
 
   add(panel: Panel) {

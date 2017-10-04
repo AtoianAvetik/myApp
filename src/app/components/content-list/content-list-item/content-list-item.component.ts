@@ -35,7 +35,7 @@ export class ContentListItemComponent implements OnInit {
           this.isItemFocused = false;
         }
       );
-    this.modalService.isModalClosed
+    this.modalService.modalClosingDidStart
       .subscribe(
         () => {
           this.isItemFocused = false;

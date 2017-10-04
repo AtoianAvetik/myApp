@@ -19,7 +19,7 @@ import { ModalService } from '../../_services/modal.service';
       state('open', style({opacity: 1})),
       state('close', style({opacity: 0, display: 'none'})),
       transition('close => open', animate('300ms')),
-      transition('open => close', animate('600ms'))
+      transition('open => close', animate('300ms'))
     ])
   ]
 })
@@ -41,20 +41,19 @@ export class ModalsComponent implements OnInit {
   ngOnInit() {
     this.modalService.isModalsChanged
       .subscribe(
-        (data: Array<any>) => {
-          console.log( data );
+        (data: Array<Modal>) => {
           for (let panel of data) {
             this.elRef.nativeElement.querySelector('.modal-container').appendChild(panel.el.nativeElement);
           }
         }
       );
-    this.modalService.isModalOpened
+    this.modalService.modalOpeningDidStart
       .subscribe(
         () => {
           this.isOpen = true;
         }
       );
-    this.modalService.isModalClosed
+    this.modalService.modalClosingDidStart
       .subscribe(
         () => {
           this.isOpen = false;

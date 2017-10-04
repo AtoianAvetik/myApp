@@ -82,7 +82,7 @@ export class PasswordsComponent implements OnInit {
           this.passwordMode = 'delete';
         }
       );
-    this.modalService.isModalClosed
+    this.modalService.modalClosingDidDone
       .subscribe(
         () => {
           this.resetForms();
@@ -171,6 +171,6 @@ export class PasswordsComponent implements OnInit {
     const id = data.id;
     this.passwordMode = 'add';
     this.folderMode = 'add';
-    this.modalService.modalOpened.next(id);
+    this.modalService.modalWillOpened.next(id);
   }
 }

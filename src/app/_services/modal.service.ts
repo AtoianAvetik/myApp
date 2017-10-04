@@ -5,10 +5,12 @@ import { Modal } from '../_models/modal.model';
 
 export class ModalService {
   private modals: any[] = [];
-  modalOpened = new Subject<string>();
-  modalClosed = new Subject<string>();
-  isModalClosed = new Subject();
-  isModalOpened = new Subject();
+  modalWillOpened = new Subject<string>();
+  modalWillClosed = new Subject<string>();
+  modalClosingDidStart = new Subject();
+  modalClosingDidDone = new Subject();
+  modalOpeningDidStart = new Subject();
+  modalOpeningDidDone = new Subject();
   isModalsChanged = new Subject();
 
   add(modal: Modal) {

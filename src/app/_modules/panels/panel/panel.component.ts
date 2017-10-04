@@ -1,48 +1,69 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-
-import * as $ from 'jquery';
+import { Subscription } from 'rxjs/Subscription';
 
 import { PanelService } from '../../../_services/panel.service';
-import { Subscription } from 'rxjs/Subscription';
+import { AppService } from '../../../_services/app.service';
 
 @Component({
   selector: 'app-panel',
-  template: `
-    <div class="backdrop"
-         [@backdrop]='isOpen ? "open" : "close"'
-         (@backdrop.done)="animationDone($event)">
-      <div class="panel-wrap"
-           [@panel]='isOpen ? "open" : "close"'
-           (@panel.done)="animationDone($event)">
-        <ng-content></ng-content>
-      </div>
+  template: `    
+    <div class="panel-wrap"
+         [@panel]='isOpen ? this.openState : this.closeState'
+         (@panel.start)="animationAction($event)"
+         (@panel.done)="animationAction($event)">
+      <ng-content></ng-content>
     </div>
   `,
   styleUrls: ['./panel.component.scss'],
   encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('panel', [
-      state('open', style({opacity: 1, transform: 'scale(1.0, 1.0)'})),
-      state('close', style({opacity: 0, transform: 'scale(0, 0)'})),
-      transition('close => open', animate('0.4s cubic-bezier(0.680, -0.550, 0.265, 1.550)')),
-      transition('open => close', animate('0.4s cubic-bezier(0.680, -0.550, 0.19, 1.130)'))
-    ]),
-    trigger('backdrop', [
-      state('open', style({opacity: 1})),
-      state('close', style({opacity: 0, display: 'none'})),
-      transition('close => open', animate('300ms')),
-      transition('open => close', animate('600ms'))
-
+      state('openLeftCollapsed', style({left: 0, transform: 'translateX(' + 65 + 'px)'})),
+      state('openLeftExpanded', style({left: 0, transform: 'translateX(' + 220 + 'px)'})),
+      state('closeLeftCollapsed', style({left: 0, transform: 'translateX(calc(-100% + ' + 65 + 'px))'})),
+      state('closeLeftExpanded', style({left: 0, transform: 'translateX(calc(-100% + ' + 220 + 'px))'})),
+      state('openRight', style({right: 0, transform: 'translateX(0px)'})),
+      state('closeRight', style({right: 0, transform: 'translateX(100%)'})),
+      transition('openRight => closeRight', animate('.2s')),
+      transition('closeRight => openRight', animate('.2s')),
+      transition('openLeftCollapsed => closeLeftCollapsed', animate('.2s')),
+      transition('closeLeftCollapsed => openLeftCollapsed', animate('.2s')),
+      transition('openLeftExpanded => closeLeftExpanded', animate('.2s')),
+      transition('closeLeftExpanded => openLeftExpanded', animate('.2s')),
+      transition('openLeftCollapsed => openLeftExpanded', animate('0.4s cubic-bezier(.55, 0, .1, 1)')),
+      transition('openLeftExpanded => openLeftCollapsed', animate('0.4s cubic-bezier(.55, 0, .1, 1)')),
+      transition('closeLeftCollapsed => closeLeftExpanded', animate('0.4s cubic-bezier(.55, 0, .1, 1)')),
+      transition('closeLeftExpanded => closeLeftCollapsed', animate('0.4s cubic-bezier(.55, 0, .1, 1)'))
     ])
   ]
 })
 export class PanelComponent implements OnInit, OnDestroy {
   @Input() id: string;
-  private element: $;
+  @Input() dir: string = 'left';
   private _isOpen = false;
+  statuses = {
+    left: {
+      expanded: {
+        open: 'openLeftExpanded',
+        close: 'closeLeftExpanded'
+      },
+      collapsed: {
+        open: 'openLeftCollapsed',
+        close: 'closeLeftCollapsed'
+      }
+    },
+    right: {
+      open: 'openRight',
+      close: 'closeRight'
+    }
+  };
   openSubscription: Subscription;
   closeSubscription: Subscription;
+  openState: string;
+  closeState: string;
+  element;
+  el: ElementRef;
 
   @Input()
   set isOpen(value: boolean) {
@@ -53,12 +74,32 @@ export class PanelComponent implements OnInit, OnDestroy {
     return this._isOpen;
   }
 
-  constructor(private panelService: PanelService, private el: ElementRef) {
-    this.element = $(el.nativeElement);
+  constructor(private panelService: PanelService,
+              private appService: AppService,
+              private elRef: ElementRef) {
+    this.el = this.elRef;
+    this.element = this.elRef.nativeElement;
   }
 
   ngOnInit() {
-    const panel = this;
+    //direction
+    switch (this.dir) {
+      case 'left':
+        this.openState = this.appService.isSidebarExpanded ? this.statuses.left.expanded.open : this.statuses.left.collapsed.open;
+        this.closeState = this.appService.isSidebarExpanded ? this.statuses.left.expanded.close : this.statuses.left.collapsed.close;
+        this.appService.toogleSidebarChange
+          .subscribe(
+            (status) => {
+              this.openState = status ? this.statuses.left.expanded.open : this.statuses.left.collapsed.open;
+              this.closeState = status ? this.statuses.left.expanded.close : this.statuses.left.collapsed.close;
+            }
+          );
+        break;
+      case 'right':
+        this.openState =  this.statuses.right.open;
+        this.closeState = this.statuses.right.close;
+        break;
+    }
 
     // ensure id attribute exists
     if (!this.id) {
@@ -66,11 +107,10 @@ export class PanelComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // close panel on background click
-    this.element.on('click', (e: any) => {
-      const target = $(e.target);
-      if (!target.closest('.panel').length) {
-        this.panelService.panelClosed.next(this.id);
+    // close modal on background click
+    this.element.addEventListener('click', (e: any) => {
+      if (!e.target.closest('.modal')) {
+        this.panelService.panelWillClosed.next(this.id);
       }
     });
 
@@ -78,7 +118,7 @@ export class PanelComponent implements OnInit, OnDestroy {
     this.panelService.add(this);
 
     // subscribe events
-    this.openSubscription = this.panelService.panelOpened
+    this.openSubscription = this.panelService.panelWillOpened
       .subscribe(
         (id: string) => {
           if ( id === this.id ) {
@@ -87,7 +127,7 @@ export class PanelComponent implements OnInit, OnDestroy {
         }
       );
 
-    this.closeSubscription = this.panelService.panelClosed
+    this.closeSubscription = this.panelService.panelWillClosed
       .subscribe(
         (id: string) => {
           if ( id === this.id ) {
@@ -100,32 +140,43 @@ export class PanelComponent implements OnInit, OnDestroy {
   // remove self from panel service when directive is destroyed
   ngOnDestroy(): void {
     this.panelService.remove(this.id);
-    this.element.remove();
+    this.element.parentNode.removeChild(this.element);
     this.openSubscription.unsubscribe();
     this.closeSubscription.unsubscribe();
   }
 
   // open panel
   open(): void {
-    this.element.addClass('-active');
-    this.element.find('.backdrop').addClass('-active');
     this.isOpen = true;
-    console.log( this.element );
   }
 
   // close panel
   close(): void {
-    this.element.removeClass('-active');
-    this.element.find('.backdrop').removeClass('-active');
     this.isOpen = false;
   }
 
-  animationDone(event) {
-    if ( event.toState === 'close' ) {
-      this.panelService.isPanelClosed.next();
-    }
-    if ( event.toState === 'open' ) {
-      this.panelService.isPanelOpened.next();
+  animationAction(event) {
+    switch(event.phaseName) {
+      case 'start':
+        switch (event.toState) {
+          case this.statuses.left.expanded.open: this.panelService.panelOpeningDidStart.next(); break;
+          case this.statuses.left.collapsed.open: this.panelService.panelOpeningDidStart.next(); break;
+          case this.statuses.right.open: this.panelService.panelOpeningDidStart.next(); break;
+          case this.statuses.left.expanded.close:  this.panelService.panelClosingDidStart.next(); break;
+          case this.statuses.left.collapsed.close:  this.panelService.panelClosingDidStart.next(); break;
+          case this.statuses.right.close:  this.panelService.panelClosingDidStart.next(); break;
+        }
+        break;
+      case 'done':
+        switch (event.toState) {
+          case this.statuses.left.expanded.open: this.panelService.panelOpeningDidDone.next(); break;
+          case this.statuses.left.collapsed.open: this.panelService.panelOpeningDidDone.next(); break;
+          case this.statuses.right.open: this.panelService.panelOpeningDidDone.next(); break;
+          case this.statuses.left.expanded.close:  this.panelService.panelClosingDidDone.next(); break;
+          case this.statuses.left.collapsed.close:  this.panelService.panelClosingDidDone.next(); break;
+          case this.statuses.right.close:  this.panelService.panelClosingDidDone.next(); break;
+        }
+        break;
     }
   }
 }

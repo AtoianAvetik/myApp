@@ -2,3 +2,43 @@
 .header{
     z-index: 100;
 }
+
+.page-sidebar {
+  z-index: 6;
+}
+
+.modal-container {
+  z-index: 8;
+}
+
+.modal-overlay {
+  z-index: 7;
+}
+
+.modal {
+  z-index: 60;
+}
+
+.panel-container {
+  z-index: 5;
+}
+
+.panel-overlay {
+  z-index: 4;
+}
+
+.page-loader {
+  z-index: 1000;
+
+  &_overlay {
+    z-index: 2;
+  }
+
+  &_wrapper {
+    z-index: 3;
+  }
+}
+
+.add-menu {
+  z-index: 3;
+}

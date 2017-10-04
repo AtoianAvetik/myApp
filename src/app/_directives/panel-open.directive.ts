@@ -13,6 +13,6 @@ export class OpenPanelDirective {
   }
 
   @HostListener('click') onClick() {
-    this.panelService.panelOpened.next(this.id);
+    this.panelService.panelWillOpened.next(this.id);
   }
 }
