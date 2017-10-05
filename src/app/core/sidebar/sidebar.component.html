@@ -1,4 +1,5 @@
-<div class="page-sidebar">
+<div class="page-sidebar"
+     [@sidebar]='isExpand ? "open" : "close"'>
   <div class="page-sidebar_container">
     <div class="nav-link -header" (click)="toggleSidebar()">
       <span class="nav-link_icon -animated">
@@ -8,10 +9,9 @@
     </div>
     <div class="page-sidebar_devider -zero-top"></div>
     <header role="banner" class="page-logo">
-      <a lang="en" data-type="home" href="/ru/">
-        <span class="logo -main">
-          MyApp
-        </span>
+      <a lang="en" data-type="home" href="/">
+        <img *ngIf="isExpand" class="logo -main" src="../../../assets/img/logo.png" alt="">
+        <img *ngIf="!isExpand" class="logo -main" src="../../../assets/img/logo_small.png" alt="">
       </a>
     </header>
     <app-search></app-search>

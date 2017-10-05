@@ -1,8 +1,11 @@
-<div class="wrapper" [class.-expanded]="isSidebarExpanded" (click)="onWrapClick();">
+<div class="wrapper"
+     [class.-expanded]="isSidebarExpand"
+     (click)="onWrapClick();">
   <app-sidebar></app-sidebar>
   <app-panels></app-panels>
   <app-modals></app-modals>
-  <div class="main-container">
+  <div class="main-container"
+       [@sidebar]='isSidebarExpand ? "open" : "close"'>
     <router-outlet></router-outlet>
   </div>
 </div>

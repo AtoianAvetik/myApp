@@ -3,7 +3,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Subscription } from 'rxjs/Subscription';
 
 import { PanelService } from '../../../_services/panel.service';
-import { AppService } from '../../../_services/app.service';
+import { SidebarService } from '../../../_services/sidebar.service';
 
 @Component({
   selector: 'app-panel',
@@ -60,8 +60,8 @@ export class PanelComponent implements OnInit, OnDestroy {
   };
   openSubscription: Subscription;
   closeSubscription: Subscription;
-  private openState: string;
-  private closeState: string;
+  openState: string;
+  closeState: string;
   element;
   el: ElementRef;
 
@@ -75,7 +75,7 @@ export class PanelComponent implements OnInit, OnDestroy {
   }
 
   constructor(private panelService: PanelService,
-              private appService: AppService,
+              private sidebarService: SidebarService,
               private elRef: ElementRef) {
     this.el = this.elRef;
     this.element = this.elRef.nativeElement;
@@ -83,27 +83,23 @@ export class PanelComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     //direction
-    console.log(this.dir);
     switch (this.dir) {
       case 'left':
-        this.openState = this.appService.isSidebarExpanded ? this.statuses.left.expanded.open : this.statuses.left.collapsed.open;
-        this.closeState = this.appService.isSidebarExpanded ? this.statuses.left.expanded.close : this.statuses.left.collapsed.close;
-        this.appService.toogleSidebarChange
+        this.openState = this.sidebarService.isExpand ? this.statuses.left.expanded.open : this.statuses.left.collapsed.open;
+        this.closeState = this.sidebarService.isExpand ? this.statuses.left.expanded.close : this.statuses.left.collapsed.close;
+        this.sidebarService.toogleSidebarChange
           .subscribe(
             (status) => {
               this.openState = status ? this.statuses.left.expanded.open : this.statuses.left.collapsed.open;
               this.closeState = status ? this.statuses.left.expanded.close : this.statuses.left.collapsed.close;
             }
           );
-        console.log(this.closeState);
         break;
       case 'right':
         this.openState =  this.statuses.right.open;
         this.closeState = this.statuses.right.close;
-        console.log(this.closeState);
         break;
     }
-        console.log(this.closeState);
 
     // ensure id attribute exists
     if (!this.id) {
@@ -120,17 +116,14 @@ export class PanelComponent implements OnInit, OnDestroy {
         (id: string) => {
           if ( id === this.id ) {
             this.open();
-            this.panelService.activePanel = this.id;
           }
         }
       );
-
     this.closeSubscription = this.panelService.panelWillClosed
       .subscribe(
         (id: string) => {
           if ( id === this.id ) {
             this.close();
-            this.panelService.activePanel = null;
           }
         }
       );
@@ -139,6 +132,7 @@ export class PanelComponent implements OnInit, OnDestroy {
   // remove self from panel service when directive is destroyed
   ngOnDestroy(): void {
     this.panelService.remove(this.id);
+    this.panelService.removeFromActive(this.id);
     this.element.parentNode.removeChild(this.element);
     this.openSubscription.unsubscribe();
     this.closeSubscription.unsubscribe();
@@ -146,11 +140,13 @@ export class PanelComponent implements OnInit, OnDestroy {
 
   // open panel
   open(): void {
+    this.panelService.activePanels.push(this.id);
     this.isOpen = true;
   }
 
   // close panel
   close(): void {
+    this.panelService.removeFromActive(this.id);
     this.isOpen = false;
   }
 

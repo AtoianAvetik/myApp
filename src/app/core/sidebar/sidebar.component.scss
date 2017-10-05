@@ -7,15 +7,9 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: 65px;
   user-select: none;
   font-family: "Myriad Pro", sans-serif;
   font-weight: 500;
-  transition: width .4s cubic-bezier(.55, 0, .1, 1);
-
-  .-expanded & {
-    width: 220px;
-  }
 
   &_devider {
     background-color: #32323d;
@@ -119,9 +113,15 @@
 }
 
 .page-logo {
-  color: $white;
-  font-size: 30px;
   text-align: center;
   margin: 24px 10px;
   overflow: hidden;
+
+  .logo {
+    max-width: 100%;
+
+    &.-main {
+      height: 40px;
+    }
+  }
 }

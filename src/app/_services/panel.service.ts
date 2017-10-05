@@ -1,11 +1,13 @@
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import * as _ from 'underscore';
 
 import { Panel } from '../_models/panel.model';
 
+@Injectable()
 export class PanelService {
   private panels: any[] = [];
-  activePanel: string;
+  activePanels: any[] = [];
   panelWillOpened = new Subject<string>();
   panelWillClosed = new Subject<string>();
   panelClosingDidStart = new Subject();
@@ -25,5 +27,12 @@ export class PanelService {
     const panelToRemove = _.findWhere(this.panels, { id: id });
     this.panels = _.without(this.panels, panelToRemove);
     this.isPanelsChanged.next(this.panels.slice());
+  }
+
+  removeFromActive(id: string) {
+    const index: number = this.activePanels.indexOf(id);
+    if (index !== -1) {
+      this.activePanels.splice(index, 1);
+    }
   }
 }

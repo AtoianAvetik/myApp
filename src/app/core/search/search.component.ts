@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { AppService } from '../../_services/app.service';
+import { SidebarService } from '../../_services/sidebar.service';
 
 @Component({
   selector: 'app-search',
@@ -12,7 +12,7 @@ import { AppService } from '../../_services/app.service';
 export class SearchComponent implements OnInit {
   form: FormGroup;
 
-  constructor(private appService: AppService) { }
+  constructor(private sidebarService: SidebarService) { }
 
   ngOnInit() {
     this.initForm();
@@ -30,6 +30,6 @@ export class SearchComponent implements OnInit {
   }
 
   openSidebar() {
-    this.appService.toogleSidebarChange.next(true);
+    this.sidebarService.toogleSidebarChange.next(true);
   }
 }
