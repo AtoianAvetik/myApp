@@ -9,6 +9,7 @@ import { ModalService } from '../../../_services/modal.service';
   selector: 'app-modal',
   template: `
     <div class="modal-wrap"
+      [ngClass]="{'-is-forward': isForward}"
       [@modal]='isOpen ? "open" : "close"'
       (@modal.start)="animationAction($event)"
       (@modal.done)="animationAction($event)">
@@ -30,8 +31,10 @@ import { ModalService } from '../../../_services/modal.service';
 export class ModalComponent implements OnInit, OnDestroy {
   @Input() id: string;
   private _isOpen = false;
-  openSubscription: Subscription;
-  closeSubscription: Subscription;
+  private _isForward = false;
+  willOpenSubscription: Subscription;
+  willCloseSubscription: Subscription;
+  isForwardSubscription: Subscription;
   element;
   el;
 
@@ -39,9 +42,16 @@ export class ModalComponent implements OnInit, OnDestroy {
   set isOpen(value: boolean) {
     this._isOpen = value;
   }
-
   get isOpen() {
     return this._isOpen;
+  }
+
+  @Input()
+  set isForward(value: boolean) {
+    this._isForward = value;
+  }
+  get isForward() {
+    return this._isForward;
   }
 
   constructor(private modalService: ModalService,
@@ -68,7 +78,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     this.modalService.add(this);
 
     // subscribe events
-    this.openSubscription = this.modalService.modalWillOpened
+    this.willOpenSubscription = this.modalService.modalWillOpened
       .subscribe(
         (id: string) => {
           if ( id === this.id ) {
@@ -76,8 +86,7 @@ export class ModalComponent implements OnInit, OnDestroy {
           }
         }
       );
-
-    this.closeSubscription = this.modalService.modalWillClosed
+    this.willCloseSubscription = this.modalService.modalWillClosed
       .subscribe(
         (id: string) => {
           if ( id === this.id ) {
@@ -85,40 +94,48 @@ export class ModalComponent implements OnInit, OnDestroy {
           }
         }
       );
+    this.isForwardSubscription = this.modalService.forwardActiveChanged
+      .subscribe(
+        (id: string) => {
+          this.isForward = (id === this.id);
+        }
+      );
   }
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
     this.modalService.remove(this.id);
+    this.modalService.removeFromActive(this.id);
     this.element.parentNode.removeChild(this.element);
-    this.openSubscription.unsubscribe();
-    this.closeSubscription.unsubscribe();
+    this.willOpenSubscription.unsubscribe();
+    this.willCloseSubscription.unsubscribe();
+    this.isForwardSubscription.unsubscribe();
   }
 
   // open modal
   open(): void {
-    document.body.classList.add('backstage');
+    this.modalService.addToActive(this.id);
     this.isOpen = true;
   }
 
   // close modal
   close(): void {
-    document.body.classList.remove('backstage');
+    this.modalService.removeFromActive(this.id);
     this.isOpen = false;
   }
 
   animationAction(event) {
-    switch(event.phaseName) {
+    switch (event.phaseName) {
       case 'start':
         switch (event.toState) {
-          case 'open':  this.modalService.modalOpeningDidStart.next(); break;
-          case 'close':  this.modalService.modalClosingDidStart.next(); break;
+          case 'open':  this.modalService.modalOpeningDidStart.next(this.id); break;
+          case 'close':  this.modalService.modalClosingDidStart.next(this.id); break;
         }
         break;
       case 'done':
         switch (event.toState) {
-          case 'open':  this.modalService.modalOpeningDidDone.next(); break;
-          case 'close':  this.modalService.modalClosingDidDone.next(); break;
+          case 'open':  this.modalService.modalOpeningDidDone.next(this.id); break;
+          case 'close':  this.modalService.modalClosingDidDone.next(this.id); break;
         }
         break;
     }

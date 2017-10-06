@@ -19,6 +19,16 @@ body.backstage {
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 1;
+
+  &.-is-forward {
+    z-index: 2;
+
+    .modal:after {
+      visibility: hidden;
+      opacity: 0;
+    }
+  }
 }
 
 .modal {
@@ -30,6 +40,19 @@ body.backstage {
   border-radius: 3px;
   box-shadow: 0 2px 8px 2px rgba(10,10,22,.3);
   background: $white;
+
+  &:after {
+    content: '';
+    visibility: visible;
+    opacity: 1;
+    transition: 0.7s opacity, visibility;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.5);
+  }
 
   &.-item {
     max-width: 800px;
@@ -117,8 +140,8 @@ body.backstage {
       width: 100%;
       top: 50%;
       left: 0;
-      margin-top: -1px;
       background: $dark-gray;
+      transform-origin: top;
     }
     &::before {
       transform: rotate(45deg);

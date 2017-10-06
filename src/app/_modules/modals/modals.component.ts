@@ -42,7 +42,8 @@ export class ModalsComponent implements OnInit {
     this.modalService.isModalsChanged
       .subscribe(
         (data: Array<Modal>) => {
-          for (let panel of data) {
+          (data.length < 1) && (this.isOpen = false);
+          for (const panel of data) {
             this.elRef.nativeElement.querySelector('.modal-container').appendChild(panel.el.nativeElement);
           }
         }
@@ -50,13 +51,17 @@ export class ModalsComponent implements OnInit {
     this.modalService.modalOpeningDidStart
       .subscribe(
         () => {
+          document.body.classList.add('backstage');
           this.isOpen = true;
         }
       );
     this.modalService.modalClosingDidStart
       .subscribe(
         () => {
-          this.isOpen = false;
+          if (!this.modalService.activeModals.length) {
+            document.body.classList.remove('backstage');
+            this.isOpen = false;
+          }
         }
       );
   }

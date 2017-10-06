@@ -7,11 +7,11 @@ import { SidebarService } from '../../../_services/sidebar.service';
 
 @Component({
   selector: 'app-panel',
-  template: `    
+  template: `
     <div class="panel-wrap"
-         [@panel]='isOpen ? this.openState : this.closeState'
-         (@panel.start)="animationAction($event)"
-         (@panel.done)="animationAction($event)">
+       [@panel]='isOpen ? this.openState : this.closeState'
+       (@panel.start)="animationAction($event)"
+       (@panel.done)="animationAction($event)">
       <ng-content></ng-content>
     </div>
   `,
@@ -82,7 +82,7 @@ export class PanelComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    //direction
+    // direction
     switch (this.dir) {
       case 'left':
         this.openState = this.sidebarService.isExpand ? this.statuses.left.expanded.open : this.statuses.left.collapsed.open;
