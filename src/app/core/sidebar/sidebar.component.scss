@@ -1,7 +1,7 @@
 @import '../../../assets/styles/core/_variables';
 
 .page-sidebar {
-  background: $dark-gray;
+  background: $darker;
   position: fixed;
   left: 0;
   top: 0;
@@ -23,12 +23,13 @@
 }
 
 .nav-link {
-  color: $light-gray;
+  color: $grayer;
   position: relative;
   cursor: pointer;
 
   &:hover {
     background-color: $dark;
+    color: $white;
   }
 
   &.-active {
@@ -91,7 +92,6 @@
     .icon {
       display: block;
       font-size: 20px;
-      color: $light-gray;
 
       &.icon-arrow-left {
         font-size: 10px;
@@ -103,10 +103,6 @@
 
       &.icon-table {
         font-size: 17px;
-      }
-
-      .-active & {
-        color: $white;
       }
     }
   }

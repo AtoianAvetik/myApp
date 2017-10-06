@@ -3,8 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
-import { ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { SelectModule } from 'ng2-select';
+import { PerfectScrollbarModule } from 'angular2-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'angular2-perfect-scrollbar';
 
 import { AppComponent } from './app.component';
 
@@ -27,8 +29,6 @@ import { PanelService } from './_services/panel.service';
 
 /* Pages */
 import { HomeComponent } from './pages/home/home.component';
-import { PassListComponent } from './pages/pass-list/pass-list.component';
-import { PassListItemComponent } from './pages/pass-list/pass-list-item/pass-list-item.component';
 import { PasswordsComponent } from './pages/passwords/passwords.component';
 import { TestTableComponent } from './pages/test-table/test-table.component';
 
@@ -49,10 +49,12 @@ import { PanelComponent } from './_modules/panels/panel/panel.component';
 import { PanelsComponent } from './_modules/panels/panels.component';
 import { ModalsComponent } from './_modules/modals/modals.component';
 
+const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true
+};
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'pass-list', component: PassListComponent },
   { path: 'passwords', component: PasswordsComponent },
   { path: 'test-table', component: TestTableComponent }
 ];
@@ -60,8 +62,6 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    PassListComponent,
-    PassListItemComponent,
     ModalComponent,
     SidebarComponent,
     HomeComponent,
@@ -80,7 +80,7 @@ const appRoutes: Routes = [
     SearchComponent,
     PanelComponent,
     PanelsComponent,
-    ModalsComponent
+    ModalsComponent,
   ],
   imports: [
     BrowserModule,
@@ -90,7 +90,8 @@ const appRoutes: Routes = [
     SelectModule,
     RouterModule.forRoot(appRoutes),
     DirectivesModule,
-    PipesModule
+    PipesModule,
+    PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG)
   ],
   entryComponents: [
     LoaderComponent

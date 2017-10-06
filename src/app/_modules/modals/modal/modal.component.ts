@@ -21,8 +21,8 @@ import { ModalService } from '../../../_services/modal.service';
     trigger('modal', [
       state('open', style({opacity: 1, transform: 'scale(1.0, 1.0)'})),
       state('close', style({opacity: 0, transform: 'scale(0, 0)'})),
-      transition('close => open', animate('0.4s cubic-bezier(0.680, -0.550, 0.265, 1.550)')),
-      transition('open => close', animate('0.4s cubic-bezier(0.680, -0.550, 0.19, 1.130)'))
+      transition('close => open', animate('0.3s cubic-bezier(0.680, -0.550, 0.265, 1.550)')),
+      transition('open => close', animate('0.3s cubic-bezier(0.680, -0.550, 0.19, 1.130)'))
     ])
   ]
 })

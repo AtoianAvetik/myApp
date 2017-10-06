@@ -30,12 +30,4 @@ export class TestTableComponent implements OnInit {
         }
       );
   }
-
-  onSelectTable(data) {
-    this.tableSelected.emit(data.id - 1);
-  }
-
-  addTableRow(data) {
-    this.contentTableService.addRow(this.selectedTableIndex, data);
-  }
 }

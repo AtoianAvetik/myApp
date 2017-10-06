@@ -1,7 +1,6 @@
 <div class="page-table_header">
   <div class="page-table_row">
     <div class="page-table_cell" *ngFor="let header of data.headers | keys">{{ header.value }}</div>
-    <div class="page-table_cell -actions">Actions</div>
   </div>
 </div>
 <div class="page-table_content" *ngIf="data.content.length; else emptyMes">
@@ -17,49 +16,3 @@
     <p class="heading -h5">This table is empty</p>
   </div>
 </ng-template>
-
-<app-modal id="edit-table">
-  <div class="modal">
-    <div class="modal_content">
-      <h1 class="heading -h4">Edit this row:</h1>
-      <div class="row -column no-gutters">
-        <div class="form-group">
-          <label for="editCol1">Col 1:</label>
-          <input class="form-control" id="editCol1" type="text" name="editCol1" #editCol1Input>
-        </div>
-        <div class="form-group">
-          <label for="editCol2">Col 2:</label>
-          <input class="form-control" id="editCol2" type="text" name="editCol2" #editCol2Input>
-        </div>
-        <div class="form-group">
-          <label for="editCol3">Col 3:</label>
-          <input class="form-control" id="editCol3" type="text" name="editCol3" #editCol3Input>
-        </div>
-        <div class="form-group">
-          <label for="editCol4">Col 4:</label>
-          <input class="form-control" id="editCol4" type="text" name="editCol4" #editCol4Input>
-        </div>
-      </div>
-      <div class="row no-gutters -end">
-        <div class="btn-group">
-          <button class="btn-success" closeModal data-modal="edit-table" (click)="onEditTableRow({col1: editCol1Input.value,col2: editCol2Input.value,col3: editCol3Input.value,col4: editCol4Input.value});">Edit</button>
-          <button class="btn-default" closeModal data-modal="edit-table">Cancel</button>
-        </div>
-      </div>
-    </div>
-    <button class="close-btn" closeModal data-modal="edit-table"></button>
-  </div>
-</app-modal>
-
-<app-modal id="delete-table">
-  <div class="modal">
-    <div class="modal_content">
-      <h2 class="heading -h4">Are you sure you want to delete this row?</h2>
-      <div class="btn-group">
-        <button class="btn-red" closeModal data-modal="delete-table" (click)="onDeleteTableRow();">Delete</button>
-        <button class="btn-default" closeModal data-modal="delete-table">Cancel</button>
-      </div>
-    </div>
-    <button class="close-btn" closeModal data-modal="delete-table"></button>
-  </div>
-</app-modal>

@@ -66,7 +66,7 @@ body{
 }
 
 .page-table {
-  border: 1px solid $gray;
+  border: 1px solid $grayer;
   border-radius: 4px;
   min-width: 900px;
   width: 100%;
@@ -74,11 +74,11 @@ body{
   &_header {
     font-weight: bold;
     font-size: em(20);
-    border-bottom: 1px solid $gray;
+    border-bottom: 1px solid $grayer;
   }
 
   &_row {
-    border-bottom: 1px solid $gray;
+    border-bottom: 1px solid $grayer;
     display: flex;
     flex-flow: row wrap;
 
@@ -90,7 +90,7 @@ body{
   &_cell {
     flex: 1 0 19%;
     padding: 15px;
-    border-right: 1px solid $gray;
+    border-right: 1px solid $grayer;
     display: flex;
     align-items: center;
     word-break: break-word;

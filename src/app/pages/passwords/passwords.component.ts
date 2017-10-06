@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 
 import { ContentListService } from '../../_services/content-list.service';
 import { DataService } from '../../_services/data.service';

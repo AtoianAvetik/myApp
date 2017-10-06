@@ -13,8 +13,4 @@ export class ContentTableRowComponent {
   @HostBinding('attr.class') class = 'page-table_row';
 
   constructor(private contentTableService: ContentTableService) { }
-
-  onSelectTableRow() {
-    this.contentTableService.tableRowSelected.emit(this.tableRowIndex);
-  }
 }

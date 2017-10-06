@@ -18,8 +18,8 @@ import { ModalService } from '../../_services/modal.service';
     trigger('overlay', [
       state('open', style({opacity: 1})),
       state('close', style({opacity: 0, display: 'none'})),
-      transition('close => open', animate('300ms')),
-      transition('open => close', animate('300ms'))
+      transition('close => open', animate('0.3s')),
+      transition('open => close', animate('0.3s'))
     ])
   ]
 })

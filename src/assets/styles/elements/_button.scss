@@ -2,11 +2,12 @@
  General
 --------------------------------------*/
 $btn-font-family: $text-font;
-$btn-font-size: $base-font;
-$btn-height: 34px;
+$btn-font-size: 12px;
+$btn-height: 32px;
 $btn-border-radius: 2px;
-$btn-padding: 0 20px;
-$btn-font-weight: bold;
+$btn-padding: 0 12px;
+$btn-font-weight: 600;
+$btn-min-width: 75px;
 
 /*--------------------------------------/
  Colors
@@ -17,6 +18,10 @@ $btn-primary: $blue-dark;
 $btn-success: $green;
 $btn-dark: $dark;
 $btn-red: $red;
+$btn-blue: $blue;
+$btn-dark: $dark;
+$btn-light: $light;
+$btn-gray: $gray;
 $btn-white: #fff;
 
 .btn-pure{
@@ -56,9 +61,17 @@ $btn-white: #fff;
     }
 }
 
-@mixin create-button($text-color, $bg) {
+@mixin create-button($text-color, $bg, $hover:"", $border:"") {
     $bg-color: $bg;
-    $bg-hover: $bg - #111;
+    $bg-hover: $bg - #222;
+
+    @if $hover != "" {
+      $bg-hover: $hover;
+    }
+
+    @if $border != "" {
+      border-color: $border;
+    }
 
     @extend .btn;
     color: $text-color;
@@ -115,8 +128,13 @@ $btn-white: #fff;
 
 .btn-red{
     @include create-button($btn-text-color, $btn-red);
+    min-width: $btn-min-width;
+}
+
+.btn-blue{
+    @include create-button($btn-text-color, $btn-blue);
 }
 
 .btn-white{
-    @include create-button(#939393, $white);
+    @include create-button($btn-dark, $btn-light, $btn-white, $btn-gray);
 }
