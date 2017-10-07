@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, HostListener, Input } from '@angular/core';
 
 import { ModalService } from '../_services/modal.service';
 
@@ -6,11 +6,9 @@ import { ModalService } from '../_services/modal.service';
   selector: '[closeModal]'
 })
 export class CloseModalDirective {
-  private id: string;
+  @Input('closeModal') id: string;
 
-  constructor(private modalService: ModalService, private elm: ElementRef) {
-    this.id = elm.nativeElement.getAttribute('data-modal');
-  }
+  constructor(private modalService: ModalService) {}
 
   @HostListener('click') onClick() {
     this.modalService.modalWillClosed.next(this.id);

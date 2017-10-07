@@ -38,6 +38,8 @@ export class ImgToBase64Service {
         mimeType = 'image/gif'
       } else if ( img.match(/\.(jpg)$/) != null ) {
         mimeType = 'image/jpg'
+      } else {
+        mimeType = 'image/png'
       }
     } else {
       mimeType = img.type;

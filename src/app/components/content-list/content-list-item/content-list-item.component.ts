@@ -1,46 +1,51 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { ContentListService } from "../../../_services/content-list.service";
 import { ModalService } from "../../../_services/modal.service";
 import { AppService } from "../../../_services/app.service";
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: '[content-list-item]',
   templateUrl: './content-list-item.component.html',
   styleUrls: ['./content-list-item.component.scss']
 })
-export class ContentListItemComponent implements OnInit {
+export class ContentListItemComponent implements OnInit, OnDestroy {
   @Input() listId;
   @Input() itemIndex;
   @Input() itemImg;
   activeViewType: string = 'list';
   isItemSelected: boolean = false;
   isItemFocused: boolean = false;
+  private subscriptions: Array<Subscription> = [];
 
   constructor(private contentListService: ContentListService,
               private modalService: ModalService,
               private appService: AppService) { }
 
   ngOnInit() {
-    this.contentListService.viewTypeChanged
-      .subscribe(
-        (type: string) => {
-          this.activeViewType = type;
-        }
-      );
-    this.appService.appWrapClicked
-      .subscribe(
-        () => {
-          this.isItemSelected = false;
-          this.isItemFocused = false;
-        }
-      );
-    this.modalService.modalClosingDidStart
-      .subscribe(
-        () => {
-          this.isItemFocused = false;
-        }
-      );
+    this.subscriptions.push(this.contentListService.viewTypeChanged.subscribe(
+      (type: string) => {
+        this.activeViewType = type;
+      }
+    ));
+    this.subscriptions.push(this.appService.appWrapClicked.subscribe(
+      () => {
+        this.isItemSelected = false;
+        this.isItemFocused = false;
+      }
+    ));
+    this.subscriptions.push(this.modalService.modalClosingDidStart.subscribe(
+      () => {
+        this.isItemFocused = false;
+      }
+    ));
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
+    });
   }
 
   onEditItem(event) {

@@ -1,0 +1,11 @@
+@import '../../../assets/styles/core/_variables';
+
+.search-image-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .search-result {
+    flex: 1;
+  }
+}

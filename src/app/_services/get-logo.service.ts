@@ -8,11 +8,13 @@ export class GetLogoService {
   loaded: Subject<any> = new Subject<any>();
 
   getSiteLogo(searchTerm) {
-    this.getImageUrl(searchTerm + 'logo', false, 1);
+    // this.getImageUrl(searchTerm + 'logo', false, 1);
+    this.getImageUrl(searchTerm, false, 1);
   }
 
   getSiteLogoArray(searchTerm, count = 1) {
-    this.getImageUrl(searchTerm + 'logo', true, count);
+    // this.getImageUrl(searchTerm + 'logo', true, count);
+    this.getImageUrl(searchTerm, true, count);
   }
 
   getImageUrl(searchTerm, array, count) {

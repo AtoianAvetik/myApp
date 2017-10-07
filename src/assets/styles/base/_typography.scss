@@ -1,25 +1,25 @@
 h1{
-    font-size: em(50);
-}
-
-h2{
     font-size: em(40);
 }
 
-h3{
+h2{
     font-size: em(32);
 }
 
-h4{
+h3{
     font-size: em(24);
 }
 
-h5{
+h4{
     font-size: em(21);
 }
 
-h6{
+h5{
     font-size: em(18);
+}
+
+h6{
+    font-size: em(16);
 }
 
 p{
@@ -44,26 +44,26 @@ span{
     line-height: 1.1;
 
     &.-h1{
-        font-size: em(50);
-    }
-
-    &.-h2{
         font-size: em(40);
     }
 
-    &.-h3{
-        font-size: em(32);
+    &.-h2{
+        font-size: em(320);
     }
 
-    &.-h4{
+    &.-h3{
         font-size: em(24);
     }
 
-    &.-h5{
+    &.-h4{
         font-size: em(21);
     }
 
-    &.-h6{
+    &.-h5{
         font-size: em(18);
+    }
+
+    &.-h6{
+        font-size: em(16);
     }
 }

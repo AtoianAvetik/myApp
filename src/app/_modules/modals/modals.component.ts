@@ -65,5 +65,4 @@ export class ModalsComponent implements OnInit {
         }
       );
   }
-
 }

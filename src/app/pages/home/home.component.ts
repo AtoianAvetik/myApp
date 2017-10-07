@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   constructor(
     private imgToBase64: ImgToBase64Service,
     private getLogo: GetLogoService,
-    private LoaderService: LoaderService) {
+    private loaderService: LoaderService) {
     this.file_src = "https://www.google.com.ua/favicon.ico";
   }
 
@@ -52,7 +52,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // this.loader = this.LoaderService.create({
+    // this.loader = this.loaderService.create({
     //   id: 'home'
     // });
     //
@@ -64,7 +64,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   loaderOpen(id: string) {
-    this.loader = this.LoaderService.create({
+    this.loader = this.loaderService.create({
       id: id,
       content: id
     });

@@ -1,0 +1,28 @@
+<form id="search-image-form" class="search-image-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="form-group -search">
+    <input
+      id="searchTerm"
+      class="form-control"
+      type="text"
+      placeholder="Search image..."
+      formControlName="searchTerm">
+    <button
+      class="btn"
+      type="submit">
+      <i class="icon-search"></i>
+    </button>
+  </div>
+  <perfect-scrollbar class="search-result">
+    <div class="search-result_content" [loader]="'getImages'">
+      <div class="row">
+        <div *ngFor="let image of images; let i = index" class="col-4">
+          <div class="image-wrap"
+               [ngClass]="{'-selected': (selectedImage === i)}"
+               (click)="selectedImage = i;selectImage(image)">
+            <img src="{{ image }}" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </perfect-scrollbar>
+</form>

@@ -6,8 +6,6 @@ import { ModalService } from '../../_services/modal.service';
 import { AppService } from '../../_services/app.service';
 import { PasswordCategory } from '../../_models/password-category.model';
 import { AddMenuItem } from '../../_models/add-menu-item.model';
-import { GetLogoService } from '../../_services/get-logo.service';
-import { LoaderService } from '../../_services/loader.service';
 
 @Component({
   selector: 'app-passwords',
@@ -17,34 +15,23 @@ import { LoaderService } from '../../_services/loader.service';
 export class PasswordsComponent implements OnInit {
   @ViewChild('folderForm') folderFormCmp;
   @ViewChild('passwordForm') passwordFormCmp;
+  @ViewChild('searchImageForm') searchImageFormCmp;
   foldersData: {[name: string]: PasswordCategory};
   folders: Array<any>;
   foldersIdArray: Array<any>;
   isFoldersOpened = false;
-
-  passwordMode: string = 'add';
-  folderMode: string = 'add';
-
+  passwordMode = 'add';
+  folderMode = 'add';
   activeViewType = 'list';
   listSelectedId: number;
   listItemSelectedIndex: number;
-
   addMenuItemsArray: Array<AddMenuItem>;
-  passwordsImageArray = [
-    'https://www.google.com.ua/favicon.ico',
-    'https://www.google.com.ua/favicon.ico',
-    'https://www.google.com.ua/favicon.ico',
-    'https://www.google.com.ua/favicon.ico'
-  ];
   selectedImage = null;
-  getImagesLoader;
 
   constructor(private dataService: DataService,
               private contentListService: ContentListService,
               private appService: AppService,
-              private modalService: ModalService,
-              private getLogo: GetLogoService,
-              private loaderService: LoaderService) {
+              private modalService: ModalService) {
   }
 
   ngOnInit() {
@@ -75,30 +62,10 @@ export class PasswordsComponent implements OnInit {
           this.passwordFormCmp.updateForm();
         }
       );
-    this.contentListService.deleteSelectedItem
-      .subscribe(
-        () => {
-          this.passwordMode = 'delete';
-        }
-      );
     this.modalService.modalClosingDidDone
       .subscribe(
         () => {
-          this.resetForms();
-        }
-      );
-    this.getLogo.loaded
-      .subscribe(
-        (data: any) => {
-          if ( data instanceof Array ) {
-            for (let i = 0; i < data.length; i++) {
-              this.passwordsImageArray.push(data[i].url);
-              (i === data.length - 1) && this.getImagesLoader.dismiss();
-            }
-          }
-        },
-        (error: any) => {
-          console.error(error);
+          !this.modalService.activeModals.length && this.resetForms();
         }
       );
     this.addMenuItemsArray = [
@@ -116,19 +83,19 @@ export class PasswordsComponent implements OnInit {
   initForms() {
     this.passwordFormCmp.initForm();
     this.folderFormCmp.initForm();
+    this.searchImageFormCmp.initForm();
   }
 
   testInit() {
-    // this.passwordFormCmp.initForm();
     console.log( this.passwordFormCmp.form );
   }
 
   resetForms() {
-    // this.mode = 'add';
     this.selectedImage = null;
 
     this.passwordFormCmp.reset();
     this.folderFormCmp.reset();
+    this.searchImageFormCmp.reset();
   }
 
   toggleGroups() {
@@ -144,26 +111,13 @@ export class PasswordsComponent implements OnInit {
     console.log( '1' );
   }
 
+  selectImage() {
+    this.passwordFormCmp.uploadImage(this.searchImageFormCmp.getSelectedImage())
+  }
+
   deleteItem() {
     this.dataService.deletePassword(this.listSelectedId, this.listItemSelectedIndex);
-  }
-
-  updateImagesArray() {
-    this.passwordsImageArray = [];
-    this.getImagesLoader = this.loaderService.create({
-      id: 'getImages'
-    });
-
-    let sub = this.getImagesLoader.present().subscribe(
-      () => {
-        this.getLogo.getSiteLogoArray(this.passwordFormCmp.get('url').value, 6);
-        sub.unsubscribe();
-      }
-    );
-  }
-
-  selectPreviewImage(image) {
-    this.passwordFormCmp.selectPreviewImage(image);
+    this.modalService.closeAll();
   }
 
   addMenuClicked(data) {

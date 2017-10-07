@@ -1,20 +1,25 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ValidatorsService } from '../../_services/validators.service';
 import { DataService } from '../../_services/data.service';
+import { ImgToBase64Service } from '../../_services/img-to-base64.service';
+import { LoaderService } from '../../_services/loader.service';
 
 @Component({
   selector: 'app-password',
   templateUrl: './password.component.html',
-  styleUrls: ['./password.component.scss']
+  styleUrls: ['./password.component.scss'],
+  providers: [ImgToBase64Service]
 })
-export class PasswordComponent implements OnInit, OnChanges {
+export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() mode: string = 'add';
   @Input() itemIndex: number = null;
   @Input() categoryId: any = null;
   @Input() categories: any = [];
   @Input() categoriesData: any = {};
+  form: FormGroup = null;
+  private isTransfer = false;
   private formDefaultValues = {
     serviceName: '',
     url: '',
@@ -25,19 +30,18 @@ export class PasswordComponent implements OnInit, OnChanges {
     categorySelect: null,
     previewImage: {
       image: '',
-      imageUrl: null,
+      lastImage: '',
       uploadImage: null,
-      chooseImage: null,
-    },
-    additionalOptions: {}
+    }
   };
-  private activeCategory: any = [];
-  previewImage = null;
-  private isTransfer = false;
-  form: FormGroup = null;
+  activeCategory: any = [];
+  previewImageLoader;
+  passwordFormLoader;
 
   constructor(private validatorsService: ValidatorsService,
-              private dataService: DataService) { }
+              private dataService: DataService,
+              private loaderService: LoaderService,
+              private imgToBase64: ImgToBase64Service) { }
 
   initForm() {
     this.form = new FormGroup({
@@ -50,11 +54,9 @@ export class PasswordComponent implements OnInit, OnChanges {
       'categorySelect': new FormControl(this.formDefaultValues.categorySelect, Validators.required),
       'previewImage': new FormGroup({
         'image': new FormControl(this.formDefaultValues.previewImage.image),
-        'imageUrl': new FormControl(this.formDefaultValues.previewImage.imageUrl, this.validatorsService.image.bind(this.validatorsService)),
+        'lastImage': new FormControl(this.formDefaultValues.previewImage.lastImage),
         'uploadImage': new FormControl(this.formDefaultValues.previewImage.uploadImage),
-        'chooseImage': new FormControl(this.formDefaultValues.previewImage.chooseImage)
-      }),
-      'additionalOptions': new FormGroup({})
+      })
     });
   }
 
@@ -63,10 +65,10 @@ export class PasswordComponent implements OnInit, OnChanges {
       return false;
     }
 
-    let updatedValues = JSON.parse(JSON.stringify(this.formDefaultValues));
+    const updatedValues = JSON.parse(JSON.stringify(this.formDefaultValues));
 
 
-    if ( this.mode === 'edit') {
+    if ( this.mode === 'edit' ) {
       this.activeCategory = [this.categories.find((el, index) => el.id === this.categoryId)];
 
       const password = this.categoriesData[this.categoryId].content[this.itemIndex];
@@ -78,25 +80,65 @@ export class PasswordComponent implements OnInit, OnChanges {
       updatedValues.desc = password.desc;
       updatedValues.categorySelect = this.activeCategory;
       updatedValues.previewImage.image = password.img;
+      updatedValues.previewImage.lastImage = password.img;
     }
 
     this.form.setValue(updatedValues);
-
-    console.log( this.mode );
-    console.log( this.form.value );
   }
 
 
   ngOnInit() {
     // this.initForm();
+    this.imgToBase64.converted
+      .subscribe(
+        (image: string) => {
+          this.previewImageLoader.dismiss();
+          this.setPreviewImage(image);
+        }
+      );
+  }
+
+  ngAfterViewInit() {
+    this.previewImageLoader = this.loaderService.create({
+      id: 'previewImage'
+    });
+    this.passwordFormLoader = this.loaderService.create({
+      id: 'passwordForm'
+    });
   }
 
   ngOnChanges() {
     this.updateForm();
   }
 
-  uploadImage(data) {
-    console.log( data );
+  uploadImage(image) {
+    const subImage = this.previewImageLoader.present().subscribe(
+      () => {
+        this.imgToBase64.convert(image);
+        subImage.unsubscribe();
+      }
+    );
+  }
+
+  setPreviewImage(image) {
+    let formControl: FormControl;
+    formControl = <FormControl>this.form.get('previewImage.image');
+
+    formControl.setValue(image);
+    formControl.markAsTouched();
+    formControl.markAsDirty();
+  }
+
+  revertImage(e) {
+    e.stopPropagation();
+    let imageFormControl: FormControl;
+    let uploadFormControl: FormControl;
+    imageFormControl = <FormControl>this.form.get('previewImage.image');
+    uploadFormControl = <FormControl>this.form.get('previewImage.uploadImage');
+
+    imageFormControl.setValue(this.form.get('previewImage.lastImage').value);
+    uploadFormControl.setValue(this.formDefaultValues.previewImage.uploadImage);
+    imageFormControl.markAsUntouched();
   }
 
   onSelectCategory(data) {
@@ -114,10 +156,6 @@ export class PasswordComponent implements OnInit, OnChanges {
     formControl.setValue([data.id]);
   }
 
-  selectPreviewImage(image) {
-    this.get('previewImage.imageUrl').setValue(image);
-  }
-
   isValid(ctrl?: string) {
     return ctrl ? this.get(ctrl).valid : this.form.valid;
   }
@@ -132,7 +170,6 @@ export class PasswordComponent implements OnInit, OnChanges {
 
   reset() {
     this.activeCategory = [];
-    this.previewImage = '';
     this.isTransfer = false;
 
     this.form.reset();

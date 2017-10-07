@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, HostListener, Input } from '@angular/core';
 
 import { PanelService } from '../_services/panel.service';
 
@@ -6,11 +6,9 @@ import { PanelService } from '../_services/panel.service';
   selector: '[openPanel]'
 })
 export class OpenPanelDirective {
-  private id: string;
+  @Input('openPanel') id: string;
 
-  constructor(private panelService: PanelService, private elm: ElementRef) {
-    this.id = elm.nativeElement.getAttribute('data-panel');
-  }
+  constructor(private panelService: PanelService) {}
 
   @HostListener('click') onClick() {
     this.panelService.panelWillOpened.next(this.id);

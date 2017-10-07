@@ -48,6 +48,7 @@ import { SearchComponent } from './core/search/search.component';
 import { PanelComponent } from './_modules/panels/panel/panel.component';
 import { PanelsComponent } from './_modules/panels/panels.component';
 import { ModalsComponent } from './_modules/modals/modals.component';
+import { SearchImageComponent } from './forms/search-image/search-image.component';
 
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -81,6 +82,7 @@ const appRoutes: Routes = [
     PanelComponent,
     PanelsComponent,
     ModalsComponent,
+    SearchImageComponent,
   ],
   imports: [
     BrowserModule,
@@ -96,7 +98,18 @@ const appRoutes: Routes = [
   entryComponents: [
     LoaderComponent
   ],
-  providers: [AppService, SidebarService, ModalService, PanelService, DataService, ContentTableService, ContentListService, ValidatorsService, LoaderService, GetLogoService],
+  providers: [
+    AppService,
+    SidebarService,
+    ModalService,
+    PanelService,
+    DataService,
+    ContentTableService,
+    ContentListService,
+    ValidatorsService,
+    LoaderService,
+    GetLogoService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

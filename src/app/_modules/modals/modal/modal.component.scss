@@ -19,11 +19,8 @@ body.backstage {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1;
 
   &.-is-forward {
-    z-index: 2;
-
     .modal:after {
       visibility: hidden;
       opacity: 0;
@@ -45,13 +42,14 @@ body.backstage {
     content: '';
     visibility: visible;
     opacity: 1;
-    transition: 0.7s opacity, visibility;
+    transition-duration: 0.7s;
+    transition-property: opacity, visibility;
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.3);
   }
 
   &.-item {
@@ -141,7 +139,7 @@ body.backstage {
       top: 50%;
       left: 0;
       background: $dark-gray;
-      transform-origin: top;
+      transform-origin: center;
     }
     &::before {
       transform: rotate(45deg);
@@ -149,35 +147,5 @@ body.backstage {
     &::after {
       transform: rotate(-45deg);
     }
-  }
-}
-
-.image-wrap {
-  position: relative;
-  width: 100%;
-  padding: 15px;
-  background-image: url("../../../../assets/img/img_bg.png");
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  justify-content: center;
-  height: 200px;
-
-  .modal-sidebar & {
-    height: 100px;
-    cursor: pointer;
-  }
-
-  img {
-    max-width: 100%;
-    max-height: 100%;
-  }
-
-  &.-selected {
-    box-shadow: 0 0 5px 2px $blue;
-  }
-
-  & + .image-wrap {
-    margin-top: 30px;
   }
 }

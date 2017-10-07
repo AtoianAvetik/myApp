@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, HostListener, Input } from '@angular/core';
 
 import { ModalService } from '../_services/modal.service';
 
@@ -6,11 +6,9 @@ import { ModalService } from '../_services/modal.service';
   selector: '[openModal]'
 })
 export class OpenModalDirective {
-  private id: string;
+  @Input('openModal') id: string;
 
-  constructor(private modalService: ModalService, private elm: ElementRef) {
-    this.id = elm.nativeElement.getAttribute('data-modal');
-  }
+  constructor(private modalService: ModalService) { }
 
   @HostListener('click') onClick() {
     this.modalService.modalWillOpened.next(this.id);

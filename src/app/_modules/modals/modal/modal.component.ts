@@ -10,6 +10,7 @@ import { ModalService } from '../../../_services/modal.service';
   template: `
     <div class="modal-wrap"
       [ngClass]="{'-is-forward': isForward}"
+      [@zindex]='isForward ? "open" : "close"'
       [@modal]='isOpen ? "open" : "close"'
       (@modal.start)="animationAction($event)"
       (@modal.done)="animationAction($event)">
@@ -22,8 +23,12 @@ import { ModalService } from '../../../_services/modal.service';
     trigger('modal', [
       state('open', style({opacity: 1, transform: 'scale(1.0, 1.0)'})),
       state('close', style({opacity: 0, transform: 'scale(0, 0)'})),
-      transition('close => open', animate('0.3s cubic-bezier(0.680, -0.550, 0.265, 1.550)')),
-      transition('open => close', animate('0.3s cubic-bezier(0.680, -0.550, 0.19, 1.130)'))
+      transition('close => open, open => close', animate('0.3s cubic-bezier(0.680, -0.550, 0.265, 1.550)'))
+    ]),
+    trigger('zindex', [
+      state('open', style({zIndex: 2})),
+      state('close', style({zIndex: 1})),
+      transition('close => open, open => close', animate('0.3s')),
     ])
   ]
 })
@@ -32,9 +37,7 @@ export class ModalComponent implements OnInit, OnDestroy {
   @Input() id: string;
   private _isOpen = false;
   private _isForward = false;
-  willOpenSubscription: Subscription;
-  willCloseSubscription: Subscription;
-  isForwardSubscription: Subscription;
+  subscriptions: Array<Subscription> = [];
   element;
   el;
 
@@ -78,28 +81,25 @@ export class ModalComponent implements OnInit, OnDestroy {
     this.modalService.add(this);
 
     // subscribe events
-    this.willOpenSubscription = this.modalService.modalWillOpened
-      .subscribe(
-        (id: string) => {
-          if ( id === this.id ) {
-            this.open();
-          }
+    this.subscriptions.push(this.modalService.modalWillOpened.subscribe(
+      (id: string) => {
+        if ( id === this.id ) {
+          this.open();
         }
-      );
-    this.willCloseSubscription = this.modalService.modalWillClosed
-      .subscribe(
-        (id: string) => {
-          if ( id === this.id ) {
-            this.close();
-          }
+      }
+    ));
+    this.subscriptions.push(this.modalService.modalWillClosed.subscribe(
+      (id: string) => {
+        if ( id === this.id ) {
+          this.close();
         }
-      );
-    this.isForwardSubscription = this.modalService.forwardActiveChanged
-      .subscribe(
-        (id: string) => {
-          this.isForward = (id === this.id);
-        }
-      );
+      }
+    ));
+    this.subscriptions.push(this.modalService.forwardActiveChanged.subscribe(
+      (id: string) => {
+        this.isForward = (id === this.id);
+      }
+    ));
   }
 
   // remove self from modal service when directive is destroyed
@@ -107,9 +107,9 @@ export class ModalComponent implements OnInit, OnDestroy {
     this.modalService.remove(this.id);
     this.modalService.removeFromActive(this.id);
     this.element.parentNode.removeChild(this.element);
-    this.willOpenSubscription.unsubscribe();
-    this.willCloseSubscription.unsubscribe();
-    this.isForwardSubscription.unsubscribe();
+    this.subscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
+    });
   }
 
   // open modal

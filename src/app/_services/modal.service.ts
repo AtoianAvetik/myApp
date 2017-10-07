@@ -30,6 +30,12 @@ export class ModalService {
     this.isModalsChanged.next(this.modals.slice());
   }
 
+  closeAll() {
+    this.activeModals.forEach((id) => {
+      this.modalWillClosed.next(id);
+    });
+  }
+
   addToActive(id: string) {
     this.activeModals.push(id);
     this.forwardActiveChanged.next(id);
