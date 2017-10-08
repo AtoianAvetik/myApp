@@ -123,6 +123,30 @@ export class DataService {
 
     this.updatePasswordsCategories(this.passwordsCategories);
   }
+  deletePasswordCategory(category) {
+    if ( category.parentCategory ) {
+      this.removeFromArray(this.passwordsCategories[category.parentCategory].childCategories, category.id);
+    }
+    if ( category.childCategories.length ) {
+      category.childCategories.forEach((id) => {
+        this.deletePasswordCategory(this.passwordsCategories[id]);
+      });
+    }
+    delete this.passwordsCategories[category.id];
+    this.updatePasswordsCategories(this.passwordsCategories);
+  }
+  editPasswordCategory(category) {
+    this.passwordsCategories[category.id] = category;
+  }
+  transferPasswordCategory(category, categoryId) {
+    const parentCategory = this.passwordsCategories[category.id].parentCategory;
+    parentCategory && this.removeFromArray(this.passwordsCategories[parentCategory].childCategories, category.id);
+    this.passwordsCategories[category.id].parentCategory = categoryId;
+    if ( categoryId ) {
+      this.passwordsCategories[categoryId].childCategories.push(category.id);
+    }
+    this.updatePasswordsCategories(this.passwordsCategories);
+  }
   updatePasswordsCategories(passwordsCategories) {
     let categoryName;
     this.passwordsCategories = passwordsCategories;
@@ -151,11 +175,17 @@ export class DataService {
     function setHierarchicalCategoryName(category) {
       if ( category.parentCategory ) {
         categoryName = passwordsCategories[category.parentCategory].name + '/' + categoryName;
-        if ( passwordsCategories[category.parentCategory].parentCategory > 0 ) {
+        if ( passwordsCategories[category.parentCategory].parentCategory ) {
           setHierarchicalCategoryName(passwordsCategories[category.parentCategory]);
         }
       }
     }
   }
 
+  removeFromArray(array, item) {
+    const index: number = array.indexOf(item);
+    if (index !== -1) {
+      array.splice(index, 1);
+    }
+  }
 }

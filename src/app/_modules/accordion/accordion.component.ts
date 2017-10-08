@@ -45,6 +45,7 @@ export class AccordionComponent implements OnInit {
 
   toggleOpen(event: MouseEvent) {
     event.preventDefault();
+    event.stopPropagation();
     this.isOpen = !this.isOpen;
   }
 }

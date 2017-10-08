@@ -22,6 +22,7 @@ export class PasswordsComponent implements OnInit {
   isFoldersOpened = false;
   passwordMode = 'add';
   folderMode = 'add';
+  deleteMode = '';
   activeViewType = 'list';
   listSelectedId: number;
   listItemSelectedIndex: number;
@@ -62,10 +63,31 @@ export class PasswordsComponent implements OnInit {
           this.passwordFormCmp.updateForm();
         }
       );
+    this.contentListService.editSelectedList
+      .subscribe(
+        () => {
+          this.folderMode = 'edit';
+          this.folderFormCmp.updateForm();
+        }
+      );
+    this.contentListService.deleteSelectedItem
+      .subscribe(
+        () => {
+          this.deleteMode = 'password';
+        }
+      );
+    this.contentListService.deleteSelectedList
+      .subscribe(
+        () => {
+          this.deleteMode = 'folder';
+        }
+      );
     this.modalService.modalClosingDidDone
       .subscribe(
         () => {
-          !this.modalService.activeModals.length && this.resetForms();
+          if ( !this.modalService.activeModals.length ) {
+            this.resetForms();
+          }
         }
       );
     this.addMenuItemsArray = [
@@ -91,6 +113,9 @@ export class PasswordsComponent implements OnInit {
   }
 
   resetForms() {
+    this.folderMode = '';
+    this.passwordMode = '';
+    this.deleteMode = '';
     this.selectedImage = null;
 
     this.passwordFormCmp.reset();
@@ -117,6 +142,11 @@ export class PasswordsComponent implements OnInit {
 
   deleteItem() {
     this.dataService.deletePassword(this.listSelectedId, this.listItemSelectedIndex);
+    this.modalService.closeAll();
+  }
+
+  deleteFolder() {
+    this.dataService.deletePasswordCategory(this.foldersData[this.listSelectedId]);
     this.modalService.closeAll();
   }
 

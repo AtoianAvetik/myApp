@@ -39,4 +39,18 @@ export class PasswordsGroupComponent implements OnInit, DoCheck {
       }
     });
   }
+
+  onEditFolder(folderId) {
+    this.selectFolder(folderId);
+    this.contentListService.editSelectedList.next();
+  }
+
+  onDeleteFolder(folderId) {
+    this.selectFolder(folderId);
+    this.contentListService.deleteSelectedList.next();
+  }
+
+  selectFolder(folderId) {
+    this.contentListService.listSelected.next(folderId);
+  }
 }

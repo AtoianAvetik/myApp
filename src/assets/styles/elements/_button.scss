@@ -36,6 +36,7 @@ $btn-white: #fff;
 .btn{
     position: relative;
     display: inline-block;
+    vertical-align: middle;
     background: $btn-white;
     font-family: $btn-font-family;
     height: $btn-height;

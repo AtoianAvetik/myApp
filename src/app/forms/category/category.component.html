@@ -14,10 +14,11 @@
         name="parentCategorySelect"
         id="parentCategorySelect"
         formControlName="categorySelect">
-        <option *ngFor="let category of categories" [value]="category.id">{{category.text}}</option>
+        <option *ngFor="let category of curCategoriesList" [value]="category.id">{{category.text}}</option>
       </select>
       <ng-select [allowClear]="true"
-                 [items]="categories"
+                 [items]="curCategoriesList"
+                 [active]="activeCategory"
                  (data)="onSelectCategory($event)"
                  placeholder="Choose parent folder"
                  class="page-select">
