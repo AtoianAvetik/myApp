@@ -108,10 +108,6 @@ export class PasswordsComponent implements OnInit {
     this.searchImageFormCmp.initForm();
   }
 
-  testInit() {
-    console.log( this.passwordFormCmp.form );
-  }
-
   resetForms() {
     this.folderMode = '';
     this.passwordMode = '';
@@ -130,10 +126,6 @@ export class PasswordsComponent implements OnInit {
   changeViewType(type: string) {
     this.activeViewType = type;
     this.contentListService.viewTypeChanged.next(type);
-  }
-
-  editFolders() {
-    console.log( '1' );
   }
 
   selectImage() {
