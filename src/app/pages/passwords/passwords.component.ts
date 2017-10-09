@@ -19,6 +19,7 @@ export class PasswordsComponent implements OnInit {
   foldersData: {[name: string]: PasswordCategory};
   folders: Array<any>;
   foldersIdArray: Array<any>;
+  passwordsLength: number = 0;
   isFoldersOpened = false;
   passwordMode = 'add';
   folderMode = 'add';
@@ -100,6 +101,7 @@ export class PasswordsComponent implements OnInit {
     this.foldersData = data.categories;
     this.folders = data.categoriesArray;
     this.foldersIdArray = data.categoriesIdArray;
+    this.foldersIdArray.forEach((id) => {this.passwordsLength = this.foldersData[id].content.length + this.passwordsLength })
   }
 
   initForms() {
