@@ -20,7 +20,6 @@
 //----------------- base -----------------//
 @import "assets/styles/base/fonts";
 @import "assets/fonts/iconFont/iconFont.css";
-@import "assets/styles/base/main";
 @import "assets/styles/base/typography";
 @import "assets/styles/base/zindex";
 
@@ -30,9 +29,16 @@
 @import "assets/styles/elements/select";
 @import "assets/styles/elements/icons";
 
+
+
+@import "assets/styles/base/main";
+
 //----------------- mixins -----------------//
 
 //----------------- utilities -----------------//
 @import "assets/styles/utilities/helpers";
 
 //----------------- vendors -----------------//
+
+
+

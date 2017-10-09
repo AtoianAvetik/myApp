@@ -82,10 +82,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.imgToBase64.convert(input.target.files[0]);
   }
 
-  createNotification(message = '') {
+  createSuccessNotification(message = '') {
     this.notificationService.success(message);
   }
-
+  createErrorNotification(message = '') {
+    this.notificationService.error(message);
+  }
+  createInfoNotification(message = '') {
+    this.notificationService.info(message);
+  }
+  createWarningNotification(message = '') {
+    this.notificationService.warn(message);
+  }
   clearNotification() {
     this.notificationService.clear();
   }

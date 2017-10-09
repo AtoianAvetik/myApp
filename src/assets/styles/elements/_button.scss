@@ -23,6 +23,7 @@ $btn-dark: $dark;
 $btn-light: $light;
 $btn-gray: $gray;
 $btn-white: #fff;
+$btn-yellow: $yellow;
 
 .btn-pure{
     background: none;
@@ -172,6 +173,10 @@ $btn-white: #fff;
 
 .btn-blue{
     @include create-button($btn-text-color, $btn-blue);
+}
+
+.btn-yellow{
+    @include create-button($btn-text-color, $btn-yellow);
 }
 
 .btn-white{

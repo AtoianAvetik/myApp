@@ -439,7 +439,7 @@ body{
   padding: 20vh 10px;
 }
 
-.page-notification-wrap {
+.page-notification-wrapper {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -447,24 +447,101 @@ body{
 }
 
 .page-notification {
-  padding: 15px;
+  padding: 10px 15px;
   margin-bottom: 20px;
-  border: 1px solid transparent;
+  overflow: hidden;
   border-radius: 4px;
+  position: relative;
+  background-color: $white;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 
   &.-dismissable {
     padding-right: 35px;
   }
 
-  &.-success {
-    color: $white;
-    background-color: $green;
-    border-color: $green;
+  &.-with-icon {
+    padding-left: 60px;
   }
 
+  &.-success {
+    .page-notification_icon {
+      color: $dark-green;
+      background-color: $green;
+    }
+    .page-notification_title {
+      color: $green;
+    }
+  }
   &.-error {
-    color: $white;
-    background-color: $red;
-    border-color: $red;
+    .page-notification_icon {
+      color: $dark-red;
+      background-color: $red;
+    }
+    .page-notification_title {
+      color: $red;
+    }
+  }
+  &.-info {
+    .page-notification_icon {
+      color: $blue-dark;
+      background-color: $blue;
+    }
+    .page-notification_title {
+      color: $blue;
+    }
+  }
+  &.-warning {
+    .page-notification_icon {
+      color: $dark-yellow;
+      background-color: $yellow;
+    }
+    .page-notification_title {
+      color: $yellow;
+    }
+  }
+
+  &_inner {
+    padding-left: 15px;
+  }
+
+  &_icon {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .-success > & {
+      color: $dark-green;
+      background-color: $green;
+    }
+  }
+
+  &_title {
+    margin-bottom: 3px;
+  }
+
+  &_message {
+    font-size: 13px;
+  }
+
+  &_close-btn {
+    display: block;
+    position: absolute;
+    top: 7px;
+    padding: 4px;
+    line-height: 1;
+    font-size: 7px;
+    right: 7px;
+    border-radius: 50%;
+    border: 1px solid $dark;
+    background: transparent;
+
+    i {
+      display: block;
+    }
   }
 }

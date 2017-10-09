@@ -23,8 +23,11 @@
       <button class="btn-white" type="button" (click)="loaderOpen('home-3')">Loader 3</button>
       <button class="btn-blue" type="button" [openPanel]="'panel-test-1'" title="Open">Panel 1</button>
       <button class="btn-blue" type="button" [openPanel]="'panel-test-2'" title="Open">Panel 2</button>
-      <button class="btn-success" type="button" (click)="createNotification('This is notification!')" title="Open">Create notification</button>
-      <button class="btn-success" type="button" (click)="clearNotification()" title="Open">Clear notification</button>
+      <button class="btn-success" type="button" (click)="createSuccessNotification('This is notification!')" title="Open">Create success notification</button>
+      <button class="btn-red" type="button" (click)="createErrorNotification('This is notification!')" title="Open">Create error notification</button>
+      <button class="btn-blue" type="button" (click)="createInfoNotification('This is notification!')" title="Open">Create info notification</button>
+      <button class="btn-yellow" type="button" (click)="createWarningNotification('This is notification!')" title="Open">Create warning notification</button>
+      <button class="btn-default" type="button" (click)="clearNotification()" title="Open">Clear notification</button>
     </div>
   </div>
 </section>

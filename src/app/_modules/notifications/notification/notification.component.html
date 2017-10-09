@@ -1,4 +1,11 @@
 <div
-  class="page-notification -{{ type }}">
-    {{message}}
+  class="row no-gutters -middle page-notification -with-icon -dismissable -{{ type }}">
+  <div class="page-notification_icon">
+    <i class="{{ icon }}"></i>
+  </div>
+  <div class="page-notification_inner">
+    <p class="page-notification_title">{{ title }}</p>
+    <span class="page-notification_message">{{ message }}</span>
+  </div>
+  <button (click)="closeNotification()" class="btn-pure page-notification_close-btn"><i class="icon-cross"></i></button>
 </div>

@@ -1,6 +1,7 @@
 import {
   Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, OnInit,
-  ViewContainerRef, ElementRef } from '@angular/core';
+  ViewContainerRef, ElementRef, HostBinding
+} from '@angular/core';
 
 import { NotificationService } from '../../_services/notification.service';
 import { Notification, NotificationType } from '../../_models/notification.model';
@@ -8,12 +9,13 @@ import { NotificationComponent } from './notification/notification.component';
 
 @Component({
   selector: 'app-notifications',
-  template: ``,
-  styleUrls: ['./notifications.component.scss'],
-  host: {'class': 'page-notification-wrap'}
+  template: `
+    <div class="page-notification-wrapper"></div>
+  `,
+  styleUrls: ['./notifications.component.scss']
 })
 export class NotificationsComponent implements OnInit {
-  alerts: Notification[] = [];
+  @HostBinding('class.page-notification-wrap') isActive = true;
   componentRef: ComponentRef<Notification>;
 
   constructor(private notificationService: NotificationService,
@@ -29,28 +31,29 @@ export class NotificationsComponent implements OnInit {
         return;
       }
 
-      const type = this.cssClass(data);
+      const type = this.getCssClass(data);
+      const title = this.getTitle(data);
+      const icon = this.getIcon(data);
 
       // create notification
-      this.createNotification(type, data.message);
+      this.createNotification(type, title, icon, data.message);
     });
   }
 
-  createNotification(type, message) {
+  createNotification(type, title, icon, message) {
     const factory: ComponentFactory<Notification> = this.resolver.resolveComponentFactory(NotificationComponent);
 
     this.componentRef = this.viewContainerRef.createComponent(factory);
     this.componentRef.instance.type = type;
+    this.componentRef.instance.title = title;
+    this.componentRef.instance.icon = icon;
     this.componentRef.instance.message = message;
+    this.componentRef.instance._ref = this.componentRef;
 
-    this.elRef.nativeElement.appendChild(this.componentRef.location.nativeElement);
+    this.elRef.nativeElement.querySelector('.page-notification-wrapper').appendChild(this.componentRef.location.nativeElement);
   }
 
-  removeAlert(notification: Notification) {
-    this.alerts = this.alerts.filter(x => x !== notification);
-  }
-
-  cssClass(notification: Notification) {
+  getCssClass(notification: Notification) {
     if (!notification) {
       return;
     }
@@ -60,11 +63,47 @@ export class NotificationsComponent implements OnInit {
       case NotificationType.Success:
         return 'success';
       case NotificationType.Error:
-        return 'danger';
+        return 'error';
       case NotificationType.Info:
         return 'info';
       case NotificationType.Warning:
         return 'warning';
+    }
+  }
+
+  getTitle(notification: Notification) {
+    if (!notification) {
+      return;
+    }
+
+    // return css class based on notification type
+    switch (notification.type) {
+      case NotificationType.Success:
+        return 'Success';
+      case NotificationType.Error:
+        return 'Error';
+      case NotificationType.Info:
+        return 'Notification';
+      case NotificationType.Warning:
+        return 'Attention';
+    }
+  }
+
+  getIcon(notification: Notification) {
+    if (!notification) {
+      return;
+    }
+
+    // return css class based on notification type
+    switch (notification.type) {
+      case NotificationType.Success:
+        return 'icon-check';
+      case NotificationType.Error:
+        return 'icon-cross';
+      case NotificationType.Info:
+        return 'icon-check';
+      case NotificationType.Warning:
+        return 'icon-check';
     }
   }
 }
