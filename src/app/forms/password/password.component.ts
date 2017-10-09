@@ -5,6 +5,7 @@ import { ValidatorsService } from '../../_services/validators.service';
 import { DataService } from '../../_services/data.service';
 import { ImgToBase64Service } from '../../_services/img-to-base64.service';
 import { LoaderService } from '../../_services/loader.service';
+import { PasswordCategory } from '../../_models/password-category.model';
 
 @Component({
   selector: 'app-password',
@@ -58,6 +59,8 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
         'uploadImage': new FormControl(this.formDefaultValues.previewImage.uploadImage),
       })
     });
+    console.log( this.formDefaultValues.categorySelect );
+    console.log( this.form.get('categorySelect').value );
   }
 
   updateForm() {
@@ -68,7 +71,7 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
     const updatedValues = JSON.parse(JSON.stringify(this.formDefaultValues));
 
     if ( this.mode === 'edit' && this.categoriesData[this.categoryId] && this.categoriesData[this.categoryId].content[this.itemIndex] ) {
-      ( this.categoryId !== 'none' ) && (this.activeCategory = [this.categories.find((el, index) => el.id === this.categoryId)])
+      this.categoriesData[this.categoryId].editable && (this.activeCategory = [this.categories.find((el, index) => el.id === this.categoryId)])
 
       const password = this.categoriesData[this.categoryId].content[this.itemIndex];
       updatedValues.serviceName = password.serviceName;
@@ -93,6 +96,14 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
         (image: string) => {
           this.previewImageLoader.dismiss();
           this.setPreviewImage(image);
+        }
+      );
+    this.form.valueChanges
+      .subscribe(
+        () => {
+          console.log( this.formDefaultValues.categorySelect );
+          console.log( this.form );
+          console.log( this.form.get('categorySelect').value );
         }
       );
   }
@@ -152,7 +163,7 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     formControl.markAsDirty();
-    formControl.setValue([data.id]);
+    formControl.setValue(data);
   }
 
   isValid(ctrl?: string) {
@@ -170,12 +181,16 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
   reset() {
     this.activeCategory = [];
     this.isTransfer = false;
+    this.mode = '';
 
-    this.form.reset();
+    // this.form.reset();
+    this.updateForm();
   }
 
   submit() {
     if (this.form.valid) {
+      const parentCategoryId = this.form.get('categorySelect').value.id;
+      const parentCategoryName = this.form.get('categorySelect').value.text;
       const newPassword = {
         serviceName: this.form.get('serviceName').value,
         url: this.form.get('url').value,
@@ -187,11 +202,15 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
       };
 
       if ( this.mode === 'add' ) {
-        this.dataService.addPassword(this.form.get('categorySelect').value, newPassword);
+        if (!this.categoriesData[parentCategoryId]) {
+          const category = new PasswordCategory(parentCategoryId, parentCategoryName);
+          this.dataService.addPasswordCategory(category);
+        }
+        this.dataService.addPassword(parentCategoryId, newPassword);
       }
       if ( this.mode === 'edit' ) {
         if ( this.isTransfer ) {
-          this.dataService.transferPassword(this.categoryId, this.form.get('categorySelect').value, this.itemIndex, newPassword);
+          this.dataService.transferPassword(this.categoryId, parentCategoryId, this.itemIndex, newPassword);
         } else {
           this.dataService.editPassword(this.categoryId, this.itemIndex, newPassword);
         }

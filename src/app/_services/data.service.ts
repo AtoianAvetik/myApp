@@ -164,7 +164,7 @@ export class DataService {
         const categoryId = passwordsCategories[category].id;
         categoryName = passwordsCategories[category].name;
         setHierarchicalCategoryName(passwordsCategories[category]);
-        (category !== 'none') && newPasswordsCategoriesSelectArray.push({id: categoryId, text: categoryName});
+        passwordsCategories[category].editable && newPasswordsCategoriesSelectArray.push({id: categoryId, text: categoryName});
         newPasswordsCategoriesIdArray.push(categoryId);
       }
     }
