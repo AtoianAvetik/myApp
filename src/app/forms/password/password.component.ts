@@ -59,8 +59,6 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
         'uploadImage': new FormControl(this.formDefaultValues.previewImage.uploadImage),
       })
     });
-    console.log( this.formDefaultValues.categorySelect );
-    console.log( this.form.get('categorySelect').value );
   }
 
   updateForm() {
@@ -96,14 +94,6 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
         (image: string) => {
           this.previewImageLoader.dismiss();
           this.setPreviewImage(image);
-        }
-      );
-    this.form.valueChanges
-      .subscribe(
-        () => {
-          console.log( this.formDefaultValues.categorySelect );
-          console.log( this.form );
-          console.log( this.form.get('categorySelect').value );
         }
       );
   }
@@ -183,7 +173,7 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
     this.isTransfer = false;
     this.mode = '';
 
-    // this.form.reset();
+    this.form.reset();
     this.updateForm();
   }
 

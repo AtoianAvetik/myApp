@@ -26,6 +26,7 @@ import { DataService } from './_services/data.service';
 import { ContentTableService } from './_services/content-table.service';
 import { ContentListService } from './_services/content-list.service';
 import { PanelService } from './_services/panel.service';
+import { NotificationService } from './_services/notification.service';
 
 /* Pages */
 import { HomeComponent } from './pages/home/home.component';
@@ -49,6 +50,8 @@ import { PanelComponent } from './_modules/panels/panel/panel.component';
 import { PanelsComponent } from './_modules/panels/panels.component';
 import { ModalsComponent } from './_modules/modals/modals.component';
 import { SearchImageComponent } from './forms/search-image/search-image.component';
+import { NotificationComponent } from './_modules/notifications/notification/notification.component';
+import { NotificationsComponent } from './_modules/notifications/notifications.component';
 
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -83,6 +86,8 @@ const appRoutes: Routes = [
     PanelsComponent,
     ModalsComponent,
     SearchImageComponent,
+    NotificationComponent,
+    NotificationsComponent,
   ],
   imports: [
     BrowserModule,
@@ -96,7 +101,8 @@ const appRoutes: Routes = [
     PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG)
   ],
   entryComponents: [
-    LoaderComponent
+    LoaderComponent,
+    NotificationComponent
   ],
   providers: [
     AppService,
@@ -108,7 +114,8 @@ const appRoutes: Routes = [
     ContentListService,
     ValidatorsService,
     LoaderService,
-    GetLogoService
+    GetLogoService,
+    NotificationService
   ],
   bootstrap: [AppComponent]
 })

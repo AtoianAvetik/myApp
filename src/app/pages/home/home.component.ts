@@ -4,6 +4,7 @@ import { BunnyImage } from 'bunnyjs/src/file/image';
 import { ImgToBase64Service } from '../../_services/img-to-base64.service';
 import { GetLogoService } from '../../_services/get-logo.service';
 import { LoaderService } from '../../_services/loader.service';
+import { NotificationService } from '../../_services/notification.service';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   constructor(
     private imgToBase64: ImgToBase64Service,
     private getLogo: GetLogoService,
-    private loaderService: LoaderService) {
+    private loaderService: LoaderService,
+    private notificationService: NotificationService) {
     this.file_src = "https://www.google.com.ua/favicon.ico";
   }
 
@@ -78,5 +80,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   imageChange(input) {
     this.imgToBase64.convert(input.target.files[0]);
+  }
+
+  createNotification(message = '') {
+    this.notificationService.success(message);
+  }
+
+  clearNotification() {
+    this.notificationService.clear();
   }
 }
