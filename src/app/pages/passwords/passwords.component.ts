@@ -38,11 +38,11 @@ export class PasswordsComponent implements OnInit {
 
   ngOnInit() {
     this.initForms();
-    this.updateFolders(this.dataService.getPasswordsData());
+    this.updatePasswords(this.dataService.getPasswordsData());
     this.dataService.passwordsDataChanged
       .subscribe(
         (data: any) => {
-          this.updateFolders(data);
+          this.updatePasswords(data);
         }
       );
     this.contentListService.listSelected
@@ -97,11 +97,13 @@ export class PasswordsComponent implements OnInit {
     ];
   }
 
-  updateFolders(data: any) {
+  updatePasswords(data: any) {
     this.foldersData = data.categories;
     this.folders = data.categoriesArray;
     this.foldersIdArray = data.categoriesIdArray;
-    this.foldersIdArray.forEach((id) => {this.passwordsLength = this.foldersData[id].content.length + this.passwordsLength })
+
+    this.passwordsLength = 0;
+    this.foldersIdArray.forEach((id) => this.passwordsLength = this.foldersData[id].content.length + this.passwordsLength);
   }
 
   initForms() {

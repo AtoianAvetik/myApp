@@ -103,16 +103,20 @@ export class DataService {
 
   addPassword(categoryId, item) {
     this.passwordsCategories[categoryId].content.push(item);
+    this.updatePasswords();
   }
   deletePassword(categoryId, itemIndex) {
     this.passwordsCategories[categoryId].content.splice(itemIndex, 1);
+    this.updatePasswords();
   }
   editPassword(categoryId, itemIndex, item) {
     this.passwordsCategories[categoryId].content[itemIndex] = item;
+    this.updatePasswords();
   }
   transferPassword(prevCategoryId, categoryId, itemIndex, item) {
     this.passwordsCategories[prevCategoryId].content.splice(itemIndex, 1);
     this.passwordsCategories[categoryId].content.push(item);
+    this.updatePasswords();
   }
   addPasswordCategory(category: PasswordCategory) {
     this.passwordsCategories[category.id] = category;
@@ -137,6 +141,7 @@ export class DataService {
   }
   editPasswordCategory(category) {
     this.passwordsCategories[category.id] = category;
+    this.updatePasswordsCategories( this.passwordsCategories );
   }
   transferPasswordCategory(category, categoryId) {
     const parentCategory = this.passwordsCategories[category.id].parentCategory;
@@ -167,11 +172,7 @@ export class DataService {
     this.passwordsCategoriesSelectArray = newPasswordsCategoriesSelectArray;
     this.passwordsCategoriesIdArray = newPasswordsCategoriesIdArray;
 
-    this.passwordsDataChanged.next({
-      categories: this.passwordsCategories,
-      categoriesArray: this.passwordsCategoriesSelectArray,
-      categoriesIdArray: this.passwordsCategoriesIdArray
-    });
+    this.updatePasswords();
 
     function setHierarchicalCategoryName(category) {
       if ( category.parentCategory ) {
@@ -181,6 +182,14 @@ export class DataService {
         }
       }
     }
+  }
+
+  updatePasswords() {
+    this.passwordsDataChanged.next({
+      categories: this.passwordsCategories,
+      categoriesArray: this.passwordsCategoriesSelectArray,
+      categoriesIdArray: this.passwordsCategoriesIdArray
+    });
   }
 
   removeFromArray(array, item) {
