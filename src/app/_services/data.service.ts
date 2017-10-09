@@ -123,17 +123,17 @@ export class DataService {
 
     this.updatePasswordsCategories(this.passwordsCategories);
   }
-  deletePasswordCategory(category) {
-    if ( category.parentCategory ) {
+  deletePasswordCategory(category, isChild = false) {
+    if ( category.parentCategory && !isChild ) {
       this.removeFromArray(this.passwordsCategories[category.parentCategory].childCategories, category.id);
     }
     if ( category.childCategories.length ) {
       category.childCategories.forEach((id) => {
-        this.deletePasswordCategory(this.passwordsCategories[id]);
+        this.deletePasswordCategory(this.passwordsCategories[id], true)
       });
     }
     delete this.passwordsCategories[category.id];
-    this.updatePasswordsCategories(this.passwordsCategories);
+    this.updatePasswordsCategories( this.passwordsCategories );
   }
   editPasswordCategory(category) {
     this.passwordsCategories[category.id] = category;
@@ -148,6 +148,7 @@ export class DataService {
     this.updatePasswordsCategories(this.passwordsCategories);
   }
   updatePasswordsCategories(passwordsCategories) {
+    console.log( passwordsCategories );
     let categoryName;
     this.passwordsCategories = passwordsCategories;
     const newPasswordsCategoriesArray = [];
