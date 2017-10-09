@@ -27,7 +27,7 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
     email: '',
     pass: '',
     desc: '',
-    categorySelect: null,
+    categorySelect: {id: 'none', text: '(none)'},
     previewImage: {
       image: '',
       lastImage: '',

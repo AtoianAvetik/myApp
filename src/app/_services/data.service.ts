@@ -13,7 +13,7 @@ export class DataService {
   private passValues: PassItem[] = [];
   private passwordsData: Observable<any>;
   private passwordsCategories: {[name: string]: PasswordCategory} = {};
-  private passwordsCategoriesArray: Array<any> = [];
+  private passwordsCategoriesSelectArray: Array<any> = [];
   private passwordsCategoriesIdArray: Array<any> = [];
   private tablesData = [
     {
@@ -96,7 +96,7 @@ export class DataService {
   getPasswordsData() {
     return {
       categories: this.passwordsCategories,
-      categoriesArray: this.passwordsCategoriesArray,
+      categoriesArray: this.passwordsCategoriesSelectArray,
       categoriesIdArray: this.passwordsCategoriesIdArray
     }
   }
@@ -151,7 +151,7 @@ export class DataService {
     console.log( passwordsCategories );
     let categoryName;
     this.passwordsCategories = passwordsCategories;
-    const newPasswordsCategoriesArray = [];
+    const newPasswordsCategoriesSelectArray = [];
     const newPasswordsCategoriesIdArray = [];
 
     for ( const category in passwordsCategories ) {
@@ -159,17 +159,17 @@ export class DataService {
         const categoryId = passwordsCategories[category].id;
         categoryName = passwordsCategories[category].name;
         setHierarchicalCategoryName(passwordsCategories[category]);
-        newPasswordsCategoriesArray.push({id: categoryId, text: categoryName});
+        (category !== 'none') && newPasswordsCategoriesSelectArray.push({id: categoryId, text: categoryName});
         newPasswordsCategoriesIdArray.push(categoryId);
       }
     }
 
-    this.passwordsCategoriesArray = newPasswordsCategoriesArray;
+    this.passwordsCategoriesSelectArray = newPasswordsCategoriesSelectArray;
     this.passwordsCategoriesIdArray = newPasswordsCategoriesIdArray;
 
     this.passwordsDataChanged.next({
       categories: this.passwordsCategories,
-      categoriesArray: this.passwordsCategoriesArray,
+      categoriesArray: this.passwordsCategoriesSelectArray,
       categoriesIdArray: this.passwordsCategoriesIdArray
     });
 
