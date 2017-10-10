@@ -7,6 +7,29 @@ import { Notification, NotificationType } from '../_models/notification.model';
 @Injectable()
 export class NotificationService {
   private subject = new Subject<Notification>();
+  private timeout = 800;
+  notificationsData = {
+    success: {
+      typeClass: 'success',
+      iconClass: 'icon-check',
+      title: 'Success'
+    },
+    error: {
+      typeClass: 'error',
+      iconClass: 'icon-cross',
+      title: 'Error'
+    },
+    info: {
+      typeClass: 'info',
+      iconClass: 'icon-info',
+      title: 'Notification'
+    },
+    warning: {
+      typeClass: 'warning',
+      iconClass: 'icon-warning',
+      title: 'Attention'
+    },
+  };
 
   constructor() {}
 
@@ -14,24 +37,42 @@ export class NotificationService {
     return this.subject.asObservable();
   }
 
-  success(message: string) {
-    this.notification(NotificationType.Success, message);
+  getInfo(type, kind) {
+    if (!kind) {
+      return;
+    }
+
+    // return css class based on notification type
+    switch (type) {
+      case NotificationType.Success:
+        return this.notificationsData.success[kind];
+      case NotificationType.Error:
+        return this.notificationsData.error[kind];
+      case NotificationType.Info:
+        return this.notificationsData.info[kind];
+      case NotificationType.Warning:
+        return this.notificationsData.warning[kind];
+    }
   }
 
-  error(message: string) {
-    this.notification(NotificationType.Error, message);
+  success(message: string, timeout = this.timeout) {
+    this.notification(NotificationType.Success, message, timeout);
   }
 
-  info(message: string) {
-    this.notification(NotificationType.Info, message);
+  error(message: string, timeout = this.timeout) {
+    this.notification(NotificationType.Error, message, timeout);
   }
 
-  warn(message: string) {
-    this.notification(NotificationType.Warning, message);
+  info(message: string, timeout = this.timeout) {
+    this.notification(NotificationType.Info, message, timeout);
   }
 
-  notification(type: NotificationType, message: string) {
-    this.subject.next(<Notification>{ type: type, message: message });
+  warn(message: string, timeout = this.timeout) {
+    this.notification(NotificationType.Warning, message, timeout);
+  }
+
+  notification(type: NotificationType, message: string, timeout: number) {
+    this.subject.next(<Notification>{ type: type, message: message, timeout: timeout });
   }
 
   clear() {

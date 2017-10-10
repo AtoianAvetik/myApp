@@ -65,12 +65,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
     // });
   }
 
-  loaderOpen(id: string) {
-    this.loader = this.loaderService.create({
-      id: id,
-      content: id
-    });
-
+  loaderOpen(id: string, text: string) {
+    if ( text ) {
+      this.loader = this.loaderService.create({
+        id: id,
+        content: text
+      });
+    } else {
+      this.loader = this.loaderService.create({
+        id: id
+      });
+    }
     this.loader.present().subscribe(() =>{
       setTimeout(() => {
         this.loader.dismiss();
@@ -82,8 +87,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.imgToBase64.convert(input.target.files[0]);
   }
 
-  createSuccessNotification(message = '') {
-    this.notificationService.success(message);
+  createSuccessNotification(message = '', timeout) {
+    this.notificationService.success(message, timeout);
   }
   createErrorNotification(message = '') {
     this.notificationService.error(message);

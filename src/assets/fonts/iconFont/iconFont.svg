@@ -5,8 +5,8 @@
 -->
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
 <metadata>
-Created by FontForge 20161004 at Mon Oct 09 23:44:54 2017
- By Avet
+Created by FontForge 20161004 at Tue Oct 10 10:29:47 2017
+ By Developer
 Copyright (c) 2017, Developer
 </metadata>
 <defs>
@@ -21,10 +21,10 @@ Copyright (c) 2017, Developer
     descent="-200"
     x-height="800"
     cap-height="800"
-    bbox="-0.0751953 -364.439 1753.88 800.015"
+    bbox="-1.04297 -364.439 1753.88 801.043"
     underline-thickness="50"
     underline-position="-100"
-    unicode-range="U+0043-0075"
+    unicode-range="U+0043-0077"
   />
     <missing-glyph />
     <glyph glyph-name="lock" unicode="l" horiz-adv-x="658" 
@@ -135,5 +135,9 @@ c11.7188 0 19.791 4.94727 29.9473 12.2393l48.6982 41.1455c10.6768 8.59375 20.051
 d="M1000 713.054l-413.054 -413.054l413.054 -413.054l-86.9463 -86.9463l-413.054 413.054l-413.054 -413.054l-86.9463 86.9463l413.054 413.054l-413.054 413.054l86.9463 86.9463l413.054 -413.054l413.054 413.054z" />
     <glyph glyph-name="check" unicode="c" horiz-adv-x="1318" 
 d="M417.91 8.95508l791.045 791.045l104.478 -104.478l-895.522 -895.522l-417.91 417.91l104.478 104.478z" />
+    <glyph glyph-name="warning" unicode="w" horiz-adv-x="105" 
+d="M0 0v800h100v-800h-100zM0 -200v100h100v-100h-100z" />
+    <glyph glyph-name="info" unicode="i" horiz-adv-x="105" 
+d="M98.957 600v-800h-100v800h100zM98.957 801.043v-100h-100v100h100z" />
   </font>
 </defs></svg>

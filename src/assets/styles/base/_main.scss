@@ -471,6 +471,9 @@ body{
     .page-notification_title {
       color: $green;
     }
+    .page-notification_progress-bar {
+      background-color: $dark-green;
+    }
   }
   &.-error {
     .page-notification_icon {
@@ -479,6 +482,9 @@ body{
     }
     .page-notification_title {
       color: $red;
+    }
+    .page-notification_progress-bar {
+      background-color: $dark-red;
     }
   }
   &.-info {
@@ -489,6 +495,9 @@ body{
     .page-notification_title {
       color: $blue;
     }
+    .page-notification_progress-bar {
+      background-color: $blue-dark;
+    }
   }
   &.-warning {
     .page-notification_icon {
@@ -497,6 +506,9 @@ body{
     }
     .page-notification_title {
       color: $yellow;
+    }
+    .page-notification_progress-bar {
+      background-color: $dark-yellow;
     }
   }
 
@@ -514,9 +526,8 @@ body{
     justify-content: center;
     align-items: center;
 
-    .-success > & {
-      color: $dark-green;
-      background-color: $green;
+    .icon-warning, .icon-info {
+      font-size: 22px;
     }
   }
 
@@ -543,5 +554,14 @@ body{
     i {
       display: block;
     }
+  }
+
+  &_progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2px;
+    z-index: 1;
+    width: 0;
   }
 }

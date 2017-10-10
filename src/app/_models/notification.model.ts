@@ -2,9 +2,8 @@ import { ComponentRef } from '@angular/core';
 
 export class Notification {
   type: NotificationType;
-  title: string;
-  icon: string;
   message: string;
+  timeout: number;
   _ref: ComponentRef<Notification>;
 }
 

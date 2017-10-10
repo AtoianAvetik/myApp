@@ -6,7 +6,7 @@ import { Modal } from '../_models/modal.model';
 
 @Injectable()
 export class ModalService {
-  private modals: any[] = [];
+  private modals: any[] = [];тп
   activeModals: any[] = [];
   modalWillOpened = new Subject<string>();
   modalWillClosed = new Subject<string>();
