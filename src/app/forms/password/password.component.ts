@@ -71,7 +71,7 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
     const updatedValues = JSON.parse(JSON.stringify(this.formDefaultValues));
 
     if ( this.mode === 'edit' && this.categoriesData[this.categoryId] && this.categoriesData[this.categoryId].content[this.itemIndex] ) {
-      this.categoriesData[this.categoryId].editable && (this.activeCategory = [this.categories.find((el, index) => el.id === this.categoryId)])
+      this.categoriesData[this.categoryId].editable ? (this.activeCategory = [this.categories.find((el, index) => el.id === this.categoryId)]) : (this.activeCategory = [this.formDefaultValues.categorySelect]);
 
       const password = this.categoriesData[this.categoryId].content[this.itemIndex];
       updatedValues.serviceName = password.serviceName;
