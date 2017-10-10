@@ -22,6 +22,7 @@ export class NotificationService {
     info: {
       typeClass: 'info',
       iconClass: 'icon-info',
+
       title: 'Notification'
     },
     warning: {

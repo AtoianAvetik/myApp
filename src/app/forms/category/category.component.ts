@@ -36,7 +36,7 @@ export class CategoryComponent implements OnInit, OnChanges {
     if ( !Object.getOwnPropertyNames(this.categoriesData).length ) {
       return false;
     }
-
+    this.form.reset();
     this.curCategoriesList = this.categories.slice();
 
     const updatedValues = JSON.parse(JSON.stringify(this.formDefaultValues));
@@ -115,9 +115,10 @@ export class CategoryComponent implements OnInit, OnChanges {
     this.isTransfer = false;
 
     this.form.reset();
+    this.updateForm();
   }
 
-  submit() {
+  onSubmit() {
     if (this.form.valid) {
       const parentFolder = this.form.get('categorySelect').value ? this.form.get('categorySelect').value.id : null;
       const categoryName = this.form.get('categoryName').value.toString();

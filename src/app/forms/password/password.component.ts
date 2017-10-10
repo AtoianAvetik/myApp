@@ -66,6 +66,8 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
       return false;
     }
 
+    this.form.reset();
+
     const updatedValues = JSON.parse(JSON.stringify(this.formDefaultValues));
 
     if ( this.mode === 'edit' && this.categoriesData[this.categoryId] && this.categoriesData[this.categoryId].content[this.itemIndex] ) {
@@ -177,7 +179,7 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
     this.updateForm();
   }
 
-  submit() {
+  onSubmit() {
     if (this.form.valid) {
       const parentCategoryId = this.form.get('categorySelect').value.id;
       const parentCategoryName = this.form.get('categorySelect').value.text;
