@@ -6,6 +6,7 @@ import { DataService } from '../../_services/data.service';
 import { ImgToBase64Service } from '../../_services/img-to-base64.service';
 import { LoaderService } from '../../_services/loader.service';
 import { PasswordCategory } from '../../_models/password-category.model';
+import { Password } from '../../_models/password.model';
 
 @Component({
   selector: 'app-password',
@@ -170,7 +171,7 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
     return this.form.get(ctrl);
   }
 
-  reset() {
+  resetForm() {
     this.activeCategory = [];
     this.isTransfer = false;
     this.mode = '';
@@ -183,22 +184,27 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
     if (this.form.valid) {
       const parentCategoryId = this.form.get('categorySelect').value.id;
       const parentCategoryName = this.form.get('categorySelect').value.text;
-      const newPassword = {
-        serviceName: this.form.get('serviceName').value,
-        url: this.form.get('url').value,
-        userName: this.form.get('userName').value,
-        email: this.form.get('email').value,
-        pass: this.form.get('pass').value,
-        desc: this.form.get('desc').value,
-        img: this.form.get('previewImage.image').value
-      };
+      const newPassword = new Password(
+          this.form.get('serviceName').value,
+          this.form.get('userName').value,
+          this.form.get('email').value,
+          this.form.get('pass').value,
+          this.form.get('url').value,
+          this.form.get('desc').value,
+          this.form.get('previewImage.image').value
+      );
 
       if ( this.mode === 'add' ) {
-        if (!this.categoriesData[parentCategoryId]) {
-          const category = new PasswordCategory(parentCategoryId, parentCategoryName);
-          this.dataService.addPasswordCategory(category);
-        }
-        this.dataService.addPassword(parentCategoryId, newPassword);
+        // if (!this.categoriesData[parentCategoryId]) {
+        //   const category = new PasswordCategory(parentCategoryId, parentCategoryName);
+        //   this.dataService.addPasswordCategory(category).subscribe(
+        //     () => {
+        //       return this.dataService.addPassword(parentCategoryId, newPassword);
+        //     }
+        //   );
+        // } else {
+        //   return this.dataService.addPassword(parentCategoryId, newPassword);
+        // }
       }
       if ( this.mode === 'edit' ) {
         if ( this.isTransfer ) {

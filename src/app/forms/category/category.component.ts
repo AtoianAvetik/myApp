@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { DataService } from '../../_services/data.service';
 import { PasswordCategory } from '../../_models/password-category.model';
+import { Observable } from 'rxjs/Observable';
+import { observable } from 'rxjs/symbol/observable';
 
 @Component({
   selector: 'app-category',
@@ -14,12 +16,12 @@ export class CategoryComponent implements OnInit, OnChanges {
   @Input() categoryId: any = null;
   @Input() categoriesData: any = {};
   @Input() categories: Array<any> = [];
-  private curCategoriesList: Array<any> = [];
   private isTransfer = false;
   private formDefaultValues = {
     categoryName: '',
     categorySelect: null
   };
+  curCategoriesList: Array<any> = [];
   activeCategory: any = [];
   form: FormGroup;
 
@@ -110,35 +112,39 @@ export class CategoryComponent implements OnInit, OnChanges {
     return this.form.get(ctrl);
   }
 
-  reset() {
+  resetForm() {
     this.activeCategory = [];
     this.isTransfer = false;
+    this.curCategoriesList = [];
 
     this.form.reset();
     this.updateForm();
   }
 
+
   onSubmit() {
-    if (this.form.valid) {
-      const parentFolder = this.form.get('categorySelect').value ? this.form.get('categorySelect').value.id : null;
-      const categoryName = this.form.get('categoryName').value.toString();
-      if ( this.mode === 'add' ) {
-        const category = new PasswordCategory('', categoryName, parentFolder);
-        this.createId(this.categories, 'ct', 1).then((id) => {
-          category.id = id;
-          this.dataService.addPasswordCategory(category);
-        });
-      }
-      if ( this.mode === 'edit' ) {
-        const category = this.categoriesData[this.categoryId];
-        category.name = categoryName;
-        if ( this.isTransfer ) {
-          this.dataService.transferPasswordCategory(category, parentFolder);
-        } else {
-          this.dataService.editPasswordCategory(category);
+    return new Observable(observer => {
+      if (this.form.valid) {
+        const parentFolder = this.form.get('categorySelect').value ? this.form.get('categorySelect').value.id : null;
+        const categoryName = this.form.get('categoryName').value.toString();
+        if ( this.mode === 'add' ) {
+          const category = new PasswordCategory('', categoryName, parentFolder);
+          this.createId(this.categories, 'ct', 1).then((id) => {
+            category.id = id;
+            this.dataService.passwordsAction('addCategory', category).subscribe(() => {observer.next()});
+          });
+        }
+        if ( this.mode === 'edit' ) {
+          const category = this.categoriesData[this.categoryId];
+          category.name = categoryName;
+          if ( this.isTransfer ) {
+            this.dataService.transferPasswordCategory(category, parentFolder);
+          } else {
+            this.dataService.editPasswordCategory(category);
+          }
         }
       }
-    }
+    });
   }
 
   createId(array, val, index) {

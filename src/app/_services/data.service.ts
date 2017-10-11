@@ -1,18 +1,27 @@
-import {Injectable, Inject} from '@angular/core';
-import { Http } from '@angular/http';
+import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map'
-import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { PassItem } from '../_models/pass-item.model';
 import { PasswordCategory } from '../_models/password-category.model';
+import { ApiService } from './api.service';
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
+import { log } from 'util';
+
+interface Passwords {
+  [name: string]: PasswordCategory
+}
+
+interface PasswordsData {
+  categories: {[name: string]: PasswordCategory};
+  categoriesArray: {id: string, text: string}[] ;
+  categoriesIdArray: string[];
+}
 
 @Injectable()
 export class DataService {
-  private passData: Observable<PassItem[]>;
-  private passValues: PassItem[] = [];
-  private passwordsData: Observable<any>;
-  private passwordsCategories: {[name: string]: PasswordCategory} = {};
+  private passwordsCategories: Passwords = {};
   private passwordsCategoriesSelectArray: Array<any> = [];
   private passwordsCategoriesIdArray: Array<any> = [];
   private tablesData = [
@@ -66,66 +75,78 @@ export class DataService {
     }
   ];
   passwordsDataChanged = new Subject<any>();
-
-  constructor(@Inject(Http) private http: Http) {
-    this.passData = this.http.get('/assets/data/data.json').map(res => res.json() as PassItem[]);
-    this.passwordsData = this.http.get('/assets/data/passwords.json').map(res => res.json() as {[name: string]: {[name: string]: PasswordCategory}});
-
-    const subscriber = this.passData.subscribe(value => {
-        value.forEach(element => {
-          this.passValues.push(element);
-        });
-      }
-    );
-    const subscriber1 = this.passwordsData.subscribe(value => {
-      console.log(value);
-      this.updatePasswordsCategories(value.categories);
-      }
-    );
-
+  private passwordActions = {
+    'addPassword': this.addPassword.bind(this),
+    'editPassword': this.editPassword.bind(this),
+    'transferPassword': this.transferPassword.bind(this),
+    'deletePassword': this.deletePassword.bind(this),
+    'addCategory': this.addPasswordCategory.bind(this),
+    'editCategory': this.editPasswordCategory.bind(this),
+    'transferCategory': this.transferPasswordCategory.bind(this),
+    'deleteCategory': this.deletePasswordCategory.bind(this)
   }
 
-  getPassItems() {
-    return this.passValues;
+  private _passwords: BehaviorSubject<PasswordsData> = new BehaviorSubject({
+    categories: this.passwordsCategories,
+    categoriesArray: this.passwordsCategoriesSelectArray,
+    categoriesIdArray: this.passwordsCategoriesIdArray
+  });
+  public readonly passwords: Observable<PasswordsData> = this._passwords.asObservable();
+
+  constructor(private apiService: ApiService) {
+    this.loadInitialData();
+  }
+
+  get getPasswords() {
+    return this.passwords;
+  }
+
+  loadInitialData() {
+    this.apiService.get('/passwords.json')
+      .subscribe(
+        res => {
+          const resData = (<Passwords>res);
+          this.updatePasswordsCategories(resData.categories);
+        },
+        err => console.error("Error retrieving passwords!")
+      );
   }
 
   getTablesData() {
     return this.tablesData;
   }
 
-  getPasswordsData() {
-    return {
-      categories: this.passwordsCategories,
-      categoriesArray: this.passwordsCategoriesSelectArray,
-      categoriesIdArray: this.passwordsCategoriesIdArray
-    }
+  passwordsAction(action: string, ...data) {
+    return new Observable(observer => {
+      this.passwords.subscribe(() => {
+        observer.next();
+      });
+
+      this.passwordActions[action](data);
+
+      this.updatePasswordsCategories(this.passwordsCategories);
+    });
   }
 
   addPassword(categoryId, item) {
     this.passwordsCategories[categoryId].content.push(item);
-    this.updatePasswords();
   }
   deletePassword(categoryId, itemIndex) {
     this.passwordsCategories[categoryId].content.splice(itemIndex, 1);
-    this.updatePasswords();
   }
   editPassword(categoryId, itemIndex, item) {
     this.passwordsCategories[categoryId].content[itemIndex] = item;
-    this.updatePasswords();
   }
   transferPassword(prevCategoryId, categoryId, itemIndex, item) {
     this.passwordsCategories[prevCategoryId].content.splice(itemIndex, 1);
     this.passwordsCategories[categoryId].content.push(item);
-    this.updatePasswords();
   }
-  addPasswordCategory(category: PasswordCategory) {
+  addPasswordCategory(data: [PasswordCategory]) {
+    let category = data[0];
     this.passwordsCategories[category.id] = category;
-
-    if ( category.parentCategory ) {
-      this.passwordsCategories[category.parentCategory].childCategories.push(category.id);
-    }
-
-    this.updatePasswordsCategories(this.passwordsCategories);
+      if ( category.parentCategory ) {
+        this.passwordsCategories[category.parentCategory].childCategories.push(category.id);
+      }
   }
   deletePasswordCategory(category, isChild = false) {
     if ( category.parentCategory && !isChild ) {
@@ -137,11 +158,9 @@ export class DataService {
       });
     }
     delete this.passwordsCategories[category.id];
-    this.updatePasswordsCategories( this.passwordsCategories );
   }
   editPasswordCategory(category) {
     this.passwordsCategories[category.id] = category;
-    this.updatePasswordsCategories( this.passwordsCategories );
   }
   transferPasswordCategory(category, categoryId) {
     const parentCategory = this.passwordsCategories[category.id].parentCategory;
@@ -150,7 +169,6 @@ export class DataService {
     if ( categoryId ) {
       this.passwordsCategories[categoryId].childCategories.push(category.id);
     }
-    this.updatePasswordsCategories(this.passwordsCategories);
   }
   updatePasswordsCategories(passwordsCategories) {
     console.log( passwordsCategories );
@@ -183,9 +201,8 @@ export class DataService {
       }
     }
   }
-
   updatePasswords() {
-    this.passwordsDataChanged.next({
+    this._passwords.next({
       categories: this.passwordsCategories,
       categoriesArray: this.passwordsCategoriesSelectArray,
       categoriesIdArray: this.passwordsCategoriesIdArray

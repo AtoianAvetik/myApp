@@ -15,25 +15,35 @@ import { NotificationService } from '../../_services/notification.service';
   styleUrls: ['./passwords.component.scss']
 })
 export class PasswordsComponent implements OnInit, AfterViewInit {
+  // get child components
   @ViewChild('folderForm') folderFormCmp;
   @ViewChild('passwordForm') passwordFormCmp;
   @ViewChild('searchImageForm') searchImageFormCmp;
+
+  // passwords data
   foldersData: {[name: string]: PasswordCategory};
   folders: Array<any>;
   foldersIdArray: Array<any>;
-  passwordsLength: number = 0;
-  isFoldersOpened = false;
-  passwordMode = 'add';
-  folderMode = 'add';
+
+  // mods
+  passwordMode = '';
+  folderMode = '';
   deleteMode = '';
-  activeViewType = 'list';
-  listSelectedId: number;
-  listItemSelectedIndex: number;
-  addMenuItemsArray: Array<AddMenuItem>;
-  selectedImage = null;
+
+  // loaders
   folderFormLoader;
   passwordFormLoader;
   deleteFormLoader;
+
+  // add menu
+  addMenuItemsArray: Array<AddMenuItem>;
+
+  // states
+  passwordsLength: number = 0;
+  isFoldersOpened = false;
+  activeViewType = 'list';
+  listSelectedId: number;
+  listItemSelectedIndex: number;
 
   constructor(private dataService: DataService,
               private contentListService: ContentListService,
@@ -45,10 +55,9 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.initForms();
-    this.updatePasswords(this.dataService.getPasswordsData());
-    this.dataService.passwordsDataChanged
+    this.dataService.getPasswords
       .subscribe(
-        (data: any) => {
+        (data) => {
           this.updatePasswords(data);
         }
       );
@@ -96,6 +105,8 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
           if ( !this.modalService.activeModals.length ) {
             this.resetForms();
             this.folderFormLoader.dismiss();
+            this.passwordFormLoader.dismiss();
+            this.deleteFormLoader.dismiss();
           }
         }
       );
@@ -106,10 +117,10 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.crateLoaders();
+    this.createLoaders();
   }
 
-  crateLoaders() {
+  createLoaders() {
     this.folderFormLoader = this.loaderService.create({
       id: 'folderForm'
     });
@@ -140,11 +151,17 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
     this.folderMode = '';
     this.passwordMode = '';
     this.deleteMode = '';
-    this.selectedImage = null;
 
-    this.passwordFormCmp.reset();
-    this.folderFormCmp.reset();
-    this.searchImageFormCmp.reset();
+    this.passwordFormCmp.resetForm();
+    this.folderFormCmp.resetForm();
+    this.searchImageFormCmp.resetForm();
+  }
+
+  addMenuClicked(data) {
+    const id = data.id;
+    this.passwordMode = 'add';
+    this.folderMode = 'add';
+    this.modalService.modalWillOpened.next(id);
   }
 
   toggleGroups() {
@@ -193,17 +210,31 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
   }
 
   folderFormSubmit() {
-    const sub = this.folderFormLoader.present().subscribe(
+    // const sub = this.folderFormLoader.present().subscribe(
+    //   () => {
+    //     const sub2 = this.dataService.passwordsDataChanged.subscribe(() => {
+    //       const message = this.folderMode === 'add' ? 'Folder was added!' : 'Folder was changed!';
+    //       this.modalService.modalWillClosed.next('folder-modal');
+    //       this.notificationService.success(message);
+    //       this.folderFormLoader.dismiss();
+    //       sub.unsubscribe();
+    //       sub2.unsubscribe();
+    //     });
+    //     this.folderFormCmp.onSubmit();
+    //   }
+    // );
+    const loaderSub = this.folderFormLoader.present().subscribe(
       () => {
-        const sub2 = this.dataService.passwordsDataChanged.subscribe(() => {
-          const message = this.folderMode === 'add' ? 'Folder was added!' : 'Folder was changed!';
-          this.modalService.modalWillClosed.next('folder-modal');
-          this.notificationService.success(message);
-          this.folderFormLoader.dismiss();
-          sub.unsubscribe();
-          sub2.unsubscribe();
-        });
-        this.folderFormCmp.onSubmit();
+        loaderSub.unsubscribe();
+        const sub = this.folderFormCmp.onSubmit().subscribe(
+          () => {
+            const message = this.folderMode === 'add' ? 'Folder was added!' : 'Folder was changed!';
+            this.modalService.modalWillClosed.next('folder-modal');
+            this.notificationService.success(message);
+            this.folderFormLoader.dismiss();
+            sub.unsubscribe();
+          }
+        );
       }
     );
   }
@@ -222,12 +253,5 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
         this.passwordFormCmp.onSubmit();
       }
     );
-  }
-
-  addMenuClicked(data) {
-    const id = data.id;
-    this.passwordMode = 'add';
-    this.folderMode = 'add';
-    this.modalService.modalWillOpened.next(id);
   }
 }

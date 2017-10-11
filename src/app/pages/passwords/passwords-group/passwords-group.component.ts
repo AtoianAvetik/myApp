@@ -27,7 +27,7 @@ export class PasswordsGroupComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck() {
-    this.updateFolders();
+    this.foldersList && this.updateFolders();
   }
 
   updateFolders() {

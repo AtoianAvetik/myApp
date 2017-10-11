@@ -76,7 +76,7 @@ export class SearchImageComponent implements OnInit, OnDestroy {
     return this.form.get(ctrl);
   }
 
-  reset() {
+  resetForm() {
     this.images = [];
 
     this.form.reset();

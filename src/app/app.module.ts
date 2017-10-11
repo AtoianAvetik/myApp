@@ -20,9 +20,10 @@ import { ContentListComponent } from './components/content-list/content-list.com
 import { ContentListItemComponent } from './components/content-list/content-list-item/content-list-item.component';
 
 /* Services */
+import { DataService } from './_services/data.service';
+import { ApiService } from './_services/api.service';
 import { SidebarService } from './_services/sidebar.service';
 import { ModalService } from './_services/modal.service';
-import { DataService } from './_services/data.service';
 import { ContentTableService } from './_services/content-table.service';
 import { ContentListService } from './_services/content-list.service';
 import { PanelService } from './_services/panel.service';
@@ -106,10 +107,11 @@ const appRoutes: Routes = [
   ],
   providers: [
     AppService,
+    ApiService,
+    DataService,
     SidebarService,
     ModalService,
     PanelService,
-    DataService,
     ContentTableService,
     ContentListService,
     ValidatorsService,

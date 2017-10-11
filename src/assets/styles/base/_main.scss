@@ -435,7 +435,7 @@ body{
   }
 }
 
-.empty-paage-message {
+.empty-page-message {
   padding: 20vh 10px;
 }
 
@@ -548,8 +548,9 @@ body{
     font-size: 7px;
     right: 7px;
     border-radius: 50%;
-    border: 1px solid $dark;
+    //border: 1px solid $dark;
     background: transparent;
+    color: $gray;
 
     i {
       display: block;
