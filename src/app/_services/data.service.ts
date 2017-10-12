@@ -1,13 +1,10 @@
 import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map'
-import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { PasswordCategory } from '../_models/password-category.model';
 import { ApiService } from './api.service';
 import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import { log } from 'util';
 
 interface Passwords {
   [name: string]: PasswordCategory
@@ -74,7 +71,6 @@ export class DataService {
       ]
     }
   ];
-  passwordsDataChanged = new Subject<any>();
   private passwordActions = {
     'addPassword': this.addPassword.bind(this),
     'editPassword': this.editPassword.bind(this),
@@ -84,8 +80,7 @@ export class DataService {
     'editCategory': this.editPasswordCategory.bind(this),
     'transferCategory': this.transferPasswordCategory.bind(this),
     'deleteCategory': this.deletePasswordCategory.bind(this)
-  }
-
+  };
   private _passwords: BehaviorSubject<PasswordsData> = new BehaviorSubject({
     categories: this.passwordsCategories,
     categoriesArray: this.passwordsCategoriesSelectArray,
@@ -116,13 +111,15 @@ export class DataService {
     return this.tablesData;
   }
 
-  passwordsAction(action: string, ...data) {
-    return new Observable(observer => {
+  passwordsAction(action: string, option1, option2?, option3?, option4?): Promise<boolean> {
+    return new Promise((resolve, reject) => {
       this.passwords.subscribe(() => {
-        observer.next();
+        resolve();
+      }, (error) => {
+        reject(error);
       });
 
-      this.passwordActions[action](data);
+      this.passwordActions[action](option1, option2, option3, option4);
 
       this.updatePasswordsCategories(this.passwordsCategories);
     });
@@ -141,8 +138,7 @@ export class DataService {
     this.passwordsCategories[prevCategoryId].content.splice(itemIndex, 1);
     this.passwordsCategories[categoryId].content.push(item);
   }
-  addPasswordCategory(data: [PasswordCategory]) {
-    let category = data[0];
+  addPasswordCategory(category: PasswordCategory) {
     this.passwordsCategories[category.id] = category;
       if ( category.parentCategory ) {
         this.passwordsCategories[category.parentCategory].childCategories.push(category.id);

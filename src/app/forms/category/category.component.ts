@@ -122,8 +122,8 @@ export class CategoryComponent implements OnInit, OnChanges {
   }
 
 
-  onSubmit() {
-    return new Observable(observer => {
+  onSubmit(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
       if (this.form.valid) {
         const parentFolder = this.form.get('categorySelect').value ? this.form.get('categorySelect').value.id : null;
         const categoryName = this.form.get('categoryName').value.toString();
@@ -131,16 +131,16 @@ export class CategoryComponent implements OnInit, OnChanges {
           const category = new PasswordCategory('', categoryName, parentFolder);
           this.createId(this.categories, 'ct', 1).then((id) => {
             category.id = id;
-            this.dataService.passwordsAction('addCategory', category).subscribe(() => {observer.next()});
+            this.dataService.passwordsAction('addCategory', category).then(_ => resolve()).catch((error) => reject(error));
           });
         }
         if ( this.mode === 'edit' ) {
           const category = this.categoriesData[this.categoryId];
           category.name = categoryName;
           if ( this.isTransfer ) {
-            this.dataService.transferPasswordCategory(category, parentFolder);
+            this.dataService.passwordsAction('transferCategory', category, parentFolder).then(_ => resolve()).catch((error) => reject(error));
           } else {
-            this.dataService.editPasswordCategory(category);
+            this.dataService.passwordsAction('editCategory', category).then(_ => resolve()).catch((error) => reject(error));
           }
         }
       }

@@ -180,39 +180,39 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
     this.updateForm();
   }
 
-  onSubmit() {
-    if (this.form.valid) {
-      const parentCategoryId = this.form.get('categorySelect').value.id;
-      const parentCategoryName = this.form.get('categorySelect').value.text;
-      const newPassword = new Password(
-          this.form.get('serviceName').value,
-          this.form.get('userName').value,
-          this.form.get('email').value,
-          this.form.get('pass').value,
-          this.form.get('url').value,
-          this.form.get('desc').value,
-          this.form.get('previewImage.image').value
-      );
+  onSubmit(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      if (this.form.valid) {
+        const parentCategoryId = this.form.get('categorySelect').value.id;
+        const parentCategoryName = this.form.get('categorySelect').value.text;
+        const newPassword = new Password(
+            this.form.get('serviceName').value,
+            this.form.get('userName').value,
+            this.form.get('email').value,
+            this.form.get('pass').value,
+            this.form.get('url').value,
+            this.form.get('desc').value,
+            this.form.get('previewImage.image').value
+        );
 
-      if ( this.mode === 'add' ) {
-        // if (!this.categoriesData[parentCategoryId]) {
-        //   const category = new PasswordCategory(parentCategoryId, parentCategoryName);
-        //   this.dataService.addPasswordCategory(category).subscribe(
-        //     () => {
-        //       return this.dataService.addPassword(parentCategoryId, newPassword);
-        //     }
-        //   );
-        // } else {
-        //   return this.dataService.addPassword(parentCategoryId, newPassword);
-        // }
-      }
-      if ( this.mode === 'edit' ) {
-        if ( this.isTransfer ) {
-          this.dataService.transferPassword(this.categoryId, parentCategoryId, this.itemIndex, newPassword);
-        } else {
-          this.dataService.editPassword(this.categoryId, this.itemIndex, newPassword);
+        if ( this.mode === 'add' ) {
+          if (!this.categoriesData[parentCategoryId]) {
+            const category = new PasswordCategory(parentCategoryId, parentCategoryName);
+            this.dataService.passwordsAction('addCategory', category).then(() => {
+              this.dataService.passwordsAction('addPassword', parentCategoryId, newPassword).then(() => resolve()).catch((error) => reject(error));
+            }).catch((error) => reject(error));
+          } else {
+            this.dataService.passwordsAction('addPassword', parentCategoryId, newPassword).then(() => resolve()).catch((error) => reject(error));
+          }
+        }
+        if ( this.mode === 'edit' ) {
+          if ( this.isTransfer ) {
+            this.dataService.passwordsAction('transferPassword', this.categoryId, parentCategoryId, this.itemIndex, newPassword).then(() => resolve()).catch((error) => reject(error));;
+          } else {
+            this.dataService.passwordsAction('editPassword', this.categoryId, this.itemIndex, newPassword).then(() => resolve()).catch((error) => reject(error));;
+          }
         }
       }
-    }
+    });
   }
 }

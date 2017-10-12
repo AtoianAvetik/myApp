@@ -177,80 +177,62 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
     this.passwordFormCmp.uploadImage(this.searchImageFormCmp.getSelectedImage())
   }
 
-  deleteItem() {
+  deleteFormSubmit() {
     const sub = this.deleteFormLoader.present().subscribe(
       () => {
-        const sub2 = this.dataService.passwordsDataChanged.subscribe(() => {
-          const message = 'Password was deleted!';
-          this.modalService.closeAll();
-          this.notificationService.success(message);
-          this.deleteFormLoader.dismiss();
-          sub.unsubscribe();
-          sub2.unsubscribe();
-        });
-        this.dataService.deletePassword(this.listSelectedId, this.listItemSelectedIndex);
+        sub.unsubscribe();
+        switch (this.deleteMode) {
+          case 'folder':
+            this.dataService.passwordsAction('deleteCategory', this.foldersData[this.listSelectedId]).then(() => {
+              const message = 'Folder was deleted!';
+              this.modalService.closeAll();
+              this.notificationService.success(message);
+              this.deleteFormLoader.dismiss();
+            }).catch((error) =>{
+              console.error(error)
+            });
+            break;
+          case 'password':
+            this.dataService.passwordsAction('deletePassword', this.listSelectedId, this.listItemSelectedIndex).then(() => {
+              const message = 'Password was deleted!';
+              this.modalService.closeAll();
+              this.notificationService.success(message);
+              this.deleteFormLoader.dismiss();
+            }).catch((error) =>{
+              console.error(error)
+            });
+            break;
+        }
       }
     );
   }
-
-  deleteFolder() {
-    const sub = this.deleteFormLoader.present().subscribe(
-      () => {
-        const sub2 = this.dataService.passwordsDataChanged.subscribe(() => {
-          const message = 'Folder was deleted!';
-          this.modalService.closeAll();
-          this.notificationService.success(message);
-          this.deleteFormLoader.dismiss();
-          sub.unsubscribe();
-          sub2.unsubscribe();
-        });
-        this.dataService.deletePasswordCategory(this.foldersData[this.listSelectedId]);
-      }
-    );
-  }
-
   folderFormSubmit() {
-    // const sub = this.folderFormLoader.present().subscribe(
-    //   () => {
-    //     const sub2 = this.dataService.passwordsDataChanged.subscribe(() => {
-    //       const message = this.folderMode === 'add' ? 'Folder was added!' : 'Folder was changed!';
-    //       this.modalService.modalWillClosed.next('folder-modal');
-    //       this.notificationService.success(message);
-    //       this.folderFormLoader.dismiss();
-    //       sub.unsubscribe();
-    //       sub2.unsubscribe();
-    //     });
-    //     this.folderFormCmp.onSubmit();
-    //   }
-    // );
-    const loaderSub = this.folderFormLoader.present().subscribe(
+    const sub = this.folderFormLoader.present().subscribe(
       () => {
-        loaderSub.unsubscribe();
-        const sub = this.folderFormCmp.onSubmit().subscribe(
-          () => {
-            const message = this.folderMode === 'add' ? 'Folder was added!' : 'Folder was changed!';
-            this.modalService.modalWillClosed.next('folder-modal');
-            this.notificationService.success(message);
-            this.folderFormLoader.dismiss();
-            sub.unsubscribe();
-          }
-        );
+        sub.unsubscribe();
+        this.folderFormCmp.onSubmit().then(() => {
+          const message = this.folderMode === 'add' ? 'Folder was added!' : 'Folder was changed!';
+          this.modalService.modalWillClosed.next('folder-modal');
+          this.notificationService.success(message);
+          this.folderFormLoader.dismiss();
+        }).catch((error) =>{
+          console.error(error)
+        });
       }
     );
   }
-
   passwordFormSubmit() {
     const sub = this.passwordFormLoader.present().subscribe(
       () => {
-        const sub2 = this.dataService.passwordsDataChanged.subscribe(() => {
+        sub.unsubscribe();
+        this.passwordFormCmp.onSubmit().then(() => {
           const message = this.folderMode === 'add' ? 'Password was added!' : 'Password was changed!';
           this.modalService.modalWillClosed.next('item-modal');
           this.notificationService.success(message);
           this.passwordFormLoader.dismiss();
-          sub.unsubscribe();
-          sub2.unsubscribe();
+        }).catch((error) =>{
+          console.error(error)
         });
-        this.passwordFormCmp.onSubmit();
       }
     );
   }
