@@ -212,6 +212,10 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
             this.dataService.passwordsAction('editPassword', this.categoryId, this.itemIndex, newPassword).then(() => resolve()).catch((error) => reject(error));;
           }
         }
+
+        reject('mode was not set');
+      } else {
+        reject('form is not valid');
       }
     });
   }

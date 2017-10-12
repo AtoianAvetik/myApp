@@ -143,6 +143,10 @@ export class CategoryComponent implements OnInit, OnChanges {
             this.dataService.passwordsAction('editCategory', category).then(_ => resolve()).catch((error) => reject(error));
           }
         }
+        
+        reject('mode was not set');
+      } else {
+        reject('form is not valid');
       }
     });
   }
