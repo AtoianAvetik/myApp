@@ -188,7 +188,9 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
               this.modalService.closeAll();
               this.notificationService.success(message);
               this.deleteFormLoader.dismiss();
-            }).catch((error) =>{
+            }).catch((error) => {
+              const message = 'Folder was not deleted!'
+              this.notificationService.error(message, 0);
               console.error(error)
             });
             break;
@@ -198,7 +200,9 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
               this.modalService.closeAll();
               this.notificationService.success(message);
               this.deleteFormLoader.dismiss();
-            }).catch((error) =>{
+            }).catch((error) => {
+              const message = 'Password was not deleted!';
+              this.notificationService.error(message, 0);
               console.error(error)
             });
             break;
@@ -216,6 +220,8 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
           this.notificationService.success(message);
           this.folderFormLoader.dismiss();
         }).catch((error) =>{
+          const message = this.folderMode === 'add' ? 'Folder was not added!' : 'Folder was not changed!';
+          this.notificationService.error(message, 0);
           console.error(error)
         });
       }
@@ -231,6 +237,8 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
           this.notificationService.success(message);
           this.passwordFormLoader.dismiss();
         }).catch((error) =>{
+          const message = this.folderMode === 'add' ? 'Password was not added!' : 'Password was not changed!';
+          this.notificationService.error(message, 0);
           console.error(error)
         });
       }

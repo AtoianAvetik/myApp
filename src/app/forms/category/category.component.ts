@@ -3,8 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { DataService } from '../../_services/data.service';
 import { PasswordCategory } from '../../_models/password-category.model';
-import { Observable } from 'rxjs/Observable';
-import { observable } from 'rxjs/symbol/observable';
 
 @Component({
   selector: 'app-category',
@@ -133,8 +131,7 @@ export class CategoryComponent implements OnInit, OnChanges {
             category.id = id;
             this.dataService.passwordsAction('addCategory', category).then(_ => resolve()).catch((error) => reject(error));
           });
-        }
-        if ( this.mode === 'edit' ) {
+        } else if ( this.mode === 'edit' ) {
           const category = this.categoriesData[this.categoryId];
           category.name = categoryName;
           if ( this.isTransfer ) {
@@ -142,9 +139,10 @@ export class CategoryComponent implements OnInit, OnChanges {
           } else {
             this.dataService.passwordsAction('editCategory', category).then(_ => resolve()).catch((error) => reject(error));
           }
+        } else {
+          reject('mode was not set');
         }
-        
-        reject('mode was not set');
+
       } else {
         reject('form is not valid');
       }
