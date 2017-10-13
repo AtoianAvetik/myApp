@@ -12,15 +12,27 @@ interface Passwords {
 
 interface PasswordsData {
   categories: {[name: string]: PasswordCategory};
-  categoriesArray: {id: string, text: string}[] ;
+  categoriesSelectArray: {id: string, text: string}[] ;
   categoriesIdArray: string[];
 }
 
 @Injectable()
 export class DataService {
-  private passwordsCategories: Passwords = {};
-  private passwordsCategoriesSelectArray: Array<any> = [];
-  private passwordsCategoriesIdArray: Array<any> = [];
+  private actions = {
+    'addItem': this.addItem.bind(this),
+    'editItem': this.editItem.bind(this),
+    'transferItem': this.transferItem.bind(this),
+    'deleteItem': this.deleteItem.bind(this),
+    'addCategory': this.addCategory.bind(this),
+    'editCategory': this.editCategory.bind(this),
+    'transferCategory': this.transferCategory.bind(this),
+    'deleteCategory': this.deleteCategory.bind(this)
+  };
+  private passwordsData: PasswordsData = {
+    categories: {},
+    categoriesSelectArray: [],
+    categoriesIdArray: [],
+  };
   private tablesData = [
     {
       id: 'table1',
@@ -71,20 +83,10 @@ export class DataService {
       ]
     }
   ];
-  private passwordActions = {
-    'addPassword': this.addPassword.bind(this),
-    'editPassword': this.editPassword.bind(this),
-    'transferPassword': this.transferPassword.bind(this),
-    'deletePassword': this.deletePassword.bind(this),
-    'addCategory': this.addPasswordCategory.bind(this),
-    'editCategory': this.editPasswordCategory.bind(this),
-    'transferCategory': this.transferPasswordCategory.bind(this),
-    'deleteCategory': this.deletePasswordCategory.bind(this)
-  };
   private _passwords: BehaviorSubject<PasswordsData> = new BehaviorSubject({
-    categories: this.passwordsCategories,
-    categoriesArray: this.passwordsCategoriesSelectArray,
-    categoriesIdArray: this.passwordsCategoriesIdArray
+    categories: this.passwordsData.categories,
+    categoriesSelectArray: this.passwordsData.categoriesSelectArray,
+    categoriesIdArray: this.passwordsData.categoriesIdArray
   });
   public readonly passwords: Observable<PasswordsData> = this._passwords.asObservable();
 
@@ -101,7 +103,7 @@ export class DataService {
       .subscribe(
         res => {
           const resData = (<Passwords>res);
-          this.updatePasswordsCategories(resData.categories);
+          this.updatePasswords(resData.categories);
         },
         err => console.error("Error retrieving passwords!")
       );
@@ -119,90 +121,88 @@ export class DataService {
         reject(error);
       });
 
-      this.passwordActions[action](option1, option2, option3, option4);
-
-      this.updatePasswordsCategories(this.passwordsCategories);
+      this.actions[action](this.passwordsData.categories, option1, option2, option3, option4);
+      this.updatePasswords(this.passwordsData.categories);
     });
   }
 
-  addPassword(categoryId, item) {
-    this.passwordsCategories[categoryId].content.push(item);
+  private updatePasswords(categories) {
+    this.passwordsData = this.updateCategories(categories);
+    this._passwords.next(this.passwordsData);
   }
-  deletePassword(categoryId, itemIndex) {
-    this.passwordsCategories[categoryId].content.splice(itemIndex, 1);
+
+  // common actions
+  private addItem(categories, categoryId, item) {
+    categories[categoryId].content.push(item);
   }
-  editPassword(categoryId, itemIndex, item) {
-    this.passwordsCategories[categoryId].content[itemIndex] = item;
+  private editItem(categories, categoryId, itemIndex, item) {
+    categories[categoryId].content[itemIndex] = item;
   }
-  transferPassword(prevCategoryId, categoryId, itemIndex, item) {
-    this.passwordsCategories[prevCategoryId].content.splice(itemIndex, 1);
-    this.passwordsCategories[categoryId].content.push(item);
+  private transferItem(categories, prevCategoryId, categoryId, itemIndex, item) {
+    categories[prevCategoryId].content.splice(itemIndex, 1);
+    categories[categoryId].content.push(item);
   }
-  addPasswordCategory(category: PasswordCategory) {
-    this.passwordsCategories[category.id] = category;
+  private deleteItem(categories, categoryId, itemIndex) {
+    categories[categoryId].content.splice(itemIndex, 1);
+  }
+  private addCategory(categories, category: PasswordCategory) {
+    categories[category.id] = category;
       if ( category.parentCategory ) {
-        this.passwordsCategories[category.parentCategory].childCategories.push(category.id);
+        categories[category.parentCategory].childCategories.push(category.id);
       }
   }
-  deletePasswordCategory(category, isChild = false) {
+  private deleteCategory(categories, category, isChild = false) {
     if ( category.parentCategory && !isChild ) {
-      this.removeFromArray(this.passwordsCategories[category.parentCategory].childCategories, category.id);
+      this.removeFromArray(categories[category.parentCategory].childCategories, category.id);
     }
     if ( category.childCategories.length ) {
       category.childCategories.forEach((id) => {
-        this.deletePasswordCategory(this.passwordsCategories[id], true)
+        this.deleteCategory(categories, categories[id], true)
       });
     }
-    delete this.passwordsCategories[category.id];
+    delete categories[category.id];
   }
-  editPasswordCategory(category) {
-    this.passwordsCategories[category.id] = category;
+  private editCategory(categories, category) {
+    categories[category.id] = category;
   }
-  transferPasswordCategory(category, categoryId) {
-    const parentCategory = this.passwordsCategories[category.id].parentCategory;
-    parentCategory && this.removeFromArray(this.passwordsCategories[parentCategory].childCategories, category.id);
-    this.passwordsCategories[category.id].parentCategory = categoryId;
+  private transferCategory(categories, category, categoryId) {
+    const parentCategory = categories[category.id].parentCategory;
+    parentCategory && this.removeFromArray(categories[parentCategory].childCategories, category.id);
+    categories[category.id].parentCategory = categoryId;
     if ( categoryId ) {
-      this.passwordsCategories[categoryId].childCategories.push(category.id);
+      categories[categoryId].childCategories.push(category.id);
     }
   }
-  updatePasswordsCategories(passwordsCategories) {
-    console.log( passwordsCategories );
+  private updateCategories(categories) {
     let categoryName;
-    this.passwordsCategories = passwordsCategories;
-    const newPasswordsCategoriesSelectArray = [];
-    const newPasswordsCategoriesIdArray = [];
+    const categoriesSelectArray = [];
+    const categoriesIdArray = [];
 
-    for ( const category in passwordsCategories ) {
-      if (passwordsCategories.hasOwnProperty(category)) {
-        const categoryId = passwordsCategories[category].id;
-        categoryName = passwordsCategories[category].name;
-        setHierarchicalCategoryName(passwordsCategories[category]);
-        passwordsCategories[category].editable && newPasswordsCategoriesSelectArray.push({id: categoryId, text: categoryName});
-        newPasswordsCategoriesIdArray.push(categoryId);
+    for ( const category in categories ) {
+      if (categories.hasOwnProperty(category)) {
+        const curCategory = categories[category];
+        const categoryId = curCategory.id;
+        categoryName = curCategory.name;
+        setHierarchicalCategoryName(curCategory);
+        curCategory.editable && categoriesSelectArray.push({id: categoryId, text: categoryName});
+        categoriesIdArray.push(categoryId);
       }
     }
 
-    this.passwordsCategoriesSelectArray = newPasswordsCategoriesSelectArray;
-    this.passwordsCategoriesIdArray = newPasswordsCategoriesIdArray;
-
-    this.updatePasswords();
+    return {
+      categories: categories,
+      categoriesSelectArray: categoriesSelectArray,
+      categoriesIdArray: categoriesIdArray
+    };
 
     function setHierarchicalCategoryName(category) {
       if ( category.parentCategory ) {
-        categoryName = passwordsCategories[category.parentCategory].name + '/' + categoryName;
-        if ( passwordsCategories[category.parentCategory].parentCategory ) {
-          setHierarchicalCategoryName(passwordsCategories[category.parentCategory]);
+        categoryName = categories[category.parentCategory].name + '/' + categoryName;
+        if ( categories[category.parentCategory].parentCategory ) {
+          setHierarchicalCategoryName(categories[category.parentCategory]);
         }
       }
     }
-  }
-  updatePasswords() {
-    this._passwords.next({
-      categories: this.passwordsCategories,
-      categoriesArray: this.passwordsCategoriesSelectArray,
-      categoriesIdArray: this.passwordsCategoriesIdArray
-    });
   }
 
   removeFromArray(array, item) {

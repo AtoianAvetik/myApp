@@ -199,16 +199,16 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
           if (!this.categoriesData[parentCategoryId]) {
             const category = new PasswordCategory(parentCategoryId, parentCategoryName);
             this.dataService.passwordsAction('addCategory', category).then(() => {
-              this.dataService.passwordsAction('addPassword', parentCategoryId, newPassword).then(() => resolve()).catch((error) => reject(error));
+              this.dataService.passwordsAction('addItem', parentCategoryId, newPassword).then(() => resolve()).catch((error) => reject(error));
             }).catch((error) => reject(error));
           } else {
-            this.dataService.passwordsAction('addPassword', parentCategoryId, newPassword).then(() => resolve()).catch((error) => reject(error));
+            this.dataService.passwordsAction('addItem', parentCategoryId, newPassword).then(() => resolve()).catch((error) => reject(error));
           }
         } else if ( this.mode === 'edit' ) {
           if ( this.isTransfer ) {
-            this.dataService.passwordsAction('transferPassword', this.categoryId, parentCategoryId, this.itemIndex, newPassword).then(() => resolve()).catch((error) => reject(error));;
+            this.dataService.passwordsAction('transferItem', this.categoryId, parentCategoryId, this.itemIndex, newPassword).then(() => resolve()).catch((error) => reject(error));;
           } else {
-            this.dataService.passwordsAction('editPassword', this.categoryId, this.itemIndex, newPassword).then(() => resolve()).catch((error) => reject(error));;
+            this.dataService.passwordsAction('editItem', this.categoryId, this.itemIndex, newPassword).then(() => resolve()).catch((error) => reject(error));;
           }
         } else {
           reject('mode was not set');

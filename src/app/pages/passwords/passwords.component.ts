@@ -134,7 +134,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 
   updatePasswords(data: any) {
     this.foldersData = data.categories;
-    this.folders = data.categoriesArray;
+    this.folders = data.categoriesSelectArray;
     this.foldersIdArray = data.categoriesIdArray;
 
     this.passwordsLength = 0;
@@ -196,7 +196,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
             });
             break;
           case 'password':
-            this.dataService.passwordsAction('deletePassword', this.listSelectedId, this.listItemSelectedIndex).then(() => {
+            this.dataService.passwordsAction('deleteItem', this.listSelectedId, this.listItemSelectedIndex).then(() => {
               const message = 'Password was deleted!';
               this.modalService.closeAll();
               this.notificationService.success(message);
