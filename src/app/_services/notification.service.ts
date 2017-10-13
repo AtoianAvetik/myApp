@@ -7,7 +7,7 @@ import { Notification, NotificationType } from '../_models/notification.model';
 @Injectable()
 export class NotificationService {
   private subject = new Subject<Notification>();
-  private timeout = 800;
+  private timeout = 2500;
   notificationsData = {
     success: {
       typeClass: 'success',

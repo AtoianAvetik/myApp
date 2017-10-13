@@ -32,43 +32,56 @@ export class NotificationComponent implements OnInit, AfterViewInit {
   timer = new Subject<number>();
   progressBar: ElementRef;
   interval;
-  curTime;
-  k;
+  progress = 0;
+  lastProgress = 0;
 
   constructor(private notificationService: NotificationService,
               private elRef: ElementRef) {
   }
 
   ngOnInit() {
-    if ( this.timeout ) {
-      this.k = this.timeout/100;
-      this.progressBar = this.elRef.nativeElement.querySelector('.page-notification_progress-bar');
-    }
-    const sub = this.timer.subscribe(
-      (time: number) => {
-        let i = 0;
-        this.interval = setInterval(() => {
-          i++;
-          this.timeout && (this.progressBar['style'].width = i/this.k + "%");
-          if ( i === time ) {
-            clearInterval(this.interval);
-            sub.unsubscribe();
-            this._ref.destroy();
-          }
-        }, 0);
-      }
-    );
+    (this.timeout > 0) && this.initProgressBar();
     this.typeClass = this.notificationService.getInfo(this.type, 'typeClass');
     this.iconClass = this.notificationService.getInfo(this.type, 'iconClass');
     this.title = this.notificationService.getInfo(this.type, 'title');
   }
 
   ngAfterViewInit() {
-    this.timeout && this.timer.next(this.timeout);
+    this.timeout && this.timer.next();
+  }
+
+  initProgressBar() {
+    let k = this.timeout/100;
+    this.progressBar = this.elRef.nativeElement.querySelector('.page-notification_progress-bar');
+    const sub = this.timer.subscribe(
+      () => {
+        let started = new Date().getTime();
+        this.interval = setInterval(() => {
+          let curTime = new Date().getTime();
+          this.progress = this.lastProgress + (curTime - started)/k;
+          if ( this.progress >= 100 ) {
+            clearInterval(this.interval);
+            sub.unsubscribe();
+            this._ref.destroy();
+          } else {
+            this.progressBar['style'].width = this.progress + "%";
+          }
+        }, 0);
+      }
+    );
   }
 
   closeNotification() {
     clearInterval(this.interval);
     this._ref.destroy();
+  }
+
+  onMouseenter() {
+    clearInterval(this.interval);
+    this.lastProgress = this.progress;
+  }
+
+  onMouseleave() {
+    this.timer.next();
   }
 }
