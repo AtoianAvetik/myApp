@@ -1,0 +1,66 @@
+// Theme Colors
+$theme-colors: (
+  primary: #009DA0,
+  success: #0CC27E,
+  info: #1CBCD8,
+  warning: #FF8D60,
+  danger: #FF586B,
+  secondary: #868e96,
+  light: #f8f9fa,
+  dark: #343a40
+);
+
+// Spacing
+
+$spacer: 1.5rem;
+
+$spacers: (
+  0: 0,
+  1: ($spacer * .25),
+  2: ($spacer * .50),
+  3: $spacer,
+  4: ($spacer * 1.5),
+  5: ($spacer * 3)
+) !default;
+
+
+/*--------------------------------------/
+ Body
+--------------------------------------*/
+$body-bg:       #f5f7fa;
+
+$font-size-root: 16px;
+$base-font: 16px;
+
+
+/*--------------------------------------/
+ Fonts
+--------------------------------------*/
+$OpenSans: 'Open Sans', sans-serif;
+$MyriadPro: 'Myriad Pro', sans-serif;
+$font-family-sans-serif: "Montserrat", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-family-content: "Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+$text-font: $font-family-content;
+$heading-font: $font-family-sans-serif;
+
+/*--------------------------------------/
+ Media
+--------------------------------------*/
+$media-grid: (
+  wide: 0px,
+  xl: 1280px,
+  lg: 1024px,
+  md: 860px,
+  sm: 640px,
+  xs: 480px
+) !default;
+
+$media-breakpoints: 480,640,860,1024,1280;
+
+/*--------------------------------------/
+ Path
+--------------------------------------*/
+$image-path: '../img';
+$fonts-path: '../fonts';
+

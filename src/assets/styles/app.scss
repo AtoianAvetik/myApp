@@ -1,0 +1,18 @@
+@import "scss/variables";
+@import "scss/fonts";
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+@import "scss/grid/grid";
+@import "scss/core/palette";
+@import "scss/app-variables";
+@import "scss/mixins";
+@import "scss/custom-bootstrap";
+@import "scss/core";
+@import "scss/plugins";
+
+/*--------------------------------------/
+ plugins
+--------------------------------------*/
+/* From the perfect-scrollbar npm package */
+@import '~perfect-scrollbar/dist/css/perfect-scrollbar.min.css';
+
+
