@@ -1,7 +1,7 @@
 import { Component, DoCheck, Input, OnInit } from '@angular/core';
 
-import { ContentListService } from '../../../_services/content-list.service';
-import { PasswordCategory } from '../../../_models/password-category.model';
+import { ContentListService } from '../../../shared/_services/content-list.service';
+import { PasswordCategory } from '../../../shared/_models/password-category.model';
 
 @Component({
   selector: 'app-passwords-group',

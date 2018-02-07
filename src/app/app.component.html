@@ -1,12 +1,1 @@
-<div class="wrapper"
-     [class.-expanded]="isSidebarExpand"
-     (click)="onWrapClick();">
-  <app-sidebar></app-sidebar>
-  <div class="main-container"
-       [@sidebar]='isSidebarExpand ? "open" : "close"'>
-    <router-outlet></router-outlet>
-  </div>
-  <app-notifications></app-notifications>
-</div>
-<app-panels></app-panels>
-<app-modals></app-modals>
+<router-outlet></router-outlet>

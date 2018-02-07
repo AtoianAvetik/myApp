@@ -1,8 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
-import { ContentListService } from "../../../_services/content-list.service";
-import { ModalService } from "../../../_services/modal.service";
-import { AppService } from "../../../_services/app.service";
+import { ContentListService } from "../../../shared/_services/content-list.service";
+import { ModalService } from "../../../shared/_services/modal.service";
+import { AppService } from "../../../shared/_services/app.service";
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({

@@ -1,123 +1,51 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpModule } from '@angular/http';
-import { RouterModule, Routes } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
-import { SelectModule } from 'ng2-select';
-import { PerfectScrollbarModule } from 'angular2-perfect-scrollbar';
-import { PerfectScrollbarConfigInterface } from 'angular2-perfect-scrollbar';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
+// import { PerfectScrollbarModule } from 'angular2-perfect-scrollbar';
+// import { PerfectScrollbarConfigInterface } from 'angular2-perfect-scrollbar';
+import { AppRoutingModule } from './app-routing.module';
+import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
-
-/* Components */
-import { SidebarComponent } from './core/sidebar/sidebar.component';
-import { ModalComponent } from './_modules/modals/modal/modal.component';
-import { AccordionComponent } from './_modules/accordion/accordion.component';
-import { ContentTableComponent } from './components/content-table/content-table.component';
-import { ContentTableRowComponent } from './components/content-table/content-table-row/content-table-row.component';
-import { ContentListComponent } from './components/content-list/content-list.component';
-import { ContentListItemComponent } from './components/content-list/content-list-item/content-list-item.component';
+import { FullLayoutComponent } from './layouts/full/full-layout.component';
+import { ContentLayoutComponent } from './layouts/content/content-layout.component';
 
 /* Services */
-import { DataService } from './_services/data.service';
-import { ApiService } from './_services/api.service';
-import { SidebarService } from './_services/sidebar.service';
-import { ModalService } from './_services/modal.service';
-import { ContentTableService } from './_services/content-table.service';
-import { ContentListService } from './_services/content-list.service';
-import { PanelService } from './_services/panel.service';
-import { NotificationService } from './_services/notification.service';
+import { DataService } from './shared/_services/data.service';
+import { ApiService } from './shared/_services/api.service';
+import { AppService } from './shared/_services/app.service';
 
-/* Pages */
-import { HomeComponent } from './pages/home/home.component';
-import { PasswordsComponent } from './pages/passwords/passwords.component';
-import { TestTableComponent } from './pages/test-table/test-table.component';
+import { AuthService } from './shared/auth/auth.service';
+import { AuthGuard } from './shared/auth/auth-guard.service';
 
-/* Modules */
-import { DirectivesModule } from './_directives/directives.module';
-import { PipesModule } from './_pipes/pipes.module';
-import { AppService } from './_services/app.service';
-import { PasswordsGroupComponent } from './pages/passwords/passwords-group/passwords-group.component';
-import { AddMenuComponent } from './components/add-menu/add-menu.component';
-import { ValidatorsService } from './_services/validators.service';
-import { LoaderComponent } from './_modules/loader/loader.component';
-import { LoaderService } from './_services/loader.service';
-import { GetLogoService } from './_services/get-logo.service';
-import { CategoryComponent } from './forms/category/category.component';
-import { PasswordComponent } from './forms/password/password.component';
-import { SearchComponent } from './core/search/search.component';
-import { PanelComponent } from './_modules/panels/panel/panel.component';
-import { PanelsComponent } from './_modules/panels/panels.component';
-import { ModalsComponent } from './_modules/modals/modals.component';
-import { SearchImageComponent } from './forms/search-image/search-image.component';
-import { NotificationComponent } from './_modules/notifications/notification/notification.component';
-import { NotificationsComponent } from './_modules/notifications/notifications.component';
-
-const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true
-};
-
-const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'passwords', component: PasswordsComponent },
-  { path: 'test-table', component: TestTableComponent }
-];
+// const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+//   suppressScrollX: true
+// };
 
 @NgModule({
   declarations: [
     AppComponent,
-    ModalComponent,
-    SidebarComponent,
-    HomeComponent,
-    PasswordsComponent,
-    AccordionComponent,
-    ContentTableComponent,
-    ContentTableRowComponent,
-    TestTableComponent,
-    ContentListComponent,
-    ContentListItemComponent,
-    PasswordsGroupComponent,
-    AddMenuComponent,
-    LoaderComponent,
-    PasswordComponent,
-    CategoryComponent,
-    SearchComponent,
-    PanelComponent,
-    PanelsComponent,
-    ModalsComponent,
-    SearchImageComponent,
-    NotificationComponent,
-    NotificationsComponent,
+    FullLayoutComponent,
+    ContentLayoutComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpModule,
-    ReactiveFormsModule,
-    SelectModule,
-    RouterModule.forRoot(appRoutes),
-    DirectivesModule,
-    PipesModule,
-    PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG)
-  ],
-  entryComponents: [
-    LoaderComponent,
-    NotificationComponent
+    SharedModule,
+    HttpClientModule,
+    AppRoutingModule,
+    NgbModule.forRoot(),
+    // PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG)
   ],
   providers: [
     AppService,
     ApiService,
     DataService,
-    SidebarService,
-    ModalService,
-    PanelService,
-    ContentTableService,
-    ContentListService,
-    ValidatorsService,
-    LoaderService,
-    GetLogoService,
-    NotificationService
+    AuthService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

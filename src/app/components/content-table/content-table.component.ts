@@ -1,6 +1,6 @@
 import {Component, HostBinding, Injectable, Input, OnInit} from '@angular/core';
 
-import { ContentTableService } from '../../_services/content-table.service';
+import { ContentTableService } from '../../shared/_services/content-table.service';
 
 @Component({
   selector: 'app-content-table',

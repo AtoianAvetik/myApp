@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 
-import { ContentListService } from '../../_services/content-list.service';
-import { DataService } from '../../_services/data.service';
-import { ModalService } from '../../_services/modal.service';
-import { AppService } from '../../_services/app.service';
-import { PasswordCategory } from '../../_models/password-category.model';
-import { AddMenuItem } from '../../_models/add-menu-item.model';
-import { LoaderService } from '../../_services/loader.service';
-import { NotificationService } from '../../_services/notification.service';
+import { ContentListService } from '../../shared/_services/content-list.service';
+import { DataService } from '../../shared/_services/data.service';
+import { ModalService } from '../../shared/_services/modal.service';
+import { AppService } from '../../shared/_services/app.service';
+import { PasswordCategory } from '../../shared/_models/password-category.model';
+import { AddMenuItem } from '../../shared/_models/add-menu-item.model';
+import { LoaderService } from '../../shared/_services/loader.service';
+import { NotificationService } from '../../shared/_services/notification.service';
 
 @Component({
   selector: 'app-passwords',
