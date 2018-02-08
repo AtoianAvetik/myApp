@@ -121,6 +121,9 @@
         max-height: 30px;
         margin-right: 15px;
 
+		img {
+			max-width: 100%;
+		}
     }
 
     .logo-tim{
@@ -189,9 +192,9 @@
                     transform: rotate(90deg);
                 }
 
-				//> a {
-				//	background: rgba(200, 200, 200, 0.2);
-				//}
+				> a {
+					background: rgba(200, 200, 200, 0.2);
+				}
             }
 
             > a{

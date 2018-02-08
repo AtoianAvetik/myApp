@@ -1,6 +1,12 @@
-<div class="wrapper">
+<div
+	class="wrapper"
+	[ngClass]="{'nav-collapsed':!isNavExpand, 'menu-collapsed':!isMenuExpand}"
+>
     <div class="app-sidebar" data-active-color="white" data-background-color="black">
-        <app-sidebar></app-sidebar>
+        <app-sidebar
+			[(isNavExpand)]="isNavExpand"
+			[(isMenuExpand)]="isMenuExpand">
+		</app-sidebar>
         <div class="sidebar-background" style="background-image: url('//assets/img/sidebar-bg/01.jpg');"></div>
     </div>
     <div class="main-panel">

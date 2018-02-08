@@ -13,8 +13,10 @@ var fireRefreshEventOnWindow = function () {
 })
 
 export class FullLayoutComponent implements OnInit {
-    constructor(private elementRef: ElementRef) { }
+	isNavExpand = true;
+	isMenuExpand = true;
 
+    constructor(private elementRef: ElementRef) { }
 
     ngOnInit() {
         //sidebar toggle event listner

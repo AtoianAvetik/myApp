@@ -7,7 +7,10 @@
             </div>
         </a>
         <a class="nav-toggle d-none d-sm-none d-md-none d-lg-block" id="sidebarToggle" href="javascript:;">
-            <i class="ft-toggle-right toggle-icon" data-toggle="expanded"></i>
+            <i
+				(click)="toggleSidebar()"
+				[ngClass]="[isNavExpand ? 'ft-toggle-right' : 'ft-toggle-left']"
+				class="toggle-icon" data-toggle="expanded"></i>
         </a>
         <a class="nav-close d-block d-md-block d-lg-none d-xl-none" id="sidebarClose" href="javascript:;">
             <i class="ft-x"></i>
@@ -20,7 +23,10 @@
 <div [perfectScrollbar] class="sidebar-content">
     <div class="nav-container">
         <ul class="navigation">
-            <app-navigation-item *ngFor="let menuItem of menuItems;" [menuItem]="menuItem"></app-navigation-item>
+            <app-navigation-item
+				*ngFor="let menuItem of menuItems;"
+				[menuItem]="menuItem"
+				[isMenuExpandChange]="isMenuExpandChange"></app-navigation-item>
         </ul>
     </div>
 </div>

@@ -1,6 +1,6 @@
 import {
 	ChangeDetectorRef,
-	Component, forwardRef, Inject, Input, OnInit,
+	Component, EventEmitter, forwardRef, Inject, Input, OnInit,
 	ViewContainerRef
 } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -12,9 +12,8 @@ import 'rxjs/add/operator/filter';
 	templateUrl: './navigation-item.component.html',
 	animations: [
 		trigger( 'slide', [
-			state( 'down', style( { height: '*', display: 'block' } ) ),
-			state( 'up', style( { height: 0, display: 'none' } ) ),
-			state( 'firstLoad', style( { height: 0, display: 'none' } ) ),
+			state( 'down', style( { height: '*', display: 'block', opacity: 1 } ) ),
+			state( 'up', style( { height: 0, display: 'none', opacity: 0 } ) ),
 			transition( 'up => down', animate( '150ms' ) ),
 			transition( 'down => up', animate( '150ms' ) )
 		] )
@@ -23,7 +22,9 @@ import 'rxjs/add/operator/filter';
 
 export class NavigationItemComponent implements OnInit {
 	@Input() menuItem;
+	@Input() isMenuExpandChange: EventEmitter<boolean>;
 	private isActiveRoute = false;
+	private isNavCollapsedOpen = false;
 	private _isOpen = false;
 
 	@Input()
@@ -37,9 +38,10 @@ export class NavigationItemComponent implements OnInit {
 
 	constructor(private _router: Router, public _vcr: ViewContainerRef, private _cdr: ChangeDetectorRef) {
 		this._router.events
-			.filter((event) => event instanceof NavigationEnd)
-			.subscribe(() => {
-				this.openParentTree();
+			.subscribe((event) => {
+				if (event instanceof NavigationEnd) {
+					this.openParentTree();
+				}
 			});
 	}
 
@@ -49,6 +51,14 @@ export class NavigationItemComponent implements OnInit {
 
 	ngOnInit() {
 		this.openParentTree();
+		this.isMenuExpandChange
+			.subscribe((status) => {
+				if ( status ) {
+					this.isNavCollapsedOpen && (this.isOpen = true);
+				} else {
+					this.isOpen = false;
+				}
+			})
 	}
 
 	openParentTree() {
@@ -71,5 +81,6 @@ export class NavigationItemComponent implements OnInit {
 		event.preventDefault();
 		event.stopPropagation();
 		this.isOpen = !this.isOpen;
+		this.isNavCollapsedOpen = this.isOpen;
 	}
 }

@@ -1,4 +1,8 @@
-import { AfterViewInit, Component, ElementRef, OnChanges, OnInit } from '@angular/core';
+import {
+	AfterViewInit,
+	Component, EventEmitter, HostListener, Input, OnInit,
+	Output
+} from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { ROUTES } from './sidebar-routes.config';
@@ -18,15 +22,29 @@ import { ROUTES } from './sidebar-routes.config';
 })
 
 export class SidebarComponent implements OnInit {
-    public menuItems: any[];
-    isCollapsed = true;
-    el: ElementRef;
+	@HostListener('mouseenter') onMouseenter() {
+		if ( !this.isNavExpand ) {
+			this.isMenuExpandChange.emit(true);
+		}
+	}
+	@HostListener('mouseleave') onMouseleave() {
+		if ( !this.isNavExpand ) {
+			this.isMenuExpandChange.emit(false);
+		}
+	}
+	public menuItems: any[];
+    @Input() isNavExpand: boolean;
+    @Input() isMenuExpand: boolean;
+	@Output() isNavExpandChange = new EventEmitter<boolean>();
+	@Output() isMenuExpandChange = new EventEmitter<boolean>();
 
-    constructor(el: ElementRef) {
-      this.el = el;
-    }
+    constructor() {}
 
     ngOnInit() {
         this.menuItems = ROUTES.filter(menuItem => menuItem);
     }
+
+	toggleSidebar() {
+		this.isNavExpandChange.emit(!this.isNavExpand);
+	}
 }

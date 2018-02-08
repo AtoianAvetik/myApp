@@ -1,5 +1,6 @@
 <li
-	[ngClass]="[menuItem.class, isOpen ? 'open' : '', isActiveRoute ? 'active' : '']"
+	[ngClass]="{'open': isOpen, 'active': isActiveRoute}"
+	class="{{ menuItem.class }}"
 	[routerLinkActive]="menuItem.submenu.length !== 0 ? '' : 'active'"
 	[routerLinkActiveOptions]="{exact: true}">
 	<a
@@ -19,6 +20,9 @@
 	</ng-template>
 	<!-- Next level menu -->
 	<ul class="menu-content" *ngIf="menuItem.submenu.length > 0" [@slide]='isOpen ? "down" : "up"'>
-		<app-navigation-item *ngFor="let menuItem of menuItem.submenu;" [menuItem]="menuItem"></app-navigation-item>
+		<app-navigation-item
+			*ngFor="let menuItem of menuItem.submenu;"
+			[menuItem]="menuItem"
+			[isMenuExpandChange]="isMenuExpandChange"></app-navigation-item>
 	</ul>
 </li>
