@@ -4,10 +4,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
-// import { PerfectScrollbarModule } from 'angular2-perfect-scrollbar';
-// import { PerfectScrollbarConfigInterface } from 'angular2-perfect-scrollbar';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
+import { PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 import { AppComponent } from './app.component';
 import { FullLayoutComponent } from './layouts/full/full-layout.component';
@@ -21,32 +20,36 @@ import { AppService } from './shared/_services/app.service';
 import { AuthService } from './shared/auth/auth.service';
 import { AuthGuard } from './shared/auth/auth-guard.service';
 
-// const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-//   suppressScrollX: true
-// };
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+	suppressScrollX: true
+};
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    FullLayoutComponent,
-    ContentLayoutComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    SharedModule,
-    HttpClientModule,
-    AppRoutingModule,
-    NgbModule.forRoot(),
-    // PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG)
-  ],
-  providers: [
-    AppService,
-    ApiService,
-    DataService,
-    AuthService,
-    AuthGuard
-  ],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
+@NgModule( {
+	declarations: [
+		AppComponent,
+		FullLayoutComponent,
+		ContentLayoutComponent
+	],
+	imports: [
+		BrowserModule,
+		BrowserAnimationsModule,
+		SharedModule,
+		HttpClientModule,
+		AppRoutingModule,
+		NgbModule.forRoot()
+	],
+	providers: [
+		AppService,
+		ApiService,
+		DataService,
+		AuthService,
+		AuthGuard,
+		{
+			provide: PERFECT_SCROLLBAR_CONFIG,
+			useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+		}
+	],
+	bootstrap: [AppComponent]
+} )
+export class AppModule {
+}

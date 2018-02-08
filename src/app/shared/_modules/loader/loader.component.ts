@@ -35,7 +35,7 @@ export class LoaderComponent implements OnInit, OnDestroy {
     return this._isPresent;
   }
 
-  constructor(private LoaderService: LoaderService, private cdr: ChangeDetectorRef) {}
+  constructor(private LoaderService: LoaderService, private _cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     // ensure id attribute exists
@@ -56,7 +56,7 @@ export class LoaderComponent implements OnInit, OnDestroy {
   // open loader
   present(): Observable<boolean> | Promise<boolean> {
     this.isPresent = true;
-    this.cdr.detectChanges();
+    this._cdr.detectChanges();
     return this.LoaderService.isloaderOpened;
   }
 

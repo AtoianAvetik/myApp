@@ -17,7 +17,7 @@
 <!-- Sidebar Header Ends -->
 
 <!-- Sidebar Content starts -->
-<div class="sidebar-content">
+<div [perfectScrollbar] class="sidebar-content">
     <div class="nav-container">
         <ul class="navigation">
             <app-navigation-item *ngFor="let menuItem of menuItems;" [menuItem]="menuItem"></app-navigation-item>

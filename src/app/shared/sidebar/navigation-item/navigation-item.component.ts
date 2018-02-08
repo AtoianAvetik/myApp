@@ -1,6 +1,10 @@
-import { Component, ElementRef, forwardRef, Inject, Input, OnInit, ViewContainerRef } from '@angular/core';
+import {
+	ChangeDetectorRef,
+	Component, forwardRef, Inject, Input, OnInit,
+	ViewContainerRef
+} from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import 'rxjs/add/operator/filter';
 
 @Component( {
@@ -31,12 +35,12 @@ export class NavigationItemComponent implements OnInit {
 		return this._isOpen;
 	}
 
-	constructor(private route: ActivatedRoute, private _router: Router, public _vcr: ViewContainerRef) {
+	constructor(private _router: Router, public _vcr: ViewContainerRef, private _cdr: ChangeDetectorRef) {
 		this._router.events
 			.filter((event) => event instanceof NavigationEnd)
-			.subscribe((s) => {
+			.subscribe(() => {
 				this.openParentTree();
-			})
+			});
 	}
 
 	// constructor(@Inject(forwardRef(() => SidebarComponent)) private _parent:SidebarComponent) {
@@ -50,6 +54,7 @@ export class NavigationItemComponent implements OnInit {
 	openParentTree() {
 		if ( this._router.url === this.menuItem.path ) {
 			let parentComponent = this._vcr['_data'].componentView.component._vcr['_view'].component;
+
 			while (parentComponent.menuItem) {
 				parentComponent.isOpen = true;
 				parentComponent.isActiveRoute = true;
@@ -57,8 +62,9 @@ export class NavigationItemComponent implements OnInit {
 			}
 		} else {
 			this.isActiveRoute = false;
-			this.isOpen = false;
+			this.isOpen = false; // close other menu lists
 		}
+		this._cdr.detectChanges();
 	}
 
 	onToggleMenu( event: MouseEvent ) {

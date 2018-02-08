@@ -21,3 +21,7 @@ $ps-theme-default: (
 .ps-container {
   @include ps-container($ps-theme-default);
 }
+// Default theme
+.ps {
+  @include ps($ps-theme-default);
+}

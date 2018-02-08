@@ -1,0 +1,123 @@
+@mixin ps-rail-default($theme) {
+	display: none;
+	position: absolute; /* please don't change 'position' */
+	border-radius: map_get($theme, border-radius);
+	opacity: map_get($theme, rail-default-opacity);
+	transition: background-color .2s linear, opacity .2s linear;
+	-webkit-transition: background-color .2s linear, opacity .2s linear;
+}
+
+@mixin ps-thumb-default($theme) {
+	position: absolute; /* please don't change 'position' */
+	background-color: map_get($theme, bar-container-hover-bg);
+	border-radius: map_get($theme, border-radius);
+	transition: background-color .2s linear;
+}
+
+@mixin ps-rail-hover($theme) {
+	background-color: map_get($theme, rail-hover-bg);
+	opacity: map_get($theme, rail-hover-opacity);
+}
+
+@mixin ps-thumb-hover($theme) {
+	background-color: map_get($theme, bar-hover-bg);
+}
+
+@mixin in-scrolling($theme) {
+	&.ps--scrolling-x {
+		pointer-events: none;
+		> .ps__rail-x {
+			@include ps-rail-hover($theme);
+			> .ps__thumb-x {
+				@include ps-thumb-hover($theme);
+			}
+		}
+	}
+	&.ps--scrolling-y {
+		pointer-events: none;
+		> .ps__rail-y {
+			@include ps-rail-hover($theme);
+			> .ps__thumb-y {
+				@include ps-thumb-hover($theme);
+			}
+		}
+	}
+}
+
+@mixin ps($theme) {
+	overflow: hidden !important;
+	overflow-anchor: none;
+	-ms-overflow-style: none;
+	touch-action: auto;
+	-ms-touch-action: auto;
+
+	/* MS supports */
+	@supports (-ms-overflow-style: none) {
+		overflow: auto !important;
+	}
+	@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+		overflow: auto !important;
+	}
+
+	/*
+	 * Scrollbar rail styles
+	 */
+	&.ps--active-x > .ps__rail-x,
+	&.ps--active-y > .ps__rail-y {
+		display: block;
+		background-color: map_get($theme, bar-bg);
+	}
+	.ps__rail-x {
+		@include ps-rail-default($theme);
+		bottom: map_get($theme, scrollbar-x-rail-bottom); /* there must be 'bottom' for ps-scrollbar-x-rail */
+		height: map_get($theme, scrollbar-x-rail-height);
+	}
+	.ps__rail-y {
+		@include ps-rail-default($theme);
+		right: map_get($theme, scrollbar-y-rail-right); /* there must be 'right' for ps-scrollbar-y-rail */
+		width: map_get($theme, scrollbar-y-rail-width);
+	}
+
+	&:hover > .ps__rail-x,
+	&:hover > .ps__rail-y,
+	&.ps--focus > .ps__rail-x,
+	&.ps--focus > .ps__rail-y,
+	&.ps--scrolling-x > .ps__rail-x,
+	&.ps--scrolling-y > .ps__rail-y {
+		opacity: map_get($theme, rail-container-hover-opacity);
+	}
+
+	.ps__rail-x:hover,
+	.ps__rail-y:hover,
+	.ps__rail-x:focus,
+	.ps__rail-y:focus {
+		@include ps-rail-hover($theme);
+	}
+
+	/*
+	 * Scrollbar thumb styles
+	 */
+	.ps__thumb-x {
+		@include ps-thumb-default($theme);
+		bottom: map_get($theme, scrollbar-x-bottom); /* there must be 'bottom' for ps-scrollbar-x */
+		height: map_get($theme, scrollbar-x-height);
+	}
+	.ps__thumb-y {
+		@include ps-thumb-default($theme);
+		right: map_get($theme, scrollbar-y-right); /* there must be 'right' for ps-scrollbar-y */
+		width: map_get($theme, scrollbar-y-width);
+	}
+
+	.ps__rail-x:hover > .ps__thumb-x,
+	.ps__rail-x:focus > .ps__thumb-x {
+		@include ps-thumb-hover($theme);
+		//height: 11px;
+	}
+
+	.ps__rail-y:hover > .ps__thumb-y,
+	.ps__rail-y:focus > .ps__thumb-y {
+		@include ps-thumb-hover($theme);
+		//width: 11px;
+	}
+}
+
