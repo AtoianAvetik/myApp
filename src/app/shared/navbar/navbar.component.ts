@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import { SidebarService } from '../_services/sidebar.service';
+
 @Component({
     selector: 'app-navbar',
     templateUrl: './navbar.component.html',
@@ -7,8 +9,13 @@ import { Component } from '@angular/core';
 })
 
 export class NavbarComponent {
+	isHideSidebar: boolean;
     toggleClass = 'ft-maximize';
-    constructor() {}
+
+    constructor(private _sidebarService: SidebarService) {
+    	this.isHideSidebar = this._sidebarService.isHideSidebar;
+    	this._sidebarService.isHideSidebarChange.subscribe(status => this.isHideSidebar = status);
+    }
 
     ToggleClass() {
         if (this.toggleClass === 'ft-maximize') {
@@ -17,4 +24,10 @@ export class NavbarComponent {
         else
             this.toggleClass = 'ft-maximize'
     }
+
+	toggleSidebar() {
+		event.preventDefault();
+		event.stopPropagation();
+    	this._sidebarService.isHideSidebarChange.next(!this.isHideSidebar);
+	}
 }

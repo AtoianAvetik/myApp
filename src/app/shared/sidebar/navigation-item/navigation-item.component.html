@@ -22,7 +22,6 @@
 	<ul class="menu-content" *ngIf="menuItem.submenu.length > 0" [@slide]='isOpen ? "down" : "up"'>
 		<app-navigation-item
 			*ngFor="let menuItem of menuItem.submenu;"
-			[menuItem]="menuItem"
-			[isMenuExpandChange]="isMenuExpandChange"></app-navigation-item>
+			[menuItem]="menuItem"></app-navigation-item>
 	</ul>
 </li>

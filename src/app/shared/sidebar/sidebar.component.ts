@@ -1,7 +1,8 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { ROUTES } from './sidebar-routes.config';
+import { SidebarService } from '../_services/sidebar.service';
 
 @Component({
     selector: 'app-sidebar',
@@ -19,37 +20,38 @@ import { ROUTES } from './sidebar-routes.config';
 
 export class SidebarComponent implements OnInit {
 	@HostListener('mouseenter') onMouseenter() {
-		if ( !this.isNavExpand ) {
-			this.isMenuExpandChange.emit(true);
-		}
+		this.onHoverSidebar(true);
 	}
 	@HostListener('mouseleave') onMouseleave() {
-		if ( !this.isNavExpand ) {
-			this.isMenuExpandChange.emit(false);
-		}
+		this.onHoverSidebar(false);
 	}
 	@HostListener('window:resize', ['$event']) onResize(event) {
 		this.onHideSidebar();
 	}
 	public menuItems: any[];
-    @Input() isNavExpand: boolean;
-    @Input() isMenuExpand: boolean;
-    @Input() isHideSidebar: boolean;
-	@Output() isNavExpandChange = new EventEmitter<boolean>();
-	@Output() isMenuExpandChange = new EventEmitter<boolean>();
-	@Output() isHideSidebarChange = new EventEmitter<boolean>();
+    public isNavExpand: boolean;
 
-    constructor() {}
+    constructor(private _sidebarService: SidebarService) {
+    	this.isNavExpand = this._sidebarService.isNavExpand;
+	    this._sidebarService.isNavExpandChange.subscribe(status => this.isNavExpand = status);
+    }
 
     ngOnInit() {
         this.menuItems = ROUTES.filter(menuItem => menuItem);
         this.onHideSidebar();
     }
 
-	toggleSidebar() {
-		this.isNavExpandChange.emit(!this.isNavExpand);
+	onHoverSidebar(value) {
+	    this._sidebarService.hoverSidebar(value);
+    }
+
+	onToggleSidebar(value) {
+		event.preventDefault();
+		event.stopPropagation();
+		this._sidebarService.toggleSidebar(value);
 	}
+
 	onHideSidebar() {
-		this.isHideSidebarChange.emit(window.screen.width < 992);
+    	this._sidebarService.hideSidebar();
 	}
 }

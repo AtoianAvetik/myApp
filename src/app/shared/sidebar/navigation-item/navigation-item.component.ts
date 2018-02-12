@@ -7,6 +7,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { NavigationEnd, Router } from '@angular/router';
 import 'rxjs/add/operator/filter';
 
+import { SidebarService } from '../../_services/sidebar.service';
+
 @Component( {
 	selector: 'app-navigation-item',
 	templateUrl: './navigation-item.component.html',
@@ -22,7 +24,6 @@ import 'rxjs/add/operator/filter';
 
 export class NavigationItemComponent implements OnInit {
 	@Input() menuItem;
-	@Input() isMenuExpandChange: EventEmitter<boolean>;
 	private isActiveRoute = false;
 	private isNavCollapsedOpen = false;
 	private _isOpen = false;
@@ -36,7 +37,10 @@ export class NavigationItemComponent implements OnInit {
 		return this._isOpen;
 	}
 
-	constructor(private _router: Router, public _vcr: ViewContainerRef, private _cdr: ChangeDetectorRef) {
+	constructor(private _router: Router,
+	            public _vcr: ViewContainerRef,
+	            private _cdr: ChangeDetectorRef,
+	            private _sidebarService: SidebarService) {
 		this._router.events
 			.subscribe((event) => {
 				if (event instanceof NavigationEnd) {
@@ -51,7 +55,7 @@ export class NavigationItemComponent implements OnInit {
 
 	ngOnInit() {
 		this.openParentTree();
-		this.isMenuExpandChange
+		this._sidebarService.isMenuExpandChange
 			.subscribe((status) => {
 				if ( status ) {
 					this.isNavCollapsedOpen && (this.isOpen = true);

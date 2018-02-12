@@ -1,4 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
+import { SidebarService } from '../../shared/_services/sidebar.service';
+import { AppService } from '../../shared/_services/app.service';
 
 var fireRefreshEventOnWindow = function () {
     var evt = document.createEvent("HTMLEvents");
@@ -9,15 +11,24 @@ var fireRefreshEventOnWindow = function () {
 @Component({
     selector: 'app-full-layout',
     templateUrl: './full-layout.component.html',
-    styleUrls: ['./full-layout.component.scss']
+    styleUrls: ['./full-layout.component.scss'],
+	providers: [SidebarService]
 })
 
 export class FullLayoutComponent implements OnInit {
-	isNavExpand = true;
-	isMenuExpand = true;
-	isHideSidebar = false;
+	isNavExpand: boolean;
+	isMenuExpand: boolean;
+	isHideSidebar: boolean;
 
-    constructor(private elementRef: ElementRef) { }
+    constructor(private elementRef: ElementRef,
+                private _sidebarService: SidebarService) {
+	    this.isNavExpand = this._sidebarService.isNavExpand;
+	    this.isMenuExpand = this._sidebarService.isMenuExpand;
+	    this.isHideSidebar = this._sidebarService.isHideSidebar;
+	    this._sidebarService.isNavExpandChange.subscribe(status => this.isNavExpand = status);
+	    this._sidebarService.isMenuExpandChange.subscribe(status => this.isMenuExpand = status);
+	    this._sidebarService.isHideSidebarChange.subscribe(status => this.isHideSidebar = status);
+    }
 
     ngOnInit() {
         //sidebar toggle event listner
@@ -33,5 +44,10 @@ export class FullLayoutComponent implements OnInit {
     onClick(event) {
         //initialize window resizer event on sidebar toggle click event
         setTimeout(() => { fireRefreshEventOnWindow() }, 300);
+    }
+
+    onWrapClick($event) {
+    	console.log($event);
+	    this._sidebarService.hideSidebar();
     }
 }

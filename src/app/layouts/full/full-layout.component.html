@@ -7,14 +7,11 @@
 		[ngClass]="{'hide-sidebar': isHideSidebar}"
 		data-active-color="white"
 		data-background-color="black">
-        <app-sidebar
-			[(isHideSidebar)]="isHideSidebar"
-			[(isNavExpand)]="isNavExpand"
-			[(isMenuExpand)]="isMenuExpand">
+        <app-sidebar>
 		</app-sidebar>
         <div class="sidebar-background" style="background-image: url('//assets/img/sidebar-bg/01.jpg');"></div>
     </div>
-    <div class="main-panel">
+    <div class="main-panel" (click)="onWrapClick($event)">
         <app-navbar></app-navbar>
         <div class="main-content">
             <div class="content-wrapper">
