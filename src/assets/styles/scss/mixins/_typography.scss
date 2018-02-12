@@ -28,7 +28,7 @@
   font-weight: $output;
 }
 
-@mixin text-content($fz: $base-font, $lh: 1.7) {
+@mixin text-content($fz: $font-size-base, $lh: 1.7) {
   font-size: $fz;
   line-height: $lh;
 

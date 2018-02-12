@@ -4,10 +4,10 @@
 }
 
 @function em($number){
-	@return ($number / to-number($base-font) ) + em;
+	@return ($number / to-number($font-size-base) ) + em;
 }
 
-@function to-em($target, $context: $base-font) {
+@function to-em($target, $context: $font-size-base) {
   @if $target == 0 { @return 0 }
   @return $target / $context + 0em;
 }

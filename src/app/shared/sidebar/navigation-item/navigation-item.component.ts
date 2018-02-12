@@ -68,10 +68,12 @@ export class NavigationItemComponent implements OnInit {
 			while (parentComponent.menuItem) {
 				parentComponent.isOpen = true;
 				parentComponent.isActiveRoute = true;
+				parentComponent.isNavCollapsedOpen = true;
 				parentComponent = parentComponent._vcr['_view'].component;
 			}
 		} else {
 			this.isActiveRoute = false;
+			this.isNavCollapsedOpen = false;
 			this.isOpen = false; // close other menu lists
 		}
 		this._cdr.detectChanges();

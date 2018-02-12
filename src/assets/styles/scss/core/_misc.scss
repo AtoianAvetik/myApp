@@ -136,7 +136,7 @@ datetime .form-group{
 		> i{
 			font-size: 2.28rem;
       &.fa{
-			  font-size: 2.28rem !important;        
+			  font-size: 2.28rem !important;
       }
 			transition: all .2s ease-in-out;
 		}
@@ -144,7 +144,7 @@ datetime .form-group{
 			width: 100px;
 		}
 	}
-	&:hover{		
+	&:hover{
 		i{
 			color: theme-color('primary');
 			font-size: 2.9rem;

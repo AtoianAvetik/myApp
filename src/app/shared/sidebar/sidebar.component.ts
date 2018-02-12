@@ -1,8 +1,4 @@
-import {
-	AfterViewInit,
-	Component, EventEmitter, HostListener, Input, OnInit,
-	Output
-} from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { ROUTES } from './sidebar-routes.config';
@@ -32,19 +28,28 @@ export class SidebarComponent implements OnInit {
 			this.isMenuExpandChange.emit(false);
 		}
 	}
+	@HostListener('window:resize', ['$event']) onResize(event) {
+		this.onHideSidebar();
+	}
 	public menuItems: any[];
     @Input() isNavExpand: boolean;
     @Input() isMenuExpand: boolean;
+    @Input() isHideSidebar: boolean;
 	@Output() isNavExpandChange = new EventEmitter<boolean>();
 	@Output() isMenuExpandChange = new EventEmitter<boolean>();
+	@Output() isHideSidebarChange = new EventEmitter<boolean>();
 
     constructor() {}
 
     ngOnInit() {
         this.menuItems = ROUTES.filter(menuItem => menuItem);
+        this.onHideSidebar();
     }
 
 	toggleSidebar() {
 		this.isNavExpandChange.emit(!this.isNavExpand);
+	}
+	onHideSidebar() {
+		this.isHideSidebarChange.emit(window.screen.width < 992);
 	}
 }

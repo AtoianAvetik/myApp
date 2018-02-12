@@ -3,66 +3,40 @@
 // 	Description: Helper classes provides color, width, position & background etc..
 // ================================================================================================
 
+$displays: inline, block, inline-block, none, table-cell;
+$positions: fixed, relative, absolute, static;
+$directions: top, right, bottom, left;
+
 // Content helpers
 // -------------------------
 // Display
 
-.display-inline{
-	display: inline !important;
-}
-.display-block{
-	display: block !important;
-}
-.display-inline-block{
-	display: inline-block !important;
-}
-.display-hidden{
-	display: none !important;
-}
-.display-table-cell{
-    display: table-cell !important;
+@each $display in $displays {
+	.display-#{$display} {
+		display: $display !important;
+	}
 }
 
 // Position
 
-.position-fixed{
-	position: fixed !important;
-}
-.position-relative{
-	position: relative !important;
-}
-.position-absolute{
-	position: absolute !important;
-}
-.position-static{
-	position: static !important;
+@each $position in $positions {
+	.position-#{$position} {
+		position: $position !important;
+	}
 }
 
-.position-top-0{
-    top: 0;
-}
-.position-right-0{
-    right: 0;
-}
-.position-bottom-0{
-    bottom: 0;
-}
-.position-left-0{
-    left: 0;
+@each $direction in $directions {
+	.position-#{$direction}-0 {
+		$direction: 0;
+	}
 }
 
 // Edges
-.no-edge-top {
-    top: 0 !important;
-}
-.no-edge-bottom {
-    bottom: 0 !important;
-}
-.no-edge-left {
-    left: 0 !important;
-}
-.no-edge-right {
-    right: 0 !important;
+
+@each $direction in $directions {
+	.no-edge-#{$direction} {
+		$direction: 0 !important;
+	}
 }
 
 // Cursors

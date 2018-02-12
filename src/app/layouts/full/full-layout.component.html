@@ -2,8 +2,13 @@
 	class="wrapper"
 	[ngClass]="{'nav-collapsed':!isNavExpand, 'menu-collapsed':!isMenuExpand}"
 >
-    <div class="app-sidebar" data-active-color="white" data-background-color="black">
+    <div
+		class="app-sidebar"
+		[ngClass]="{'hide-sidebar': isHideSidebar}"
+		data-active-color="white"
+		data-background-color="black">
         <app-sidebar
+			[(isHideSidebar)]="isHideSidebar"
 			[(isNavExpand)]="isNavExpand"
 			[(isMenuExpand)]="isMenuExpand">
 		</app-sidebar>

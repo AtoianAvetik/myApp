@@ -15,6 +15,7 @@ var fireRefreshEventOnWindow = function () {
 export class FullLayoutComponent implements OnInit {
 	isNavExpand = true;
 	isMenuExpand = true;
+	isHideSidebar = false;
 
     constructor(private elementRef: ElementRef) { }
 
@@ -33,5 +34,4 @@ export class FullLayoutComponent implements OnInit {
         //initialize window resizer event on sidebar toggle click event
         setTimeout(() => { fireRefreshEventOnWindow() }, 300);
     }
-
 }

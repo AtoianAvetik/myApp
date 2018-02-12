@@ -4,6 +4,15 @@
 @import "grid-framework";
 @import "flex";
 
+// Fluid container
+//
+// Utilizes the mixin meant for fixed width containers, but with 100% width for
+// fluid, full width layouts.
+
+.container-fluid {
+	@include make-container();
+}
+
 // Row
 //
 // Rows contain and clear the floats of your columns.

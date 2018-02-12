@@ -1,10 +1,10 @@
 @import "scss/variables";
 @import "scss/fonts";
-@import "../../../node_modules/bootstrap/scss/bootstrap";
-@import "scss/grid/grid";
+@import "scss/bootstrap";
 @import "scss/core/palette";
-@import "scss/app-variables";
 @import "scss/mixins";
-@import "scss/custom-bootstrap";
+@import "scss/grid/grid";
+@import "scss/app-variables";
 @import "scss/core";
+@import "scss/custom-bootstrap";
 @import "scss/plugins";
