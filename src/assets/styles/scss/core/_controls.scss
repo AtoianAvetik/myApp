@@ -70,7 +70,7 @@
     box-shadow: 0 0 20px -5px rgba(0,0,0,0.7);
     border-radius: 50%;
     margin: 0 -(to-em($w, $f_s_l) - to-em($w, $f_s))/2;
-    color: $dark-gray;
+    color: $gray-800;
     background: #fff;
 
     .add-menu-button & {

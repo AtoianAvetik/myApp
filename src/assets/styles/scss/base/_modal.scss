@@ -91,9 +91,9 @@ body.backstage {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: $dark-gray;
+    color: $gray-800;
     text-align: center;
-    border-bottom: 1px solid $light-gray;
+    border-bottom: 1px solid $gray-200;
     margin: 0 20px;
     padding: 15px 0;
 
@@ -132,7 +132,7 @@ body.backstage {
     right: 0;
     display: flex;
     align-items: center;
-    border-top: 1px solid $light-gray;
+    border-top: 1px solid $gray-200;
     background-color: #fff;
     margin-left: 20px;
     margin-right: 20px;
@@ -159,7 +159,7 @@ body.backstage {
       width: 100%;
       top: 50%;
       left: 0;
-      background: $dark-gray;
+      background: $gray-800;
       transform-origin: center;
     }
     &::before {
