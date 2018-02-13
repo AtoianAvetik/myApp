@@ -27,26 +27,8 @@ import { SidebarService } from '../../../shared/_services/sidebar.service';
 			state( 'closeLeftExpanded', style( { left: 0, transform: 'translateX(calc(-100% + ' + 250 + 'px))' } ) ),
 			state( 'openRight', style( { right: 0, transform: 'translateX(0px)' } ) ),
 			state( 'closeRight', style( { right: 0, transform: 'translateX(100%)' } ) ),
-			transition( 'openRight => closeRight', animate( '.2s' ) ),
-			transition( 'closeRight => openRight', animate( '.2s' ) ),
-			transition( 'openLeftCollapsed => closeLeftCollapsed', animate( '.3s' ) ),
-			transition( 'closeLeftCollapsed => openLeftCollapsed', animate( '.3s' ) ),
-			transition( 'openLeftExpanded => closeLeftExpanded', animate( '.3s' ) ),
-			transition( 'closeLeftExpanded => openLeftExpanded', animate( '.3s' ) ),
-			transition( 'openLeftHidden => closeLeftHidden', animate( '.3s' ) ),
-			transition( 'closeLeftHidden => openLeftHidden', animate( '.3s' ) ),
-			transition( 'openLeftCollapsed => openLeftExpanded', animate( '0.3s cubic-bezier(.55, 0, .1, 1)' ) ),
-			transition( 'openLeftExpanded => openLeftCollapsed', animate( '0.3s cubic-bezier(.55, 0, .1, 1)' ) ),
-			transition( 'openLeftHidden => openLeftCollapsed', animate( '0.3s cubic-bezier(.55, 0, .1, 1)' ) ),
-			transition( 'openLeftHidden => openLeftExpanded', animate( '0.3s cubic-bezier(.55, 0, .1, 1)' ) ),
-			transition( 'openLeftExpanded => openLeftHidden', animate( '0.3s cubic-bezier(.55, 0, .1, 1)' ) ),
-			transition( 'openLeftCollapsed => openLeftHidden', animate( '0.3s cubic-bezier(.55, 0, .1, 1)' ) ),
-			transition( 'closeLeftCollapsed => closeLeftExpanded', animate( '0.3s cubic-bezier(.55, 0, .1, 1)' ) ),
-			transition( 'closeLeftExpanded => closeLeftCollapsed', animate( '0.3s cubic-bezier(.55, 0, .1, 1)' ) ),
-			transition( 'closeLeftHidden => closeLeftCollapsed', animate( '0.3s cubic-bezier(.55, 0, .1, 1)' ) ),
-			transition( 'closeLeftHidden => closeLeftExpanded', animate( '0.3s cubic-bezier(.55, 0, .1, 1)' ) ),
-			transition( 'closeLeftExpanded => closeLeftHidden', animate( '0.3s cubic-bezier(.55, 0, .1, 1)' ) ),
-			transition( 'closeLeftCollapsed => closeLeftHidden', animate( '0.3s cubic-bezier(.55, 0, .1, 1)' ) )
+			transition('void => *', animate('0s')),
+			transition('* => *', animate('0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99)'))
 		] )
 	]
 } )
