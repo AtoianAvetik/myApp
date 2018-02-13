@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, HostBinding, Input, OnInit } from
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Subject } from 'rxjs/Subject';
 
-import { NotificationService } from '../../../_services/notification.service';
+import { NotificationService } from '../notification.service';
 
 @Component({
   selector: 'app-notification',
@@ -52,7 +52,7 @@ export class NotificationComponent implements OnInit, AfterViewInit {
 
   initProgressBar() {
     let k = this.timeout/100;
-    this.progressBar = this.elRef.nativeElement.querySelector('.page-notification_progress-bar');
+    this.progressBar = this.elRef.nativeElement.querySelector('.app-notification_progress-bar');
     const sub = this.timer.subscribe(
       () => {
         let started = new Date().getTime();

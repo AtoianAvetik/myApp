@@ -29,7 +29,7 @@ export class MatchHeightDirective implements AfterViewInit {
 
         if (!children) return;
 
-        //Pixinvent - Match hight - fix --- comment below code
+        // Match hight - fix --- comment below code
         Array.from(children).forEach((x: HTMLElement) => {
             x.style.height = 'initial';
         });

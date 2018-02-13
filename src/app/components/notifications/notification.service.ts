@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 
-import { Notification, NotificationType } from '../_models/notification.model';
+import { Notification, NotificationType } from './notification.model';
 
 @Injectable()
 export class NotificationService {
@@ -11,23 +11,23 @@ export class NotificationService {
   notificationsData = {
     success: {
       typeClass: 'success',
-      iconClass: 'icon-check',
+      iconClass: 'ft-check',
       title: 'Success'
     },
     error: {
-      typeClass: 'error',
-      iconClass: 'icon-cross',
+      typeClass: 'danger',
+      iconClass: 'ft-x',
       title: 'Error'
     },
     info: {
       typeClass: 'info',
-      iconClass: 'icon-info',
+      iconClass: 'ft-info',
 
       title: 'Notification'
     },
     warning: {
       typeClass: 'warning',
-      iconClass: 'icon-warning',
+      iconClass: 'ft-alert-triangle',
       title: 'Attention'
     },
   };

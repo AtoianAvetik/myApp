@@ -1,0 +1,13 @@
+<div
+  (mouseenter)="onMouseenter()" (mouseleave)="onMouseleave()"
+  class="row no-gutters -middle app-notification -with-icon -dismissable -{{ typeClass }}">
+  <div class="app-notification_progress-bar"></div>
+  <div class="app-notification_icon">
+    <i class="{{ iconClass }}"></i>
+  </div>
+  <div class="app-notification_inner">
+    <p class="app-notification_title">{{ title }}</p>
+    <span class="app-notification_message">{{ message }}</span>
+  </div>
+  <button (click)="closeNotification()" class="btn app-notification_close-btn"><i class="ft-x"></i></button>
+</div>

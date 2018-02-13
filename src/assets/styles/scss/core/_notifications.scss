@@ -1,0 +1,128 @@
+.app-notification-wrapper {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	display: inline-block;
+}
+
+.app-notification {
+	padding: 10px 15px;
+	margin-bottom: 20px;
+	overflow: hidden;
+	border-radius: 4px;
+	position: relative;
+	background-color: $white;
+	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+
+	&.-dismissable {
+		padding-right: 35px;
+	}
+
+	&.-with-icon {
+		padding-left: 40px;
+	}
+
+	&.-success {
+		.app-notification_icon {
+			color: color-function('success', 'darken-4');
+			background-color: theme-color('success');
+		}
+		.app-notification_title {
+			color: theme-color('success');
+		}
+		.app-notification_progress-bar {
+			background-color: color-function('success', 'darken-4');
+		}
+	}
+	&.-danger {
+		.app-notification_icon {
+			color:color-function('danger', 'darken-4');
+			background-color: theme-color('danger');
+		}
+		.app-notification_title {
+			color: theme-color('danger');
+		}
+		.app-notification_progress-bar {
+			background-color: color-function('danger', 'darken-4');
+		}
+	}
+	&.-info {
+		.app-notification_icon {
+			color: color-function('info', 'darken-4');
+			background-color: theme-color('info');
+		}
+		.app-notification_title {
+			color: theme-color('info');
+		}
+		.app-notification_progress-bar {
+			background-color: color-function('info', 'darken-4');
+		}
+	}
+	&.-warning {
+		.app-notification_icon {
+			color: color-function('warning', 'darken-4');
+			background-color: theme-color('warning');
+		}
+		.app-notification_title {
+			color: theme-color('warning');
+		}
+		.app-notification_progress-bar {
+			background-color: color-function('warning', 'darken-4');
+		}
+	}
+
+	&_inner {
+		padding-left: 20px;
+	}
+
+	&_icon {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		top: 0;
+		width: 40px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		i, [class*='ft-'] {
+			font-size: 25px;
+			color: $white !important;
+		}
+	}
+
+	&_title {
+		margin-bottom: 3px;
+	}
+
+	&_message {
+		font-size: 13px;
+	}
+
+	&_close-btn {
+		display: block;
+		position: absolute;
+		top: 7px;
+		padding: 4px;
+		line-height: 1;
+		font-size: 12px;
+		right: 7px;
+		border-radius: 50%;
+		//border: 1px solid $dark;
+		background: transparent;
+		color: color-function('gray', 'lighten-3');
+
+		i {
+			display: block;
+		}
+	}
+
+	&_progress-bar {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 2px;
+		z-index: 1;
+		width: 0;
+	}
+}

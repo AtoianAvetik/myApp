@@ -9,9 +9,16 @@
 					<h4>Panels</h4>
 					<button class="btn btn-raised btn-primary" type="button" [openPanel]="'panel-test-1'" title="Open">Panel 1</button>
 					<button class="btn btn-raised btn-primary" type="button" [openPanel]="'panel-test-2'" title="Open">Panel 2</button>
+					<button class="btn btn-raised btn-primary" type="button" [openPanel]="'panel-test-3'" title="Open">Panel 3</button>
 					<h4>Loaders</h4>
 					<button class="btn btn-raised btn-secondary" type="button" (click)="loaderOpen('home', 'This is loader')">Loader 1</button>
 					<button class="btn btn-raised btn-secondary" type="button" (click)="loaderOpen('home')">Loader 2</button>
+					<h4>Notifications</h4>
+					<button class="btn btn-raised btn-success" type="button" (click)="createSuccessNotification('This is notification!', 0)" title="Open">Create success notification</button>
+					<button class="btn btn-raised btn-red" type="button" (click)="createErrorNotification('This is notification!')" title="Open">Create error notification</button>
+					<button class="btn btn-raised btn-blue" type="button" (click)="createInfoNotification('This is notification!')" title="Open">Create info notification</button>
+					<button class="btn btn-raised btn-yellow" type="button" (click)="createWarningNotification('This is notification!')" title="Open">Create warning notification</button>
+					<button class="btn btn-raised btn-default" type="button" (click)="clearNotification()" title="Open">Clear notification</button>
 				</div>
 			</div>
 		</div>
@@ -352,6 +359,32 @@
 				<div class="row no-gutters -end">
 					<div class="btn-list">
 						<a _ngcontent-c8="" class="btn btn-raised btn-danger" href="javascript:void(0)" [closePanel]="'panel-test-2'">Cancel</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</app-panel>
+
+<app-panel [dir]="'right'" id="panel-test-3">
+	<div class="app-panel">
+		<div class="app-panel-header">
+			<div class="app-panel-header_inner">
+				<h4 class="app-panel-header_title">Test panel 2</h4>
+			</div>
+			<div class="app-panel-header_buttons">
+				<a [closePanel]="'panel-test-3'">
+					<i class="ft-x font-medium-3"></i>
+				</a>
+			</div>
+		</div>
+		<div class="app-panel-body">
+			<div class="app-panel-content">
+			</div>
+			<div class="app-panel-bottom">
+				<div class="row no-gutters -end">
+					<div class="btn-list">
+						<a _ngcontent-c8="" class="btn btn-raised btn-danger" href="javascript:void(0)" [closePanel]="'panel-test-3'">Cancel</a>
 					</div>
 				</div>
 			</div>

@@ -19,6 +19,8 @@ import { AppService } from './shared/_services/app.service';
 
 import { AuthService } from './shared/auth/auth.service';
 import { AuthGuard } from './shared/auth/auth-guard.service';
+import { SidebarService } from './shared/_services/sidebar.service';
+import { LoaderService } from './components/loader/loader.service';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 	suppressScrollX: true
@@ -44,6 +46,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 		DataService,
 		AuthService,
 		AuthGuard,
+		SidebarService,
+		LoaderService,
 		{
 			provide: PERFECT_SCROLLBAR_CONFIG,
 			useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG

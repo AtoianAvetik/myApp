@@ -3,19 +3,19 @@ import {
   ViewContainerRef, ElementRef, HostBinding
 } from '@angular/core';
 
-import { NotificationService } from '../../_services/notification.service';
-import { Notification } from '../../_models/notification.model';
+import { NotificationService } from './notification.service';
+import { Notification } from './notification.model';
 import { NotificationComponent } from './notification/notification.component';
 
 @Component({
   selector: 'app-notifications',
   template: `
-    <div class="page-notification-wrapper"></div>
+    <div class="app-notification-wrapper"></div>
   `,
   styleUrls: ['./notifications.component.scss']
 })
 export class NotificationsComponent implements OnInit {
-  @HostBinding('class.page-notification-wrap') isActive = true;
+  @HostBinding('class.app-notification-wrap') isActive = true;
   componentRef: ComponentRef<Notification>;
 
   constructor(private notificationService: NotificationService,
@@ -45,6 +45,6 @@ export class NotificationsComponent implements OnInit {
     this.componentRef.instance.timeout = notification.timeout;
     this.componentRef.instance._ref = this.componentRef;
 
-    this.elRef.nativeElement.querySelector('.page-notification-wrapper').appendChild(this.componentRef.location.nativeElement);
+    this.elRef.nativeElement.querySelector('.app-notification-wrapper').appendChild(this.componentRef.location.nativeElement);
   }
 }
