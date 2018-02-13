@@ -3,7 +3,7 @@
     z-index: 100;
 }
 
-.page-sidebar {
+.app-sidebar {
   z-index: 6;
 }
 
@@ -19,15 +19,15 @@
   z-index: 60;
 }
 
-.panel-container {
+.app-panel-container {
   z-index: 5;
 }
 
-.panel-overlay {
+.app-panel-overlay {
   z-index: 4;
 }
 
-.page-loader {
+.app-loader {
   z-index: 1000;
 
   &_overlay {

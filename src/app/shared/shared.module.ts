@@ -9,6 +9,7 @@ import { NavbarComponent } from "./navbar/navbar.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 import { FooterComponent } from './footer/footer.component';
 import { NavigationItemComponent } from './sidebar/navigation-item/navigation-item.component';
+import { PanelsComponent } from './_modules/panels/panels.component';
 
 @NgModule({
     exports: [
@@ -16,6 +17,7 @@ import { NavigationItemComponent } from './sidebar/navigation-item/navigation-it
         NavbarComponent,
         FooterComponent,
         SidebarComponent,
+	    PanelsComponent,
         NgbModule
     ],
     imports: [
@@ -28,6 +30,7 @@ import { NavigationItemComponent } from './sidebar/navigation-item/navigation-it
         NavbarComponent,
         FooterComponent,
         SidebarComponent,
+	    PanelsComponent,
         NavigationItemComponent
     ]
 })

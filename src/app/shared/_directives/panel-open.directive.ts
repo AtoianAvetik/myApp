@@ -10,7 +10,9 @@ export class OpenPanelDirective {
 
   constructor(private panelService: PanelService) {}
 
-  @HostListener('click') onClick() {
+  @HostListener( 'click', ['$event'] )
+  onClick( e ) {
+	  e.stopPropagation();
     this.panelService.panelWillOpened.next(this.id);
   }
 }

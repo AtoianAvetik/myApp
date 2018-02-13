@@ -2,12 +2,15 @@
 	<div class="col-xl-4 col-lg-12 col-12">
 		<div class="card">
 			<div class="card-header">
-				<h4 class="card-title">Statistics</h4>
+				<h4 class="card-title">Panels</h4>
 			</div>
 			<div class="card-body">
-
-				<p class="font-medium-2 text-muted text-center pb-2">Last 6 Months Sales</p>
-
+				<div class="card-block">
+					<div class="btn-group">
+						<button class="btn btn-raised btn-primary" type="button" [openPanel]="'panel-test-1'" title="Open">Panel 1</button>
+						<button class="btn btn-raised btn-primary" type="button" [openPanel]="'panel-test-2'" title="Open">Panel 2</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -300,3 +303,56 @@
 		</div>
 	</div>
 </div>
+
+<app-panel id="panel-test-1">
+	<div class="app-panel">
+		<div class="app-panel-header">
+			<div class="app-panel-header_inner">
+				<h4 class="app-panel-header_title heading -h4">Test panel 1</h4>
+			</div>
+			<div class="app-panel-header_buttons">
+				<a [closePanel]="'panel-test-1'">
+					<i class="ft-x font-medium-3"></i>
+				</a>
+			</div>
+		</div>
+		<div class="app-panel-body">
+			<div class="app-panel-content">
+			</div>
+			<div class="app-panel-bottom">
+				<div class="row no-gutters -end">
+					<div class="btn-list">
+						<a _ngcontent-c8="" class="btn btn-raised btn-primary" href="javascript:void(0)" [openPanel]="'panel-test-2'">Panel 2</a>
+						<a _ngcontent-c8="" class="btn btn-raised btn-danger" href="javascript:void(0)" [closePanel]="'panel-test-1'">Cancel</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</app-panel>
+
+<app-panel id="panel-test-2">
+	<div class="app-panel">
+		<div class="app-panel-header">
+			<div class="app-panel-header_inner">
+				<h4 class="app-panel-header_title">Test panel 2</h4>
+			</div>
+			<div class="app-panel-header_buttons">
+				<a [closePanel]="'panel-test-2'">
+					<i class="ft-x font-medium-3"></i>
+				</a>
+			</div>
+		</div>
+		<div class="app-panel-body">
+			<div class="app-panel-content">
+			</div>
+			<div class="app-panel-bottom">
+				<div class="row no-gutters -end">
+					<div class="btn-list">
+						<a _ngcontent-c8="" class="btn btn-raised btn-danger" href="javascript:void(0)" [closePanel]="'panel-test-2'">Cancel</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</app-panel>

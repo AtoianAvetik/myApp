@@ -3,6 +3,7 @@ import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class SidebarService {
+	sidebarState: string;
 	isNavExpand = true;
 	isMenuExpand = false;
 	isHideSidebar = false;
@@ -12,13 +13,20 @@ export class SidebarService {
 	isMenuExpandChange = new Subject<boolean>();
 	isHideSidebarChange = new Subject<boolean>();
 
-	toogleSidebarChange = new Subject<boolean>();
-	isExpand = this.isNavExpand;
-
 	constructor() {
-		this.isNavExpandChange.subscribe(status => this.isNavExpand = status);
-		this.isMenuExpandChange.subscribe(status => this.isMenuExpand = status);
-		this.isHideSidebarChange.subscribe(status => this.isHideSidebar = status);
+		this.isNavExpandChange.subscribe(status => {
+			this.isNavExpand = status;
+			this.updateState();
+		});
+		this.isMenuExpandChange.subscribe(status => {
+			this.isMenuExpand = status;
+			this.updateState();
+		});
+		this.isHideSidebarChange.subscribe(status => {
+			this.isHideSidebar = status;
+			this.updateState();
+		});
+
 	}
 
 	hoverSidebar(value) {
@@ -43,5 +51,9 @@ export class SidebarService {
 			this.hoverSidebar(this.isSidebarHiddenMenuExpand);
 			this.toggleSidebar(this.isSidebarHiddenNavExpand);
 		}
+	}
+
+	updateState() {
+		this.sidebarState = this.isHideSidebar ? 'hidden' : (this.isNavExpand ? 'expanded' : 'collapsed');
 	}
 }

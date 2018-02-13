@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
+
 import { SidebarService } from '../../shared/_services/sidebar.service';
-import { AppService } from '../../shared/_services/app.service';
+import { PanelService } from '../../shared/_services/panel.service';
 
 var fireRefreshEventOnWindow = function () {
     var evt = document.createEvent("HTMLEvents");
@@ -12,7 +13,7 @@ var fireRefreshEventOnWindow = function () {
     selector: 'app-full-layout',
     templateUrl: './full-layout.component.html',
     styleUrls: ['./full-layout.component.scss'],
-	providers: [SidebarService]
+	providers: [SidebarService, PanelService]
 })
 
 export class FullLayoutComponent implements OnInit {
@@ -21,7 +22,8 @@ export class FullLayoutComponent implements OnInit {
 	isHideSidebar: boolean;
 
     constructor(private elementRef: ElementRef,
-                private _sidebarService: SidebarService) {
+                private _sidebarService: SidebarService,
+                private _panelService: PanelService) {
 	    this.isNavExpand = this._sidebarService.isNavExpand;
 	    this.isMenuExpand = this._sidebarService.isMenuExpand;
 	    this.isHideSidebar = this._sidebarService.isHideSidebar;
@@ -47,7 +49,7 @@ export class FullLayoutComponent implements OnInit {
     }
 
     onWrapClick($event) {
-    	console.log($event);
 	    this._sidebarService.hideSidebar();
+	    this._panelService.closeLast();
     }
 }

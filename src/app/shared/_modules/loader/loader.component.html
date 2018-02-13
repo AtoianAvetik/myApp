@@ -1,11 +1,11 @@
 <div
-  class="page-loader"
+  class="app-loader"
   [ngClass]="{'-single': !content}"
   [@loading]='isPresent ? "open" : "close"'
   (@loading.done)="animationDone($event)">
-  <div class="page-loader_overlay"></div>
-  <div class="page-loader_wrapper">
-    <div class="page-loader_spinner">
+  <div class="app-loader_overlay"></div>
+  <div class="app-loader_wrapper">
+    <div class="app-loader_spinner">
       <div class="sk-circle">
         <div class="sk-circle1 sk-child"></div>
         <div class="sk-circle2 sk-child"></div>
