@@ -6,7 +6,7 @@ import { ModalService } from '../../shared/_services/modal.service';
 import { AppService } from '../../shared/_services/app.service';
 import { PasswordCategory } from '../../shared/_models/password-category.model';
 import { AddMenuItem } from '../../shared/_models/add-menu-item.model';
-import { LoaderService } from '../../shared/_services/loader.service';
+import { LoaderService } from '../../components/loader/loader.service';
 import { NotificationService } from '../../shared/_services/notification.service';
 
 @Component({

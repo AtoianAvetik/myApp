@@ -1,7 +1,8 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 
 import { SidebarService } from '../../shared/_services/sidebar.service';
-import { PanelService } from '../../shared/_services/panel.service';
+import { PanelService } from '../../components/panels/panel.service';
+import { LoaderService } from '../../components/loader/loader.service';
 
 var fireRefreshEventOnWindow = function () {
     var evt = document.createEvent("HTMLEvents");
@@ -13,7 +14,7 @@ var fireRefreshEventOnWindow = function () {
     selector: 'app-full-layout',
     templateUrl: './full-layout.component.html',
     styleUrls: ['./full-layout.component.scss'],
-	providers: [SidebarService, PanelService]
+	providers: [SidebarService, PanelService, LoaderService]
 })
 
 export class FullLayoutComponent implements OnInit {

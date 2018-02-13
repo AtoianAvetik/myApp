@@ -2,8 +2,8 @@ import { Component, ElementRef, Input, OnDestroy, OnInit, ViewEncapsulation } fr
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
 
-import { PanelService } from '../../../_services/panel.service';
-import { SidebarService } from '../../../_services/sidebar.service';
+import { PanelService } from '../panel.service';
+import { SidebarService } from '../../../shared/_services/sidebar.service';
 
 @Component( {
 	selector: 'app-panel',

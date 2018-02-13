@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { LoaderService } from '../../_services/loader.service';
+import { LoaderService } from './loader.service';
 import { Observable } from 'rxjs/Observable';
 
 @Component({

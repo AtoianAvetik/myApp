@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 
-import { LoaderService } from '../../_services/loader.service';
+import { LoaderService } from '../../../components/loader/loader.service';
 import { GetLogoService } from '../../_services/get-logo.service';
 
 @Component({

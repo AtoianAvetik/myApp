@@ -1,15 +1,17 @@
 <div class="row" matchHeight ="card">
-	<div class="col-xl-4 col-lg-12 col-12">
-		<div class="card">
+	<div class="col-4 col-lg-12">
+		<div class="card" [loader]="'home'">
 			<div class="card-header">
-				<h4 class="card-title">Panels</h4>
+				<h4 class="card-title">Components</h4>
 			</div>
 			<div class="card-body">
 				<div class="card-block">
-					<div class="btn-group">
-						<button class="btn btn-raised btn-primary" type="button" [openPanel]="'panel-test-1'" title="Open">Panel 1</button>
-						<button class="btn btn-raised btn-primary" type="button" [openPanel]="'panel-test-2'" title="Open">Panel 2</button>
-					</div>
+					<h4>Panels</h4>
+					<button class="btn btn-raised btn-primary" type="button" [openPanel]="'panel-test-1'" title="Open">Panel 1</button>
+					<button class="btn btn-raised btn-primary" type="button" [openPanel]="'panel-test-2'" title="Open">Panel 2</button>
+					<h4>Loaders</h4>
+					<button class="btn btn-raised btn-secondary" type="button" (click)="loaderOpen('home', 'This is loader')">Loader 1</button>
+					<button class="btn btn-raised btn-secondary" type="button" (click)="loaderOpen('home')">Loader 2</button>
 				</div>
 			</div>
 		</div>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import * as _ from 'underscore';
 
-import { Panel } from '../_models/panel.model';
+import { Panel } from './panel.model';
 
 @Injectable()
 export class PanelService {

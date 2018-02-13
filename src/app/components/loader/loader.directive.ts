@@ -1,8 +1,8 @@
 import {
   ComponentFactory, ComponentFactoryResolver, ComponentRef, Directive, ElementRef, Input, OnInit, ViewContainerRef
 } from '@angular/core';
-import { LoaderComponent } from '../_modules/loader/loader.component';
-import { Loader } from '../_models/loader.model';
+import { LoaderComponent } from './loader.component';
+import { Loader } from './loader.model';
 
 @Directive({
   selector: '[loader]'

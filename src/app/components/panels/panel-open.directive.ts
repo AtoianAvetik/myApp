@@ -1,6 +1,6 @@
 import { Directive, HostListener, Input } from '@angular/core';
 
-import { PanelService } from '../_services/panel.service';
+import { PanelService } from './panel.service';
 
 @Directive({
   selector: '[openPanel]'

@@ -3,7 +3,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { BunnyImage } from 'bunnyjs/src/file/image';
 import { ImgToBase64Service } from '../../shared/_services/img-to-base64.service';
 import { GetLogoService } from '../../shared/_services/get-logo.service';
-import { LoaderService } from '../../shared/_services/loader.service';
+import { LoaderService } from '../../components/loader/loader.service';
 import { NotificationService } from '../../shared/_services/notification.service';
 
 @Component({

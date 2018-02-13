@@ -1,8 +1,8 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { Panel } from '../../_models/panel.model';
-import { PanelService } from '../../_services/panel.service';
+import { Panel } from './panel.model';
+import { PanelService } from './panel.service';
 
 @Component( {
 	selector: 'app-panels',

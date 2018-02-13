@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ValidatorsService } from '../../_services/validators.service';
 import { DataService } from '../../_services/data.service';
 import { ImgToBase64Service } from '../../_services/img-to-base64.service';
-import { LoaderService } from '../../_services/loader.service';
+import { LoaderService } from '../../../components/loader/loader.service';
 import { PasswordCategory } from '../../_models/password-category.model';
 import { Password } from '../../_models/password.model';
 

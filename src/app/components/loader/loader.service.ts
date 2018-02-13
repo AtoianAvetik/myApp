@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs/Subject';
 import * as _ from 'underscore';
 
-import { Loader } from '../_models/loader.model';
+import { Loader } from './loader.model';
 
 export class LoaderService {
   loaders: Array<Loader> = [];
