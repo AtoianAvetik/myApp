@@ -35,7 +35,7 @@ export class LoaderComponent implements OnInit, OnDestroy {
     return this._isPresent;
   }
 
-  constructor(private LoaderService: LoaderService, private _cdr: ChangeDetectorRef) {}
+  constructor(private _loaderService: LoaderService, private _cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     // ensure id attribute exists
@@ -45,19 +45,19 @@ export class LoaderComponent implements OnInit, OnDestroy {
     }
 
     // add self (this loader instance) to the loader service so it's accessible from controllers
-    this.LoaderService.add(this);
+    this._loaderService.add(this);
   }
 
   // remove self from loader service when directive is destroyed
   ngOnDestroy(): void {
-    this.LoaderService.remove(this.id);
+    this._loaderService.remove(this.id);
   }
 
   // open loader
   present(): Observable<boolean> | Promise<boolean> {
     this.isPresent = true;
     this._cdr.detectChanges();
-    return this.LoaderService.isloaderOpened;
+    return this._loaderService.isloaderOpened;
   }
 
   // close loader
@@ -67,10 +67,10 @@ export class LoaderComponent implements OnInit, OnDestroy {
 
   animationDone(event) {
     if ( event.toState === 'close' ) {
-      this.LoaderService.isloaderClosed.next();
+      this._loaderService.isloaderClosed.next();
     }
     if ( event.toState === 'open' ) {
-      this.LoaderService.isloaderOpened.next();
+      this._loaderService.isloaderOpened.next();
     }
   }
 }

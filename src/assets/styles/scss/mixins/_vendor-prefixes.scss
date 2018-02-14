@@ -84,3 +84,10 @@
     -ms-transform: rotate(180deg);
     transform: rotate(180deg);
 }
+
+@mixin rotate($deg){
+    -webkit-transform: rotate($deg);
+    -ms-transform: rotate($deg);
+    transform: rotate($deg);
+}
+
