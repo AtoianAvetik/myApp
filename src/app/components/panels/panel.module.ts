@@ -5,10 +5,12 @@ import { OpenPanelDirective } from './panel-open.directive';
 import { ClosePanelDirective } from './panel-close.directive';
 import { PanelService } from './panel.service';
 import { PanelComponent } from './panel/panel.component';
+import { PanelsComponent } from './panels.component';
 
 @NgModule({
 	exports: [
 		PanelComponent,
+		PanelsComponent,
 		OpenPanelDirective,
 		ClosePanelDirective
 	],
@@ -17,6 +19,7 @@ import { PanelComponent } from './panel/panel.component';
 	],
 	declarations: [
 		PanelComponent,
+		PanelsComponent,
 		OpenPanelDirective,
 		ClosePanelDirective
 	],

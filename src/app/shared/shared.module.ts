@@ -11,7 +11,6 @@ import { NavbarComponent } from "./navbar/navbar.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 import { FooterComponent } from './footer/footer.component';
 import { NavigationItemComponent } from "./sidebar/navigation-item/navigation-item.component";
-import { PanelsComponent } from "../components/panels/panels.component";
 
 @NgModule({
     exports: [
@@ -19,7 +18,6 @@ import { PanelsComponent } from "../components/panels/panels.component";
         NavbarComponent,
         FooterComponent,
         SidebarComponent,
-	    PanelsComponent,
         NgbModule,
 	    NotificationModule,
 	    PanelModule
@@ -36,7 +34,6 @@ import { PanelsComponent } from "../components/panels/panels.component";
         NavbarComponent,
         FooterComponent,
         SidebarComponent,
-	    PanelsComponent,
         NavigationItemComponent
     ]
 })
