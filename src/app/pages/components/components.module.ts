@@ -10,6 +10,7 @@ import { PrismModule } from '@ngx-prism/core';
 import { PanelsPageComponent } from './panels-page/panels-page.component';
 import { LoadersPageComponent } from './loaders-page/loaders-page.component';
 import { NotificationsPageComponent } from './notifications-page/notifications-page.component';
+import { ModalsPageComponent } from './modals-page/modals-page.component';
 
 @NgModule({
     imports: [
@@ -24,7 +25,8 @@ import { NotificationsPageComponent } from './notifications-page/notifications-p
     declarations: [
 	    PanelsPageComponent,
 	    LoadersPageComponent,
-	    NotificationsPageComponent
+	    NotificationsPageComponent,
+	    ModalsPageComponent
     ],
     providers: [],
 })

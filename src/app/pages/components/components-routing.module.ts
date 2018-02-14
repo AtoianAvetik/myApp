@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PanelsPageComponent } from './panels-page/panels-page.component';
 import { LoadersPageComponent } from './loaders-page/loaders-page.component';
 import { NotificationsPageComponent } from './notifications-page/notifications-page.component';
+import { ModalsPageComponent } from './modals-page/modals-page.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,13 @@ const routes: Routes = [
 			  component: NotificationsPageComponent,
 			  data: {
 				  title: 'Notifications'
+			  }
+		  },
+		  {
+			  path: 'modals-page',
+			  component: ModalsPageComponent,
+			  data: {
+				  title: 'Modals'
 			  }
 		  }
 	  ]
