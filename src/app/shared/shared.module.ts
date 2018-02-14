@@ -11,7 +11,6 @@ import { SidebarComponent } from "./sidebar/sidebar.component";
 import { FooterComponent } from './footer/footer.component';
 import { NavigationItemComponent } from "./sidebar/navigation-item/navigation-item.component";
 import { PanelsComponent } from "../components/panels/panels.component";
-import { NotificationsComponent } from '../components/notifications/notifications.component';
 
 @NgModule({
     exports: [
@@ -20,8 +19,8 @@ import { NotificationsComponent } from '../components/notifications/notification
         FooterComponent,
         SidebarComponent,
 	    PanelsComponent,
-	    NotificationsComponent,
-        NgbModule
+        NgbModule,
+	    NotificationModule
     ],
     imports: [
         RouterModule,
@@ -35,8 +34,7 @@ import { NotificationsComponent } from '../components/notifications/notification
         FooterComponent,
         SidebarComponent,
 	    PanelsComponent,
-        NavigationItemComponent,
-	    NotificationsComponent
+        NavigationItemComponent
     ]
 })
 export class SharedModule { }
