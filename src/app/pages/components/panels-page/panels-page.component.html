@@ -115,11 +115,15 @@
 					<ul>
 						<li>
 							<span>open panel</span>
-							<ngx-prism [language]="'javascript'">this._panelService.panelWillOpened.next('panel-1');</ngx-prism>
+							<ngx-prism [language]="'javascript'">this._panelService.openPanel('panel-1');</ngx-prism>
 						</li>
 						<li>
 							<span>close panel</span>
-							<ngx-prism [language]="'javascript'">this._panelService.panelWillClosed.next('panel-1');</ngx-prism>
+							<ngx-prism [language]="'javascript'">this._panelService.closePanel('panel-1');</ngx-prism>
+						</li>
+						<li>
+							<span>close last opened panel</span>
+							<ngx-prism [language]="'javascript'">this._panelService.closePanel();</ngx-prism>
 						</li>
 					</ul>
 				</div>

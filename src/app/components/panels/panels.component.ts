@@ -68,7 +68,7 @@ export class PanelsComponent implements OnInit {
 
 	overlayClick(e) {
 		if ( !e.target.closest( '.app-panel' ) ) {
-			this._panelService.closeLast();
+			this._panelService.closePanel();
 		}
 	}
 }

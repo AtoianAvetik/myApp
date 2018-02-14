@@ -8,12 +8,12 @@ import { PanelService } from './panel.service';
 export class ClosePanelDirective {
 	@Input( 'closePanel' ) id: string;
 
-	constructor( private panelService: PanelService ) {
+	constructor( private _panelService: PanelService ) {
 	}
 
 	@HostListener( 'click', ['$event'] )
 	onClick( e ) {
 		e.stopPropagation();
-		this.panelService.panelWillClosed.next( this.id );
+		this._panelService.closePanel( this.id );
 	}
 }

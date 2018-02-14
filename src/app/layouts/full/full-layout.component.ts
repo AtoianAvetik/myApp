@@ -52,6 +52,6 @@ export class FullLayoutComponent implements OnInit {
 
     onWrapClick($event) {
 	    this._sidebarService.hideSidebar();
-	    this._panelService.closeLast();
+	    this._panelService.closePanel();
     }
 }

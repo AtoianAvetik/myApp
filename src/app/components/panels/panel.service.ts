@@ -40,7 +40,11 @@ export class PanelService {
 		}
 	}
 
-	closeLast() {
-		this.panelWillClosed.next( this.activePanels[this.activePanels.length - 1] );
+	openPanel( id: string ) {
+		this.panelWillOpened.next(id);
+	}
+
+	closePanel( id?: string  ) {
+		this.panelWillClosed.next(id || this.activePanels[this.activePanels.length - 1]);
 	}
 }
