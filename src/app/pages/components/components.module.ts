@@ -7,6 +7,8 @@ import { PanelModule } from '../../components/panels/panel.module';
 import { LoaderModule } from '../../components/loader/loader.module';
 import { NotificationModule } from '../../components/notifications/notification.module';
 import { PrismModule } from '@ngx-prism/core';
+import { ModalModule } from '../../components/modals/modal.module';
+
 import { PanelsPageComponent } from './panels-page/panels-page.component';
 import { LoadersPageComponent } from './loaders-page/loaders-page.component';
 import { NotificationsPageComponent } from './notifications-page/notifications-page.component';
@@ -19,6 +21,7 @@ import { ModalsPageComponent } from './modals-page/modals-page.component';
 	    PanelModule,
 	    LoaderModule,
 	    NotificationModule,
+	    ModalModule,
 	    PrismModule,
 	    NgbModule
     ],

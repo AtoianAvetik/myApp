@@ -1,0 +1,42 @@
+<div class="row" matchHeight ="card">
+	<div class="col-12">
+		<h2>Modals</h2>
+	</div>
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Modals</h4>
+			</div>
+			<div class="card-body">
+				<div class="card-block">
+					<a class="btn btn-raised btn-primary" href="javascript:void(0)" [openModal]="'modal-1'">Modal 1</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<app-modal id="modal-1">
+	<div class="modal">
+		<div class="modal-header">
+			<div class="modal-header_inner">
+				<h4>Modal</h4>
+			</div>
+			<div class="modal-header_buttons">
+				<button class="close-btn" type="button" [closeModal]="'modal-1'"></button>
+			</div>
+		</div>
+		<div class="modal-content">
+
+		</div>
+		<div class="modal-bottom">
+			<div class="row no-gutters -between">
+				<div class="btn-list">
+				</div>
+				<div class="btn-list">
+					<button class="btn-white" type="button" [closeModal]="'modal-1'">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</app-modal>

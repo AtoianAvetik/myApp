@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 
 import { ContentListService } from '../../shared/_services/content-list.service';
 import { DataService } from '../../shared/_services/data.service';
-import { ModalService } from '../../shared/_services/modal.service';
+import { ModalService } from '../../components/modals/modal.service';
 import { AppService } from '../../shared/_services/app.service';
 import { PasswordCategory } from '../../shared/_models/password-category.model';
 import { AddMenuItem } from '../../shared/_models/add-menu-item.model';
