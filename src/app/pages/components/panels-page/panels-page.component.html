@@ -1,6 +1,6 @@
 <div class="row" matchHeight ="card">
 	<div class="col-12">
-		<h2>Components</h2>
+		<h2>Panels</h2>
 	</div>
 	<div class="col-12">
 		<div class="card">
@@ -9,38 +9,20 @@
 			</div>
 			<div class="card-body">
 				<div class="card-block">
+					<div class="card-text">
+<ngx-prism [language]="'javascript'">
+import &#123; NgModule &#125; from '@angular/core';
+import &#123; PanelModule &#125; from '../../components/panels/panel.module';
+
+@NgModule(&#123;
+imports: [PanelModule]
+&#125;)
+export class ComponentsModule &#123; &#125;
+</ngx-prism>
+					</div>
 					<button class="btn btn-raised btn-primary" type="button" [openPanel]="'panel-test-1'" title="Open">Panel 1</button>
 					<button class="btn btn-raised btn-primary" type="button" [openPanel]="'panel-test-2'" title="Open">Panel 2</button>
 					<button class="btn btn-raised btn-primary" type="button" [openPanel]="'panel-test-3'" title="Open">Panel 3</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-12">
-		<div class="card" [loader]="'home'">
-			<div class="card-header">
-				<h4 class="card-title">Loaders</h4>
-			</div>
-			<div class="card-body">
-				<div class="card-block">
-					<button class="btn btn-raised btn-secondary" type="button" (click)="loaderOpen('home', 'This is loader')">Loader 1</button>
-					<button class="btn btn-raised btn-secondary" type="button" (click)="loaderOpen('home')">Loader 2</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-12">
-		<div class="card">
-			<div class="card-header">
-				<h4 class="card-title">Notifications</h4>
-			</div>
-			<div class="card-body">
-				<div class="card-block">
-					<button class="btn btn-raised btn-success" type="button" (click)="createSuccessNotification('This is notification!', 0)" title="Open">Create success notification</button>
-					<button class="btn btn-raised btn-red" type="button" (click)="createErrorNotification('This is notification!')" title="Open">Create error notification</button>
-					<button class="btn btn-raised btn-blue" type="button" (click)="createInfoNotification('This is notification!')" title="Open">Create info notification</button>
-					<button class="btn btn-raised btn-yellow" type="button" (click)="createWarningNotification('This is notification!')" title="Open">Create warning notification</button>
-					<button class="btn btn-raised btn-default" type="button" (click)="clearNotification()" title="Open">Clear notification</button>
 				</div>
 			</div>
 		</div>

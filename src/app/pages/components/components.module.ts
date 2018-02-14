@@ -6,8 +6,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PanelModule } from '../../components/panels/panel.module';
 import { LoaderModule } from '../../components/loader/loader.module';
 import { NotificationModule } from '../../components/notifications/notification.module';
-
-import { ComponentsComponent } from './components.component';
+import { PrismModule } from '@ngx-prism/core';
+import { PanelsPageComponent } from './panels-page/panels-page.component';
+import { LoadersPageComponent } from './loaders-page/loaders-page.component';
+import { NotificationsPageComponent } from './notifications-page/notifications-page.component';
 
 @NgModule({
     imports: [
@@ -16,10 +18,13 @@ import { ComponentsComponent } from './components.component';
 	    PanelModule,
 	    LoaderModule,
 	    NotificationModule,
-        NgbModule
+	    PrismModule,
+	    NgbModule
     ],
     declarations: [
-	    ComponentsComponent,
+	    PanelsPageComponent,
+	    LoadersPageComponent,
+	    NotificationsPageComponent
     ],
     providers: [],
 })

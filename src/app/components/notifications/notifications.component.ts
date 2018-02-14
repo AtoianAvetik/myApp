@@ -26,7 +26,7 @@ export class NotificationsComponent implements OnInit {
   ngOnInit() {
     this.notificationService.getNotification().subscribe((notification: Notification) => {
       if (!notification) {
-        // clear notifications when an empty data is received
+        // clear notifications-page when an empty data is received
         this.viewContainerRef.clear();
         return;
       }

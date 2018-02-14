@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 export class SidebarService {
 	sidebarState: string;
 	isNavExpand = true;
-	isMenuExpand = false;
+	isMenuExpand = true;
 	isHideSidebar = false;
 	isSidebarHiddenNavExpand = true;
 	isSidebarHiddenMenuExpand = false;

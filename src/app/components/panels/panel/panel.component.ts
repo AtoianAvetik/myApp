@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostBinding, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
 

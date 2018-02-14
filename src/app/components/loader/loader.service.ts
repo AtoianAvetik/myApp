@@ -9,12 +9,12 @@ export class LoaderService {
   isloaderOpened = new Subject<boolean>();
 
   add(loader: Loader) {
-    // add loader to array of active loaders
+    // add loader to array of active loaders-page
     this.loaders.push(loader);
   }
 
   remove(id: string) {
-    // remove loader from array of active loaders
+    // remove loader from array of active loaders-page
     const loaderToRemove = _.findWhere(this.loaders, { id: id });
     this.loaders = _.without(this.loaders, loaderToRemove);
   }

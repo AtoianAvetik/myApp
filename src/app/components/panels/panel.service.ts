@@ -17,13 +17,13 @@ export class PanelService {
 	isPanelsChanged = new Subject();
 
 	add( panel: Panel ) {
-		// add panel to array of active panels
+		// add panel to array of active panels-page
 		this.panels.push( panel );
 		this.isPanelsChanged.next( this.panels.slice() );
 	}
 
 	remove( id: string ) {
-		// remove panel from array of active panels
+		// remove panel from array of active panels-page
 		const panelToRemove = _.findWhere( this.panels, { id: id } );
 		this.panels = _.without( this.panels, panelToRemove );
 		this.isPanelsChanged.next( this.panels.slice() );

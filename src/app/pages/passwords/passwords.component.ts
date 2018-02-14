@@ -30,7 +30,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
   folderMode = '';
   deleteMode = '';
 
-  // loaders
+  // loaders-page
   folderFormLoader;
   passwordFormLoader;
   deleteFormLoader;
