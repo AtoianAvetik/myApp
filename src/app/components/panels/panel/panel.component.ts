@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, HostBinding, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -9,6 +9,7 @@ import { SidebarService } from '../../../shared/_services/sidebar.service';
 	selector: 'app-panel',
 	template: `
 		<div class="app-panel-wrap"
+		     [ngStyle]="styles"
 		     [@panel]='isOpen ? this.openState : this.closeState'
 		     (@panel.start)="animationAction($event)"
 		     (@panel.done)="animationAction($event)">
@@ -60,6 +61,7 @@ export class PanelComponent implements OnInit, OnDestroy {
 	closeSubscription: Subscription;
 	openState: string;
 	closeState: string;
+	styles = {};
 	element;
 	el: ElementRef;
 
@@ -72,8 +74,8 @@ export class PanelComponent implements OnInit, OnDestroy {
 		return this._isOpen;
 	}
 
-	constructor( private panelService: PanelService,
-	             private sidebarService: SidebarService,
+	constructor( private _panelService: PanelService,
+	             private _sidebarService: SidebarService,
 	             private elRef: ElementRef ) {
 		this.el = this.elRef;
 		this.element = this.elRef.nativeElement;
@@ -84,8 +86,8 @@ export class PanelComponent implements OnInit, OnDestroy {
 		switch ( this.dir ) {
 			case 'left':
 				this.updateStates();
-				this.sidebarService.isNavExpandChange.subscribe( _ => this.updateStates());
-				this.sidebarService.isHideSidebarChange.subscribe( _ => this.updateStates());
+				this._sidebarService.isNavExpandChange.subscribe( _ => this.updateStates());
+				this._sidebarService.isHideSidebarChange.subscribe( _ => this.updateStates());
 				break;
 			case 'right':
 				this.openState = this.statuses.right.open;
@@ -100,10 +102,10 @@ export class PanelComponent implements OnInit, OnDestroy {
 		}
 
 		// add self (this panel instance) to the panel service so it's accessible from controllers
-		this.panelService.add( this );
+		this._panelService.add( this );
 
 		// subscribe events
-		this.openSubscription = this.panelService.panelWillOpened
+		this.openSubscription = this._panelService.panelWillOpened
 			.subscribe(
 				( id: string ) => {
 					if ( id === this.id ) {
@@ -111,7 +113,7 @@ export class PanelComponent implements OnInit, OnDestroy {
 					}
 				}
 			);
-		this.closeSubscription = this.panelService.panelWillClosed
+		this.closeSubscription = this._panelService.panelWillClosed
 			.subscribe(
 				( id: string ) => {
 					if ( id === this.id ) {
@@ -123,8 +125,8 @@ export class PanelComponent implements OnInit, OnDestroy {
 
 	// remove self from panel service when directive is destroyed
 	ngOnDestroy(): void {
-		this.panelService.remove( this.id );
-		this.panelService.removeFromActive( this.id );
+		this._panelService.remove( this.id );
+		this._panelService.removeFromActive( this.id );
 		this.element.parentNode.removeChild( this.element );
 		this.openSubscription.unsubscribe();
 		this.closeSubscription.unsubscribe();
@@ -132,19 +134,26 @@ export class PanelComponent implements OnInit, OnDestroy {
 
 	// open panel
 	open(): void {
-		this.panelService.activePanels.push( this.id );
+		this._panelService.addToActive( this.id );
+		this.setStyle(this._panelService.activePanels.length);
 		this.isOpen = true;
 	}
 
 	// close panel
 	close(): void {
-		this.panelService.removeFromActive( this.id );
+		this._panelService.removeFromActive( this.id );
 		this.isOpen = false;
 	}
 
 	updateStates() {
-		this.openState = this.statuses.left[this.sidebarService.sidebarState].open;
-		this.closeState = this.statuses.left[this.sidebarService.sidebarState].close;
+		this.openState = this.statuses.left[this._sidebarService.sidebarState].open;
+		this.closeState = this.statuses.left[this._sidebarService.sidebarState].close;
+	}
+
+	setStyle( i: number) {
+		this.styles = {
+			"zIndex": i
+		};
 	}
 
 	animationAction( event ) {
@@ -152,56 +161,56 @@ export class PanelComponent implements OnInit, OnDestroy {
 			case 'start':
 				switch ( event.toState ) {
 					case this.statuses.left.expanded.open:
-						this.panelService.panelOpeningDidStart.next();
+						this._panelService.panelOpeningDidStart.next();
 						break;
 					case this.statuses.left.collapsed.open:
-						this.panelService.panelOpeningDidStart.next();
+						this._panelService.panelOpeningDidStart.next();
 						break;
 					case this.statuses.left.hidden.open:
-						this.panelService.panelOpeningDidStart.next();
+						this._panelService.panelOpeningDidStart.next();
 						break;
 					case this.statuses.right.open:
-						this.panelService.panelOpeningDidStart.next();
+						this._panelService.panelOpeningDidStart.next();
 						break;
 					case this.statuses.left.expanded.close:
-						this.panelService.panelClosingDidStart.next();
+						this._panelService.panelClosingDidStart.next();
 						break;
 					case this.statuses.left.collapsed.close:
-						this.panelService.panelClosingDidStart.next();
+						this._panelService.panelClosingDidStart.next();
 						break;
 					case this.statuses.left.hidden.close:
-						this.panelService.panelClosingDidStart.next();
+						this._panelService.panelClosingDidStart.next();
 						break;
 					case this.statuses.right.close:
-						this.panelService.panelClosingDidStart.next();
+						this._panelService.panelClosingDidStart.next();
 						break;
 				}
 				break;
 			case 'done':
 				switch ( event.toState ) {
 					case this.statuses.left.expanded.open:
-						this.panelService.panelOpeningDidDone.next();
+						this._panelService.panelOpeningDidDone.next();
 						break;
 					case this.statuses.left.collapsed.open:
-						this.panelService.panelOpeningDidDone.next();
+						this._panelService.panelOpeningDidDone.next();
 						break;
 					case this.statuses.left.hidden.open:
-						this.panelService.panelOpeningDidDone.next();
+						this._panelService.panelOpeningDidDone.next();
 						break;
 					case this.statuses.right.open:
-						this.panelService.panelOpeningDidDone.next();
+						this._panelService.panelOpeningDidDone.next();
 						break;
 					case this.statuses.left.expanded.close:
-						this.panelService.panelClosingDidDone.next();
+						this._panelService.panelClosingDidDone.next();
 						break;
 					case this.statuses.left.collapsed.close:
-						this.panelService.panelClosingDidDone.next();
+						this._panelService.panelClosingDidDone.next();
 						break;
 					case this.statuses.left.hidden.close:
-						this.panelService.panelClosingDidDone.next();
+						this._panelService.panelClosingDidDone.next();
 						break;
 					case this.statuses.right.close:
-						this.panelService.panelClosingDidDone.next();
+						this._panelService.panelClosingDidDone.next();
 						break;
 				}
 				break;

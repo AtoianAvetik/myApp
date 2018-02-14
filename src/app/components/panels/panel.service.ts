@@ -29,6 +29,10 @@ export class PanelService {
 		this.isPanelsChanged.next( this.panels.slice() );
 	}
 
+	addToActive( id: string ) {
+		this.activePanels.push(id);
+	}
+
 	removeFromActive( id: string ) {
 		const index: number = this.activePanels.indexOf( id );
 		if ( index !== -1 ) {
