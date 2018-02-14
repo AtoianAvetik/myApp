@@ -5,6 +5,7 @@ import { RouterModule } from "@angular/router";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { NotificationModule } from '../components/notifications/notification.module';
+import { PanelModule } from '../components/panels/panel.module';
 
 import { NavbarComponent } from "./navbar/navbar.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
@@ -20,14 +21,16 @@ import { PanelsComponent } from "../components/panels/panels.component";
         SidebarComponent,
 	    PanelsComponent,
         NgbModule,
-	    NotificationModule
+	    NotificationModule,
+	    PanelModule
     ],
     imports: [
         RouterModule,
         CommonModule,
         NgbModule,
 	    NotificationModule,
-	    PerfectScrollbarModule
+	    PerfectScrollbarModule,
+	    PanelModule
     ],
     declarations: [
         NavbarComponent,

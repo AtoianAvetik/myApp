@@ -22,5 +22,9 @@ export const Full_ROUTES: Routes = [
 	{
 		path: 'profile',
 		loadChildren: './pages/user-profile/user-profile.module#UserProfileModule'
+	},
+	{
+		path: 'components',
+		loadChildren: './pages/components/components.module#ComponentsModule'
 	}
 ];
