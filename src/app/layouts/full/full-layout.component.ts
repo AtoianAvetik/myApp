@@ -25,8 +25,7 @@ export class FullLayoutComponent implements OnInit {
 
 
     constructor(private elementRef: ElementRef,
-                private _sidebarService: SidebarService,
-                private _panelService: PanelService) {
+                private _sidebarService: SidebarService) {
 	    this.isNavExpand = this._sidebarService.isNavExpand;
 	    this.isMenuExpand = this._sidebarService.isMenuExpand;
 	    this.isHideSidebar = this._sidebarService.isHideSidebar;
@@ -49,10 +48,5 @@ export class FullLayoutComponent implements OnInit {
     onClick(event) {
         //initialize window resizer event on sidebar toggle click event
         setTimeout(() => { fireRefreshEventOnWindow() }, 300);
-    }
-
-    onWrapClick($event) {
-	    this._sidebarService.hideSidebar();
-	    this._panelService.closePanel();
     }
 }

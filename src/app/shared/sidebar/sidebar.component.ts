@@ -27,6 +27,9 @@ export class SidebarComponent implements OnInit {
 	@HostListener('window:resize', ['$event']) onResize(event) {
 		this.onHideSidebar();
 	}
+	@HostListener('document:click', ['$event']) onClick(event) {
+		this.outsideClick(event);
+	}
 	public menuItems: any[];
     public isNavExpand: boolean;
 
@@ -52,5 +55,11 @@ export class SidebarComponent implements OnInit {
 
 	onHideSidebar() {
     	this._sidebarService.hideSidebar();
+	}
+
+	outsideClick(e) {
+		if ( !e.target.closest( 'app-sidebar' ) ) {
+			this._sidebarService.hideSidebar();
+		}
 	}
 }

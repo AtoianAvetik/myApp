@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { Panel } from './panel.model';
@@ -10,7 +10,7 @@ import { PanelService } from './panel.service';
 		<div class="app-panel-container"></div>
 		<div
 			*ngIf="overlay"
-			(click)="overlayClick($event)"
+			(click)="outsideClick($event)"
 			class="app-panel-overlay"
 			[@overlay]='isOpen ? "open" : "close"'>
 		</div>
@@ -26,6 +26,10 @@ import { PanelService } from './panel.service';
 	]
 } )
 export class PanelsComponent implements OnInit {
+	@HostListener('document:click', ['$event'])
+	onClick(event) {
+		this.outsideClick(event);
+	}
 	@Input() overlay = true;
 	private _isOpen = false;
 
@@ -66,8 +70,8 @@ export class PanelsComponent implements OnInit {
 			);
 	}
 
-	overlayClick(e) {
-		if ( !e.target.closest( '.app-panel' ) ) {
+	outsideClick(e) {
+		if ( !e.target.closest( 'app-panel') ) {
 			this._panelService.closePanel();
 		}
 	}
