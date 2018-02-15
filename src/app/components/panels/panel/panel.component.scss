@@ -1,0 +1,38 @@
+/*------------------------------------------*/
+/*---------- PANEL DEFAULT STYLES ----------*/
+/*------------------------------------------*/
+
+.app-panel-container {
+	position: relative;
+}
+
+.app-panel-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.4);
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
+
+.app-panel-wrap {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	height: 100vh;
+	width: 360px;
+	backface-visibility: hidden;
+	box-sizing: border-box;
+	background-color: #fff;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.app-panel {
+
+}
