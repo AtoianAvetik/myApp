@@ -17,24 +17,24 @@
 </div>
 
 <app-modal id="modal-1">
-	<div class="modal">
-		<div class="modal-header">
-			<div class="modal-header_inner">
+	<div class="app-modal">
+		<div class="app-modal-header">
+			<div class="app-modal-header_inner">
 				<h4>Modal</h4>
 			</div>
-			<div class="modal-header_buttons">
-				<button class="close-btn" type="button" [closeModal]="'modal-1'"></button>
+			<div class="app-modal-header_buttons">
+				<a [closeModal]="'modal-1'"><i class="ft-x font-medium-3"></i></a>
 			</div>
 		</div>
-		<div class="modal-content">
+		<div class="app-modal-content">
 
 		</div>
-		<div class="modal-bottom">
+		<div class="app-modal-bottom">
 			<div class="row no-gutters -between">
 				<div class="btn-list">
 				</div>
 				<div class="btn-list">
-					<button class="btn-white" type="button" [closeModal]="'modal-1'">Cancel</button>
+					<button class="btn btn-white" type="button" [closeModal]="'modal-1'">Cancel</button>
 				</div>
 			</div>
 		</div>

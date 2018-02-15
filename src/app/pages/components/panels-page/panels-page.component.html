@@ -34,12 +34,12 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-header">
-				<h4 class="card-title">Components Module</h4>
+				<h4 class="card-title">Setup</h4>
 			</div>
 			<div class="card-body">
 				<div class="card-block">
-					<p>Add <code>PanelModule</code> into your current module, where you will use panel, or into  <code>ComponentsModule</code> class.<code>components-module.module</code> would look like this</p>
 					<div class="card-text">
+						<p>Add <code>PanelModule</code> into your current module, where you will use panel, or into  <code>ComponentsModule</code> class.<code>components-module.module</code> would look like this</p>
 <ngx-prism [language]="'javascript'">
 	import &#123; NgModule } from '@angular/core';
 	import &#123; PanelModule } from '../../components/panels/panel.module';
@@ -48,6 +48,13 @@
 	imports: [PanelModule]
 	})
 	export class ComponentsModule &#123; }
+
+</ngx-prism>
+						<p>Add <code>PanelService</code> to your root component providers:</p>
+<ngx-prism [language]="'javascript'">
+	import &#123; PanelService } from '../../components/panels/panel.service';
+	...
+	providers: [PanelService]
 
 </ngx-prism>
 					</div>

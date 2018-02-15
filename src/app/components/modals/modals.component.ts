@@ -44,7 +44,6 @@ export class ModalsComponent implements OnInit {
 		this._modalService.isModalsChanged
 			.subscribe(
 				( data: Array<Modal> ) => {
-					console.log(1);
 					(data.length < 1) && (this.isOpen = false);
 					for ( const panel of data ) {
 						this.elRef.nativeElement.querySelector( '.app-modal-container' ).appendChild( panel.el.nativeElement );
