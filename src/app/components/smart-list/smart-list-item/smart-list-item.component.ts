@@ -1,0 +1,80 @@
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+
+import { SmartListService } from "./smart-list.service";
+import { ModalService } from "../../modals/modal.service";
+import { AppService } from "../../../shared/_services/app.service";
+
+@Component( {
+	selector: '[smart-list-item]',
+	templateUrl: './smart-list-item.component.html',
+	styleUrls: ['./smart-list-item.component.scss']
+} )
+export class SmartListItemComponent implements OnInit, OnDestroy {
+	@Input() listId;
+	@Input() itemIndex;
+	@Input() itemImg;
+	activeViewType: string = 'list';
+	isItemSelected: boolean = false;
+	isItemFocused: boolean = false;
+	private subscriptions: Array<Subscription> = [];
+
+	constructor( private _smartListService: SmartListService,
+	             private _modalService: ModalService,
+	             private appService: AppService ) {
+	}
+
+	ngOnInit() {
+		this.subscriptions.push( this._smartListService.viewTypeChanged.subscribe(
+			( type: string ) => {
+				this.activeViewType = type;
+			}
+		) );
+		this.subscriptions.push( this.appService.appWrapClicked.subscribe(
+			() => {
+				this.isItemSelected = false;
+				this.isItemFocused = false;
+			}
+		) );
+		this.subscriptions.push( this._modalService.modalClosingDidStart.subscribe(
+			() => {
+				this.isItemFocused = false;
+			}
+		) );
+	}
+
+	ngOnDestroy() {
+		this.subscriptions.forEach( ( subscription: Subscription ) => {
+			subscription.unsubscribe();
+		} );
+	}
+
+	onEditItem( event ) {
+		this.stopPropagation( event );
+		this.onFocusItem();
+		this._smartListService.editSelectedItem.next();
+	}
+
+	onDeleteItem( event ) {
+		this.stopPropagation( event );
+		this.onFocusItem();
+		this._smartListService.deleteSelectedItem.next();
+	}
+
+	onSelectedItem( event ) {
+		this.stopPropagation( event );
+		this.isItemSelected = !this.isItemSelected;
+		this._smartListService.listItemSelected.next( this.itemIndex );
+		this._smartListService.listSelected.next( this.listId );
+	}
+
+	onFocusItem() {
+		this.isItemFocused = true;
+		this._smartListService.listItemSelected.next( this.itemIndex );
+		this._smartListService.listSelected.next( this.listId );
+	}
+
+	stopPropagation( event ) {
+		event.stopPropagation();
+	}
+}

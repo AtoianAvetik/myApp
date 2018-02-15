@@ -13,6 +13,8 @@ import { PanelsPageComponent } from './panels-page/panels-page.component';
 import { LoadersPageComponent } from './loaders-page/loaders-page.component';
 import { NotificationsPageComponent } from './notifications-page/notifications-page.component';
 import { ModalsPageComponent } from './modals-page/modals-page.component';
+import { AccordionModule } from '../../components/accordion/accordion.module';
+import { AccordionPageComponent } from './accordion-page/accordion-page.component';
 
 @NgModule({
     imports: [
@@ -23,13 +25,15 @@ import { ModalsPageComponent } from './modals-page/modals-page.component';
 	    NotificationModule,
 	    ModalModule,
 	    PrismModule,
+	    AccordionModule,
 	    NgbModule
     ],
     declarations: [
 	    PanelsPageComponent,
 	    LoadersPageComponent,
 	    NotificationsPageComponent,
-	    ModalsPageComponent
+	    ModalsPageComponent,
+	    AccordionPageComponent
     ],
     providers: [],
 })

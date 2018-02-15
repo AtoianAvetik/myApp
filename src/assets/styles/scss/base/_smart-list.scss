@@ -1,0 +1,279 @@
+.smart-list {
+	margin: 0 -15px;
+	display: flex;
+	flex-flow: row wrap;
+
+	li {
+		width: 100%;
+
+		&.-tile {
+			flex: 0 0 33.33333333%;
+			padding: 15px;
+
+			@include media(960px) {
+				flex: 0 0 50%;
+			}
+
+			@include media(640px) {
+				flex: 0 0 100%;
+			}
+		}
+	}
+
+	&_checkbox {
+		height: 100%;
+		display: inline-block;
+		vertical-align: top;
+		width: 55px;
+	}
+
+	&_img {
+		position: relative;
+	}
+
+	&_img-overlay {
+		background-color: rgba(77, 94, 110, .4);
+		display: none;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+	}
+
+	&_info {
+		margin: 0 10px;
+	}
+
+	&_info-table {
+		display: table;
+		table-layout: fixed;
+		height: 100%;
+		width: 100%;
+	}
+
+	&_info-text {
+		position: relative;
+		display: table-cell;
+		vertical-align: middle;
+
+		@include media(1100px) {
+			&.-show-large {
+				display: none !important;
+			}
+		}
+
+		p {
+			margin: 0;
+		}
+
+		.name {
+			font-size: 15px;
+			font-weight: 600;
+			color: #465E7B;
+		}
+
+		.info-label {
+			margin-right: 10px;
+		}
+
+		.name, .info-label  {
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+
+		.small {
+			font-size: 80%;
+
+			.info-label {
+				opacity: .6;
+			}
+		}
+	}
+
+	&_info-text,
+	&_hover-info {
+		display: table-cell;
+		vertical-align: middle;
+	}
+
+	&_button-cell {
+		width: 35px;
+		display: none;
+		vertical-align: middle;
+		text-align: right;
+
+		button {
+			font-size: 14px;
+		}
+	}
+
+	&_button {
+		background-color: transparent;
+		color: inherit;
+		box-sizing: content-box;
+		vertical-align: top;
+		padding: 0;
+		font-size: inherit;
+		cursor: pointer;
+		display: inline-block;
+		border: 1px solid #DFE2E7;
+		height: 26px;
+		width: 26px;
+		border-radius: 2px;
+
+		&:hover {
+			background-color: rgba(60, 74, 84, 0.2);
+		}
+	}
+
+	.big-icon, img.small-icon {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		margin: auto;
+		max-width: 100%;
+		max-height: 100%;
+	}
+}
+
+.smart-list-item {
+	min-width: 100%;
+
+	.-list > & {
+		height: 50px;
+		min-width: 400px;
+		position: relative;
+		background: #FFF;
+		outline: none;
+		margin: 0 15px 2px;
+
+		&:hover, &.-selected, &.-focus {
+			color: #FFF;
+			background-color: rgba(77, 94, 110, .4);
+
+			.smart-list_img {
+				background: $white;
+			}
+
+			.smart-list_img-overlay {
+				visibility: visible;
+			}
+
+			.smart-list_button-cell {
+				display: table-cell;
+			}
+		}
+
+		.inner-wrap {
+			display: block;
+			height: 100%;
+			position: relative;
+		}
+
+		.smart-list_img {
+			width: 150px;
+			height: 100%;
+			display: inline-block;
+			vertical-align: top;
+			border: none;
+
+			.big-icon {
+				height: 55%;
+				font-size: 33px;
+			}
+		}
+
+		.page-checkbox {
+			visibility: visible;
+			border: 1px solid #4D5E6E;
+			border-radius: 4px;
+			height: 15px;
+			width: 15px;
+			left: 20px;
+			bottom: 0;
+			margin: auto;
+		}
+
+		.smart-list_img-overlay {
+			display: block;
+			visibility: hidden;
+		}
+
+		.smart-list_info {
+			position: absolute;
+			left: 215px;
+			top: 0;
+			bottom: 0;
+			right: 0;
+		}
+
+		.smart-list_button-cell {
+			color: $white;
+		}
+
+		.smart-list_info-text {
+			&.-first {
+				@include minMedia(1100px) {
+					width: 50%;
+				}
+			}
+		}
+	}
+
+	.-tile > & {
+		border-radius: 2px;
+		box-shadow: 0 1px 3px rgba(0,24,48,0.2);
+		display: inline-block;
+		background-color: #FFF;
+		position: relative;
+		vertical-align: top;
+		height: 160px;
+
+		&:hover, &.-selected, &.-focus {
+			.smart-list_img-overlay {
+				display: block;
+			}
+
+			.smart-list_button-cell {
+				display: table-cell;
+			}
+		}
+
+		.smart-list_checkbox {
+			display: none;
+		}
+
+		.smart-list_img {
+			width: 100%;
+			height: 110px;
+		}
+
+		.page-checkbox {
+			height: 15px;
+			width: 15px;
+			border: 1px solid rgba(77, 94, 110, .8);
+			border-radius: 2px;
+			right: 0;
+			margin: 4px 4px 0 0;
+		}
+
+		.smart-list_info {
+			position: relative;
+			height: 50px;
+		}
+
+		.smart-list_button-cell {
+			color: #465E7B;
+		}
+
+		.smart-list_info-text {
+			&.-show-large {
+				display: none;
+			}
+		}
+	}
+}

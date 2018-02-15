@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 @Injectable()
-export class ContentListService {
+export class SmartListService {
   listItemSelected = new Subject<number>();
   listSelected = new Subject<number>();
   viewTypeChanged = new Subject<string>();

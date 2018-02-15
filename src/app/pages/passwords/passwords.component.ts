@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 
-import { ContentListService } from '../../shared/_services/content-list.service';
 import { DataService } from '../../shared/_services/data.service';
 import { ModalService } from '../../components/modals/modal.service';
 import { AppService } from '../../shared/_services/app.service';
 import { PasswordCategory } from '../../shared/_models/password-category.model';
-import { AddMenuItem } from '../../shared/_models/add-menu-item.model';
+import { AddMenuItem } from '../../components/add-menu/add-menu-item.model';
 import { LoaderService } from '../../components/loader/loader.service';
 import { NotificationService } from '../../components/notifications/notification.service';
+import { SmartListService } from '../../components/smart-list/smart-list.service';
 
 @Component({
   selector: 'app-passwords',
@@ -46,7 +46,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
   listItemSelectedIndex: number;
 
   constructor(private dataService: DataService,
-              private contentListService: ContentListService,
+              private _smartListService: SmartListService,
               private appService: AppService,
               private modalService: ModalService,
               private loaderService: LoaderService,
@@ -61,39 +61,39 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
           this.updatePasswords(data);
         }
       );
-    this.contentListService.listSelected
+    this._smartListService.listSelected
       .subscribe(
         (id: number) => {
           this.listSelectedId = id;
         }
       );
-    this.contentListService.listItemSelected
+    this._smartListService.listItemSelected
       .subscribe(
         (index: number) => {
           this.listItemSelectedIndex = index;
         }
       );
-    this.contentListService.editSelectedItem
+    this._smartListService.editSelectedItem
       .subscribe(
         () => {
           this.passwordMode = 'edit';
           this.passwordFormCmp.updateForm();
         }
       );
-    this.contentListService.editSelectedList
+    this._smartListService.editSelectedList
       .subscribe(
         () => {
           this.folderMode = 'edit';
           this.folderFormCmp.updateForm();
         }
       );
-    this.contentListService.deleteSelectedItem
+    this._smartListService.deleteSelectedItem
       .subscribe(
         () => {
           this.deleteMode = 'password';
         }
       );
-    this.contentListService.deleteSelectedList
+    this._smartListService.deleteSelectedList
       .subscribe(
         () => {
           this.deleteMode = 'folder';
@@ -170,7 +170,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 
   changeViewType(type: string) {
     this.activeViewType = type;
-    this.contentListService.viewTypeChanged.next(type);
+    this._smartListService.viewTypeChanged.next(type);
   }
 
   selectImage() {

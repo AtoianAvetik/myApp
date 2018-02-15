@@ -5,6 +5,7 @@ import { PanelsPageComponent } from './panels-page/panels-page.component';
 import { LoadersPageComponent } from './loaders-page/loaders-page.component';
 import { NotificationsPageComponent } from './notifications-page/notifications-page.component';
 import { ModalsPageComponent } from './modals-page/modals-page.component';
+import { AccordionPageComponent } from './accordion-page/accordion-page.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,13 @@ const routes: Routes = [
 			  component: ModalsPageComponent,
 			  data: {
 				  title: 'Modals'
+			  }
+		  },
+		  {
+			  path: 'accordion-page',
+			  component: AccordionPageComponent,
+			  data: {
+				  title: 'Accordion'
 			  }
 		  }
 	  ]

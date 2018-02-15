@@ -11,7 +11,6 @@ import { SidebarService } from '../_services/sidebar.service';
       trigger('slide', [
         state('down' , style({ height: '*', display: 'block' })),
         state('up', style({ height: 0, display: 'none' })),
-        state('firstLoad', style({ height: 0, display: 'none' })),
         transition('up => down', animate('300ms')),
         transition('down => up', animate('300ms'))
       ])

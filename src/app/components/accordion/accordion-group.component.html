@@ -1,0 +1,18 @@
+<div class="accordion accordion-default" [class.-opened]="isOpen">
+	<div class="accordion-heading" role="tab">
+		<span class="accordion-heading_title" (click)="onToggleClick($event)">
+			<a tabindex="0" *ngIf="heading" role="button">
+				<span>{{ heading }}</span>
+			</a>
+			<ng-content select="accordion-heading"></ng-content>
+			<div class="accordion-heading_icon" [style.display]="accordion.showArrows ? '' : 'none'">
+				<i class="ft-chevron-right font-medium-3"></i>
+			</div>
+		</span>
+	</div>
+	<div class="accordion-content" [@slide]='isOpen ? "down" : "up"'>
+		<div class="accordion-content_body">
+			<ng-content></ng-content>
+		</div>
+	</div>
+</div>

@@ -1,8 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { DataService } from '../../_services/data.service';
-import { PasswordCategory } from '../../_models/password-category.model';
+import { DataService } from '../../shared/_services/data.service';
+import { PasswordCategory } from '../../shared/_models/password-category.model';
 
 @Component({
   selector: 'app-category',
