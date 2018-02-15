@@ -15,6 +15,8 @@ import { NotificationsPageComponent } from './notifications-page/notifications-p
 import { ModalsPageComponent } from './modals-page/modals-page.component';
 import { AccordionModule } from '../../components/accordion/accordion.module';
 import { AccordionPageComponent } from './accordion-page/accordion-page.component';
+import { SmartListPageComponent } from './smart-list-page/smart-list-page.component';
+import { SmartListModule } from '../../components/smart-list/smart-list.module';
 
 @NgModule({
     imports: [
@@ -26,6 +28,7 @@ import { AccordionPageComponent } from './accordion-page/accordion-page.componen
 	    ModalModule,
 	    PrismModule,
 	    AccordionModule,
+	    SmartListModule,
 	    NgbModule
     ],
     declarations: [
@@ -33,7 +36,8 @@ import { AccordionPageComponent } from './accordion-page/accordion-page.componen
 	    LoadersPageComponent,
 	    NotificationsPageComponent,
 	    ModalsPageComponent,
-	    AccordionPageComponent
+	    AccordionPageComponent,
+	    SmartListPageComponent
     ],
     providers: [],
 })

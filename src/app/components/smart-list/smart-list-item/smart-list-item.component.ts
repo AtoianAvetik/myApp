@@ -1,9 +1,8 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { SmartListService } from "./smart-list.service";
+import { SmartListService } from '../smart-list.service';
 import { ModalService } from "../../modals/modal.service";
-import { AppService } from "../../../shared/_services/app.service";
 
 @Component( {
 	selector: '[smart-list-item]',
@@ -18,22 +17,20 @@ export class SmartListItemComponent implements OnInit, OnDestroy {
 	isItemSelected: boolean = false;
 	isItemFocused: boolean = false;
 	private subscriptions: Array<Subscription> = [];
+	@HostListener('document:click', ['$event.target'])
+	onClick(targetElement) {
+		this.onClickOutside(targetElement);
+	}
 
 	constructor( private _smartListService: SmartListService,
 	             private _modalService: ModalService,
-	             private appService: AppService ) {
+	             private _elementRef: ElementRef) {
 	}
 
 	ngOnInit() {
 		this.subscriptions.push( this._smartListService.viewTypeChanged.subscribe(
 			( type: string ) => {
 				this.activeViewType = type;
-			}
-		) );
-		this.subscriptions.push( this.appService.appWrapClicked.subscribe(
-			() => {
-				this.isItemSelected = false;
-				this.isItemFocused = false;
 			}
 		) );
 		this.subscriptions.push( this._modalService.modalClosingDidStart.subscribe(
@@ -76,5 +73,13 @@ export class SmartListItemComponent implements OnInit, OnDestroy {
 
 	stopPropagation( event ) {
 		event.stopPropagation();
+	}
+
+	onClickOutside(target) {
+		const clickedInside = this._elementRef.nativeElement.contains(target);
+		if (!clickedInside) {
+			this.isItemSelected = false;
+			this.isItemFocused = false;
+		}
 	}
 }

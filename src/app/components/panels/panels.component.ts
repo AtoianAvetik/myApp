@@ -10,7 +10,7 @@ import { PanelService } from './panel.service';
 		<div class="app-panel-container"></div>
 		<div
 			*ngIf="overlay"
-			(click)="outsideClick($event)"
+			(click)="onClickOutside($event)"
 			class="app-panel-overlay"
 			[@overlay]='isOpen ? "open" : "close"'>
 		</div>
@@ -28,7 +28,7 @@ import { PanelService } from './panel.service';
 export class PanelsComponent implements OnInit {
 	@HostListener('document:click', ['$event'])
 	onClick(event) {
-		this.outsideClick(event);
+		this.onClickOutside(event);
 	}
 	@Input() overlay = true;
 	private _isOpen = false;
@@ -70,7 +70,7 @@ export class PanelsComponent implements OnInit {
 			);
 	}
 
-	outsideClick(e) {
+	onClickOutside(e) {
 		if ( !e.target.closest( 'app-panel') ) {
 			this._panelService.closePanel();
 		}

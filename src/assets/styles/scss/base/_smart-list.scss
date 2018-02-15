@@ -2,6 +2,7 @@
 	margin: 0 -15px;
 	display: flex;
 	flex-flow: row wrap;
+	list-style: none;
 
 	li {
 		width: 100%;
@@ -20,11 +21,53 @@
 		}
 	}
 
-	&_checkbox {
+	.inner-wrap {
+		display: flex;
+	}
+
+	&_checkbox-wrap {
 		height: 100%;
 		display: inline-block;
-		vertical-align: top;
 		width: 55px;
+	}
+
+	&_checkbox {
+		position: absolute;
+		top: 0;
+		background-color: transparent;
+		color: inherit;
+		box-sizing: content-box;
+		vertical-align: top;
+		padding: 0;
+		font-size: inherit;
+		cursor: pointer;
+		visibility: visible;
+		border: 1px solid #4D5E6E;
+		border-radius: 4px;
+		height: 15px;
+		width: 15px;
+		z-index: 1;
+
+		&:hover {
+			background-color: #6D7074;
+		}
+
+		.-selected & {
+			&:hover {
+				background-color: transparent;
+			}
+
+			&:after {
+				content: '';
+				position: absolute;
+				top: 2px;
+				left: 2px;
+				right: 2px;
+				bottom: 2px;
+				border-radius: 3px;
+				background-color: $red;
+			}
+		}
 	}
 
 	&_img {
@@ -65,6 +108,7 @@
 
 		p {
 			margin: 0;
+			line-height: 1.6;
 		}
 
 		.name {
@@ -105,7 +149,7 @@
 		text-align: right;
 
 		button {
-			font-size: 14px;
+			font-size: 17px;
 		}
 	}
 
@@ -117,11 +161,12 @@
 		padding: 0;
 		font-size: inherit;
 		cursor: pointer;
-		display: inline-block;
 		border: 1px solid #DFE2E7;
 		height: 26px;
 		width: 26px;
 		border-radius: 2px;
+		display: flex;
+		justify-content: center;
 
 		&:hover {
 			background-color: rgba(60, 74, 84, 0.2);
@@ -169,9 +214,9 @@
 		}
 
 		.inner-wrap {
-			display: block;
 			height: 100%;
 			position: relative;
+			flex-direction: row;
 		}
 
 		.smart-list_img {
@@ -187,12 +232,8 @@
 			}
 		}
 
-		.page-checkbox {
+		.smart-list_checkbox {
 			visibility: visible;
-			border: 1px solid #4D5E6E;
-			border-radius: 4px;
-			height: 15px;
-			width: 15px;
 			left: 20px;
 			bottom: 0;
 			margin: auto;
@@ -233,6 +274,10 @@
 		vertical-align: top;
 		height: 160px;
 
+		&.-selected {
+			outline: 2px solid theme-color('danger');
+		}
+
 		&:hover, &.-selected, &.-focus {
 			.smart-list_img-overlay {
 				display: block;
@@ -241,10 +286,14 @@
 			.smart-list_button-cell {
 				display: table-cell;
 			}
+
+			.smart-list_checkbox {
+				display: block;
+			}
 		}
 
-		.smart-list_checkbox {
-			display: none;
+		.inner-wrap {
+			flex-direction: column;
 		}
 
 		.smart-list_img {
@@ -252,13 +301,10 @@
 			height: 110px;
 		}
 
-		.page-checkbox {
-			height: 15px;
-			width: 15px;
-			border: 1px solid rgba(77, 94, 110, .8);
-			border-radius: 2px;
+		.smart-list_checkbox {
 			right: 0;
 			margin: 4px 4px 0 0;
+			display: none;
 		}
 
 		.smart-list_info {

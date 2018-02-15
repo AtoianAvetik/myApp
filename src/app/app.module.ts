@@ -15,7 +15,6 @@ import { ContentLayoutComponent } from './layouts/content/content-layout.compone
 /* Services */
 import { DataService } from './shared/_services/data.service';
 import { ApiService } from './shared/_services/api.service';
-import { AppService } from './shared/_services/app.service';
 
 import { AuthService } from './shared/auth/auth.service';
 import { AuthGuard } from './shared/auth/auth-guard.service';
@@ -41,7 +40,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 		NgbModule.forRoot()
 	],
 	providers: [
-		AppService,
 		ApiService,
 		DataService,
 		AuthService,

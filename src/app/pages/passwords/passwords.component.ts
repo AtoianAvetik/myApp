@@ -2,7 +2,6 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 
 import { DataService } from '../../shared/_services/data.service';
 import { ModalService } from '../../components/modals/modal.service';
-import { AppService } from '../../shared/_services/app.service';
 import { PasswordCategory } from '../../shared/_models/password-category.model';
 import { AddMenuItem } from '../../components/add-menu/add-menu-item.model';
 import { LoaderService } from '../../components/loader/loader.service';
@@ -47,7 +46,6 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 
   constructor(private dataService: DataService,
               private _smartListService: SmartListService,
-              private appService: AppService,
               private modalService: ModalService,
               private loaderService: LoaderService,
               private notificationService: NotificationService) {
@@ -165,7 +163,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
   }
 
   toggleGroups() {
-    this.appService.toogleAccordionsChange.next(this.isFoldersOpened);
+    // this.appService.toogleAccordionsChange.next(this.isFoldersOpened);
   }
 
   changeViewType(type: string) {
