@@ -9,7 +9,8 @@ export const ROUTES: RouteInfo[] = [
 			{ path: '/components/notifications-page', title: 'Notifications', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
 			{ path: '/components/modals-page', title: 'Modals', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
 			{ path: '/components/accordion-page', title: 'Accordion', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-			{ path: '/components/smart-list-page', title: 'Smart list', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] }
+			{ path: '/components/smart-list-page', title: 'Smart list', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+			{ path: '/components/smart-folders-page', title: 'Smart folders', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] }
 		]
 	},
 	{   path: '/passwords', title: 'Passwords', icon: 'ft-lock', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },

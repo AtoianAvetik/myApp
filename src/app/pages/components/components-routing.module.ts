@@ -7,6 +7,7 @@ import { NotificationsPageComponent } from './notifications-page/notifications-p
 import { ModalsPageComponent } from './modals-page/modals-page.component';
 import { AccordionPageComponent } from './accordion-page/accordion-page.component';
 import { SmartListPageComponent } from './smart-list-page/smart-list-page.component';
+import { SmartFoldersPageComponent } from './smart-folders-page/smart-folders-page.component';
 
 const routes: Routes = [
   {
@@ -52,6 +53,13 @@ const routes: Routes = [
 			  component: SmartListPageComponent,
 			  data: {
 				  title: 'Smart list'
+			  }
+		  },
+		  {
+			  path: 'smart-folders-page',
+			  component: SmartFoldersPageComponent,
+			  data: {
+				  title: 'Smart folders'
 			  }
 		  }
 	  ]

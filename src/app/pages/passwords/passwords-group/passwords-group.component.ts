@@ -1,7 +1,7 @@
 import { Component, DoCheck, Input, OnInit } from '@angular/core';
 
 import { PasswordCategory } from '../../../shared/_models/password-category.model';
-import { SmartListService } from '../../../components/smart-list/smart-list.service';
+import { SmartFoldersService } from '../../../components/smart-folders/smart-folders.service';
 
 @Component({
   selector: 'app-passwords-group',
@@ -15,7 +15,7 @@ export class PasswordsGroupComponent implements OnInit, DoCheck {
   curLevelList = [];
   activeViewType = 'list';
 
-  constructor(private _smartListService: SmartListService) { }
+  constructor(private _smartFoldersService: SmartFoldersService) { }
 
   ngOnInit() {
     this._smartListService.viewTypeChanged
@@ -42,15 +42,15 @@ export class PasswordsGroupComponent implements OnInit, DoCheck {
 
   onEditFolder(folderId) {
     this.selectFolder(folderId);
-    this._smartListService.editSelectedList.next();
+    this._smartFoldersService.editSelectedFolder.next();
   }
 
   onDeleteFolder(folderId) {
     this.selectFolder(folderId);
-    this._smartListService.deleteSelectedList.next();
+    this._smartFoldersService.deleteSelectedFolder.next();
   }
 
   selectFolder(folderId) {
-    this._smartListService.listSelected.next(folderId);
+    this._smartFoldersService.listSelected.next(folderId);
   }
 }

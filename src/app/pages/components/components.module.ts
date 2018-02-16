@@ -8,6 +8,8 @@ import { LoaderModule } from '../../components/loader/loader.module';
 import { NotificationModule } from '../../components/notifications/notification.module';
 import { PrismModule } from '@ngx-prism/core';
 import { ModalModule } from '../../components/modals/modal.module';
+import { SmartListModule } from '../../components/smart-list/smart-list.module';
+import { SmartFoldersModule } from '../../components/smart-folders/smart-folders.module';
 
 import { PanelsPageComponent } from './panels-page/panels-page.component';
 import { LoadersPageComponent } from './loaders-page/loaders-page.component';
@@ -16,7 +18,7 @@ import { ModalsPageComponent } from './modals-page/modals-page.component';
 import { AccordionModule } from '../../components/accordion/accordion.module';
 import { AccordionPageComponent } from './accordion-page/accordion-page.component';
 import { SmartListPageComponent } from './smart-list-page/smart-list-page.component';
-import { SmartListModule } from '../../components/smart-list/smart-list.module';
+import { SmartFoldersPageComponent } from './smart-folders-page/smart-folders-page.component';
 
 @NgModule({
     imports: [
@@ -29,6 +31,7 @@ import { SmartListModule } from '../../components/smart-list/smart-list.module';
 	    PrismModule,
 	    AccordionModule,
 	    SmartListModule,
+	    SmartFoldersModule,
 	    NgbModule
     ],
     declarations: [
@@ -37,7 +40,8 @@ import { SmartListModule } from '../../components/smart-list/smart-list.module';
 	    NotificationsPageComponent,
 	    ModalsPageComponent,
 	    AccordionPageComponent,
-	    SmartListPageComponent
+	    SmartListPageComponent,
+	    SmartFoldersPageComponent
     ],
     providers: [],
 })

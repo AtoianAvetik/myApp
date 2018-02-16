@@ -7,6 +7,7 @@ import { AddMenuItem } from '../../components/add-menu/add-menu-item.model';
 import { LoaderService } from '../../components/loader/loader.service';
 import { NotificationService } from '../../components/notifications/notification.service';
 import { SmartListService } from '../../components/smart-list/smart-list.service';
+import { SmartFoldersService } from '../../components/smart-folders/smart-folders.service';
 
 @Component({
   selector: 'app-passwords',
@@ -46,6 +47,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 
   constructor(private dataService: DataService,
               private _smartListService: SmartListService,
+              private _smartFoldersService: SmartFoldersService,
               private modalService: ModalService,
               private loaderService: LoaderService,
               private notificationService: NotificationService) {
@@ -78,7 +80,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
           this.passwordFormCmp.updateForm();
         }
       );
-    this._smartListService.editSelectedList
+    this._smartFoldersService.editSelectedFolder
       .subscribe(
         () => {
           this.folderMode = 'edit';
@@ -91,7 +93,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
           this.deleteMode = 'password';
         }
       );
-    this._smartListService.deleteSelectedList
+    this._smartFoldersService.deleteSelectedFolder
       .subscribe(
         () => {
           this.deleteMode = 'folder';
