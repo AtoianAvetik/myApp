@@ -14,46 +14,6 @@
 		position: relative;
 	}
 
-	&_checkbox-wrap {
-		height: 100%;
-		display: flex;
-		width: 55px;
-		align-items: center;
-		justify-content: center;
-	}
-
-	&_checkbox {
-		position: relative;
-		background-color: transparent;
-		color: inherit;
-		box-sizing: content-box;
-		padding: 0;
-		font-size: inherit;
-		cursor: pointer;
-		visibility: visible;
-		border: 1px solid #4D5E6E;
-		border-radius: 4px;
-		height: 15px;
-		width: 15px;
-
-		&:hover {
-			background-color: #6D7074;
-		}
-
-		.-selected & {
-			&:hover {
-				background-color: transparent;
-			}
-
-			&:after {
-				content: '';
-				@include absolute(2px);
-				border-radius: 3px;
-				background-color: $red;
-			}
-		}
-	}
-
 	&_img-wrap {
 		position: relative;
 		overflow: hidden;
@@ -207,23 +167,11 @@
 
 	&:hover, &.-selected, &.-focus {
 		background-color: rgba(214, 217, 220, 0.4);
+		box-shadow: inset 3px 0 0 0 #3cce7b;
 
 		.smart-list_button-cell {
 			visibility: visible;
 			opacity: 1;
-
-			&:nth-child(3) {
-				-webkit-transition-delay: 0.1s;
-				transition-delay: 0.1s;
-			}
-			&:nth-child(2) {
-				-webkit-transition-delay: 0.15s;
-				transition-delay: 0.15s;
-			}
-			&:first-child {
-				-webkit-transition-delay: 0.2s;
-				transition-delay: 0.2s;
-			}
 		}
 
 		.smart-list_overlay-text {
@@ -242,6 +190,10 @@
 		height: 50px;
 		min-width: 400px;
 		margin: 0 15px 2px;
+		padding-left: 10px;
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+		transition: box-shadow 0.3s ease;
 	}
 
 	.smart-list_img-wrap {
@@ -292,6 +244,18 @@
 
 			.smart-list_button-cell {
 				transform: translate3d(0,0,0);
+				&:nth-child(3) {
+					-webkit-transition-delay: 0.1s;
+					transition-delay: 0.1s;
+				}
+				&:nth-child(2) {
+					-webkit-transition-delay: 0.15s;
+					transition-delay: 0.15s;
+				}
+				&:first-child {
+					-webkit-transition-delay: 0.2s;
+					transition-delay: 0.2s;
+				}
 			}
 		}
 	}
@@ -308,12 +272,6 @@
 	.smart-list_overlay {
 		background-color: rgba(0, 0, 0, 0.4);
 		transition: opacity 0.3s, visibility 0.3s;
-	}
-
-	.smart-list_checkbox {
-		right: 0;
-		margin: 4px 4px 0 0;
-		display: none;
 	}
 
 	.smart-list_info {

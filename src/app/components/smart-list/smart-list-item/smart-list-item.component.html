@@ -1,9 +1,6 @@
 <div class="smart-list-item" [class.-selected]="isItemSelected" [class.-focus]="isItemFocused"
 	 (click)="onSelectedItem($event)">
 	<div class="inner-wrap">
-		<div class="smart-list_checkbox-wrap">
-			<div class="smart-list_checkbox"></div>
-		</div>
 		<div class="smart-list_img-wrap">
 			<img *ngIf="item.img !== ''" class="big-icon" src="{{ item.img }}" alt="">
 			<div *ngIf="item.bgImg !== ''" class="img-bg" [ngStyle]="{'background-image': 'url(' + item.bgImg + ')'}"></div>
