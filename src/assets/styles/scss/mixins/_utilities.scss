@@ -222,6 +222,15 @@
   }
 }
 
+@mixin absolute($shift: 0) {
+	position: absolute;
+	top: $shift;
+	bottom: $shift;
+	right: $shift;
+	left: $shift;
+	margin: auto;
+}
+
 @function calculateRem($size) {
   $remSize: $size / 16px;
   @return $remSize * 1rem;

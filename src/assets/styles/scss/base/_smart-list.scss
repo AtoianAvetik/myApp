@@ -10,21 +10,23 @@
 
 	.inner-wrap {
 		display: flex;
+		height: 100%;
+		position: relative;
 	}
 
 	&_checkbox-wrap {
 		height: 100%;
-		display: inline-block;
+		display: flex;
 		width: 55px;
+		align-items: center;
+		justify-content: center;
 	}
 
 	&_checkbox {
-		position: absolute;
-		top: 0;
+		position: relative;
 		background-color: transparent;
 		color: inherit;
 		box-sizing: content-box;
-		vertical-align: top;
 		padding: 0;
 		font-size: inherit;
 		cursor: pointer;
@@ -33,10 +35,6 @@
 		border-radius: 4px;
 		height: 15px;
 		width: 15px;
-		z-index: 1;
-		left: 20px;
-		bottom: 0;
-		margin: auto;
 
 		&:hover {
 			background-color: #6D7074;
@@ -49,11 +47,7 @@
 
 			&:after {
 				content: '';
-				position: absolute;
-				top: 2px;
-				left: 2px;
-				right: 2px;
-				bottom: 2px;
+				@include absolute(2px);
 				border-radius: 3px;
 				background-color: $red;
 			}
@@ -63,13 +57,13 @@
 	&_img-wrap {
 		position: relative;
 		overflow: hidden;
+		height: 100%;
+		display: inline-block;
+		vertical-align: top;
+		border: none;
 
 		.img-bg {
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
+			@include absolute;
 			background-repeat: no-repeat;
 			background-size: cover;
 			transition: transform 0.3s;
@@ -78,11 +72,7 @@
 	}
 
 	&_overlay {
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		left: 0;
-		right: 0;
+		@include absolute;
 		visibility: hidden;
 		overflow: hidden;
 		display: flex;
@@ -103,8 +93,10 @@
 	}
 
 	&_info {
+		flex: 1 1 50%;
 		padding: 0 10px;
 		transition: padding 0.3s;
+		overflow: hidden;
 	}
 
 	&_info-table {
@@ -198,48 +190,40 @@
 	}
 
 	.big-icon, img.small-icon {
-		position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		margin: auto;
+		@include absolute;
 		max-width: 100%;
 		max-height: 100%;
-	}
-
-	&.-tile {
-		li {
-			flex: 0 0 25%;
-			padding: 15px;
-
-			@include media(xl) {
-				flex: 0 0 33.33333333%;
-			}
-
-			@include media(lg) {
-				flex: 0 0 50%;
-			}
-
-			@include media(md) {
-				flex: 0 0 100%;
-			}
-		}
 	}
 }
 
 .smart-list-item {
 	min-width: 100%;
+	position: relative;
+	vertical-align: top;
+	border-radius: 2px;
+	background-color: #FFF;
+	outline: none;
+	display: inline-block;
 
 	&:hover, &.-selected, &.-focus {
+		background-color: rgba(214, 217, 220, 0.4);
+
 		.smart-list_button-cell {
 			visibility: visible;
 			opacity: 1;
-		}
 
-		.smart-list_overlay {
-			visibility: visible;
-			opacity: 1;
+			&:nth-child(3) {
+				-webkit-transition-delay: 0.1s;
+				transition-delay: 0.1s;
+			}
+			&:nth-child(2) {
+				-webkit-transition-delay: 0.15s;
+				transition-delay: 0.15s;
+			}
+			&:first-child {
+				-webkit-transition-delay: 0.2s;
+				transition-delay: 0.2s;
+			}
 		}
 
 		.smart-list_overlay-text {
@@ -251,113 +235,103 @@
 			transform: scale(1);
 		}
 	}
+}
 
-	.-list & {
+.smart-list.-list {
+	.smart-list-item {
 		height: 50px;
 		min-width: 400px;
-		position: relative;
-		background: #FFF;
-		outline: none;
 		margin: 0 15px 2px;
+	}
 
-		&:hover, &.-selected, &.-focus {
-			background-color: rgba(214, 217, 220, 0.4);
-		}
+	.smart-list_img-wrap {
+		width: 150px;
+	}
 
-		.inner-wrap {
-			height: 100%;
-			position: relative;
-			flex-direction: row;
-		}
-
-		.smart-list_img-wrap {
-			width: 150px;
-			height: 100%;
-			display: inline-block;
-			vertical-align: top;
-			border: none;
-
-			.big-icon {
-				height: 55%;
-				font-size: 33px;
-			}
-		}
-
-		.smart-list_overlay-text {
-			display: none;
-		}
-
-		.smart-list_info {
-			flex: 1 1 50%;
-		}
-
-		.smart-list_info-text {
-			&.-first {
-				@include media-min(lg) {
-					width: 50%;
-				}
+	.smart-list_info-text {
+		&.-first {
+			@include media-min(lg) {
+				width: 50%;
 			}
 		}
 	}
+}
 
-	.-tile & {
-		border-radius: 2px;
+.smart-list.-tile {
+	li {
+		flex: 0 0 25%;
+		padding: 15px;
+
+		@include media(xl) {
+			flex: 0 0 33.33333333%;
+		}
+
+		@include media(lg) {
+			flex: 0 0 50%;
+		}
+
+		@include media(md) {
+			flex: 0 0 100%;
+		}
+	}
+
+	.smart-list-item {
 		box-shadow: 0 1px 3px rgba(0,24,48,0.2);
-		display: inline-block;
-		background-color: #FFF;
-		position: relative;
-		vertical-align: top;
 
 		&.-selected {
 			outline: 2px solid theme-color('info');
 		}
 
 		&:hover, &.-selected, &.-focus {
-			.smart-list_info {
-				padding: 20% 10px 10px;
+			background: $white;
+
+			.smart-list_overlay {
+				visibility: visible;
+				opacity: 1;
+			}
+
+			.smart-list_button-cell {
+				transform: translate3d(0,0,0);
 			}
 		}
+	}
 
-		.inner-wrap {
-			flex-direction: column;
+	.inner-wrap {
+		flex-direction: column;
+	}
+
+	.smart-list_img-wrap {
+		width: 100%;
+		@include aspect-ratio(1, 0.65);
+	}
+
+	.smart-list_overlay {
+		background-color: rgba(0, 0, 0, 0.4);
+		transition: opacity 0.3s, visibility 0.3s;
+	}
+
+	.smart-list_checkbox {
+		right: 0;
+		margin: 4px 4px 0 0;
+		display: none;
+	}
+
+	.smart-list_info {
+		padding: 10px 10px;
+	}
+
+	.smart-list_info-text {
+		.name {
+			font-size: 20px;
 		}
 
-		.smart-list_img-wrap {
-			width: 100%;
-
-			@include aspect-ratio(1, 0.65);
-		}
-
-		.smart-list_overlay {
-			background-color: rgba(0, 0, 0, 0.4);
-			transition: opacity 0.3s, visibility 0.3s;
-		}
-
-		.smart-list_checkbox {
-			right: 0;
-			margin: 4px 4px 0 0;
+		&.-show-large {
 			display: none;
 		}
+	}
 
-		.smart-list_info {
-			position: absolute;
-			bottom: 0;
-			padding: 40% 10px 20px;
-			@include gradient-vertical(rgba(#fff, 0), rgba(#fff, 1));
-		}
-
-		.smart-list_button-cell {
-			transition: opacity 0.15s, visibility 0.15s;
-		}
-
-		.smart-list_info-text {
-			.name {
-				font-size: 20px;
-			}
-
-			&.-show-large {
-				display: none;
-			}
-		}
+	.smart-list_button-cell {
+		transform: translate3d(0,200%,0);
+		transition: opacity 0.15s, visibility 0.15s, transform 0.35s;
 	}
 }
