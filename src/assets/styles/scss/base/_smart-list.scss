@@ -6,19 +6,6 @@
 
 	li {
 		width: 100%;
-
-		&.-tile {
-			flex: 0 0 33.33333333%;
-			padding: 15px;
-
-			@include media(960px) {
-				flex: 0 0 50%;
-			}
-
-			@include media(640px) {
-				flex: 0 0 100%;
-			}
-		}
 	}
 
 	.inner-wrap {
@@ -47,6 +34,9 @@
 		height: 15px;
 		width: 15px;
 		z-index: 1;
+		left: 20px;
+		bottom: 0;
+		margin: auto;
 
 		&:hover {
 			background-color: #6D7074;
@@ -70,22 +60,51 @@
 		}
 	}
 
-	&_img {
+	&_img-wrap {
 		position: relative;
+		overflow: hidden;
+
+		.img-bg {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			background-repeat: no-repeat;
+			background-size: cover;
+			transition: transform 0.3s;
+			transform: scale(1.05);
+		}
 	}
 
-	&_img-overlay {
-		background-color: rgba(77, 94, 110, .4);
-		display: none;
+	&_overlay {
 		position: absolute;
 		top: 0;
 		bottom: 0;
 		left: 0;
 		right: 0;
+		visibility: hidden;
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		opacity: 0;
+	}
+
+	&_overlay-text {
+		color: $white;
+		font-size: 16px;
+		text-align: center;
+		transition: top 0.3s, opacity 0.3s;
+		position: absolute;
+		top: 27%;
+		opacity: 0;
+		transform: translateY(-50%);
 	}
 
 	&_info {
-		margin: 0 10px;
+		padding: 0 10px;
+		transition: padding 0.3s;
 	}
 
 	&_info-table {
@@ -100,7 +119,7 @@
 		display: table-cell;
 		vertical-align: middle;
 
-		@include media(1100px) {
+		@include media(lg) {
 			&.-show-large {
 				display: none !important;
 			}
@@ -114,7 +133,8 @@
 		.name {
 			font-size: 15px;
 			font-weight: 600;
-			color: #465E7B;
+			color: color-function('grey', 'darken-3');
+			font-family: $font-family-base;
 		}
 
 		.info-label {
@@ -144,9 +164,13 @@
 
 	&_button-cell {
 		width: 35px;
-		display: none;
+		visibility: hidden;
 		vertical-align: middle;
 		text-align: right;
+		border-color: color-function('grey', 'darken-3');
+		opacity: 0;
+		display: table-cell;
+		backface-visibility: hidden;
 
 		button {
 			font-size: 17px;
@@ -161,7 +185,7 @@
 		padding: 0;
 		font-size: inherit;
 		cursor: pointer;
-		border: 1px solid #DFE2E7;
+		border: 1px solid color-function('grey', 'darken-3');
 		height: 26px;
 		width: 26px;
 		border-radius: 2px;
@@ -183,12 +207,52 @@
 		max-width: 100%;
 		max-height: 100%;
 	}
+
+	&.-tile {
+		li {
+			flex: 0 0 25%;
+			padding: 15px;
+
+			@include media(xl) {
+				flex: 0 0 33.33333333%;
+			}
+
+			@include media(lg) {
+				flex: 0 0 50%;
+			}
+
+			@include media(md) {
+				flex: 0 0 100%;
+			}
+		}
+	}
 }
 
 .smart-list-item {
 	min-width: 100%;
 
-	.-list > & {
+	&:hover, &.-selected, &.-focus {
+		.smart-list_button-cell {
+			visibility: visible;
+			opacity: 1;
+		}
+
+		.smart-list_overlay {
+			visibility: visible;
+			opacity: 1;
+		}
+
+		.smart-list_overlay-text {
+			top: 30%;
+			opacity: 1;
+		}
+
+		.img-bg {
+			transform: scale(1);
+		}
+	}
+
+	.-list & {
 		height: 50px;
 		min-width: 400px;
 		position: relative;
@@ -197,20 +261,7 @@
 		margin: 0 15px 2px;
 
 		&:hover, &.-selected, &.-focus {
-			color: #FFF;
-			background-color: rgba(77, 94, 110, .4);
-
-			.smart-list_img {
-				background: $white;
-			}
-
-			.smart-list_img-overlay {
-				visibility: visible;
-			}
-
-			.smart-list_button-cell {
-				display: table-cell;
-			}
+			background-color: rgba(214, 217, 220, 0.4);
 		}
 
 		.inner-wrap {
@@ -219,7 +270,7 @@
 			flex-direction: row;
 		}
 
-		.smart-list_img {
+		.smart-list_img-wrap {
 			width: 150px;
 			height: 100%;
 			display: inline-block;
@@ -232,63 +283,38 @@
 			}
 		}
 
-		.smart-list_checkbox {
-			visibility: visible;
-			left: 20px;
-			bottom: 0;
-			margin: auto;
-		}
-
-		.smart-list_img-overlay {
-			display: block;
-			visibility: hidden;
+		.smart-list_overlay-text {
+			display: none;
 		}
 
 		.smart-list_info {
-			position: absolute;
-			left: 215px;
-			top: 0;
-			bottom: 0;
-			right: 0;
-		}
-
-		.smart-list_button-cell {
-			color: $white;
+			flex: 1 1 50%;
 		}
 
 		.smart-list_info-text {
 			&.-first {
-				@include minMedia(1100px) {
+				@include media-min(lg) {
 					width: 50%;
 				}
 			}
 		}
 	}
 
-	.-tile > & {
+	.-tile & {
 		border-radius: 2px;
 		box-shadow: 0 1px 3px rgba(0,24,48,0.2);
 		display: inline-block;
 		background-color: #FFF;
 		position: relative;
 		vertical-align: top;
-		height: 160px;
 
 		&.-selected {
-			outline: 2px solid theme-color('danger');
+			outline: 2px solid theme-color('info');
 		}
 
 		&:hover, &.-selected, &.-focus {
-			.smart-list_img-overlay {
-				display: block;
-			}
-
-			.smart-list_button-cell {
-				display: table-cell;
-			}
-
-			.smart-list_checkbox {
-				display: block;
+			.smart-list_info {
+				padding: 20% 10px 10px;
 			}
 		}
 
@@ -296,9 +322,15 @@
 			flex-direction: column;
 		}
 
-		.smart-list_img {
+		.smart-list_img-wrap {
 			width: 100%;
-			height: 110px;
+
+			@include aspect-ratio(1, 0.65);
+		}
+
+		.smart-list_overlay {
+			background-color: rgba(0, 0, 0, 0.4);
+			transition: opacity 0.3s, visibility 0.3s;
 		}
 
 		.smart-list_checkbox {
@@ -308,15 +340,21 @@
 		}
 
 		.smart-list_info {
-			position: relative;
-			height: 50px;
+			position: absolute;
+			bottom: 0;
+			padding: 40% 10px 20px;
+			@include gradient-vertical(rgba(#fff, 0), rgba(#fff, 1));
 		}
 
 		.smart-list_button-cell {
-			color: #465E7B;
+			transition: opacity 0.15s, visibility 0.15s;
 		}
 
 		.smart-list_info-text {
+			.name {
+				font-size: 20px;
+			}
+
 			&.-show-large {
 				display: none;
 			}

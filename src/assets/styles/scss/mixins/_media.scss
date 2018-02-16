@@ -1,36 +1,48 @@
-@mixin media($value) {
-    // If the key exists in the map
-    @if not unitless($value) {
+/*--------------------------------------/
+ Here you can pass number value (480)
+ or breakpoint string (xs) according to
+ $grid-breakpoints variables.
+--------------------------------------*/
 
-        @media screen and (max-width: $value) {
-            @content;
-        }
+@mixin media($size){
 
-    } @else {
-        @if index($media-breakpoints, $value) {
-            // Prints a media query based on the value
-            @media screen and (max-width: #{$value}px) {
-                @content;
-            }
-        }
-            // If the key doesn't exist in the map
-
-        @else {
-            @warn "Breakpoint mixin supports: "+$media-breakpoints+"; breakpoint was "+$value;
-        }
-    }
+	@if type_of($size) == 'string'{
+		$value: map-get($grid-breakpoints, $size);
+		@media screen and (max-width: $value){
+			@content;
+		}
+	} @else{
+		@media screen and (max-width: #{$size}px){
+			@content;
+		}
+	}
 }
 
-@mixin onlyMedia($value) {
-    @media screen and (width: $value) {
-        @content;
-    }
+@mixin media-exact($size){
+
+	@if type_of($size) == 'string'{
+		$value: map-get($grid-breakpoints, $size);
+		@media screen and (width: $value){
+			@content;
+		}
+	} @else{
+		@media screen and (width: #{$size}px){
+			@content;
+		}
+	}
 }
 
-@mixin minMedia($value) {
-    @media screen and (min-width: $value) {
-        @content;
-    }
-}
+@mixin media-min($size){
 
+	@if type_of($size) == 'string'{
+		$value: map-get($grid-breakpoints, $size);
+		@media screen and (min-width: $value){
+			@content;
+		}
+	} @else{
+		@media screen and (min-width: #{$size}px){
+			@content;
+		}
+	}
+}
 

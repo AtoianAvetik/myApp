@@ -1,12 +1,15 @@
-<div class="smart-list-item -{{ activeViewType }}" [class.-selected]="isItemSelected" [class.-focus]="isItemFocused"
+<div class="smart-list-item" [class.-selected]="isItemSelected" [class.-focus]="isItemFocused"
 	 (click)="onSelectedItem($event)">
 	<div class="inner-wrap">
 		<div class="smart-list_checkbox-wrap">
 			<div class="smart-list_checkbox"></div>
 		</div>
-		<div class="smart-list_img">
-			<img *ngIf="itemImg !== ''" class="big-icon" src="{{ itemImg }}" alt="">
-			<div class="smart-list_img-overlay"></div>
+		<div class="smart-list_img-wrap">
+			<img *ngIf="item.img !== ''" class="big-icon" src="{{ item.img }}" alt="">
+			<div *ngIf="item.bgImg !== ''" class="img-bg" [ngStyle]="{'background-image': 'url(' + item.bgImg + ')'}"></div>
+			<div class="smart-list_overlay">
+				<p *ngIf="item.desc !== ''" class="smart-list_overlay-text">{{ item.desc }}</p>
+			</div>
 		</div>
 		<div class="smart-list_info">
 			<div class="smart-list_info-table">

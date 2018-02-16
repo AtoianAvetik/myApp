@@ -12,8 +12,7 @@ import { ModalService } from "../../modals/modal.service";
 export class SmartListItemComponent implements OnInit, OnDestroy {
 	@Input() listId;
 	@Input() itemIndex;
-	@Input() itemImg;
-	activeViewType: string = 'list';
+	@Input() item;
 	isItemSelected: boolean = false;
 	isItemFocused: boolean = false;
 	private subscriptions: Array<Subscription> = [];
@@ -28,11 +27,6 @@ export class SmartListItemComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		this.subscriptions.push( this._smartListService.viewTypeChanged.subscribe(
-			( type: string ) => {
-				this.activeViewType = type;
-			}
-		) );
 		this.subscriptions.push( this._modalService.modalClosingDidStart.subscribe(
 			() => {
 				this.isItemFocused = false;
