@@ -14,6 +14,7 @@ import { PasswordsGroupComponent } from './passwords-group/passwords-group.compo
 import { CategoryComponent } from '../../forms/category/category.component';
 import { PasswordComponent } from '../../forms/password/password.component';
 import { SearchImageComponent } from '../../forms/search-image/search-image.component';
+import { SmartListModule } from '../../components/smart-list/smart-list.module';
 
 @NgModule({
 	imports: [
@@ -24,6 +25,7 @@ import { SearchImageComponent } from '../../forms/search-image/search-image.comp
 		ModalModule,
 		PerfectScrollbarModule,
 		AccordionModule,
+		SmartListModule,
 		NgbModule
 	],
 	declarations: [

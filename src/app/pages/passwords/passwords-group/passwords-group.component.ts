@@ -4,53 +4,53 @@ import { PasswordCategory } from '../../../shared/_models/password-category.mode
 import { SmartFoldersService } from '../../../components/smart-folders/smart-folders.service';
 
 @Component({
-  selector: 'app-passwords-group',
-  templateUrl: './passwords-group.component.html',
-  styleUrls: ['./passwords-group.component.scss']
+	selector: 'app-passwords-group',
+	templateUrl: './passwords-group.component.html',
+	styleUrls: ['./passwords-group.component.scss']
 })
 export class PasswordsGroupComponent implements OnInit, DoCheck {
-  @Input() foldersData: {[name: string]: PasswordCategory};
-  @Input() foldersList: Array<any>;
-  @Input() isChildComponent = false;
-  curLevelList = [];
-  activeViewType = 'list';
+	@Input() foldersData: { [name: string]: PasswordCategory };
+	@Input() foldersList: Array<any>;
+	@Input() isChildComponent = false;
+	curLevelList = [];
 
-  constructor(private _smartFoldersService: SmartFoldersService) { }
+	constructor(private _smartFoldersService: SmartFoldersService) {
+	}
 
-  ngOnInit() {
-    this._smartListService.viewTypeChanged
-      .subscribe(
-        (type: string) => {
-          this.activeViewType = type;
-        }
-      );
-  }
+	ngOnInit() {
+		// this._smartListService.viewTypeChanged
+		//   .subscribe(
+		//     (type: string) => {
+		//       this.activeViewType = type;
+		//     }
+		//   );
+	}
 
-  ngDoCheck() {
-    this.foldersList && this.updateFolders();
-  }
+	ngDoCheck() {
+		this.foldersList && this.updateFolders();
+	}
 
-  updateFolders() {
-    this.curLevelList = [];
+	updateFolders() {
+		this.curLevelList = [];
 
-    this.foldersList.forEach((folderId) => {
-      if (this.isChildComponent || !this.foldersData[folderId].parentCategory) {
-        this.curLevelList.push(folderId);
-      }
-    });
-  }
+		this.foldersList.forEach((folderId) => {
+			if (this.isChildComponent || !this.foldersData[folderId].parentCategory) {
+				this.curLevelList.push(folderId);
+			}
+		});
+	}
 
-  onEditFolder(folderId) {
-    this.selectFolder(folderId);
-    this._smartFoldersService.editSelectedFolder.next();
-  }
+	onEditFolder(folderId) {
+		this.selectFolder(folderId);
+		this._smartFoldersService.editSelectedFolder.next();
+	}
 
-  onDeleteFolder(folderId) {
-    this.selectFolder(folderId);
-    this._smartFoldersService.deleteSelectedFolder.next();
-  }
+	onDeleteFolder(folderId) {
+		this.selectFolder(folderId);
+		this._smartFoldersService.deleteSelectedFolder.next();
+	}
 
-  selectFolder(folderId) {
-    this._smartFoldersService.listSelected.next(folderId);
-  }
+	selectFolder(folderId) {
+		this._smartFoldersService.folderSelected.next(folderId);
+	}
 }

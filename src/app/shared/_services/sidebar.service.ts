@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
+import { WindowRef } from './window-ref';
+
 @Injectable()
 export class SidebarService {
 	sidebarState: string;
@@ -13,7 +15,7 @@ export class SidebarService {
 	isMenuExpandChange = new Subject<boolean>();
 	isHideSidebarChange = new Subject<boolean>();
 
-	constructor() {
+	constructor(private _winRef: WindowRef) {
 		this.isNavExpandChange.subscribe(status => {
 			this.isNavExpand = status;
 			this.updateState();
@@ -42,7 +44,7 @@ export class SidebarService {
 	}
 
 	hideSidebar() {
-		if ( window.screen.width < 992 ) {
+		if ( this._winRef.nativeWindow.innerWidth < 992 ) {
 			this.isHideSidebarChange.next(true);
 			this.isMenuExpandChange.next(true);
 			this.isNavExpandChange.next(true);
