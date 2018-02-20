@@ -1,5 +1,7 @@
 <accordion [closeOthers]="false" [showArrows]="true">
 	<smart-folders-group [foldersData]="foldersData" [foldersList]="foldersList">
-		<ng-content></ng-content>
+		<ng-template let-folderId>
+			<ng-template [ngTemplateOutlet]="templateRef" [ngTemplateOutletContext]="{$implicit: folderId}"></ng-template>
+		</ng-template>
 	</smart-folders-group>
 </accordion>

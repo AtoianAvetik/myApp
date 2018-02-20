@@ -5,23 +5,26 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-12" *ngFor="let listId of listsIdList;let i = index;">
-		<h4>{{ i === 0 ? 'Tile' : 'List' }}</h4>
-		<ul smart-list [viewType]="i === 0 ? 'tile' : 'list'">
-			<li smart-list-item
-				*ngFor="let item of listData[listId].content; let i = index"
-				[listId]="listId"
-				[itemIndex]="i"
-				[item]="item">
-				<div class="smart-list_info-text -first">
-					<p class="name">{{ item.serviceName }}</p>
-					<p class="small info-label">{{ item.userName }}</p>
-				</div>
-				<div class="smart-list_info-text -show-large">
-					<p class="small info-label">{{ item.email }}</p>
-					<p class="small">{{ item.pass }}</p>
-				</div>
-			</li>
-		</ul>
+	<div class="col-12">
+		<smart-folders [foldersData]="listData" [foldersList]="listsIdList">
+			<ng-template let-folderId>
+				<ul smart-list [viewType]="'list'">
+					<li smart-list-item
+						*ngFor="let item of listData[folderId].content; let i = index"
+						[listId]="folderId"
+						[itemIndex]="i"
+						[item]="item">
+						<div class="smart-list_info-text -first">
+							<p class="name">{{ item.serviceName }}</p>
+							<p class="small info-label">{{ item.userName }}</p>
+						</div>
+						<div class="smart-list_info-text -show-large">
+							<p class="small info-label">{{ item.email }}</p>
+							<p class="small">{{ item.pass }}</p>
+						</div>
+					</li>
+				</ul>
+			</ng-template>
+		</smart-folders>
 	</div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, DoCheck, Input } from '@angular/core';
+import { Component, ContentChild, DoCheck, Input, TemplateRef } from '@angular/core';
 
 import { SmartFoldersService } from '../smart-folders.service';
 
@@ -13,6 +13,7 @@ export class SmartFoldersGroupComponent implements DoCheck {
 	@Input() foldersList: Array<any>;
 	@Input() isChildComponent = false;
 	curLevelList = [];
+	@ContentChild(TemplateRef) templateRef: TemplateRef<any>;
 
 	constructor(private _smartFoldersService: SmartFoldersService) { }
 

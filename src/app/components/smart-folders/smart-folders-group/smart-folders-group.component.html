@@ -1,13 +1,16 @@
 <accordion [closeOthers]="false" [showArrows]="true">
 	<accordion-group
 		[heading]="foldersData[folderId].name+' ('+foldersData[folderId].content.length+')'"
-		*ngFor="let folderId of curLevelList;">
-		<ng-content></ng-content>
+		*ngFor="let folderId of curLevelList">
+		<ng-template [ngTemplateOutlet]="templateRef" [ngTemplateOutletContext]="{$implicit: folderId}"></ng-template>
 		<smart-folders-group
 			*ngIf="foldersData[folderId].childCategories.length > 0;"
 			[foldersData]="foldersData"
 			[foldersList]="foldersData[folderId].childCategories"
 			[isChildComponent]="true">
+			<ng-template let-folderId>
+				<ng-template [ngTemplateOutlet]="templateRef" [ngTemplateOutletContext]="{$implicit: folderId}"></ng-template>
+			</ng-template>
 		</smart-folders-group>
 	</accordion-group>
 </accordion>
