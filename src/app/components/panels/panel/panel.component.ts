@@ -4,12 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { PanelService } from '../panel.service';
 import { SidebarService } from '../../../shared/_services/sidebar.service';
-import { PANEL_CONFIG, PanelConfigInterface } from '../panel.config';
-
-const DEFAULT_PANEL_CONFIG: PanelConfigInterface = {
-	sidebarExpandedWidth: 0,
-	sidebarCollapsedWidth: 0
-};
+import { DEFAULT_PANEL_CONFIG, PANEL_CONFIG, PanelConfigInterface } from '../panel.config';
 
 @Component( {
 	selector: 'app-panel',
@@ -27,11 +22,11 @@ const DEFAULT_PANEL_CONFIG: PanelConfigInterface = {
 	animations: [
 		trigger( 'panel', [
 			state( 'openLeftHidden', style( { left: 0, transform: 'none' } ) ),
-			state( 'openLeftCollapsed', style( { left: 0, transform: 'translateX({{ collapsedWidth }}px)' } ), { params: { collapsedWidth: 0 } } ),
-			state( 'openLeftExpanded', style( { left: 0, transform: 'translateX({{ expandedWidth }}px)' } ), { params: { expandedWidth: 0 } } ),
+			state( 'openLeftCollapsed', style( { left: 0, transform: 'translateX({{ collapsedWidth }}px)' } ), { params: { collapsedWidth: DEFAULT_PANEL_CONFIG.sidebarCollapsedWidth } } ),
+			state( 'openLeftExpanded', style( { left: 0, transform: 'translateX({{ expandedWidth }}px)' } ), { params: { expandedWidth: DEFAULT_PANEL_CONFIG.sidebarExpandedWidth } } ),
 			state( 'closeLeftHidden', style( { left: 0, transform: 'translateX(-100%)' } ) ),
-			state( 'closeLeftCollapsed', style( { left: 0, transform: 'translateX(calc(-100% + {{ collapsedWidth }}px))' } ), { params: { collapsedWidth: 0 } } ),
-			state( 'closeLeftExpanded', style( { left: 0, transform: 'translateX(calc(-100% + {{ expandedWidth }}px))' } ), { params: { expandedWidth: 0 } } ),
+			state( 'closeLeftCollapsed', style( { left: 0, transform: 'translateX(calc(-100% + {{ collapsedWidth }}px))' } ), { params: { collapsedWidth: DEFAULT_PANEL_CONFIG.sidebarCollapsedWidth } } ),
+			state( 'closeLeftExpanded', style( { left: 0, transform: 'translateX(calc(-100% + {{ expandedWidth }}px))' } ), { params: { expandedWidth: DEFAULT_PANEL_CONFIG.sidebarExpandedWidth } } ),
 			state( 'openRight', style( { right: 0, transform: 'translateX(0px)' } ) ),
 			state( 'closeRight', style( { right: 0, transform: 'translateX(100%)' } ) ),
 			transition('void => *', animate('0s')),
