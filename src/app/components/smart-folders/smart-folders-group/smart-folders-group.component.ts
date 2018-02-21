@@ -25,7 +25,7 @@ export class SmartFoldersGroupComponent implements DoCheck {
 		this.curLevelList = [];
 
 		this.foldersList.forEach((folderId) => {
-			if (this.isChildComponent || !this.foldersData[folderId].parentCategory) {
+			if (this.isChildComponent || !this.foldersData[folderId].parentFolder) {
 				this.curLevelList.push(folderId);
 			}
 		});

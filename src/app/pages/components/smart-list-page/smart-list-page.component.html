@@ -7,12 +7,12 @@
 <div class="row">
 	<div class="col-12" *ngFor="let list of listData;let i = index;">
 		<h4>{{ i === 0 ? 'Tile' : 'List' }}</h4>
-		<ul smart-list [viewType]="i === 0 ? 'tile' : 'list'">
-			<li smart-list-item
-				*ngFor="let item of list; let i = index"
-				[listId]="listId"
-				[itemIndex]="i"
-				[item]="item">
+		<smart-list
+			[viewType]="i === 0 ? 'tile' : 'list'"
+			[list]="list.content"
+			[listId]="list.id"
+			>
+			<ng-template let-item>
 				<div class="smart-list_info-text -first">
 					<p class="name">{{ item.serviceName }}</p>
 					<p class="small info-label">{{ item.userName }}</p>
@@ -21,7 +21,7 @@
 					<p class="small info-label">{{ item.email }}</p>
 					<p class="small">{{ item.pass }}</p>
 				</div>
-			</li>
-		</ul>
+			</ng-template>
+		</smart-list>
 	</div>
 </div>

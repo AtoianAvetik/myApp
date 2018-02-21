@@ -8,12 +8,12 @@
 	<div class="col-12">
 		<smart-folders [foldersData]="listData" [foldersList]="listsIdList">
 			<ng-template let-folderId>
-				<ul smart-list [viewType]="'list'">
-					<li smart-list-item
-						*ngFor="let item of listData[folderId].content; let i = index"
-						[listId]="folderId"
-						[itemIndex]="i"
-						[item]="item">
+				<smart-list
+					[viewType]="'list'"
+					[list]="listData[folderId].content"
+					[listId]="folderId"
+				>
+					<ng-template let-item>
 						<div class="smart-list_info-text -first">
 							<p class="name">{{ item.serviceName }}</p>
 							<p class="small info-label">{{ item.userName }}</p>
@@ -22,8 +22,8 @@
 							<p class="small info-label">{{ item.email }}</p>
 							<p class="small">{{ item.pass }}</p>
 						</div>
-					</li>
-				</ul>
+					</ng-template>
+				</smart-list>
 			</ng-template>
 		</smart-folders>
 	</div>

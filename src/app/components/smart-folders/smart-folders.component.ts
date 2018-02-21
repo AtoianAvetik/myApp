@@ -1,5 +1,6 @@
 import { Component, ContentChild, Input, TemplateRef } from '@angular/core';
 
+import { SmartFolderModel } from './smart-folder.model';
 
 @Component( {
 	selector: 'smart-folders',
@@ -8,8 +9,8 @@ import { Component, ContentChild, Input, TemplateRef } from '@angular/core';
 } )
 
 export class SmartFoldersComponent  {
-	@Input() foldersData: Object;
-	@Input() foldersList: Array<any>;
+	@Input() foldersData: {[name: string]: SmartFolderModel};
+	@Input() foldersList: Array<string>;
 	@ContentChild(TemplateRef) templateRef: TemplateRef<any>;
 
 	constructor() { }

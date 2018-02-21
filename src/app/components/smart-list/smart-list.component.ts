@@ -1,15 +1,16 @@
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { Component, ContentChild, Input, OnInit, TemplateRef } from '@angular/core';
 
 @Component( {
-	selector: '[smart-list]',
-	template: `
-		<ng-content></ng-content>
-	`,
+	selector: 'smart-list',
+	templateUrl: './smart-list.component.html',
 	styleUrls: ['./smart-list.component.scss']
 } )
 export class SmartListComponent implements OnInit {
-	@Input() viewType = 'list';
-	@HostBinding( 'attr.class' ) listClass = 'smart-list -';
+	@Input() list: any;
+	@Input() listId: string;
+	@Input() viewType: string = 'list';
+	listClass = 'smart-list -';
+	@ContentChild(TemplateRef) templateRef: TemplateRef<any>;
 
 	constructor() {}
 
