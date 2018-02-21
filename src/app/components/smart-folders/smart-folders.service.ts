@@ -3,7 +3,7 @@ import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class SmartFoldersService {
-	folderSelected = new Subject<number>();
+	selectFolder = new Subject<string>();
 	editSelectedFolder = new Subject();
 	deleteSelectedFolder = new Subject();
 

@@ -142,4 +142,8 @@ export class SmartFoldersPageComponent {
 		}
 	};
 	listsIdList = ["none", "ct1", "ct2", "ct3", "ct4",]
+
+	logger(text, event) {
+		console.log(text + ": " +event);
+	}
 }

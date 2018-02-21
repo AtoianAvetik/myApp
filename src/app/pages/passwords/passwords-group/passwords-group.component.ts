@@ -51,6 +51,6 @@ export class PasswordsGroupComponent implements OnInit, DoCheck {
 	}
 
 	selectFolder(folderId) {
-		this._smartFoldersService.folderSelected.next(folderId);
+		this._smartFoldersService.selectFolder.next(folderId);
 	}
 }

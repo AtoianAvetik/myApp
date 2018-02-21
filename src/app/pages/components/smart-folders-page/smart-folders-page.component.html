@@ -6,12 +6,22 @@
 </div>
 <div class="row">
 	<div class="col-12">
-		<smart-folders [foldersData]="listData" [foldersList]="listsIdList">
+		<smart-folders
+			[foldersData]="listData"
+			[foldersList]="listsIdList"
+			(selectFolder)="logger('Select folder', $event)"
+			(editFolder)="logger('Edit folder', $event)"
+			(deleteFolder)="logger('Delete folder', $event)"
+		>
 			<ng-template let-folderId>
 				<smart-list
 					[viewType]="'list'"
 					[list]="listData[folderId].content"
 					[listId]="folderId"
+					(selectList)="logger('Select list', $event)"
+					(selectItem)="logger('Select item', $event)"
+					(editItem)="logger('Edit item', $event)"
+					(deleteItem)="logger('Delete item', $event)"
 				>
 					<ng-template let-item>
 						<div class="smart-list_info-text -first">
