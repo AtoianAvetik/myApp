@@ -55,14 +55,14 @@ export class SmartListItemComponent implements OnInit, OnDestroy {
 	onSelectedItem( event ) {
 		this.stopPropagation( event );
 		this.isItemSelected = !this.isItemSelected;
-		this._smartListService.listItemSelected.next( this.itemIndex );
-		this._smartListService.listSelected.next( this.listId );
+		this._smartListService.selectItem.next( this.itemIndex );
+		this._smartListService.selectList.next( this.listId );
 	}
 
 	onFocusItem() {
 		this.isItemFocused = true;
-		this._smartListService.listItemSelected.next( this.itemIndex );
-		this._smartListService.listSelected.next( this.listId );
+		this._smartListService.selectItem.next( this.itemIndex );
+		this._smartListService.selectList.next( this.listId );
 	}
 
 	stopPropagation( event ) {

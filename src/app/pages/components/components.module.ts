@@ -19,6 +19,7 @@ import { AccordionModule } from '../../components/accordion/accordion.module';
 import { AccordionPageComponent } from './accordion-page/accordion-page.component';
 import { SmartListPageComponent } from './smart-list-page/smart-list-page.component';
 import { SmartFoldersPageComponent } from './smart-folders-page/smart-folders-page.component';
+import { SmartListService } from '../../components/smart-list/smart-list.service';
 
 @NgModule({
     imports: [

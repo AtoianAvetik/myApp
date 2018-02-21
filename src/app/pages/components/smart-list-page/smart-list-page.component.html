@@ -11,6 +11,10 @@
 			[viewType]="i === 0 ? 'tile' : 'list'"
 			[list]="list.content"
 			[listId]="list.id"
+			(selectList)="logger('Select list', $event)"
+			(selectItem)="logger('Select item', $event)"
+			(editItem)="logger('Edit item', $event)"
+			(deleteItem)="logger('Delete item', $event)"
 			>
 			<ng-template let-item>
 				<div class="smart-list_info-text -first">

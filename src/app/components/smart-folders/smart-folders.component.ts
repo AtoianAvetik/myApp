@@ -1,11 +1,13 @@
 import { Component, ContentChild, Input, TemplateRef } from '@angular/core';
 
 import { SmartFolderModel } from './smart-folder.model';
+import { SmartFoldersService } from './smart-folders.service';
 
 @Component( {
 	selector: 'smart-folders',
 	templateUrl: './smart-folders.component.html',
-	styleUrls: ['./smart-folders.component.scss']
+	styleUrls: ['./smart-folders.component.scss'],
+	providers: [SmartFoldersService]
 } )
 
 export class SmartFoldersComponent  {

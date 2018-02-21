@@ -61,13 +61,13 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
           this.updatePasswords(data);
         }
       );
-    this._smartListService.listSelected
-      .subscribe(
-        (id: number) => {
-          this.listSelectedId = id;
-        }
-      );
-    this._smartListService.listItemSelected
+    // this._smartListService.listSelected
+    //   .subscribe(
+    //     (id: string) => {
+    //       this.listSelectedId = id;
+    //     }
+    //   );
+    this._smartListService.selectItem
       .subscribe(
         (index: number) => {
           this.listItemSelectedIndex = index;

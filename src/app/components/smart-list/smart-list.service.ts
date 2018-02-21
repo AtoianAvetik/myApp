@@ -3,9 +3,9 @@ import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class SmartListService {
-	listItemSelected = new Subject<number>();
-	listSelected = new Subject<number>();
 	viewTypeChanged = new Subject<string>();
+	selectItem = new Subject<number>();
+	selectList = new Subject<string>();
 	editSelectedItem = new Subject();
 	deleteSelectedItem = new Subject();
 

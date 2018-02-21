@@ -68,4 +68,8 @@ export class SmartListPageComponent {
 			]
 		}
 	];
+
+	logger(text, event) {
+		console.log(text + ": " +event);
+	}
 }
