@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { PANEL_CONFIG, PanelConfigInterface } from './components/panels/panel.config';
 
 import { AppComponent } from './app.component';
 import { FullLayoutComponent } from './layouts/full/full-layout.component';
@@ -24,6 +25,11 @@ import { WindowRef } from './shared/_services/window-ref';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 	suppressScrollX: true
+};
+
+const CUSTOM_PANEL_CONFIG: PanelConfigInterface = {
+	sidebarExpandedWidth: 250,
+	sidebarCollapsedWidth: 60
 };
 
 @NgModule( {
@@ -48,6 +54,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 		SidebarService,
 		LoaderService,
 		WindowRef,
+		{
+			provide: PANEL_CONFIG,
+			useValue: CUSTOM_PANEL_CONFIG
+		},
 		{
 			provide: PERFECT_SCROLLBAR_CONFIG,
 			useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG

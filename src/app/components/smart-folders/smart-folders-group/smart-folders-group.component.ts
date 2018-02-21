@@ -32,12 +32,12 @@ export class SmartFoldersGroupComponent implements DoCheck {
 	}
 
 	onEditFolder(folderId) {
-		this.selectFolder(folderId);
+		this.onSelectFolder(folderId);
 		this._smartFoldersService.editSelectedFolder.next();
 	}
 
 	onDeleteFolder(folderId) {
-		this.selectFolder(folderId);
+		this.onSelectFolder(folderId);
 		this._smartFoldersService.deleteSelectedFolder.next();
 	}
 

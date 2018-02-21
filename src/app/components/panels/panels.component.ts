@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, Injector, Input, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { Panel } from './panel.model';
@@ -43,7 +43,7 @@ export class PanelsComponent implements OnInit {
 	}
 
 	constructor( private _panelService: PanelService,
-	             private elRef: ElementRef ) {
+	             private elRef: ElementRef) {
 	}
 
 	ngOnInit() {

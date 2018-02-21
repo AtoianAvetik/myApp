@@ -1,16 +1,22 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Injector, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
 
 import { PanelService } from '../panel.service';
 import { SidebarService } from '../../../shared/_services/sidebar.service';
+import { PANEL_CONFIG, PanelConfigInterface } from '../panel.config';
+
+const DEFAULT_PANEL_CONFIG: PanelConfigInterface = {
+	sidebarExpandedWidth: 0,
+	sidebarCollapsedWidth: 0
+};
 
 @Component( {
 	selector: 'app-panel',
 	template: `
 		<div class="app-panel-wrap"
 		     [ngStyle]="styles"
-		     [@panel]='isOpen ? this.openState : this.closeState'
+		     [@panel]='{value: isOpen ? this.openState : this.closeState, params: {expandedWidth: config.sidebarExpandedWidth, collapsedWidth: config.sidebarCollapsedWidth}}'
 		     (@panel.start)="animationAction($event)"
 		     (@panel.done)="animationAction($event)">
 			<ng-content></ng-content>
@@ -21,11 +27,11 @@ import { SidebarService } from '../../../shared/_services/sidebar.service';
 	animations: [
 		trigger( 'panel', [
 			state( 'openLeftHidden', style( { left: 0, transform: 'none' } ) ),
-			state( 'openLeftCollapsed', style( { left: 0, transform: 'translateX(' + 60 + 'px)' } ) ),
-			state( 'openLeftExpanded', style( { left: 0, transform: 'translateX(' + 250 + 'px)' } ) ),
+			state( 'openLeftCollapsed', style( { left: 0, transform: 'translateX({{ collapsedWidth }}px)' } ), { params: { collapsedWidth: 0 } } ),
+			state( 'openLeftExpanded', style( { left: 0, transform: 'translateX({{ expandedWidth }}px)' } ), { params: { expandedWidth: 0 } } ),
 			state( 'closeLeftHidden', style( { left: 0, transform: 'translateX(-100%)' } ) ),
-			state( 'closeLeftCollapsed', style( { left: 0, transform: 'translateX(calc(-100% + ' + 60 + 'px))' } ) ),
-			state( 'closeLeftExpanded', style( { left: 0, transform: 'translateX(calc(-100% + ' + 250 + 'px))' } ) ),
+			state( 'closeLeftCollapsed', style( { left: 0, transform: 'translateX(calc(-100% + {{ collapsedWidth }}px))' } ), { params: { collapsedWidth: 0 } } ),
+			state( 'closeLeftExpanded', style( { left: 0, transform: 'translateX(calc(-100% + {{ expandedWidth }}px))' } ), { params: { expandedWidth: 0 } } ),
 			state( 'openRight', style( { right: 0, transform: 'translateX(0px)' } ) ),
 			state( 'closeRight', style( { right: 0, transform: 'translateX(100%)' } ) ),
 			transition('void => *', animate('0s')),
@@ -64,6 +70,7 @@ export class PanelComponent implements OnInit, OnDestroy {
 	styles = {};
 	element;
 	el: ElementRef;
+	config: PanelConfigInterface;
 
 	@Input()
 	set isOpen( value: boolean ) {
@@ -76,7 +83,9 @@ export class PanelComponent implements OnInit, OnDestroy {
 
 	constructor( private _panelService: PanelService,
 	             private _sidebarService: SidebarService,
-	             private elRef: ElementRef ) {
+	             private elRef: ElementRef,
+	             injector: Injector) {
+		this.config = Object.assign(DEFAULT_PANEL_CONFIG, injector.get(PANEL_CONFIG));
 		this.el = this.elRef;
 		this.element = this.elRef.nativeElement;
 	}
