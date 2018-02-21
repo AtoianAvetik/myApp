@@ -15,9 +15,9 @@ import { SmartFoldersService } from './smart-folders.service';
 export class SmartFoldersComponent implements OnInit, OnDestroy {
 	@Input() foldersData: {[name: string]: SmartFolderModel};
 	@Input() foldersList: Array<string>;
-	@Output() selectFolder = new Subject<string>();
-	@Output() editFolder = new Subject();
-	@Output() deleteFolder = new Subject();
+	@Output() onSelectFolder = new Subject<string>();
+	@Output() onEditFolder = new Subject();
+	@Output() onDeleteFolder = new Subject();
 	@ContentChild(TemplateRef) templateRef: TemplateRef<any>;
 	subscriptions: Array<Subscription> = [];
 
@@ -26,19 +26,19 @@ export class SmartFoldersComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.subscriptions.push( this._smartFoldersService.selectFolder
 			.subscribe( (value) => {
-				this.selectFolder.next(value);
+				this.onSelectFolder.next(value);
 			})
 		);
 
 		this.subscriptions.push( this._smartFoldersService.editSelectedFolder
 			.subscribe( (value) => {
-				this.editFolder.next(value);
+				this.onEditFolder.next(value);
 			})
 		);
 
 		this.subscriptions.push( this._smartFoldersService.deleteSelectedFolder
 			.subscribe( (value) => {
-				this.deleteFolder.next(value);
+				this.onDeleteFolder.next(value);
 			})
 		);
 	}

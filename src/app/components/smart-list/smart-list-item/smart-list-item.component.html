@@ -1,5 +1,5 @@
 <div class="smart-list-item" [class.-selected]="isItemSelected" [class.-focus]="isItemFocused"
-	 (click)="onSelectedItem($event)">
+	 (click)="onSelectItem($event)">
 	<div class="inner-wrap">
 		<div class="smart-list_img-wrap">
 			<img *ngIf="item.img !== ''" class="big-icon" src="{{ item.img }}" alt="">

@@ -41,7 +41,7 @@ export class SmartFoldersGroupComponent implements DoCheck {
 		this._smartFoldersService.deleteSelectedFolder.next();
 	}
 
-	selectFolder(folderId) {
+	onSelectFolder(folderId) {
 		this._smartFoldersService.selectFolder.next(folderId);
 	}
 }

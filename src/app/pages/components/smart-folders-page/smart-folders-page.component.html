@@ -9,19 +9,19 @@
 		<smart-folders
 			[foldersData]="listData"
 			[foldersList]="listsIdList"
-			(selectFolder)="logger('Select folder', $event)"
-			(editFolder)="logger('Edit folder', $event)"
-			(deleteFolder)="logger('Delete folder', $event)"
+			(onSelectFolder)="logger('Select folder', $event)"
+			(onEditFolder)="logger('Edit folder', $event)"
+			(onDeleteFolder)="logger('Delete folder', $event)"
 		>
 			<ng-template let-folderId>
 				<smart-list
 					[viewType]="'list'"
 					[list]="listData[folderId].content"
 					[listId]="folderId"
-					(selectList)="logger('Select list', $event)"
-					(selectItem)="logger('Select item', $event)"
-					(editItem)="logger('Edit item', $event)"
-					(deleteItem)="logger('Delete item', $event)"
+					(onSelectList)="logger('Select list', $event)"
+					(onSelectItem)="logger('Select item', $event)"
+					(onEditItem)="logger('Edit item', $event)"
+					(onDeleteItem)="logger('Delete item', $event)"
 				>
 					<ng-template let-item>
 						<div class="smart-list_info-text -first">

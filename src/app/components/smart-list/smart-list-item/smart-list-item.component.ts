@@ -52,7 +52,7 @@ export class SmartListItemComponent implements OnInit, OnDestroy {
 		this._smartListService.deleteSelectedItem.next();
 	}
 
-	onSelectedItem( event ) {
+	onSelectItem( event ) {
 		this.stopPropagation( event );
 		this.isItemSelected = !this.isItemSelected;
 		this._smartListService.selectItem.next( this.itemIndex );
