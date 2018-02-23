@@ -20,23 +20,6 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-header">
-				<h4 class="card-title">Dependencies</h4>
-			</div>
-			<div class="card-body">
-				<div class="card-block">
-					<p><code>SidebarService</code> from <code>../../../shared/_services/sidebar.service</code>:</p>
-					<ul>
-						<li><code>isNavExpandChange</code> - event which fire when sidebar collapsed or expand.</li>
-						<li><code>isHideSidebarChange</code> - event which fire when sidebar hide.</li>
-						<li><code>sidebarState</code> - can take three states <code>expanded</code>, <code>collapsed</code>, <code>hidden</code> </li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-12">
-		<div class="card">
-			<div class="card-header">
 				<h4 class="card-title">Setup</h4>
 			</div>
 			<div class="card-body">
@@ -68,6 +51,49 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-header">
+				<h4 class="card-title">Config</h4>
+			</div>
+			<div class="card-body">
+				<div class="card-block">
+					<div class="card-text">
+						<p>In <code>app.module.ts</code> configurate panels:</p>
+<ngx-prism [language]="'javascript'">
+	...
+	import &#123; PANEL_CONFIG, PanelConfigInterface } from './components/panels/panel.config';
+	...
+	const CUSTOM_PANEL_CONFIG: PanelConfigInterface = &#123;
+		leftPanelExpandedShift: 250
+	};
+	...
+	@NgModule( &#123;
+		...
+		providers: [
+		...
+			&#123;
+				provide: PANEL_CONFIG,
+				useValue: CUSTOM_PANEL_CONFIG
+			}
+		...
+		]
+		...
+	} )
+	...
+</ngx-prism>
+						<p>Available parameters:</p>
+						<ul>
+							<li><code>[leftPanelExpandedShift]</code> - specify shift for left panel when left sidebar is expanded ( default - 0 ).</li>
+							<li><code>[leftPanelCollapsedShift]</code> - specify shift for left panel when left sidebar is collapsed ( default - 0 ).</li>
+							<li><code>[rightPanelExpandedShift]</code> - specify shift for right panel when right sidebar is expanded ( default - 0 ).</li>
+							<li><code>[rightPanelCollapsedShift]</code> - specify shift for right panel when right sidebar is collapsed ( default - 0 ).</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
 				<h4 class="card-title">Markup</h4>
 			</div>
 			<div class="card-body">
@@ -78,6 +104,10 @@
 					<p>Parameters:</p>
 					<ul>
 						<li><code>[overlay]</code> - on/off page overlay when panel opened.</li>
+						<li><code>[leftPanelExpand]</code> - specify event for subscribe to left sidebar expand/collapse.</li>
+						<li><code>[leftPanelHide]</code> - specify event for subscribe to left sidebar show/hide.</li>
+						<li><code>[rightPanelExpand]</code> - specify event for subscribe to right sidebar expand/collapse.</li>
+						<li><code>[rightPanelHide]</code> - specify event for subscribe to right sidebar show/hide</li>
 					</ul>
 					<p>And after create your panel where you need:</p>
 					<ngx-prism [language]="'html'">{{'<'}}app-panel [id]="panel-1" [dir]="'right'">  -- Your content -- {{'<'}}/app-panel></ngx-prism>
