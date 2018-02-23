@@ -20,6 +20,20 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-header">
+				<h4 class="card-title">Example</h4>
+			</div>
+			<div class="card-body">
+				<div class="card-block">
+					<button class="btn btn-raised btn-primary" type="button" [openPanel]="'panel-test-1'" title="Open">Panel 1</button>
+					<button class="btn btn-raised btn-primary" type="button" [openPanel]="'panel-test-2'" title="Open">Panel 2</button>
+					<button class="btn btn-raised btn-primary" type="button" [openPanel]="'panel-test-3'" title="Open">Panel 3</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
 				<h4 class="card-title">Setup</h4>
 			</div>
 			<div class="card-body">
@@ -166,20 +180,6 @@
 							<ngx-prism [language]="'javascript'">this._panelService.closePanel();</ngx-prism>
 						</li>
 					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-12">
-		<div class="card">
-			<div class="card-header">
-				<h4 class="card-title">Example</h4>
-			</div>
-			<div class="card-body">
-				<div class="card-block">
-					<button class="btn btn-raised btn-primary" type="button" [openPanel]="'panel-test-1'" title="Open">Panel 1</button>
-					<button class="btn btn-raised btn-primary" type="button" [openPanel]="'panel-test-2'" title="Open">Panel 2</button>
-					<button class="btn btn-raised btn-primary" type="button" [openPanel]="'panel-test-3'" title="Open">Panel 3</button>
 				</div>
 			</div>
 		</div>
