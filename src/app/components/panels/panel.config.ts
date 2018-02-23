@@ -1,11 +1,15 @@
 import { InjectionToken } from '@angular/core';
 
 export const DEFAULT_PANEL_CONFIG: PanelConfigInterface = {
-	sidebarExpandedWidth: 0,
-	sidebarCollapsedWidth: 0
+	leftPanelExpandedShift: 0,
+	leftPanelCollapsedShift: 0,
+	rightPanelExpandedShift: 0,
+	rightPanelCollapsedShift: 0
 };
 export declare const PANEL_CONFIG: InjectionToken<{}>;
 export interface PanelConfigInterface {
-	sidebarExpandedWidth?: number;
-	sidebarCollapsedWidth?: number;
+	leftPanelExpandedShift?: number,
+	leftPanelCollapsedShift?: number,
+	rightPanelExpandedShift?: number,
+	rightPanelCollapsedShift?: number
 }

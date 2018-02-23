@@ -28,8 +28,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 };
 
 const CUSTOM_PANEL_CONFIG: PanelConfigInterface = {
-	sidebarExpandedWidth: 250,
-	sidebarCollapsedWidth: 60
+	leftPanelExpandedShift: 250,
+	leftPanelCollapsedShift: 60
 };
 
 @NgModule( {

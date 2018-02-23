@@ -23,7 +23,6 @@ export class FullLayoutComponent implements OnInit {
 	isMenuExpand: boolean;
 	isHideSidebar: boolean;
 
-
     constructor(private elementRef: ElementRef,
                 private _sidebarService: SidebarService) {
 	    this.isNavExpand = this._sidebarService.isNavExpand;

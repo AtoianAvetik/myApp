@@ -5,7 +5,6 @@ import { WindowRef } from './window-ref';
 
 @Injectable()
 export class SidebarService {
-	sidebarState: string;
 	isNavExpand = true;
 	isMenuExpand = true;
 	isHideSidebar = false;
@@ -18,15 +17,12 @@ export class SidebarService {
 	constructor(private _winRef: WindowRef) {
 		this.isNavExpandChange.subscribe(status => {
 			this.isNavExpand = status;
-			this.updateState();
 		});
 		this.isMenuExpandChange.subscribe(status => {
 			this.isMenuExpand = status;
-			this.updateState();
 		});
 		this.isHideSidebarChange.subscribe(status => {
 			this.isHideSidebar = status;
-			this.updateState();
 		});
 
 	}
@@ -53,9 +49,5 @@ export class SidebarService {
 			this.hoverSidebar(this.isSidebarHiddenMenuExpand);
 			this.toggleSidebar(this.isSidebarHiddenNavExpand);
 		}
-	}
-
-	updateState() {
-		this.sidebarState = this.isHideSidebar ? 'hidden' : (this.isNavExpand ? 'expanded' : 'collapsed');
 	}
 }

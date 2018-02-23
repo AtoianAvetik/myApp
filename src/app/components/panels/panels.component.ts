@@ -1,8 +1,10 @@
-import { Component, ElementRef, HostListener, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { Panel } from './panel.model';
 import { PanelService } from './panel.service';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component( {
 	selector: 'app-panels',
@@ -25,12 +27,17 @@ import { PanelService } from './panel.service';
 		] )
 	]
 } )
-export class PanelsComponent implements OnInit {
+export class PanelsComponent implements OnInit, OnDestroy {
 	@HostListener('document:click', ['$event'])
 	onClick(event) {
 		this.onClickOutside(event);
 	}
 	@Input() overlay = true;
+	@Input() leftPanelExpand = new Subject<boolean>();
+	@Input() leftPanelHide = new Subject<boolean>();
+	@Input() rightPanelExpand = new Subject<boolean>();
+	@Input() rightPanelHide = new Subject<boolean>();
+	subscriptions: Array<Subscription> = [];
 	private _isOpen = false;
 
 	@Input()
@@ -47,27 +54,34 @@ export class PanelsComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this._panelService.isPanelsChanged
-			.subscribe(
+		this.subscriptions.push( this._panelService.isPanelsChanged.subscribe(
 				( data: Array<Panel> ) => {
 					(data.length < 1) && (this.isOpen = false);
 					for ( const panel of data ) {
 						this.elRef.nativeElement.querySelector( '.app-panel-container' ).appendChild( panel.el.nativeElement );
 					}
 				}
-			);
-		this._panelService.panelOpeningDidStart
-			.subscribe(
-				() => {
-					this.isOpen = true;
-				}
-			);
-		this._panelService.panelClosingDidStart
-			.subscribe(
+			)
+		);
+		this.subscriptions.push( this._panelService.panelOpeningDidStart.subscribe(_ => this.isOpen = true) );
+		this.subscriptions.push( this._panelService.panelClosingDidStart.subscribe(
 				() => {
 					!this._panelService.activePanels.length && (this.isOpen = false);
 				}
-			);
+			)
+		);
+
+		// Subscribe state events
+		this.subscriptions.push( this.leftPanelExpand.subscribe(status => this._panelService.stateEvents.left.expand.next(status)) );
+		this.subscriptions.push( this.leftPanelHide.subscribe(status => this._panelService.stateEvents.left.hide.next(status)) );
+		this.subscriptions.push( this.rightPanelExpand.subscribe(status => this._panelService.stateEvents.right.expand.next(status)) );
+		this.subscriptions.push( this.rightPanelHide.subscribe(status => this._panelService.stateEvents.right.hide.next(status)) );
+	}
+
+	ngOnDestroy() {
+		this.subscriptions.forEach( ( subscription: Subscription ) => {
+			subscription.unsubscribe();
+		} );
 	}
 
 	onClickOutside(e) {

@@ -22,7 +22,11 @@
         </div>
         <app-footer></app-footer>
     </div>
-	<app-panels [overlay]="false"></app-panels>
+	<app-panels
+		[overlay]="false"
+		[leftPanelExpand]="_sidebarService.isNavExpandChange"
+		[leftPanelHide]="_sidebarService.isHideSidebarChange"
+	></app-panels>
 	<app-notifications></app-notifications>
 	<app-modals></app-modals>
 

@@ -1,9 +1,11 @@
-import { Component, ElementRef, Injector, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+	Component, ElementRef, Injector, Input, OnDestroy, OnInit,
+	ViewEncapsulation
+} from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
 
 import { PanelService } from '../panel.service';
-import { SidebarService } from '../../../shared/_services/sidebar.service';
 import { DEFAULT_PANEL_CONFIG, PANEL_CONFIG, PanelConfigInterface } from '../panel.config';
 
 @Component( {
@@ -11,7 +13,15 @@ import { DEFAULT_PANEL_CONFIG, PANEL_CONFIG, PanelConfigInterface } from '../pan
 	template: `
 		<div class="app-panel-wrap"
 		     [ngStyle]="styles"
-		     [@panel]='{value: isOpen ? this.openState : this.closeState, params: {expandedWidth: config.sidebarExpandedWidth, collapsedWidth: config.sidebarCollapsedWidth}}'
+		     [@panel]='{
+		     	value: isOpen ? this.openState : this.closeState,
+		     	params: {
+		     		leftCollapsedWidth: config.leftPanelCollapsedShift,
+		     		leftExpandedWidth: config.leftPanelExpandedShift,
+		     		rightCollapsedWidth: config.rightPanelCollapsedShift,
+		     		rightExpandedWidth: config.rightPanelExpandedShift
+		     	}
+		     }'
 		     (@panel.start)="animationAction($event)"
 		     (@panel.done)="animationAction($event)">
 			<ng-content></ng-content>
@@ -22,13 +32,19 @@ import { DEFAULT_PANEL_CONFIG, PANEL_CONFIG, PanelConfigInterface } from '../pan
 	animations: [
 		trigger( 'panel', [
 			state( 'openLeftHidden', style( { left: 0, transform: 'none' } ) ),
-			state( 'openLeftCollapsed', style( { left: 0, transform: 'translateX({{ collapsedWidth }}px)' } ), { params: { collapsedWidth: DEFAULT_PANEL_CONFIG.sidebarCollapsedWidth } } ),
-			state( 'openLeftExpanded', style( { left: 0, transform: 'translateX({{ expandedWidth }}px)' } ), { params: { expandedWidth: DEFAULT_PANEL_CONFIG.sidebarExpandedWidth } } ),
+			state( 'openLeftCollapsed', style( { left: 0, transform: 'translateX({{ leftCollapsedWidth }}px)' } ), { params: { leftCollapsedWidth: DEFAULT_PANEL_CONFIG.leftPanelCollapsedShift } } ),
+			state( 'openLeftExpanded', style( { left: 0, transform: 'translateX({{ leftExpandedWidth }}px)' } ), { params: { leftExpandedWidth: DEFAULT_PANEL_CONFIG.leftPanelExpandedShift } } ),
 			state( 'closeLeftHidden', style( { left: 0, transform: 'translateX(-100%)' } ) ),
-			state( 'closeLeftCollapsed', style( { left: 0, transform: 'translateX(calc(-100% + {{ collapsedWidth }}px))' } ), { params: { collapsedWidth: DEFAULT_PANEL_CONFIG.sidebarCollapsedWidth } } ),
-			state( 'closeLeftExpanded', style( { left: 0, transform: 'translateX(calc(-100% + {{ expandedWidth }}px))' } ), { params: { expandedWidth: DEFAULT_PANEL_CONFIG.sidebarExpandedWidth } } ),
-			state( 'openRight', style( { right: 0, transform: 'translateX(0px)' } ) ),
-			state( 'closeRight', style( { right: 0, transform: 'translateX(100%)' } ) ),
+			state( 'closeLeftCollapsed', style( { left: 0, transform: 'translateX(calc(-100% + {{ leftCollapsedWidth }}px))' } ), { params: { leftCollapsedWidth: DEFAULT_PANEL_CONFIG.leftPanelCollapsedShift } } ),
+			state( 'closeLeftExpanded', style( { left: 0, transform: 'translateX(calc(-100% + {{ leftExpandedWidth }}px))' } ), { params: { leftExpandedWidth: DEFAULT_PANEL_CONFIG.leftPanelExpandedShift } } ),
+
+			state( 'openRightHidden', style( { right: 0, transform: 'none' } ) ),
+			state( 'openRightCollapsed', style( { right: 0, transform: 'translateX(-{{ rightCollapsedWidth }}px)' } ), { params: { rightCollapsedWidth: DEFAULT_PANEL_CONFIG.rightPanelCollapsedShift } } ),
+			state( 'openRightExpanded', style( { right: 0, transform: 'translateX(-{{ rightExpandedWidth }}px)' } ), { params: { rightExpandedWidth: DEFAULT_PANEL_CONFIG.rightPanelExpandedShift } } ),
+			state( 'closeRightHidden', style( { right: 0, transform: 'translateX(100%)' } ) ),
+			state( 'closeRightCollapsed', style( { right: 0, transform: 'translateX(calc(100% - {{ rightCollapsedWidth }}px))' } ), { params: { rightCollapsedWidth: DEFAULT_PANEL_CONFIG.rightPanelCollapsedShift } } ),
+			state( 'closeRightExpanded', style( { right: 0, transform: 'translateX(calc(100% - {{ rightExpandedWidth }}px))' } ), { params: { rightExpandedWidth: DEFAULT_PANEL_CONFIG.rightPanelExpandedShift } } ),
+
 			transition('void => *', animate('0s')),
 			transition('* => *', animate('0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99)'))
 		] )
@@ -54,12 +70,37 @@ export class PanelComponent implements OnInit, OnDestroy {
 			}
 		},
 		right: {
-			open: 'openRight',
-			close: 'closeRight'
+			expanded: {
+				open: 'openRightExpanded',
+				close: 'closeRightExpanded'
+			},
+			collapsed: {
+				open: 'openRightCollapsed',
+				close: 'closeRightCollapsed'
+			},
+			hidden: {
+				open: 'openRightHidden',
+				close: 'closeRightHidden'
+			}
 		}
 	};
-	openSubscription: Subscription;
-	closeSubscription: Subscription;
+	openStatuses = [
+		this.statuses.left.expanded.open,
+		this.statuses.left.collapsed.open,
+		this.statuses.left.hidden.open,
+		this.statuses.right.expanded.open,
+		this.statuses.right.collapsed.open,
+		this.statuses.right.hidden.open,
+	];
+	closeStatuses = [
+		this.statuses.left.expanded.open,
+		this.statuses.left.collapsed.open,
+		this.statuses.left.hidden.open,
+		this.statuses.right.expanded.open,
+		this.statuses.right.collapsed.open,
+		this.statuses.right.hidden.open,
+	];
+	subscriptions: Array<Subscription> = [];
 	openState: string;
 	closeState: string;
 	styles = {};
@@ -77,27 +118,18 @@ export class PanelComponent implements OnInit, OnDestroy {
 	}
 
 	constructor( private _panelService: PanelService,
-	             private _sidebarService: SidebarService,
-	             private elRef: ElementRef,
+	             private _elRef: ElementRef,
 	             injector: Injector) {
 		this.config = Object.assign(DEFAULT_PANEL_CONFIG, injector.get(PANEL_CONFIG));
-		this.el = this.elRef;
-		this.element = this.elRef.nativeElement;
+		this.el = this._elRef;
+		this.element = this._elRef.nativeElement;
 	}
 
 	ngOnInit() {
 		// direction
-		switch ( this.dir ) {
-			case 'left':
-				this.updateStates();
-				this._sidebarService.isNavExpandChange.subscribe( _ => this.updateStates());
-				this._sidebarService.isHideSidebarChange.subscribe( _ => this.updateStates());
-				break;
-			case 'right':
-				this.openState = this.statuses.right.open;
-				this.closeState = this.statuses.right.close;
-				break;
-		}
+		this.updateStates(this.dir);
+		this.subscriptions.push( this._panelService.stateEvents[this.dir].expand.subscribe( _ => this.updateStates(this.dir)));
+		this.subscriptions.push( this._panelService.stateEvents[this.dir].hide.subscribe( _ => this.updateStates(this.dir)));
 
 		// ensure id attribute exists
 		if ( !this.id ) {
@@ -109,22 +141,22 @@ export class PanelComponent implements OnInit, OnDestroy {
 		this._panelService.add( this );
 
 		// subscribe events
-		this.openSubscription = this._panelService.panelWillOpened
-			.subscribe(
+		this.subscriptions.push( this._panelService.panelWillOpened.subscribe(
 				( id: string ) => {
 					if ( id === this.id ) {
 						this.open();
 					}
 				}
-			);
-		this.closeSubscription = this._panelService.panelWillClosed
-			.subscribe(
+			)
+		);
+		this.subscriptions.push( this._panelService.panelWillClosed.subscribe(
 				( id: string ) => {
 					if ( id === this.id ) {
 						this.close();
 					}
 				}
-			);
+			)
+		);
 	}
 
 	// remove self from panel service when directive is destroyed
@@ -132,8 +164,9 @@ export class PanelComponent implements OnInit, OnDestroy {
 		this._panelService.remove( this.id );
 		this._panelService.removeFromActive( this.id );
 		this.element.parentNode.removeChild( this.element );
-		this.openSubscription.unsubscribe();
-		this.closeSubscription.unsubscribe();
+		this.subscriptions.forEach( ( subscription: Subscription ) => {
+			subscription.unsubscribe();
+		} );
 	}
 
 	// open panel
@@ -149,9 +182,9 @@ export class PanelComponent implements OnInit, OnDestroy {
 		this.isOpen = false;
 	}
 
-	updateStates() {
-		this.openState = this.statuses.left[this._sidebarService.sidebarState].open;
-		this.closeState = this.statuses.left[this._sidebarService.sidebarState].close;
+	updateStates(dir: string) {
+		this.openState = this.statuses[dir][this._panelService.panelState].open;
+		this.closeState = this.statuses[dir][this._panelService.panelState].close;
 	}
 
 	setStyle( i: number) {
@@ -163,60 +196,12 @@ export class PanelComponent implements OnInit, OnDestroy {
 	animationAction( event ) {
 		switch ( event.phaseName ) {
 			case 'start':
-				switch ( event.toState ) {
-					case this.statuses.left.expanded.open:
-						this._panelService.panelOpeningDidStart.next();
-						break;
-					case this.statuses.left.collapsed.open:
-						this._panelService.panelOpeningDidStart.next();
-						break;
-					case this.statuses.left.hidden.open:
-						this._panelService.panelOpeningDidStart.next();
-						break;
-					case this.statuses.right.open:
-						this._panelService.panelOpeningDidStart.next();
-						break;
-					case this.statuses.left.expanded.close:
-						this._panelService.panelClosingDidStart.next();
-						break;
-					case this.statuses.left.collapsed.close:
-						this._panelService.panelClosingDidStart.next();
-						break;
-					case this.statuses.left.hidden.close:
-						this._panelService.panelClosingDidStart.next();
-						break;
-					case this.statuses.right.close:
-						this._panelService.panelClosingDidStart.next();
-						break;
-				}
+				this.openStatuses.includes(event.toState) && this._panelService.panelOpeningDidStart.next();
+				this.closeStatuses.includes(event.toState) && this._panelService.panelClosingDidStart.next();
 				break;
 			case 'done':
-				switch ( event.toState ) {
-					case this.statuses.left.expanded.open:
-						this._panelService.panelOpeningDidDone.next();
-						break;
-					case this.statuses.left.collapsed.open:
-						this._panelService.panelOpeningDidDone.next();
-						break;
-					case this.statuses.left.hidden.open:
-						this._panelService.panelOpeningDidDone.next();
-						break;
-					case this.statuses.right.open:
-						this._panelService.panelOpeningDidDone.next();
-						break;
-					case this.statuses.left.expanded.close:
-						this._panelService.panelClosingDidDone.next();
-						break;
-					case this.statuses.left.collapsed.close:
-						this._panelService.panelClosingDidDone.next();
-						break;
-					case this.statuses.left.hidden.close:
-						this._panelService.panelClosingDidDone.next();
-						break;
-					case this.statuses.right.close:
-						this._panelService.panelClosingDidDone.next();
-						break;
-				}
+				this.openStatuses.includes(event.toState) && this._panelService.panelOpeningDidDone.next();
+				this.closeStatuses.includes(event.toState) && this._panelService.panelClosingDidDone.next();
 				break;
 		}
 	}

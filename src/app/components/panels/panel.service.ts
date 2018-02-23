@@ -15,6 +15,39 @@ export class PanelService {
 	panelOpeningDidStart = new Subject();
 	panelOpeningDidDone = new Subject();
 	isPanelsChanged = new Subject();
+	isPanelHide: boolean = false;
+	isPanelExpand: boolean = true;
+	panelState = 'expanded';
+	stateEvents = {
+		left: {
+			expand: new Subject<boolean>(),
+			hide: new Subject<boolean>()
+		},
+		right: {
+			expand: new Subject<boolean>(),
+			hide: new Subject<boolean>()
+		}
+	};
+
+	constructor() {
+		// Subscribe state events and update state
+		this.stateEvents.left.expand.subscribe(status => {
+			this.isPanelExpand = status;
+			this.updateState();
+		});
+		this.stateEvents.left.hide.subscribe(status => {
+			this.isPanelHide = status;
+			this.updateState();
+		});
+		this.stateEvents.right.expand.subscribe(status => {
+			this.isPanelExpand = status;
+			this.updateState();
+		});
+		this.stateEvents.right.hide.subscribe(status => {
+			this.isPanelHide = status;
+			this.updateState();
+		});
+	}
 
 	add( panel: Panel ) {
 		// add panel to array of active panels-page
@@ -46,5 +79,9 @@ export class PanelService {
 
 	closePanel( id?: string  ) {
 		this.panelWillClosed.next(id || this.activePanels[this.activePanels.length - 1]);
+	}
+
+	updateState() {
+		this.panelState = this.isPanelHide ? 'hidden' : (this.isPanelExpand ? 'expanded' : 'collapsed');
 	}
 }
