@@ -5,7 +5,7 @@ import { ValidatorsService } from '../../shared/_services/validators.service';
 import { DataService } from '../../shared/_services/data.service';
 import { ImgToBase64Service } from '../../shared/_services/img-to-base64.service';
 import { LoaderService } from '../../components/loader/loader.service';
-import { PasswordCategory } from '../../shared/_models/password-category.model';
+import { SmartFolderModel } from '../../components/smart-folders/smart-folder.model';
 import { Password } from '../../shared/_models/password.model';
 
 @Component({
@@ -197,7 +197,7 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
 
         if ( this.mode === 'add' ) {
           if (!this.categoriesData[parentCategoryId]) {
-            const category = new PasswordCategory(parentCategoryId, parentCategoryName);
+            const category = new SmartFolderModel(parentCategoryId, parentCategoryName);
             this.dataService.passwordsAction('addCategory', category).then(() => {
               this.dataService.passwordsAction('addItem', parentCategoryId, newPassword).then(() => resolve()).catch((error) => reject(error));
             }).catch((error) => reject(error));

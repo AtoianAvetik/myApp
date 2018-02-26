@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ApiService {
   private url = '/assets/data';
 
-  constructor(private http: Http) {}
+  constructor(private http: HttpClient) {}
 
   get(path) {
     return new Observable(observer => {
       this.http.get(`${this.url + path}`)
         .subscribe(res =>{
-          observer.next(res.json());
+          observer.next(res);
         }, err =>{
           observer.error(err);
         })

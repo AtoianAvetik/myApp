@@ -1,17 +1,18 @@
 import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map'
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
-import { PasswordCategory } from '../_models/password-category.model';
-import { ApiService } from './api.service';
 import { Observable } from 'rxjs/Observable';
 
+import { SmartFolderModel } from '../../components/smart-folders/smart-folder.model';
+
+import { ApiService } from './api.service';
+
 interface Passwords {
-  [name: string]: PasswordCategory
+  [name: string]: SmartFolderModel
 }
 
 interface PasswordsData {
-  categories: {[name: string]: PasswordCategory};
+  categories: {[name: string]: SmartFolderModel};
   categoriesSelectArray: {id: string, text: string}[] ;
   categoriesIdArray: string[];
 }
@@ -145,18 +146,18 @@ export class DataService {
   private deleteItem(categories, categoryId, itemIndex) {
     categories[categoryId].content.splice(itemIndex, 1);
   }
-  private addCategory(categories, category: PasswordCategory) {
+  private addCategory(categories, category: SmartFolderModel) {
     categories[category.id] = category;
-      if ( category.parentCategory ) {
-        categories[category.parentCategory].childCategories.push(category.id);
+      if ( category.parentFolder ) {
+        categories[category.parentFolder].childFolders.push(category.id);
       }
   }
   private deleteCategory(categories, category, isChild = false) {
-    if ( category.parentCategory && !isChild ) {
-      this.removeFromArray(categories[category.parentCategory].childCategories, category.id);
+    if ( category.parentFolder && !isChild ) {
+      this.removeFromArray(categories[category.parentFolder].childFolders, category.id);
     }
-    if ( category.childCategories.length ) {
-      category.childCategories.forEach((id) => {
+    if ( category.childFolders.length ) {
+      category.childFolders.forEach((id) => {
         this.deleteCategory(categories, categories[id], true)
       });
     }
@@ -166,11 +167,11 @@ export class DataService {
     categories[category.id] = category;
   }
   private transferCategory(categories, category, categoryId) {
-    const parentCategory = categories[category.id].parentCategory;
-    parentCategory && this.removeFromArray(categories[parentCategory].childCategories, category.id);
-    categories[category.id].parentCategory = categoryId;
+    const parentFolder = categories[category.id].parentFolder;
+    parentFolder && this.removeFromArray(categories[parentFolder].childFolders, category.id);
+    categories[category.id].parentFolder = categoryId;
     if ( categoryId ) {
-      categories[categoryId].childCategories.push(category.id);
+      categories[categoryId].childFolders.push(category.id);
     }
   }
   private updateCategories(categories) {
@@ -196,10 +197,10 @@ export class DataService {
     };
 
     function setHierarchicalCategoryName(category) {
-      if ( category.parentCategory ) {
-        categoryName = categories[category.parentCategory].name + '/' + categoryName;
-        if ( categories[category.parentCategory].parentCategory ) {
-          setHierarchicalCategoryName(categories[category.parentCategory]);
+      if ( category.parentFolder ) {
+        categoryName = categories[category.parentFolder].name + '/' + categoryName;
+        if ( categories[category.parentFolder].parentFolder ) {
+          setHierarchicalCategoryName(categories[category.parentFolder]);
         }
       }
     }

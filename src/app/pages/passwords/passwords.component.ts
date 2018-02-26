@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 
+import { SmartFolderModel } from '../../components/smart-folders/smart-folder.model';
+import { AddMenuItem } from '../../components/add-menu/add-menu-item.model';
+
 import { DataService } from '../../shared/_services/data.service';
 import { ModalService } from '../../components/modals/modal.service';
-import { PasswordCategory } from '../../shared/_models/password-category.model';
-import { AddMenuItem } from '../../components/add-menu/add-menu-item.model';
 import { LoaderService } from '../../components/loader/loader.service';
 import { NotificationService } from '../../components/notifications/notification.service';
 import { SmartListService } from '../../components/smart-list/smart-list.service';
@@ -21,7 +22,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
   @ViewChild('searchImageForm') searchImageFormCmp;
 
   // passwords data
-  foldersData: {[name: string]: PasswordCategory};
+  foldersData: {[name: string]: SmartFolderModel};
   folders: Array<any>;
   foldersIdArray: Array<any>;
 
@@ -248,4 +249,8 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
       }
     );
   }
+
+	logger(text, event) {
+		console.log(text + ": " +event);
+	}
 }

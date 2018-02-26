@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { DataService } from '../../shared/_services/data.service';
-import { PasswordCategory } from '../../shared/_models/password-category.model';
+import { SmartFolderModel } from '../../components/smart-folders/smart-folder.model';
 
 @Component({
   selector: 'app-category',
@@ -126,7 +126,7 @@ export class CategoryComponent implements OnInit, OnChanges {
         const parentFolder = this.form.get('categorySelect').value ? this.form.get('categorySelect').value.id : null;
         const categoryName = this.form.get('categoryName').value.toString();
         if ( this.mode === 'add' ) {
-          const category = new PasswordCategory('', categoryName, parentFolder);
+          const category = new SmartFolderModel('', categoryName, parentFolder);
           this.createId(this.categories, 'ct', 1).then((id) => {
             category.id = id;
             this.dataService.passwordsAction('addCategory', category).then(_ => resolve()).catch((error) => reject(error));

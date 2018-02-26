@@ -1,4 +1,7 @@
-import { Component, ContentChild, Input, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core';
+import {
+	Component, ContentChild, DoCheck, Input, OnDestroy, OnInit, Output, TemplateRef,
+	ViewEncapsulation
+} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -9,10 +12,11 @@ import { SmartFoldersService } from './smart-folders.service';
 	selector: 'smart-folders',
 	templateUrl: './smart-folders.component.html',
 	styleUrls: ['./smart-folders.component.scss'],
-	providers: [SmartFoldersService]
+	providers: [SmartFoldersService],
+	encapsulation: ViewEncapsulation.None
 } )
 
-export class SmartFoldersComponent implements OnInit, OnDestroy {
+export class SmartFoldersComponent implements OnInit, OnDestroy, DoCheck {
 	@Input() foldersData: {[name: string]: SmartFolderModel};
 	@Input() foldersList: Array<string>;
 	@Output() onSelectFolder = new Subject<string>();
@@ -21,7 +25,12 @@ export class SmartFoldersComponent implements OnInit, OnDestroy {
 	@ContentChild(TemplateRef) templateRef: TemplateRef<any>;
 	subscriptions: Array<Subscription> = [];
 
-	constructor(private _smartFoldersService: SmartFoldersService) { }
+	constructor(private _smartFoldersService: SmartFoldersService) {}
+
+	ngDoCheck() {
+
+		console.log(this.foldersData);
+	}
 
 	ngOnInit() {
 		this.subscriptions.push( this._smartFoldersService.selectFolder
