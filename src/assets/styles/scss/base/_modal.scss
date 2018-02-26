@@ -57,9 +57,9 @@
 		left: 0;
 		width: 100%;
 		transition: width 0.3s ease;
+		padding: 20px;
 
 		&_inner {
-			padding: 20px;
 			height: 100%;
 			overflow-y: auto;
 		}

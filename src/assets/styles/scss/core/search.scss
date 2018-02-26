@@ -30,3 +30,19 @@
         }
     }
 }
+
+//----------------------------------------
+//
+//----------------------------------------
+
+.search-result {
+	position: relative;
+	border: 1px solid color-function(gray, 'lighten-3');
+	border-radius: 3px;
+	flex: 1 1 auto;
+
+	&_content {
+		padding: 20px 20px 0 ;
+		height: 100%;
+	}
+}
