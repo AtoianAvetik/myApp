@@ -270,10 +270,10 @@ select.form-control-xl:not([size]):not([multiple]){
     padding: 0.8rem 1rem;
 }
 
-.ng-touched.ng-invalid{
+.ng-touched.ng-invalid,
+select.ng-invalid.ng-touched + ng-select .form-control {
     border-color: theme-color("danger");
 }
-
 
 //----------------------------------------------
 //
@@ -351,9 +351,3 @@ select.form-control-xl:not([size]):not([multiple]){
 		display: none;
 	}
 }
-
-//input.ng-invalid.ng-touched,
-//textarea.ng-invalid.ng-touched,
-//select.ng-invalid.ng-touched + ng-select .form-control {
-//	border: 1px solid red;
-//}

@@ -10,7 +10,7 @@
       (click)="click(item.id)">
       <span>{{ item.name }}</span>
       <div class="add-menu-item_icon">
-        <i class="icon-{{ item.icon }}"></i>
+        <i class="{{ item.icon }}"></i>
       </div>
     </li>
   </ul>
@@ -20,13 +20,13 @@
       (click)="click(menuItemsArray[0].id)">
       <span>{{ menuItemsArray[0].name }}</span>
       <div class="add-menu-item_icon">
-        <i class="icon-{{ menuItemsArray[0].icon }}"></i>
+        <i class="{{ menuItemsArray[0].icon }}"></i>
       </div>
     </div>
     <div
       class="add-menu-item">
       <div class="add-menu-item_icon">
-        <i class="icon-plus"></i>
+        <i class="ft-plus font-medium-3"></i>
       </div>
     </div>
   </div>

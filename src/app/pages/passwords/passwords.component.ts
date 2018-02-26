@@ -112,8 +112,8 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
         }
       );
     this.addMenuItemsArray = [
-      {id: 'item-modal', name: 'Add password', icon: 'add-site'},
-      {id: 'folder-modal', name: 'Add folder', icon: 'folder-add'}
+      {id: 'item-modal', name: 'Add password', icon: 'ft-file-plus'},
+      {id: 'folder-modal', name: 'Add folder', icon: 'ft-folder'}
     ];
   }
 
