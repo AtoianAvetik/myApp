@@ -9,10 +9,16 @@ import { SmartFoldersService } from '../smart-folders.service';
 } )
 
 export class SmartFoldersGroupComponent implements DoCheck {
+	// Data
 	@Input() foldersData: Object;
 	@Input() foldersList: Array<any>;
+	// Accordion Config
+	@Input() closeOthers = false;
+	@Input() showArrows = true;
+
 	@Input() isChildComponent = false;
 	curLevelList = [];
+	// Content template
 	@ContentChild(TemplateRef) templateRef: TemplateRef<any>;
 
 	constructor(private _smartFoldersService: SmartFoldersService) { }

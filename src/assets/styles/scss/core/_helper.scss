@@ -497,16 +497,16 @@ $directions: top, right, bottom, left;
     transform: rotate(-45deg);
 }
 .rotate-90 {
-    transform: rotate(45deg);
+    transform: rotate(90deg);
 }
 .rotate-90-inverse {
-    transform: rotate(-45deg);
+    transform: rotate(-90deg);
 }
 .rotate-180 {
-    transform: rotate(45deg);
+    transform: rotate(180deg);
 }
 .rotate-180-inverse {
-    transform: rotate(-45deg);
+    transform: rotate(-180deg);
 }
 
 // Spinner classes

@@ -17,11 +17,17 @@ import { SmartFoldersService } from './smart-folders.service';
 } )
 
 export class SmartFoldersComponent implements OnInit, OnDestroy, DoCheck {
+	// Data
 	@Input() foldersData: {[name: string]: SmartFolderModel};
 	@Input() foldersList: Array<string>;
+	// Accordion config
+	@Input() closeOthers = false;
+	@Input() showArrows = true;
+	// Events
 	@Output() onSelectFolder = new Subject<string>();
 	@Output() onEditFolder = new Subject();
 	@Output() onDeleteFolder = new Subject();
+	// Content template
 	@ContentChild(TemplateRef) templateRef: TemplateRef<any>;
 	subscriptions: Array<Subscription> = [];
 
