@@ -27,7 +27,9 @@ export class SmartFoldersComponent implements OnInit, OnDestroy {
 	@Input() expandAll = false;
 
 	// Events
-	@Output() onSelectFolder = new Subject<string>();
+	@Input() selectedFolder: string;
+	@Output() selectedFolderChange = new Subject<string>();
+
 	@Output() onEditFolder = new Subject();
 	@Output() onDeleteFolder = new Subject();
 
@@ -39,7 +41,7 @@ export class SmartFoldersComponent implements OnInit, OnDestroy {
 	constructor(private _smartFoldersService: SmartFoldersService) {}
 
 	ngOnInit() {
-		this.subscriptions.push( this._smartFoldersService.selectFolder.subscribe( value => this.onSelectFolder.next(value)) );
+		this.subscriptions.push( this._smartFoldersService.selectFolder.subscribe( value => this.selectedFolderChange.next(value)) );
 
 		this.subscriptions.push( this._smartFoldersService.editSelectedFolder.subscribe( value => this.onEditFolder.next(value)) );
 
@@ -59,8 +61,7 @@ export class SmartFoldersComponent implements OnInit, OnDestroy {
 	closeFolders() {
 		this.toggleFolders(false);
 	}
-	toggleFolders(state, val?) {
-		console.log(state + ': ' + val);
+	toggleFolders(state) {
 		this._smartFoldersService.toggleFolders.next(state);
 	}
 }

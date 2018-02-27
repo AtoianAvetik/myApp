@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 
 import { SmartFolderModel } from '../../components/smart-folders/smart-folder.model';
 import { AddMenuItem } from '../../components/add-menu/add-menu-item.model';
@@ -7,8 +8,6 @@ import { DataService } from '../../shared/_services/data.service';
 import { ModalService } from '../../components/modals/modal.service';
 import { LoaderService } from '../../components/loader/loader.service';
 import { NotificationService } from '../../components/notifications/notification.service';
-import { SmartListService } from '../../components/smart-list/smart-list.service';
-import { SmartFoldersService } from '../../components/smart-folders/smart-folders.service';
 
 @Component( {
 	selector: 'app-passwords',
@@ -39,16 +38,19 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 	// add menu
 	addMenuItemsArray: Array<AddMenuItem>;
 
+	// smart folders
+	expandAllFolders = true;
+
+	// smart list
+	activeViewType = 'tile';
+	activeViewTypeChange = new Subject<string>();
+
 	// states
 	passwordsLength: number = 0;
-	expandAllFolders = true;
-	activeViewType = 'list';
 	listSelectedId: number;
 	listItemSelectedIndex: number;
 
 	constructor( private dataService: DataService,
-	             private _smartListService: SmartListService,
-	             private _smartFoldersService: SmartFoldersService,
 	             private modalService: ModalService,
 	             private loaderService: LoaderService,
 	             private notificationService: NotificationService ) {
@@ -60,44 +62,6 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 			.subscribe(
 				( data ) => {
 					this.updatePasswords( data );
-				}
-			);
-		// this._smartListService.listSelected
-		//   .subscribe(
-		//     (id: string) => {
-		//       this.listSelectedId = id;
-		//     }
-		//   );
-		this._smartListService.selectItem
-			.subscribe(
-				( index: number ) => {
-					this.listItemSelectedIndex = index;
-				}
-			);
-		this._smartListService.editSelectedItem
-			.subscribe(
-				() => {
-					this.passwordMode = 'edit';
-					this.passwordFormCmp.updateForm();
-				}
-			);
-		this._smartFoldersService.editSelectedFolder
-			.subscribe(
-				() => {
-					this.folderMode = 'edit';
-					this.folderFormCmp.updateForm();
-				}
-			);
-		this._smartListService.deleteSelectedItem
-			.subscribe(
-				() => {
-					this.deleteMode = 'password';
-				}
-			);
-		this._smartFoldersService.deleteSelectedFolder
-			.subscribe(
-				() => {
-					this.deleteMode = 'folder';
 				}
 			);
 		this.modalService.modalClosingDidDone
@@ -163,10 +127,6 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 		this.passwordMode = 'add';
 		this.folderMode = 'add';
 		this.modalService.modalWillOpened.next( id );
-	}
-
-	toggleGroups() {
-		// this.appService.toogleAccordionsChange.next(this.isFoldersOpened);
 	}
 
 	selectImage() {

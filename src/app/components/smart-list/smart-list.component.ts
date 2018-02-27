@@ -13,27 +13,33 @@ import { SmartListService } from './smart-list.service';
 export class SmartListComponent implements OnInit, OnDestroy {
 	@Input() list: any;
 	@Input() listId: string;
+
 	@Input() viewType: string = 'list';
-	@Output() onSelectList = new Subject<string>();
-	@Output() onSelectItem = new Subject<number>();
+	@Input() viewTypeChange = new Subject<string>();
+
+	@Input() selectedList: string;
+	@Output() selectedListChange = new Subject<string>();
+	@Input() selectedItem: number;
+	@Output() selectedItemChange = new Subject<number>();
+
 	@Output() onEditItem = new Subject();
 	@Output() onDeleteItem = new Subject();
+
 	@ContentChild(TemplateRef) templateRef: TemplateRef<any>;
-	listClass = 'smart-list -';
 	subscriptions: Array<Subscription> = [];
 
 	constructor(private _smartListService: SmartListService) {}
 
 	ngOnInit() {
-		this.listClass = this.listClass + this.viewType;
+		this.subscriptions.push( this._smartListService.selectList.subscribe( value => this.selectedListChange.next(value)) );
 
-		this.subscriptions.push( this._smartListService.selectList.subscribe( value => this.onSelectList.next(value)) );
-
-		this.subscriptions.push( this._smartListService.selectItem.subscribe( value => this.onSelectItem.next(value)) );
+		this.subscriptions.push( this._smartListService.selectItem.subscribe( value => this.selectedItemChange.next(value)) );
 
 		this.subscriptions.push( this._smartListService.editSelectedItem.subscribe( value => this.onEditItem.next(value)) );
 
 		this.subscriptions.push( this._smartListService.deleteSelectedItem.subscribe( value => this.onDeleteItem.next(value)) );
+
+		this.subscriptions.push( this.viewTypeChange.subscribe( value => this.viewType = value) );
 	}
 
 	ngOnDestroy() {
