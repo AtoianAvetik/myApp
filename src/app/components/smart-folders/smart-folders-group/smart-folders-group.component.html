@@ -1,4 +1,4 @@
-<accordion [closeOthers]="closeOthers" [showArrows]="showArrows">
+<accordion [closeOthers]="closeOthers" [showArrows]="showArrows" [expandAll]="expandAll" #acc>
 	<accordion-group
 		(click)="onSelectFolder(folderId)"
 		[heading]="foldersData[folderId].name+' ('+foldersData[folderId].content.length+')'"
@@ -10,6 +10,7 @@
 			[foldersList]="foldersData[folderId].childFolders"
 			[closeOthers]="closeOthers"
 			[showArrows]="showArrows"
+			[expandAll]="expandAll"
 			[isChildComponent]="true">
 			<ng-template let-folderId>
 				<ng-template [ngTemplateOutlet]="templateRef" [ngTemplateOutletContext]="{$implicit: folderId}"></ng-template>

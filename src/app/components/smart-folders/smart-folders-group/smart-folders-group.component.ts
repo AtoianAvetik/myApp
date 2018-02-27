@@ -1,6 +1,7 @@
-import { Component, ContentChild, DoCheck, Input, TemplateRef } from '@angular/core';
+import { Component, ContentChild, DoCheck, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
 import { SmartFoldersService } from '../smart-folders.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component( {
 	selector: 'smart-folders-group',
@@ -8,23 +9,42 @@ import { SmartFoldersService } from '../smart-folders.service';
 	styleUrls: ['./smart-folders-group.component.scss']
 } )
 
-export class SmartFoldersGroupComponent implements DoCheck {
+export class SmartFoldersGroupComponent implements DoCheck, OnInit, OnDestroy {
 	// Data
 	@Input() foldersData: Object;
 	@Input() foldersList: Array<any>;
+
 	// Accordion Config
 	@Input() closeOthers = false;
 	@Input() showArrows = true;
+	@Input() expandAll = false;
 
-	@Input() isChildComponent = false;
-	curLevelList = [];
+	// Accordion ref
+	@ViewChild('acc') accordionRef;
+
 	// Content template
 	@ContentChild(TemplateRef) templateRef: TemplateRef<any>;
 
-	constructor(private _smartFoldersService: SmartFoldersService) { }
+	@Input() isChildComponent = false;
+	curLevelList = [];
+	subscriptions: Array<Subscription> = [];
+
+	constructor(private _smartFoldersService: SmartFoldersService) {}
+
+	ngOnInit() {
+		this.subscriptions.push( this._smartFoldersService.toggleFolders
+			.subscribe( state => this.accordionRef.toggleAll(state) )
+		);
+	}
 
 	ngDoCheck() {
 		this.foldersList && this.updateFolders();
+	}
+
+	ngOnDestroy() {
+		this.subscriptions.forEach( ( subscription: Subscription ) => {
+			subscription.unsubscribe();
+		} );
 	}
 
 	updateFolders() {

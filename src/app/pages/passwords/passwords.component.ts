@@ -41,7 +41,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 
 	// states
 	passwordsLength: number = 0;
-	isFoldersOpened = false;
+	expandAllFolders = true;
 	activeViewType = 'list';
 	listSelectedId: number;
 	listItemSelectedIndex: number;

@@ -2,7 +2,8 @@
 	[foldersData]="foldersData"
 	[foldersList]="foldersList"
 	[closeOthers]="closeOthers"
-	[showArrows]="showArrows">
+	[showArrows]="showArrows"
+	[expandAll]="expandAll">
 	<ng-template let-folderId>
 		<ng-template [ngTemplateOutlet]="templateRef" [ngTemplateOutletContext]="{$implicit: folderId}"></ng-template>
 	</ng-template>

@@ -1,5 +1,5 @@
 import {
-	Component, ContentChild, DoCheck, Input, OnDestroy, OnInit, Output, TemplateRef,
+	Component, ContentChild, Input, OnDestroy, OnInit, Output, TemplateRef,
 	ViewEncapsulation
 } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
@@ -16,51 +16,51 @@ import { SmartFoldersService } from './smart-folders.service';
 	encapsulation: ViewEncapsulation.None
 } )
 
-export class SmartFoldersComponent implements OnInit, OnDestroy, DoCheck {
+export class SmartFoldersComponent implements OnInit, OnDestroy {
 	// Data
 	@Input() foldersData: {[name: string]: SmartFolderModel};
 	@Input() foldersList: Array<string>;
+
 	// Accordion config
 	@Input() closeOthers = false;
 	@Input() showArrows = true;
+	@Input() expandAll = false;
+
 	// Events
 	@Output() onSelectFolder = new Subject<string>();
 	@Output() onEditFolder = new Subject();
 	@Output() onDeleteFolder = new Subject();
+
 	// Content template
 	@ContentChild(TemplateRef) templateRef: TemplateRef<any>;
+
 	subscriptions: Array<Subscription> = [];
 
 	constructor(private _smartFoldersService: SmartFoldersService) {}
 
-	ngDoCheck() {
-
-		console.log(this.foldersData);
-	}
-
 	ngOnInit() {
-		this.subscriptions.push( this._smartFoldersService.selectFolder
-			.subscribe( (value) => {
-				this.onSelectFolder.next(value);
-			})
-		);
+		this.subscriptions.push( this._smartFoldersService.selectFolder.subscribe( value => this.onSelectFolder.next(value)) );
 
-		this.subscriptions.push( this._smartFoldersService.editSelectedFolder
-			.subscribe( (value) => {
-				this.onEditFolder.next(value);
-			})
-		);
+		this.subscriptions.push( this._smartFoldersService.editSelectedFolder.subscribe( value => this.onEditFolder.next(value)) );
 
-		this.subscriptions.push( this._smartFoldersService.deleteSelectedFolder
-			.subscribe( (value) => {
-				this.onDeleteFolder.next(value);
-			})
-		);
+		this.subscriptions.push( this._smartFoldersService.deleteSelectedFolder.subscribe( value => this.onDeleteFolder.next(value)) );
 	}
 
 	ngOnDestroy() {
 		this.subscriptions.forEach( ( subscription: Subscription ) => {
 			subscription.unsubscribe();
 		} );
+	}
+
+	// Accordion actions
+	openFolders() {
+		this.toggleFolders(true);
+	}
+	closeFolders() {
+		this.toggleFolders(false);
+	}
+	toggleFolders(state, val?) {
+		console.log(state + ': ' + val);
+		this._smartFoldersService.toggleFolders.next(state);
 	}
 }

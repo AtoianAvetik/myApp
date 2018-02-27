@@ -1,8 +1,7 @@
-import { Component, forwardRef, Host, Inject, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, forwardRef, Host, Inject, Input } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { AccordionComponent } from './accordion.component';
-import { isUndefined } from 'util';
 
 @Component({
 	selector: 'accordion-group',
@@ -32,15 +31,15 @@ export class AccordionGroupComponent {
 	set isOpen(value: boolean) {
 		if (this.disabled)
 			return;
-
 		this._isOpen = value;
+		this._cdr.detectChanges();
 	}
 
 	get isOpen() {
 		return this._isOpen;
 	}
 
-	constructor(@Host() @Inject(forwardRef(() => AccordionComponent)) public accordion: AccordionComponent) {}
+	constructor(@Host() @Inject(forwardRef(() => AccordionComponent)) public accordion: AccordionComponent, private _cdr: ChangeDetectorRef) {}
 
 	toggle() {
 		if (this.disabled)

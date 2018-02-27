@@ -27,29 +27,13 @@ export class SmartListComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.listClass = this.listClass + this.viewType;
 
-		this.subscriptions.push( this._smartListService.selectList
-			.subscribe( (value) => {
-				this.onSelectList.next(value);
-			})
-		);
+		this.subscriptions.push( this._smartListService.selectList.subscribe( value => this.onSelectList.next(value)) );
 
-		this.subscriptions.push( this._smartListService.selectItem
-			.subscribe( (value) => {
-				this.onSelectItem.next(value);
-			})
-		);
+		this.subscriptions.push( this._smartListService.selectItem.subscribe( value => this.onSelectItem.next(value)) );
 
-		this.subscriptions.push( this._smartListService.editSelectedItem
-			.subscribe( (value) => {
-				this.onEditItem.next(value);
-			})
-		);
+		this.subscriptions.push( this._smartListService.editSelectedItem.subscribe( value => this.onEditItem.next(value)) );
 
-		this.subscriptions.push( this._smartListService.deleteSelectedItem
-			.subscribe( (value) => {
-				this.onDeleteItem.next(value);
-			})
-		);
+		this.subscriptions.push( this._smartListService.deleteSelectedItem.subscribe( value => this.onDeleteItem.next(value)) );
 	}
 
 	ngOnDestroy() {

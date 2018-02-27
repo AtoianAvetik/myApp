@@ -7,6 +7,9 @@ export class SmartFoldersService {
 	editSelectedFolder = new Subject();
 	deleteSelectedFolder = new Subject();
 
+	// Accordion events
+	toggleFolders = new Subject<boolean>();
+
 	constructor() {
 	}
 }
