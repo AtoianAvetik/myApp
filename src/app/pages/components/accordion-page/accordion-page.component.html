@@ -7,8 +7,8 @@
 <div class="row">
 	<div class="col-6 col-md-12">
 		<h4 class="mt-3">Collapsible Accordion</h4>
-		<accordion [closeOthers]="false" [showArrows]="true">
-			<accordion-group [heading]="'Title'">
+		<accordion [closeOthers]="false" [showArrows]="true" #acc1>
+			<accordion-group [id]="'a11'" [heading]="'Title'">
 				<p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
 					non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
 					sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh
@@ -16,7 +16,7 @@
 					vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't
 					heard of them accusamus labore sustainable VHS.</p>
 			</accordion-group>
-			<accordion-group>
+			<accordion-group id="a12">
 				<accordion-heading>
 					<p>Title</p>
 				</accordion-heading>
@@ -39,11 +39,18 @@
 					heard of them accusamus labore sustainable VHS.</p>
 			</accordion-group>
 		</accordion>
+		<p class="mt-2">
+			<button class="btn btn-secondary" (click)="acc1.toggle('a11')">Toggle first</button>
+			<button class="btn btn-secondary" (click)="acc1.toggle('a12')">Toggle second</button>
+			<button class="btn btn-secondary" (click)="acc1.toggleAll(true)">Open all</button>
+			<button class="btn btn-secondary" (click)="acc1.toggleAll(false)">Close all</button>
+			<button class="btn btn-secondary" (click)="acc1.toggleAll()">Toggle all</button>
+		</p>
 	</div>
 	<div class="col-6 col-md-12">
 		<h4 class="mt-3">One open panel at a time</h4>
-		<accordion>
-			<accordion-group [heading]="'Title'">
+		<accordion #acc2>
+			<accordion-group id="a21" [heading]="'Title'">
 				<p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
 					non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
 					sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh
@@ -51,7 +58,7 @@
 					vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't
 					heard of them accusamus labore sustainable VHS.</p>
 			</accordion-group>
-			<accordion-group>
+			<accordion-group id="a22">
 				<accordion-heading>
 					<p>Title</p>
 				</accordion-heading>
@@ -74,5 +81,9 @@
 					heard of them accusamus labore sustainable VHS.</p>
 			</accordion-group>
 		</accordion>
+		<p class="mt-2">
+			<button class="btn btn-secondary" (click)="acc2.toggle('a21')">Toggle first</button>
+			<button class="btn btn-secondary" (click)="acc2.toggle('a22')">Toggle second</button>
+		</p>
 	</div>
 </div>

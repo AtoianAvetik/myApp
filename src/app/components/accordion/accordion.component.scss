@@ -65,3 +65,10 @@
 	right: 0px;
 	display: none;
 }
+
+.accordion-content {
+	&_body {
+		display: inline-block;
+		width: 100%;
+	}
+}

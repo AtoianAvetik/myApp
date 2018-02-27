@@ -2,6 +2,7 @@ import { Component, forwardRef, Host, Inject, Input } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { AccordionComponent } from './accordion.component';
+import { isUndefined } from 'util';
 
 @Component({
 	selector: 'accordion-group',
@@ -19,6 +20,9 @@ import { AccordionComponent } from './accordion.component';
 export class AccordionGroupComponent {
 	private _isOpen = false;
 	@Input()
+	id: string;
+
+	@Input()
 	heading: string;
 
 	@Input()
@@ -26,6 +30,9 @@ export class AccordionGroupComponent {
 
 	@Input()
 	set isOpen(value: boolean) {
+		if (this.disabled)
+			return;
+
 		this._isOpen = value;
 	}
 
@@ -41,8 +48,7 @@ export class AccordionGroupComponent {
 
 		const isOpenBeforeChange = this.isOpen;
 
-		if (this.accordion.closeOthers)
-			this.accordion.closeAll();
+		this.accordion.closeOthers && this.accordion.toggleAll(false);
 
 		this.isOpen = !isOpenBeforeChange;
 	}

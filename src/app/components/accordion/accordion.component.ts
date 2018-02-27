@@ -26,9 +26,19 @@ export class AccordionComponent {
 	@ContentChildren(forwardRef(() => AccordionGroupComponent))
 	groups: QueryList<AccordionGroupComponent>;
 
-	closeAll() {
+	toggle(id: string) {
 		this.groups.toArray().forEach(group => {
-			group.isOpen = false;
+			(group.id === id) && group.toggle();
+		});
+	}
+
+	toggleAll(state?: boolean) {
+		this.groups.toArray().forEach(group => {
+			if ( state !== undefined ) {
+				group.isOpen = state;
+			} else {
+				group.toggle();
+			}
 		});
 	}
 }
