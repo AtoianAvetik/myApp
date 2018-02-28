@@ -5,16 +5,6 @@
 	list-style: none;
 	padding: 0;
 
-	li {
-		width: 100%;
-	}
-
-	.inner-wrap {
-		display: flex;
-		height: 100%;
-		position: relative;
-	}
-
 	&_img-wrap {
 		position: relative;
 		overflow: hidden;
@@ -116,7 +106,6 @@
 	}
 
 	&_button-cell {
-		width: 35px;
 		visibility: hidden;
 		vertical-align: middle;
 		text-align: right;
@@ -124,6 +113,7 @@
 		opacity: 0;
 		display: table-cell;
 		backface-visibility: hidden;
+		width: 0;
 
 		button {
 			font-size: 17px;
@@ -157,6 +147,10 @@
 	}
 }
 
+.smart-list-cell {
+	width: 100%;
+}
+
 .smart-list-item {
 	min-width: 100%;
 	position: relative;
@@ -164,8 +158,9 @@
 	border-radius: 2px;
 	background-color: #FFF;
 	outline: none;
-	display: inline-block;
 	cursor: pointer;
+	display: flex;
+	height: 100%;
 
 	&:hover, &.-selected, &.-focus {
 		background-color: rgba(214, 217, 220, 0.4);
@@ -174,6 +169,7 @@
 		.smart-list_button-cell {
 			visibility: visible;
 			opacity: 1;
+			width: 35px;
 		}
 
 		.smart-list_overlay-text {
@@ -212,24 +208,13 @@
 }
 
 .smart-list.-tile {
-	li {
-		flex: 0 0 25%;
+	.smart-list-cell {
+		flex: 0 1 300px;
 		padding: 15px;
-
-		@include media(xl) {
-			flex: 0 0 33.33333333%;
-		}
-
-		@include media(lg) {
-			flex: 0 0 50%;
-		}
-
-		@include media(md) {
-			flex: 0 0 100%;
-		}
 	}
 
 	.smart-list-item {
+		flex-direction: column;
 		box-shadow: 0 1px 3px rgba(0,24,48,0.2);
 		border: 2px solid transparent;
 
@@ -246,6 +231,7 @@
 			}
 
 			.smart-list_button-cell {
+				transition: opacity 0.15s, width 0.15s, visibility 0.15s, transform 0.35s;
 				transform: translate3d(0,0,0);
 				&:nth-child(3) {
 					-webkit-transition-delay: 0.1s;
@@ -261,10 +247,6 @@
 				}
 			}
 		}
-	}
-
-	.inner-wrap {
-		flex-direction: column;
 	}
 
 	.smart-list_img-wrap {
@@ -293,6 +275,6 @@
 
 	.smart-list_button-cell {
 		transform: translate3d(0,200%,0);
-		transition: opacity 0.15s, visibility 0.15s, transform 0.35s;
+		transition: opacity 0.15s, width 0s 0.15s, visibility 0.15s, transform 0.35s;
 	}
 }

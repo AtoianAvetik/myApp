@@ -1,6 +1,6 @@
 <accordion [closeOthers]="closeOthers" [showArrows]="showArrows" [expandAll]="expandAll" #acc>
 	<accordion-group
-		(click)="onSelectFolder(folderId);stopPropagation($event)"
+		(click)="onSelectFolder(folderId);"
 		[heading]="foldersData[folderId].name+' ('+foldersData[folderId].content.length+')'"
 		*ngFor="let folderId of curLevelList">
 		<ng-template [ngTemplateOutlet]="templateRef" [ngTemplateOutletContext]="{$implicit: folderId}"></ng-template>

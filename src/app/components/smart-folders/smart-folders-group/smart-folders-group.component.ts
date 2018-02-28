@@ -70,8 +70,4 @@ export class SmartFoldersGroupComponent implements DoCheck, OnInit, OnDestroy {
 	onSelectFolder(folderId) {
 		this._smartFoldersService.selectFolder.next(folderId);
 	}
-
-	stopPropagation(event) {
-		event.stopPropagation();
-	}
 }
