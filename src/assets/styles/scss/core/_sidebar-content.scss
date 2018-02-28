@@ -173,7 +173,7 @@
                 }
 
 				// MY
-				&.active {
+				&.active-route, &.--active {
 					> a{
 						background: rgba(200, 200, 200, 0.2);
 
@@ -231,7 +231,7 @@
                 color: $black;
             }
 
-            &.active > a{
+			&.active-route > a, &.--active > a{
                 &:before{
                     left: 0;
                 }

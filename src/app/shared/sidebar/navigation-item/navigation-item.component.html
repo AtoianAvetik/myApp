@@ -1,7 +1,7 @@
 <li
-	[ngClass]="{'open': isOpen, 'active': isActiveRoute}"
+	[ngClass]="{'open': isOpen, 'active-route': isActiveRoute}"
 	class="{{ menuItem.class }}"
-	[routerLinkActive]="menuItem.submenu.length !== 0 ? '' : 'active'"
+	[routerLinkActive]="menuItem.submenu.length !== 0 ? '' : '--active'"
 	[routerLinkActiveOptions]="{exact: true}">
 	<a
 		[routerLink]="menuItem.class === '' ? [menuItem.path] : null"
