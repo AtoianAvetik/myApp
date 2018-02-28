@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
 
 import { ComponentsRoutingModule } from "./components-routing.module";
+import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PanelModule } from '../../components/panels/panel.module';
 import { LoaderModule } from '../../components/loader/loader.module';
@@ -19,7 +20,6 @@ import { AccordionModule } from '../../components/accordion/accordion.module';
 import { AccordionPageComponent } from './accordion-page/accordion-page.component';
 import { SmartListPageComponent } from './smart-list-page/smart-list-page.component';
 import { SmartFoldersPageComponent } from './smart-folders-page/smart-folders-page.component';
-import { SmartListService } from '../../components/smart-list/smart-list.service';
 
 @NgModule({
     imports: [
@@ -33,7 +33,8 @@ import { SmartListService } from '../../components/smart-list/smart-list.service
 	    AccordionModule,
 	    SmartListModule,
 	    SmartFoldersModule,
-	    NgbModule
+	    NgbModule,
+	    FormsModule
     ],
     declarations: [
 	    PanelsPageComponent,

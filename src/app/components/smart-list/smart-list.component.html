@@ -1,4 +1,4 @@
-<div [class]="'smart-list -' + viewType">
+<div [class]="'smart-list -' + viewType"  [ngClass]="[options.imgSize, options.cellSize]">
 	<div smart-list-item
 		 class="smart-list-cell"
 		*ngFor="let item of list;let i = index"

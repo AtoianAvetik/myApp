@@ -208,8 +208,4 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 			}
 		);
 	}
-
-	logger( text, event ) {
-		console.log( text + ": " + event );
-	}
 }

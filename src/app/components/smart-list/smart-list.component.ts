@@ -3,7 +3,7 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 
 import { SmartListService } from './smart-list.service';
-import { SMART_LIST_VIEW_TYPES } from './smart-list.config';
+import { DEFAULT_SMART_LIST_OPTIONS, SMART_LIST_VIEW_TYPES } from './smart-list.config';
 
 @Component( {
 	selector: 'smart-list',
@@ -15,8 +15,12 @@ export class SmartListComponent implements OnInit, OnDestroy {
 	@Input() list: any;
 	@Input() listId: string;
 
+	// options
+	@Input() options = DEFAULT_SMART_LIST_OPTIONS;
 	@Input() viewType: string = SMART_LIST_VIEW_TYPES.list;
 	@Input() viewTypeChange = new Subject<string>();
+	@Input() imageSizeChange = new Subject<string>();
+	@Input() cellSizeChange = new Subject<string>();
 
 	@Input() selectedList: string;
 	@Output() selectedListChange = new Subject<string>();
@@ -41,6 +45,10 @@ export class SmartListComponent implements OnInit, OnDestroy {
 		this.subscriptions.push( this._smartListService.deleteSelectedItem.subscribe( value => this.onDeleteItem.next(value)) );
 
 		this.subscriptions.push( this.viewTypeChange.subscribe( value => this.viewType = value) );
+
+		this.subscriptions.push( this.imageSizeChange.subscribe( value => this.options.imgSize = value) );
+
+		this.subscriptions.push( this.cellSizeChange.subscribe( value => this.options.cellSize = value) );
 	}
 
 	ngOnDestroy() {
