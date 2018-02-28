@@ -1,6 +1,6 @@
 import {
 	ChangeDetectorRef,
-	Component, EventEmitter, forwardRef, Inject, Input, OnInit,
+	Component, Input, OnInit,
 	ViewContainerRef
 } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -44,7 +44,7 @@ export class NavigationItemComponent implements OnInit {
 		this._router.events
 			.subscribe((event) => {
 				if (event instanceof NavigationEnd) {
-					this.openParentTree();
+					this.setActiveRoute();
 				}
 			});
 	}
@@ -54,7 +54,7 @@ export class NavigationItemComponent implements OnInit {
 	// }
 
 	ngOnInit() {
-		this.openParentTree();
+		this.setActiveRoute();
 		this._sidebarService.isMenuExpandChange
 			.subscribe((status) => {
 				if ( status ) {
@@ -66,15 +66,22 @@ export class NavigationItemComponent implements OnInit {
 	}
 
 	openParentTree() {
-		if ( this._router.url === this.menuItem.path ) {
-			let parentComponent = this._vcr['_data'].componentView.component._vcr['_view'].component;
+		let parentComponent = this._vcr['_data'].componentView.component._vcr['_view'].component;
 
-			while (parentComponent.menuItem) {
-				parentComponent.isOpen = true;
-				parentComponent.isActiveRoute = true;
-				parentComponent.isNavCollapsedOpen = true;
-				parentComponent = parentComponent._vcr['_view'].component;
-			}
+		while (parentComponent.menuItem) {
+			parentComponent.isOpen = true;
+			parentComponent.isActiveRoute = true;
+			parentComponent.isNavCollapsedOpen = true;
+			parentComponent = parentComponent._vcr['_view'].component;
+		}
+	}
+
+	setActiveRoute() {
+		if ( this._router.url === this.menuItem.path ) {
+			this.openParentTree();
+		} else if ( this._router.url.indexOf( this.menuItem.path ) === 0 ) {
+			this.isActiveRoute = true;
+			this.openParentTree();
 		} else {
 			this.isActiveRoute = false;
 			this.isNavCollapsedOpen = false;

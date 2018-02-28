@@ -3,6 +3,7 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 
 import { SmartListService } from './smart-list.service';
+import { SMART_LIST_VIEW_TYPES } from './smart-list.config';
 
 @Component( {
 	selector: 'smart-list',
@@ -14,7 +15,7 @@ export class SmartListComponent implements OnInit, OnDestroy {
 	@Input() list: any;
 	@Input() listId: string;
 
-	@Input() viewType: string = 'list';
+	@Input() viewType: string = SMART_LIST_VIEW_TYPES.list;
 	@Input() viewTypeChange = new Subject<string>();
 
 	@Input() selectedList: string;

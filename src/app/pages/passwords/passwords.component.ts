@@ -3,6 +3,7 @@ import { Subject } from 'rxjs/Subject';
 
 import { SmartFolderModel } from '../../components/smart-folders/smart-folder.model';
 import { AddMenuItem } from '../../components/add-menu/add-menu-item.model';
+import { SMART_LIST_VIEW_TYPES } from '../../components/smart-list/smart-list.config';
 
 import { DataService } from '../../shared/_services/data.service';
 import { ModalService } from '../../components/modals/modal.service';
@@ -44,6 +45,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 	// smart list
 	activeViewType = 'tile';
 	activeViewTypeChange = new Subject<string>();
+	viewTypes = SMART_LIST_VIEW_TYPES;
 
 	// states
 	passwordsLength: number = 0;

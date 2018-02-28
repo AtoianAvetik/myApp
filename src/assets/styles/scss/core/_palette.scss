@@ -117,6 +117,11 @@
             border-color: darken($color_value,7%) !important;
           }
         }
+	    /*----------- MY -----------*/
+	    &:not(.active):hover{
+		  background-color: darken($color_value, 3%) !important;
+	    }
+	    /*-------------------------*/
         color: $color_value !important;
       }
       .btn-group-raised{
@@ -125,6 +130,21 @@
           color: #fff !important;
         }
       }
+	  /*----------- MY -----------*/
+	  .btn-#{$color_name}-card {
+	    z-index: 1 !important;
+		color: $color_value !important;
+		box-shadow: 0px 1px 2px rgba(0,0,0,0.2) !important;
+	    background-color: #fff !important;
+	    &.active{
+		  background-color: $color_value !important;
+		  color: #FFF !important;
+	    }
+	    &:not(.active):hover{
+		  background-color: darken(#FFF, 10%) !important;
+	    }
+	  }
+	  /*-------------------------*/
       .btn-outline-#{$color_name}{
         border: 1px solid;
         border-color: $color_value;
@@ -203,6 +223,14 @@
           background-color: $color_value !important;
         }
       }
+	  /*----------- MY -----------*/
+	  .btn-#{$color_name}-card.btn-#{$color_type} {
+		color: $color_value !important;
+	    &.active{
+		  color: #FFF !important;
+	    }
+	  }
+	  /*-------------------------*/
       .progress-#{$color_name}.progress-#{$color_type}{
         @include progress-variant($color_value);
       }
