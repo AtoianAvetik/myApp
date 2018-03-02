@@ -16,7 +16,7 @@ export class SmartListComponent implements OnInit, OnDestroy {
 	@Input() listId: string;
 
 	// options
-	@Input() options = DEFAULT_SMART_LIST_OPTIONS;
+	@Input() options;
 	@Input() viewType: string = SMART_LIST_VIEW_TYPES.list;
 	@Input() viewTypeChange = new Subject<string>();
 	@Input() imageSizeChange = new Subject<string>();
@@ -36,6 +36,10 @@ export class SmartListComponent implements OnInit, OnDestroy {
 	constructor(private _smartListService: SmartListService) {}
 
 	ngOnInit() {
+		// Assign default option if options not defined
+		this.options = Object.assign({}, DEFAULT_SMART_LIST_OPTIONS, this.options );
+
+		// Subscribe events for update states
 		this.subscriptions.push( this._smartListService.selectList.subscribe( value => this.selectedListChange.next(value)) );
 
 		this.subscriptions.push( this._smartListService.selectItem.subscribe( value => this.selectedItemChange.next(value)) );
@@ -44,6 +48,7 @@ export class SmartListComponent implements OnInit, OnDestroy {
 
 		this.subscriptions.push( this._smartListService.deleteSelectedItem.subscribe( value => this.onDeleteItem.next(value)) );
 
+		// Subscribe events for update options
 		this.subscriptions.push( this.viewTypeChange.subscribe( value => this.viewType = value) );
 
 		this.subscriptions.push( this.imageSizeChange.subscribe( value => this.options.imgSize = value) );

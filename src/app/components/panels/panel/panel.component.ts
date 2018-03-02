@@ -120,7 +120,7 @@ export class PanelComponent implements OnInit, OnDestroy {
 	constructor( private _panelService: PanelService,
 	             private _elRef: ElementRef,
 	             injector: Injector) {
-		this.config = Object.assign(DEFAULT_PANEL_CONFIG, injector.get(PANEL_CONFIG));
+		this.config = Object.assign({}, DEFAULT_PANEL_CONFIG, injector.get(PANEL_CONFIG));
 		this.el = this._elRef;
 		this.element = this._elRef.nativeElement;
 	}

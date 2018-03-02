@@ -121,23 +121,26 @@
 	}
 
 	&_button {
-		background-color: transparent;
-		color: inherit;
-		box-sizing: content-box;
-		vertical-align: top;
-		padding: 0;
-		font-size: inherit;
-		cursor: pointer;
-		border: 1px solid color-function('grey', 'darken-3');
-		height: 26px;
-		width: 26px;
-		border-radius: 2px;
-		display: flex;
-		justify-content: center;
+		//background-color: transparent;
+		//color: inherit;
+		//box-sizing: content-box;
+		//vertical-align: top;
+		//padding: 0;
+		//margin: 0;
+		//font-size: inherit;
+		//cursor: pointer;
+		//border: 1px solid color-function('grey', 'darken-3');
+		//height: 26px;
+		//width: 26px;
+		//border-radius: 2px;
+		//display: flex;
+		//justify-content: center;
+        //
+		//&:hover {
+		//	background-color: rgba(60, 74, 84, 0.2);
+		//}
 
-		&:hover {
-			background-color: rgba(60, 74, 84, 0.2);
-		}
+		margin: 0 !important;
 	}
 
 	.big-icon, img.small-icon {
@@ -168,7 +171,7 @@
 		.smart-list_button-cell {
 			visibility: visible;
 			opacity: 1;
-			width: 35px;
+			width: 40px;
 		}
 
 		.smart-list_overlay-text {

@@ -10,13 +10,13 @@
 		<div class="smart-list_info-table">
 			<ng-content></ng-content>
 			<div class="smart-list_button-cell">
-				<button class="smart-list_button" type="button" [openModal]="'item-modal'" title="Edit"
+				<button class="smart-list_button btn btn-outline-primary btn-sm btn-raised" type="button" [openModal]="'item-modal'" title="Edit"
 						(click)="onEditItem($event);">
 					<i class="ft-settings"></i>
 				</button>
 			</div>
 			<div class="smart-list_button-cell">
-				<button class="smart-list_button" type="button" [openModal]="'delete-modal'" title="Delete"
+				<button class="smart-list_button btn btn-outline-danger btn-sm btn-raised" type="button" [openModal]="'delete-modal'" title="Delete"
 						(click)="onDeleteItem($event);">
 					<i class="ft-trash-2"></i>
 				</button>
