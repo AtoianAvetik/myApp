@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 import { SmartFolderModel } from '../../components/smart-folders/smart-folder.model';
+import { SmartListItemModel } from '../../components/smart-list/smart-list-item.model';
 import { AddMenuItem } from '../../components/add-menu/add-menu-item.model';
 import { SMART_LIST_VIEW_TYPES } from '../../components/smart-list/smart-list.config';
 
@@ -30,6 +31,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 	passwordMode = '';
 	folderMode = '';
 	deleteMode = '';
+	bulkMode = '';
 
 	// loaders-page
 	folderFormLoader;
@@ -49,8 +51,10 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 
 	// states
 	passwordsLength: number = 0;
+	selectedItemsLength: number = 0;
+	selectedItems: SmartListItemModel[] = [];
 	listSelectedId: number;
-	listItemSelectedIndex: number;
+	listSelectedItem = new SmartListItemModel('', '');
 
 	constructor( private dataService: DataService,
 	             private modalService: ModalService,
@@ -118,6 +122,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 		this.folderMode = '';
 		this.passwordMode = '';
 		this.deleteMode = '';
+		this.bulkMode = '';
 
 		this.passwordFormCmp.resetForm();
 		this.folderFormCmp.resetForm();
@@ -135,6 +140,34 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 		this.passwordFormCmp.uploadImage( this.searchImageFormCmp.getSelectedImage() )
 	}
 
+	bulkPasswordsDelete(event) {
+		this.deleteMode = 'bulk';
+		this.bulkMode = 'passwords';
+		this.selectedItemsLength = event.length;
+		this.modalService.openModal('delete-modal');
+	}
+
+	async bulkDeleteFormSubmit() {
+		try {
+			await this.selectedItems.forEach(async (item) => {
+				try {
+					await this.dataService.passwordsAction('deleteItem', item.listId, item.index )
+				console.log(item);
+				} catch(e) {
+					const message = 'Password was not deleted!';
+					this.notificationService.error( message, 0 );
+					console.error( e )
+				}
+			});
+			const message = 'Password was deleted!';
+			this.modalService.closeAll();
+			this.notificationService.success( message );
+			this.deleteFormLoader.dismiss();
+		} catch(e) {
+			console.error( e );
+		}
+	}
+
 	deleteFormSubmit() {
 		const sub = this.deleteFormLoader.present().subscribe(
 			() => {
@@ -147,14 +180,14 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 							this.notificationService.success( message );
 							this.deleteFormLoader.dismiss();
 						} ).catch( ( error ) => {
-							const message = 'Folder was not deleted!'
+							const message = 'Folder was not deleted!';
 							this.deleteFormLoader.dismiss();
 							this.notificationService.error( message, 0 );
 							console.error( error )
 						} );
 						break;
 					case 'password':
-						this.dataService.passwordsAction( 'deleteItem', this.listSelectedId, this.listItemSelectedIndex ).then( () => {
+						this.dataService.passwordsAction( 'deleteItem', this.listSelectedItem.listId, this.listSelectedItem.index ).then( () => {
 							const message = 'Password was deleted!';
 							this.modalService.closeAll();
 							this.notificationService.success( message );

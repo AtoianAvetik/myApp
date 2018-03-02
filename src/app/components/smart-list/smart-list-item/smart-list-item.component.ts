@@ -1,11 +1,12 @@
-import { Component, ElementRef, HostBinding, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 import { SmartListService } from '../smart-list.service';
 import { ModalService } from "../../modals/modal.service";
+import { SmartListItemModel } from '../smart-list-item.model';
 
 @Component( {
-	selector: '[smart-list-item]',
+	selector: 'smart-list-item',
 	templateUrl: './smart-list-item.component.html',
 	styleUrls: ['./smart-list-item.component.scss']
 } )
@@ -52,17 +53,24 @@ export class SmartListItemComponent implements OnInit, OnDestroy {
 		this._smartListService.deleteSelectedItem.next();
 	}
 
-	onSelectItem( event ) {
+	onClickItem( event ) {
 		this.stopPropagation( event );
-		this.isItemSelected = !this.isItemSelected;
-		this._smartListService.selectItem.next( this.itemIndex );
-		this._smartListService.selectList.next( this.listId );
+		this.isItemSelected ? this.deselectItem() : this.selectItem();
 	}
 
 	onFocusItem() {
 		this.isItemFocused = true;
-		this._smartListService.selectItem.next( this.itemIndex );
-		this._smartListService.selectList.next( this.listId );
+		this._smartListService.selectItem.next( new SmartListItemModel(this.itemIndex, this.listId, this.isItemSelected) );
+	}
+
+	selectItem() {
+		this.isItemSelected = true;
+		this._smartListService.selectItem.next( new SmartListItemModel(this.itemIndex, this.listId, this.isItemSelected) );
+	}
+
+	deselectItem() {
+		this.isItemSelected = false;
+		this._smartListService.deselectItem.next( new SmartListItemModel(this.itemIndex, this.listId, this.isItemSelected) );
 	}
 
 	stopPropagation( event ) {
@@ -74,6 +82,7 @@ export class SmartListItemComponent implements OnInit, OnDestroy {
 		if (!clickedInside) {
 			this.isItemSelected = false;
 			this.isItemFocused = false;
+			this._smartListService.deselectAll.next();
 		}
 	}
 }

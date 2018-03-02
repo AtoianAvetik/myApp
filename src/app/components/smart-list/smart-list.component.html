@@ -1,10 +1,11 @@
 <div [class]="'smart-list -' + viewType"  [ngClass]="[options.imgSize, options.cellSize]">
-	<div smart-list-item
-		 class="smart-list-cell"
-		*ngFor="let item of list;let i = index"
-		[item]="item"
-		[itemIndex]="i"
-		[listId]="listId">
-		<ng-template [ngTemplateOutlet]="templateRef" [ngTemplateOutletContext]="{$implicit: item}"></ng-template>
+	<div class="smart-list-cell"
+		 *ngFor="let item of list;let i = index">
+		<smart-list-item
+			[item]="item"
+			[itemIndex]="i"
+			[listId]="listId">
+			<ng-template [ngTemplateOutlet]="templateRef" [ngTemplateOutletContext]="{$implicit: item}"></ng-template>
+		</smart-list-item>
 	</div>
 </div>

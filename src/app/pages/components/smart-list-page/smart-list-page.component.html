@@ -5,16 +5,23 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-12 mt-3" *ngFor="let list of listData;let i = index;">
+	<div class="col-12 mt-3" *ngFor="let section of data;let i = index;">
 		<div class="row no-gutters -between -middle mb-3">
 			<div class="col-6">
-				<h4>{{ 'List ' + (i + 1) }}</h4>
+				<h4>{{ 'Section ' + (i + 1) }}</h4>
 			</div>
 		</div>
 		<div class="row no-gutters">
 			<div class="mr-3">
-				<div class="row mb-2">
-					<div class="btn-group btn-group-toggle" ngbRadioGroup name="activeViewType-{{ i }}" (ngModelChange)="list.activeViewTypeChange.next($event)" [ngModel]="list.activeViewType">
+				<div class="row no-gutters mb-2">
+					<smart-list-bulk-select
+						id="bulkSelect{{ i }}"
+						[listIdArray]="getListIdArray(section.listData)"
+						(deleteSelectedItems)="logger('Delete items')"
+					></smart-list-bulk-select>
+				</div>
+				<div class="row no-gutters mb-2">
+					<div class="btn-group btn-group-toggle" ngbRadioGroup name="activeViewType-{{ i }}" (ngModelChange)="section.activeViewTypeChange.next($event)" [ngModel]="section.activeViewType">
 						<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
 							<input type="radio" ngbButton [value]="viewTypes.list"> <i class="ft-list"></i>
 						</label>
@@ -25,7 +32,7 @@
 				</div>
 				<div class="row no-gutters -middle mb-2">
 					<i class="ft-grid font-medium-3 mr-3"></i>
-					<div class="btn-list btn-group btn-group-toggle" ngbRadioGroup name="cellSize-{{ i }}" (ngModelChange)="list.cellSizeChange.next($event)" [ngModel]="list.options.cellSize">
+					<div class="btn-list btn-group btn-group-toggle" ngbRadioGroup name="cellSize-{{ i }}" (ngModelChange)="section.cellSizeChange.next($event)" [ngModel]="section.options.cellSize">
 						<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
 							<input type="radio" ngbButton [value]="cellSizes.small"> SM
 						</label>
@@ -39,7 +46,7 @@
 				</div>
 				<div class="row no-gutters -middle mb-2">
 					<i class="ft-image font-medium-3 mr-3"></i>
-					<div class="btn-list btn-group btn-group-toggle" ngbRadioGroup name="imageSize-{{ i }}" (ngModelChange)="list.imageSizeChange.next($event)" [ngModel]="list.options.imgSize">
+					<div class="btn-list btn-group btn-group-toggle" ngbRadioGroup name="imageSize-{{ i }}" (ngModelChange)="section.imageSizeChange.next($event)" [ngModel]="section.options.imgSize">
 						<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
 							<input type="radio" ngbButton [value]="imgSizes.small"> SM
 						</label>
@@ -56,30 +63,33 @@
 				</div>
 			</div>
 			<div class="col">
-				<smart-list
-					[viewType]="list.activeViewType"
-					[list]="list.content"
-					[listId]="list.id"
-					[options]="list.options"
-					[viewTypeChange]="list.activeViewTypeChange"
-					[imageSizeChange]="list.imageSizeChange"
-					[cellSizeChange]="list.cellSizeChange"
-					(selectedListChange)="logger('Select list', $event)"
-					(selectedItemChange)="logger('Select item', $event)"
-					(onEditItem)="logger('Edit item', $event)"
-					(onDeleteItem)="logger('Delete item', $event)"
-					>
-					<ng-template let-item>
-						<div class="smart-list_info-text -first">
-							<p class="name">{{ item.serviceName }}</p>
-							<p class="small info-label">{{ item.userName }}</p>
-						</div>
-						<div class="smart-list_info-text -show-large">
-							<p class="small info-label">{{ item.email }}</p>
-							<p class="small">{{ item.pass }}</p>
-						</div>
-					</ng-template>
-				</smart-list>
+				<div class="row no-gutters mb-3" *ngFor="let list of section.listData">
+					<h4>{{ list.id }}</h4>
+					<smart-list
+						[viewType]="section.activeViewType"
+						[list]="list.content"
+						[listId]="list.id"
+						[options]="section.options"
+						[viewTypeChange]="section.activeViewTypeChange"
+						[imageSizeChange]="section.imageSizeChange"
+						[cellSizeChange]="section.cellSizeChange"
+						(selectedItemChange)="logger('Select item', $event.index)"
+						(deselectedItemChange)="logger('Deselect item', $event.index)"
+						(onEditItem)="logger('Edit item')"
+						(onDeleteItem)="logger('Delete item')"
+						>
+						<ng-template let-item>
+							<div class="smart-list_info-text -first">
+								<p class="name">{{ item.serviceName }}</p>
+								<p class="small info-label">{{ item.userName }}</p>
+							</div>
+							<div class="smart-list_info-text -show-large">
+								<p class="small info-label">{{ item.email }}</p>
+								<p class="small">{{ item.pass }}</p>
+							</div>
+						</ng-template>
+					</smart-list>
+				</div>
 			</div>
 		</div>
 	</div>

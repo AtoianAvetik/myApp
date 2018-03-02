@@ -2,24 +2,31 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ModalModule } from '../modals/modal.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { SmartListService } from './smart-list.service';
+import { SmartListControlsService } from './smart-list-controls.service';
 
 import { SmartListComponent } from './smart-list.component';
 import { SmartListItemComponent } from './smart-list-item/smart-list-item.component';
-import { SmartListService } from './smart-list.service';
+import { SmartListBulkSelectComponent } from './smart-list-controls/smart-list-bulk-select.component';
 
 @NgModule({
 	imports: [
 		CommonModule,
-		ModalModule
+		ModalModule,
+		NgbModule
 	],
 	exports: [
 		SmartListComponent,
-		SmartListItemComponent
+		SmartListItemComponent,
+		SmartListBulkSelectComponent
 	],
 	declarations: [
 		SmartListComponent,
-		SmartListItemComponent
+		SmartListItemComponent,
+		SmartListBulkSelectComponent
 	],
-	providers: [SmartListService]
+	providers: [SmartListService, SmartListControlsService]
 })
 export class SmartListModule { }

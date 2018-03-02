@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
 
 import { ComponentsRoutingModule } from "./components-routing.module";
-import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 import { PanelModule } from '../../components/panels/panel.module';
 import { LoaderModule } from '../../components/loader/loader.module';
 import { NotificationModule } from '../../components/notifications/notification.module';

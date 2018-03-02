@@ -1,0 +1,10 @@
+.smart-list {
+	&_bulk-select {
+		display: flex;
+		align-items: center;
+
+		p {
+			margin-right: 10px;
+		}
+	}
+}
