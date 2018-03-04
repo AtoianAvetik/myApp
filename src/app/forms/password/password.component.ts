@@ -5,218 +5,239 @@ import { ValidatorsService } from '../../shared/_services/validators.service';
 import { DataService } from '../../shared/_services/data.service';
 import { ImgToBase64Service } from '../../shared/_services/img-to-base64.service';
 import { LoaderService } from '../../components/loader/loader.service';
+import { UniqueID } from '../../shared/_services/unique-id.service';
+
 import { SmartFolderModel } from '../../components/smart-folders/smart-folder.model';
 import { Password } from '../../shared/_models/password.model';
 
 @Component({
-  selector: 'app-password',
-  templateUrl: './password.component.html',
-  styleUrls: ['./password.component.scss'],
-  providers: [ImgToBase64Service]
+	selector: 'app-password',
+	templateUrl: './password.component.html',
+	styleUrls: ['./password.component.scss'],
+	providers: [ImgToBase64Service]
 })
 export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
-  @Input() mode: string = 'add';
-  @Input() itemIndex: number = null;
-  @Input() categoryId: any = null;
-  @Input() categories: any = [];
-  @Input() categoriesData: any = {};
-  form: FormGroup = null;
-  private isTransfer = false;
-  private formDefaultValues = {
-    serviceName: '',
-    url: '',
-    userName: '',
-    email: '',
-    pass: '',
-    desc: '',
-    categorySelect: {id: 'none', text: '(none)'},
-    previewImage: {
-      image: '',
-      lastImage: '',
-      uploadImage: null,
-    }
-  };
-  activeCategory: any = [];
-  previewImageLoader;
-  passwordFormLoader;
+	@Input() mode: string = 'add';
+	@Input() itemId: string = null;
+	@Input() folderId: any = null;
+	@Input() folders: any = [];
+	@Input() foldersData: any = {};
+	itemIndex: number;
+	folder: any;
+	form: FormGroup = null;
+	private isTransfer = false;
+	private formDefaultValues = {
+		serviceName: '',
+		url: '',
+		userName: '',
+		email: '',
+		pass: '',
+		desc: '',
+		folderSelect: {id: 'none', text: '(none)'},
+		previewImage: {
+			image: '',
+			lastImage: '',
+			uploadImage: null,
+		}
+	};
+	activeFolder: any = [];
+	previewImageLoader;
+	passwordFormLoader;
 
-  constructor(private validatorsService: ValidatorsService,
-              private dataService: DataService,
-              private loaderService: LoaderService,
-              private imgToBase64: ImgToBase64Service) { }
+	constructor(private _validatorsService: ValidatorsService,
+				private _dataService: DataService,
+				private _loaderService: LoaderService,
+				private _uniqueID: UniqueID,
+				private _imgToBase64: ImgToBase64Service) {
+	}
 
-  initForm() {
-    this.form = new FormGroup({
-      'serviceName': new FormControl(this.formDefaultValues.serviceName, Validators.required),
-      'url': new FormControl(this.formDefaultValues.url, [Validators.required, this.validatorsService.url.bind(this.validatorsService)]),
-      'userName': new FormControl(this.formDefaultValues.userName, Validators.required),
-      'email': new FormControl(this.formDefaultValues.email, [Validators.required, this.validatorsService.email.bind(this.validatorsService)]),
-      'pass': new FormControl(this.formDefaultValues.pass, Validators.required),
-      'desc': new FormControl(this.formDefaultValues.desc),
-      'categorySelect': new FormControl(this.formDefaultValues.categorySelect, Validators.required),
-      'previewImage': new FormGroup({
-        'image': new FormControl(this.formDefaultValues.previewImage.image),
-        'lastImage': new FormControl(this.formDefaultValues.previewImage.lastImage),
-        'uploadImage': new FormControl(this.formDefaultValues.previewImage.uploadImage),
-      })
-    });
-  }
+	initForm() {
+		this.form = new FormGroup({
+			'serviceName': new FormControl(this.formDefaultValues.serviceName, Validators.required),
+			'url': new FormControl(this.formDefaultValues.url, [Validators.required, this._validatorsService.url.bind(this._validatorsService)]),
+			'userName': new FormControl(this.formDefaultValues.userName, Validators.required),
+			'email': new FormControl(this.formDefaultValues.email, [Validators.required, this._validatorsService.email.bind(this._validatorsService)]),
+			'pass': new FormControl(this.formDefaultValues.pass, Validators.required),
+			'desc': new FormControl(this.formDefaultValues.desc),
+			'folderSelect': new FormControl(this.formDefaultValues.folderSelect, Validators.required),
+			'previewImage': new FormGroup({
+				'image': new FormControl(this.formDefaultValues.previewImage.image),
+				'lastImage': new FormControl(this.formDefaultValues.previewImage.lastImage),
+				'uploadImage': new FormControl(this.formDefaultValues.previewImage.uploadImage),
+			})
+		});
+	}
 
-  updateForm() {
-    if ( !Object.getOwnPropertyNames(this.categoriesData).length ) {
-      return false;
-    }
+	updateForm() {
+		if (!Object.getOwnPropertyNames(this.foldersData).length) {
+			return false;
+		}
 
-    this.form.reset();
+		this.form.reset();
 
-    const updatedValues = JSON.parse(JSON.stringify(this.formDefaultValues));
+		const updatedValues = JSON.parse(JSON.stringify(this.formDefaultValues));
 
-    if ( this.mode === 'edit' && this.categoriesData[this.categoryId] && this.categoriesData[this.categoryId].content[this.itemIndex] ) {
-      this.categoriesData[this.categoryId].editable ? (this.activeCategory = [this.categories.find((el, index) => el.id === this.categoryId)]) : (this.activeCategory = [this.formDefaultValues.categorySelect]);
+		if ( this.folderId ) {
+			this.folder = this.foldersData[this.folderId];
+			this.itemIndex = this.getItemById(this.folder.content, this.itemId);
+		}
 
-      const password = this.categoriesData[this.categoryId].content[this.itemIndex];
-      updatedValues.serviceName = password.serviceName;
-      updatedValues.url = password.url;
-      updatedValues.userName = password.userName;
-      updatedValues.email = password.email;
-      updatedValues.pass = password.pass;
-      updatedValues.desc = password.desc;
-      updatedValues.categorySelect = this.activeCategory;
-      updatedValues.previewImage.image = password.img;
-      updatedValues.previewImage.lastImage = password.img;
-    }
+		if (this.mode === 'edit' && this.folder && this.folder.content[this.itemIndex]) {
+			this.folder.editable ? (this.activeFolder = [this.folders.find((el, index) => el.id === this.folderId)]) : (this.activeFolder = [this.formDefaultValues.folderSelect]);
 
-    this.form.setValue(updatedValues);
-  }
+			const password = this.folder.content[this.itemIndex];
+			updatedValues.serviceName = password.serviceName;
+			updatedValues.url = password.url;
+			updatedValues.userName = password.userName;
+			updatedValues.email = password.email;
+			updatedValues.pass = password.pass;
+			updatedValues.desc = password.desc;
+			updatedValues.folderSelect = this.activeFolder;
+			updatedValues.previewImage.image = password.img;
+			updatedValues.previewImage.lastImage = password.img;
+		}
+
+		this.form.setValue(updatedValues);
+	}
 
 
-  ngOnInit() {
-    // this.initForm();
-    this.imgToBase64.converted
-      .subscribe(
-        (image: string) => {
-          this.previewImageLoader.dismiss();
-          this.setPreviewImage(image);
-        }
-      );
-  }
+	ngOnInit() {
+		// this.initForm();
 
-  ngAfterViewInit() {
-    this.previewImageLoader = this.loaderService.create({
-      id: 'previewImage'
-    });
-    this.passwordFormLoader = this.loaderService.create({
-      id: 'passwordForm'
-    });
-  }
+		this._imgToBase64.converted
+			.subscribe(
+				(image: string) => {
+					this.previewImageLoader.dismiss();
+					this.setPreviewImage(image);
+				}
+			);
+	}
 
-  ngOnChanges() {
-    this.updateForm();
-  }
+	ngAfterViewInit() {
+		this.previewImageLoader = this._loaderService.create({
+			id: 'previewImage'
+		});
+		this.passwordFormLoader = this._loaderService.create({
+			id: 'passwordForm'
+		});
+	}
 
-  uploadImage(image) {
-    const subImage = this.previewImageLoader.present().subscribe(
-      () => {
-        this.imgToBase64.convert(image);
-        subImage.unsubscribe();
-      }
-    );
-  }
+	ngOnChanges() {
+		this.updateForm();
+	}
 
-  setPreviewImage(image) {
-    let formControl: FormControl;
-    formControl = <FormControl>this.form.get('previewImage.image');
+	uploadImage(image) {
+		const subImage = this.previewImageLoader.present().subscribe(
+			() => {
+				this._imgToBase64.convert(image);
+				subImage.unsubscribe();
+			}
+		);
+	}
 
-    formControl.setValue(image);
-    formControl.markAsTouched();
-    formControl.markAsDirty();
-  }
+	setPreviewImage(image) {
+		let formControl: FormControl;
+		formControl = <FormControl>this.form.get('previewImage.image');
 
-  revertImage(e) {
-    e.stopPropagation();
-    let imageFormControl: FormControl;
-    let uploadFormControl: FormControl;
-    imageFormControl = <FormControl>this.form.get('previewImage.image');
-    uploadFormControl = <FormControl>this.form.get('previewImage.uploadImage');
+		formControl.setValue(image);
+		formControl.markAsTouched();
+		formControl.markAsDirty();
+	}
 
-    imageFormControl.setValue(this.form.get('previewImage.lastImage').value);
-    uploadFormControl.setValue(this.formDefaultValues.previewImage.uploadImage);
-    imageFormControl.markAsUntouched();
-  }
+	revertImage(e) {
+		e.stopPropagation();
+		let imageFormControl: FormControl;
+		let uploadFormControl: FormControl;
+		imageFormControl = <FormControl>this.form.get('previewImage.image');
+		uploadFormControl = <FormControl>this.form.get('previewImage.uploadImage');
 
-  onSelectCategory(data) {
-    let formControl: FormControl;
-    formControl = <FormControl>this.form.get('categorySelect');
+		imageFormControl.setValue(this.form.get('previewImage.lastImage').value);
+		uploadFormControl.setValue(this.formDefaultValues.previewImage.uploadImage);
+		imageFormControl.markAsUntouched();
+	}
 
-    if ( this.mode === 'edit' ) {
-      this.isTransfer = true;
-    }
-    if ( data.id === this.categoryId ) {
-      this.isTransfer = false;
-    }
+	onSelectFolder(data) {
+		let formControl: FormControl;
+		formControl = <FormControl>this.form.get('folderSelect');
 
-    formControl.markAsDirty();
-    formControl.setValue(data);
-  }
+		if (this.mode === 'edit') {
+			this.isTransfer = true;
+		}
+		if (data.id === this.folderId) {
+			this.isTransfer = false;
+		}
 
-  isValid(ctrl?: string) {
-    return ctrl ? this.get(ctrl).valid : this.form.valid;
-  }
+		formControl.markAsDirty();
+		formControl.setValue(data);
+	}
 
-  isDirty(ctrl?: string) {
-    return ctrl ? this.get(ctrl).dirty : this.form.dirty;
-  }
+	isValid(ctrl?: string) {
+		return ctrl ? this.get(ctrl).valid : this.form.valid;
+	}
 
-  get(ctrl: string) {
-    return this.form.get(ctrl);
-  }
+	isDirty(ctrl?: string) {
+		return ctrl ? this.get(ctrl).dirty : this.form.dirty;
+	}
 
-  resetForm() {
-    this.activeCategory = [];
-    this.isTransfer = false;
-    this.mode = '';
+	get(ctrl: string) {
+		return this.form.get(ctrl);
+	}
 
-    this.form.reset();
-    this.updateForm();
-  }
+	resetForm() {
+		this.activeFolder = [];
+		this.isTransfer = false;
+		this.mode = '';
 
-  onSubmit(): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      if (this.form.valid) {
-        const parentCategoryId = this.form.get('categorySelect').value.id;
-        const parentCategoryName = this.form.get('categorySelect').value.text;
-        const newPassword = new Password(
-            this.form.get('serviceName').value,
-            this.form.get('userName').value,
-            this.form.get('email').value,
-            this.form.get('pass').value,
-            this.form.get('url').value,
-            this.form.get('desc').value,
-            this.form.get('previewImage.image').value
-        );
+		this.form.reset();
+		this.updateForm();
+	}
 
-        if ( this.mode === 'add' ) {
-          if (!this.categoriesData[parentCategoryId]) {
-            const category = new SmartFolderModel(parentCategoryId, parentCategoryName);
-            this.dataService.passwordsAction('addCategory', category).then(() => {
-              this.dataService.passwordsAction('addItem', parentCategoryId, newPassword).then(() => resolve()).catch((error) => reject(error));
-            }).catch((error) => reject(error));
-          } else {
-            this.dataService.passwordsAction('addItem', parentCategoryId, newPassword).then(() => resolve()).catch((error) => reject(error));
-          }
-        } else if ( this.mode === 'edit' ) {
-          if ( this.isTransfer ) {
-            this.dataService.passwordsAction('transferItem', this.categoryId, parentCategoryId, this.itemIndex, newPassword).then(() => resolve()).catch((error) => reject(error));;
-          } else {
-            this.dataService.passwordsAction('editItem', this.categoryId, this.itemIndex, newPassword).then(() => resolve()).catch((error) => reject(error));;
-          }
-        } else {
-          reject('mode was not set');
-        }
+	onSubmit(): Promise<boolean> {
+		return new Promise((resolve, reject) => {
+			if (this.form.valid) {
+				const parentFolderId = this.form.get('folderSelect').value.id;
+				const parentFolderName = this.form.get('folderSelect').value.text;
+				const newPassword = new Password(
+					'',
+					this.form.get('serviceName').value,
+					this.form.get('userName').value,
+					this.form.get('email').value,
+					this.form.get('pass').value,
+					this.form.get('url').value,
+					this.form.get('desc').value,
+					this.form.get('previewImage.image').value
+				);
 
-      } else {
-        reject('form is not valid');
-      }
-    });
-  }
+				if (this.mode === 'add') {
+					newPassword.id = 'pass-' + this._uniqueID.UUID();
+					if (!this.foldersData[parentFolderId]) {
+						const folder = new SmartFolderModel(parentFolderId, parentFolderName);
+						this._dataService.passwordsAction('addCategory', folder).then(() => {
+							this._dataService.passwordsAction('addItem', parentFolderId, newPassword).then(() => resolve()).catch((error) => reject(error));
+						}).catch((error) => reject(error));
+					} else {
+						this._dataService.passwordsAction('addItem', parentFolderId, newPassword).then(() => resolve()).catch((error) => reject(error));
+					}
+				} else if (this.mode === 'edit') {
+					newPassword.id = this.folder.content[this.itemIndex].id;
+					if (this.isTransfer) {
+						this._dataService.passwordsAction('transferItem', this.folderId, parentFolderId, newPassword).then(() => resolve()).catch((error) => reject(error));
+					} else {
+						this._dataService.passwordsAction('editItem', this.folderId, newPassword).then(() => resolve()).catch((error) => reject(error));
+					}
+				} else {
+					reject('mode was not set');
+				}
+
+			} else {
+				reject('form is not valid');
+			}
+		});
+	}
+
+	getItemById(array, id) {
+		return array.map(function (el) {
+			return el.id;
+		}).indexOf(id);
+	}
 }

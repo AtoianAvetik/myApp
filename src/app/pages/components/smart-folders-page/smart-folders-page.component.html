@@ -18,8 +18,8 @@
 					[viewType]="'list'"
 					[list]="listData[folderId].content"
 					[listId]="folderId"
-					(onSelectList)="logger('Select list', $event)"
-					(onSelectItem)="logger('Select item', $event)"
+					(selectedItemChange)="logger('Select item', $event.id)"
+					(deselectedItemChange)="logger('Deselect item', $event.id)"
 					(onEditItem)="logger('Edit item', $event)"
 					(onDeleteItem)="logger('Delete item', $event)"
 				>

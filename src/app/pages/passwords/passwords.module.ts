@@ -14,7 +14,7 @@ import { SmartListModule } from '../../components/smart-list/smart-list.module';
 import { SmartFoldersModule } from '../../components/smart-folders/smart-folders.module';
 
 import { PasswordsComponent } from './passwords.component';
-import { CategoryComponent } from '../../forms/category/category.component';
+import { FolderComponent } from '../../forms/folder/folder.component';
 import { PasswordComponent } from '../../forms/password/password.component';
 import { SearchImageComponent } from '../../forms/search-image/search-image.component';
 
@@ -40,7 +40,7 @@ import { ImgToBase64Service } from '../../shared/_services/img-to-base64.service
 	],
 	declarations: [
 		PasswordsComponent,
-		CategoryComponent,
+		FolderComponent,
 		PasswordComponent,
 		SearchImageComponent
 	],

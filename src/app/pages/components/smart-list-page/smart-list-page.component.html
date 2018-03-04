@@ -73,8 +73,8 @@
 						[viewTypeChange]="section.activeViewTypeChange"
 						[imageSizeChange]="section.imageSizeChange"
 						[cellSizeChange]="section.cellSizeChange"
-						(selectedItemChange)="logger('Select item', $event.index)"
-						(deselectedItemChange)="logger('Deselect item', $event.index)"
+						(selectedItemChange)="logger('Select item', $event.id)"
+						(deselectedItemChange)="logger('Deselect item', $event.id)"
 						(onEditItem)="logger('Edit item')"
 						(onDeleteItem)="logger('Delete item')"
 						>

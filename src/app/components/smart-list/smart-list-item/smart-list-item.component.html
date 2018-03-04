@@ -1,4 +1,4 @@
-<div class="smart-list-item" [class.-selected]="isItemSelected" [class.-focus]="isItemFocused" (click)="onClickItem($event)">
+<div class="smart-list-item" [class.-selected]="isSelected" [class.-focus]="isFocused" (click)="onClickItem($event)">
 	<div class="smart-list_img-wrap">
 		<img *ngIf="item.img !== ''" class="big-icon" src="{{ item.img }}" alt="">
 		<div *ngIf="item.bgImg !== ''" class="img-bg" [ngStyle]="{'background-image': 'url(' + item.bgImg + ')'}"></div>

@@ -58,7 +58,7 @@ export class SmartListBulkSelectComponent implements OnDestroy{
 
 	checkList(id, item) {
 		if ( id === item.listId ) {
-			item.status ? this.addToSelected(this.selectedItems, item) : this.removeFromSelected(this.selectedItems, item);
+			item.isSelected ? this.addToSelected(this.selectedItems, item) : this.removeFromSelected(this.selectedItems, item);
 		}
 	}
 
@@ -66,11 +66,11 @@ export class SmartListBulkSelectComponent implements OnDestroy{
 		this.deleteSelectedItems.next(this.selectedItems);
 	}
 
-	increment(){
+	increment() {
 		this.counter += 1;
 	}
 
-	decrement(){
+	decrement() {
 		this.counter -= 1;
 	}
 
@@ -81,7 +81,7 @@ export class SmartListBulkSelectComponent implements OnDestroy{
 
 	removeFromSelected(array, item) {
 		item.status = true;
-		const index: number = array.findIndex(i => (i.listId === item.listId && i.index === item.index));
+		const index: number = array.findIndex(i => (i.listId === item.listId && i.id === item.id));
 		if (index !== -1) {
 			array.splice(index, 1);
 			this.decrement();

@@ -104,9 +104,9 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 	}
 
 	updatePasswords( data: any ) {
-		this.foldersData = data.categories;
-		this.folders = data.categoriesSelectArray;
-		this.foldersIdArray = data.categoriesIdArray;
+		this.foldersData = data.folders;
+		this.folders = data.foldersSelectArray;
+		this.foldersIdArray = data.foldersIdArray;
 
 		this.passwordsLength = 0;
 		this.foldersIdArray.forEach( ( id ) => this.passwordsLength = this.foldersData[id].content.length + this.passwordsLength );
@@ -151,9 +151,8 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 		try {
 			await this.selectedItems.forEach(async (item) => {
 				try {
-					await this.dataService.passwordsAction('deleteItem', item.listId, item.index )
-				console.log(item);
-				} catch(e) {
+					await this.dataService.passwordsAction('deleteItem', item.listId, item.id );
+				} catch (e) {
 					const message = 'Password was not deleted!';
 					this.notificationService.error( message, 0 );
 					console.error( e )
@@ -187,7 +186,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 						} );
 						break;
 					case 'password':
-						this.dataService.passwordsAction( 'deleteItem', this.listSelectedItem.listId, this.listSelectedItem.index ).then( () => {
+						this.dataService.passwordsAction( 'deleteItem', this.listSelectedItem.listId, this.listSelectedItem.id ).then( () => {
 							const message = 'Password was deleted!';
 							this.modalService.closeAll();
 							this.notificationService.success( message );

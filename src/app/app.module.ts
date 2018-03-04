@@ -22,6 +22,7 @@ import { AuthGuard } from './shared/auth/auth-guard.service';
 import { SidebarService } from './shared/_services/sidebar.service';
 import { LoaderService } from './components/loader/loader.service';
 import { WindowRef } from './shared/_services/window-ref';
+import { UniqueID } from './shared/_services/unique-id.service';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 	suppressScrollX: true
@@ -53,6 +54,7 @@ const CUSTOM_PANEL_CONFIG: PanelConfigInterface = {
 		AuthGuard,
 		SidebarService,
 		LoaderService,
+		UniqueID,
 		WindowRef,
 		{
 			provide: PANEL_CONFIG,
