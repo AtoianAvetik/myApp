@@ -15,11 +15,13 @@ export const SMART_LIST_CELL_SIZES = {
 	big: '-size-cell-big',
 };
 
-export const DEFAULT_SMART_LIST_OPTIONS: SmartListOptionsInterface = {
+export const DEFAULT_SMART_LIST_SETTINGS: SmartListSettingsInterface = {
 	imgSize: SMART_LIST_IMG_SIZES.medium,
-	cellSize: SMART_LIST_CELL_SIZES.medium
+	cellSize: SMART_LIST_CELL_SIZES.medium,
+	viewType: SMART_LIST_VIEW_TYPES.list
 };
-export interface SmartListOptionsInterface {
+export interface SmartListSettingsInterface {
 	imgSize?: string,
-	cellSize?: string
+	cellSize?: string,
+	viewType?: string
 }

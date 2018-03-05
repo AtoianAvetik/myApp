@@ -21,7 +21,7 @@
 					></smart-list-bulk-select>
 				</div>
 				<div class="row no-gutters mb-2">
-					<div class="btn-group btn-group-toggle" ngbRadioGroup name="activeViewType-{{ i }}" (ngModelChange)="section.activeViewTypeChange.next($event)" [ngModel]="section.activeViewType">
+					<div class="btn-group btn-group-toggle" ngbRadioGroup name="activeViewType-{{ i }}" (ngModelChange)="section.actions.viewTypeChange.next($event)" [ngModel]="section.settings.viewType">
 						<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
 							<input type="radio" ngbButton [value]="viewTypes.list"> <i class="ft-list"></i>
 						</label>
@@ -32,7 +32,7 @@
 				</div>
 				<div class="row no-gutters -middle mb-2">
 					<i class="ft-grid font-medium-3 mr-3"></i>
-					<div class="btn-list btn-group btn-group-toggle" ngbRadioGroup name="cellSize-{{ i }}" (ngModelChange)="section.cellSizeChange.next($event)" [ngModel]="section.options.cellSize">
+					<div class="btn-list btn-group btn-group-toggle" ngbRadioGroup name="cellSize-{{ i }}" (ngModelChange)="section.actions.cellSizeChange.next($event)" [(ngModel)]="section.settings.cellSize">
 						<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
 							<input type="radio" ngbButton [value]="cellSizes.small"> SM
 						</label>
@@ -46,7 +46,7 @@
 				</div>
 				<div class="row no-gutters -middle mb-2">
 					<i class="ft-image font-medium-3 mr-3"></i>
-					<div class="btn-list btn-group btn-group-toggle" ngbRadioGroup name="imageSize-{{ i }}" (ngModelChange)="section.imageSizeChange.next($event)" [ngModel]="section.options.imgSize">
+					<div class="btn-list btn-group btn-group-toggle" ngbRadioGroup name="imageSize-{{ i }}" (ngModelChange)="section.actions.imgSizeChange.next($event)" [(ngModel)]="section.settings.imgSize">
 						<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
 							<input type="radio" ngbButton [value]="imgSizes.small"> SM
 						</label>
@@ -66,17 +66,16 @@
 				<div class="row no-gutters mb-3" *ngFor="let list of section.listData">
 					<h4>{{ list.id }}</h4>
 					<smart-list
-						[viewType]="section.activeViewType"
-						[list]="list.content"
-						[listId]="list.id"
-						[options]="section.options"
-						[viewTypeChange]="section.activeViewTypeChange"
-						[imageSizeChange]="section.imageSizeChange"
-						[cellSizeChange]="section.cellSizeChange"
-						(selectedItemChange)="logger('Select item', $event.id)"
-						(deselectedItemChange)="logger('Deselect item', $event.id)"
-						(onEditItem)="logger('Edit item')"
-						(onDeleteItem)="logger('Delete item')"
+						[id]="list.id"
+						[source]="list.content"
+						[settings]="section.settings"
+						[viewTypeChange]="section.actions.viewTypeChange"
+						[imgSizeChange]="section.actions.imgSizeChange"
+						[cellSizeChange]="section.actions.cellSizeChange"
+						(selectChange)="logger('Select item', $event.id)"
+						(deselectChange)="logger('Deselect item', $event.id)"
+						(edit)="logger('Edit item')"
+						(delete)="logger('Delete item')"
 						>
 						<ng-template let-item>
 							<div class="smart-list_info-text -first">

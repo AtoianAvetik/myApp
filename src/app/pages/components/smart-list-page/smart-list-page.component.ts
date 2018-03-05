@@ -17,13 +17,15 @@ export class SmartListPageComponent {
 	cellSizes = SMART_LIST_CELL_SIZES;
 	data = [
 		{
-			activeViewType: 'tile',
-			activeViewTypeChange: new Subject(),
-			imageSizeChange: new Subject(),
-			cellSizeChange: new Subject(),
-			options: {
+			settings: {
+				viewType: SMART_LIST_VIEW_TYPES.tile,
 				imgSize: SMART_LIST_IMG_SIZES.small,
 				cellSize: SMART_LIST_CELL_SIZES.big
+			},
+			actions: {
+				viewTypeChange: new Subject(),
+				imgSizeChange: new Subject(),
+				cellSizeChange: new Subject(),
 			},
 			listData: 	[
 				{
@@ -67,13 +69,15 @@ export class SmartListPageComponent {
 			]
 		},
 		{
-			activeViewType: 'list',
-			activeViewTypeChange: new Subject(),
-			imageSizeChange: new Subject(),
-			cellSizeChange: new Subject(),
-			options: {
+			settings: {
+				viewType: SMART_LIST_VIEW_TYPES.list,
 				imgSize: SMART_LIST_IMG_SIZES.small,
 				cellSize: SMART_LIST_CELL_SIZES.big
+			},
+			actions: {
+				viewTypeChange: new Subject(),
+				imgSizeChange: new Subject(),
+				cellSizeChange: new Subject(),
 			},
 			listData: [
 				{

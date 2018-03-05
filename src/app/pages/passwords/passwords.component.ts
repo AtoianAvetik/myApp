@@ -45,9 +45,11 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 	expandAllFolders = true;
 
 	// smart list
-	activeViewType = 'tile';
-	activeViewTypeChange = new Subject<string>();
+	viewTypeChange = new Subject<string>();
 	viewTypes = SMART_LIST_VIEW_TYPES;
+	smartListSettings = {
+		viewType: 'tile'
+	};
 
 	// states
 	passwordsLength: number = 0;

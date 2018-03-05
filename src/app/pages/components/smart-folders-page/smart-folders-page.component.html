@@ -15,13 +15,13 @@
 		>
 			<ng-template let-folderId>
 				<smart-list
-					[viewType]="'list'"
-					[list]="listData[folderId].content"
-					[listId]="folderId"
-					(selectedItemChange)="logger('Select item', $event.id)"
-					(deselectedItemChange)="logger('Deselect item', $event.id)"
-					(onEditItem)="logger('Edit item', $event)"
-					(onDeleteItem)="logger('Delete item', $event)"
+					[id]="folderId"
+					[source]="listData[folderId].content"
+					[viewType]="'tile'"
+					(selectChange)="logger('Select item', $event.id)"
+					(deselectChange)="logger('Deselect item', $event.id)"
+					(edit)="logger('Edit item', $event)"
+					(delete)="logger('Delete item', $event)"
 				>
 					<ng-template let-item>
 						<div class="smart-list_info-text -first">
