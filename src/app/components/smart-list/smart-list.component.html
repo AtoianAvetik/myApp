@@ -1,9 +1,11 @@
-<div [class]="'smart-list -' + settings.viewType"  [ngClass]="[settings.imgSize, settings.cellSize]">
+<div [ngClass]="['smart-list -' + settings.viewType, settings.imgSize, settings.cellSize, settings.attr.class]">
 	<div class="smart-list-cell"
 		 *ngFor="let item of source">
 		<smart-list-item
 			[item]="item"
-			[listId]="id">
+			[listId]="id"
+			[settings]="settings"
+		>
 			<ng-template [ngTemplateOutlet]="templateRef" [ngTemplateOutletContext]="{$implicit: item}"></ng-template>
 		</smart-list-item>
 	</div>

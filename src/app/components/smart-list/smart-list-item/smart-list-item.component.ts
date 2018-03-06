@@ -11,8 +11,9 @@ import { SmartListItemModel } from '../smart-list-item.model';
 	styleUrls: ['./smart-list-item.component.scss']
 } )
 export class SmartListItemComponent implements OnInit, OnDestroy {
-	@Input() listId;
 	@Input() item;
+	@Input() listId;
+	@Input() settings;
 	itemSmartModel: SmartListItemModel;
 
 	// States

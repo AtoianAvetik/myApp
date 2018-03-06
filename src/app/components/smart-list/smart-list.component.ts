@@ -23,7 +23,7 @@ export class SmartListComponent implements OnInit, OnDestroy, OnChanges {
 	@Input() settings: SmartListSettingsInterface = {};
 
 	// Bind simple options;
-	simpleOptions: SmartListSettingsInterface = {};
+	inputOptions: SmartListSettingsInterface = {};
 	@Input() viewType: string;
 	@Input() imgSize: string;
 	@Input() cellSize: string;
@@ -40,37 +40,25 @@ export class SmartListComponent implements OnInit, OnDestroy, OnChanges {
 	@Output() delete = new Subject();
 
 	@ContentChild(TemplateRef) templateRef: TemplateRef<any>;
+
 	subscriptions: Array<Subscription> = [];
 
 	constructor(private _smartListService: SmartListService) {}
 
 	ngOnInit() {
-		this.simpleOptions = this.prepareSimpleOptions();
 		this.settings = this.prepareSettings();
 		this.source = this.prepareSource();
 
 		// Subscribe events for update actions
 		this.subscriptions.push( this._smartListService.selectItem.subscribe( (item: SmartListItemModel) => this.selectChange.next(item)) );
-
 		this.subscriptions.push( this._smartListService.deselectItem.subscribe( (item: SmartListItemModel) => this.deselectChange.next(item)) );
-
 		this.subscriptions.push( this._smartListService.editSelectedItem.subscribe( value => this.edit.next(value)) );
-
 		this.subscriptions.push( this._smartListService.deleteSelectedItem.subscribe( value => this.delete.next(value)) );
 
 		// Subscribe events for update options
-		this.subscriptions.push( this.viewTypeChange.subscribe( (value: string) => {
-			this.simpleOptions.viewType = value;
-			this.settings = this.prepareSettings();
-		} ) );
-		this.subscriptions.push( this.imgSizeChange.subscribe( (value: string) => {
-			this.simpleOptions.imgSize = value;
-			this.settings = this.prepareSettings();
-		}) );
-		this.subscriptions.push( this.cellSizeChange.subscribe( (value: string) => {
-			this.simpleOptions.cellSize = value;
-			this.settings = this.prepareSettings();
-		}) );
+		this.subscriptions.push( this.viewTypeChange.subscribe( (value: string) => { this.onSettingsChange({viewType: value}) } ) );
+		this.subscriptions.push( this.imgSizeChange.subscribe( (value: string) => { this.onSettingsChange({imgSize: value}) } ) );
+		this.subscriptions.push( this.cellSizeChange.subscribe( (value: string) => { this.onSettingsChange({cellSize: value}) } ) );
 	}
 
 	ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
@@ -81,8 +69,7 @@ export class SmartListComponent implements OnInit, OnDestroy, OnChanges {
 			this.source = this.prepareSource();
 		}
 		if ( changes['viewType'] || changes['imgSize'] || changes['cellSize'] ) {
-			this.simpleOptions = this.prepareSimpleOptions();
-			this.settings = this.prepareSettings();
+			this.onSettingsChange();
 		}
 	}
 
@@ -92,21 +79,25 @@ export class SmartListComponent implements OnInit, OnDestroy, OnChanges {
 		} );
 	}
 
-	prepareSettings():Object {
-		return Object.assign({}, DEFAULT_SMART_LIST_SETTINGS, this.settings, this.simpleOptions );
+	prepareSettings(options?: SmartListSettingsInterface):Object {
+		return Object.assign({}, DEFAULT_SMART_LIST_SETTINGS, this.settings, options || this.prepareInputOptions() );
 	}
 
-	prepareSimpleOptions():SmartListSettingsInterface {
+	prepareInputOptions():SmartListSettingsInterface {
 		const options = {};
 
 		this.viewType && (options['viewType'] = this.viewType);
 		this.imgSize && (options['imgSize'] = this.imgSize);
 		this.cellSize && (options['cellSize'] = this.cellSize);
 
-		return options;
+		return Object.assign({}, options, this.inputOptions);
 	}
 
 	prepareSource() {
 		return this.source;
+	}
+
+	onSettingsChange(options?: SmartListSettingsInterface) {
+		this.settings = this.prepareSettings(options);
 	}
 }

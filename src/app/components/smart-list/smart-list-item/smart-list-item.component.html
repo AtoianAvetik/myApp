@@ -9,16 +9,26 @@
 	<div class="smart-list_info">
 		<div class="smart-list_info-table">
 			<ng-content></ng-content>
-			<div class="smart-list_button-cell">
-				<button class="smart-list_button btn btn-outline-primary btn-sm btn-raised" type="button" [openModal]="'item-modal'" title="Edit"
-						(click)="onEditItem($event);">
-					<i class="ft-settings"></i>
+			<div *ngIf="settings.actions.edit" class="smart-list_button-cell">
+				<button
+					class="smart-list_button"
+					type="button"
+					title="Edit"
+					[ngClass]="settings.edit.class"
+					[innerHtml]="settings.edit.editButtonContent"
+					[openModal]="'item-modal'"
+					(click)="onEditItem($event);">
 				</button>
 			</div>
-			<div class="smart-list_button-cell">
-				<button class="smart-list_button btn btn-outline-danger btn-sm btn-raised" type="button" [openModal]="'delete-modal'" title="Delete"
-						(click)="onDeleteItem($event);">
-					<i class="ft-trash-2"></i>
+			<div *ngIf="settings.actions.delete" class="smart-list_button-cell">
+				<button
+					class="smart-list_button"
+					type="button"
+					title="Delete"
+					[ngClass]="settings.delete.class"
+					[innerHtml]="settings.delete.deleteButtonContent"
+					[openModal]="'delete-modal'"
+					(click)="onDeleteItem($event);">
 				</button>
 			</div>
 		</div>

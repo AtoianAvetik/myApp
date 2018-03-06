@@ -121,14 +121,15 @@
 	}
 
 	&_button {
-		//background-color: transparent;
-		//color: inherit;
+		background-color: transparent;
+		color: inherit;
 		//box-sizing: content-box;
 		//vertical-align: top;
 		//padding: 0;
 		//margin: 0;
-		//font-size: inherit;
-		//cursor: pointer;
+		font-size: inherit;
+		cursor: pointer;
+		border: none;
 		//border: 1px solid color-function('grey', 'darken-3');
 		//height: 26px;
 		//width: 26px;
