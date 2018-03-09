@@ -1,6 +1,6 @@
 export const SMART_LIST_MODES = {
 	internal: 'internal',
-	external: 'internal'
+	external: 'external'
 };
 export const SMART_LIST_SELECT_MODES = {
 	single: 'single',

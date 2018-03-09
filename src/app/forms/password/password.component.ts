@@ -20,7 +20,7 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
 	@Input() mode: string = 'add';
 	@Input() itemId: string = null;
 	@Input() folderId: any = null;
-	@Input() folders: any = [];
+	@Input() foldersSelect: any = [];
 	@Input() foldersData: any = {};
 	itemIndex: number;
 	folder: any;
@@ -83,7 +83,7 @@ export class PasswordComponent implements OnInit, OnChanges, AfterViewInit {
 		}
 
 		if (this.mode === 'edit' && this.folder && this.folder.content[this.itemIndex]) {
-			this.folder.editable ? (this.activeFolder = [this.folders.find((el, index) => el.id === this.folderId)]) : (this.activeFolder = [this.formDefaultValues.folderSelect]);
+			this.folder.editable ? (this.activeFolder = [this.foldersSelect.find((el, index) => el.id === this.folderId)]) : (this.activeFolder = [this.formDefaultValues.folderSelect]);
 
 			const password = this.folder.content[this.itemIndex];
 			updatedValues.serviceName = password.serviceName;

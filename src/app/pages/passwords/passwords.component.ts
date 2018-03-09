@@ -24,7 +24,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 
 	// passwords data
 	foldersData: { [name: string]: SmartFolderModel };
-	folders: Array<any>;
+	foldersSelect: Array<{id: string, text: string}>;
 	foldersIdArray: Array<any>;
 
 	// mods
@@ -107,7 +107,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 
 	updatePasswords( data: any ) {
 		this.foldersData = data.folders;
-		this.folders = data.foldersSelectArray;
+		this.foldersSelect = data.foldersSelectArray;
 		this.foldersIdArray = data.foldersIdArray;
 
 		this.passwordsLength = 0;
@@ -149,7 +149,11 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 		this.modalService.openModal('delete-modal');
 	}
 
-	async bulkDeleteFormSubmit() {
+	onBulkPasswordsTransfer(event) {
+		console.log(event);
+	}
+
+	async onConfirmBulkDelete() {
 		try {
 			await this.selectedItems.forEach(async (item) => {
 				try {
@@ -169,43 +173,23 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	deleteFormSubmit() {
+	onConfirmDelete() {
 		const sub = this.deleteFormLoader.present().subscribe(
 			() => {
 				sub.unsubscribe();
 				switch ( this.deleteMode ) {
 					case 'folder':
-						this.dataService.passwordsAction( 'deleteCategory', this.foldersData[this.listSelectedId] ).then( () => {
-							const message = 'Folder was deleted!';
-							this.modalService.closeAll();
-							this.notificationService.success( message );
-							this.deleteFormLoader.dismiss();
-						} ).catch( ( error ) => {
-							const message = 'Folder was not deleted!';
-							this.deleteFormLoader.dismiss();
-							this.notificationService.error( message, 0 );
-							console.error( error )
-						} );
+						this.deleteFolder(this.foldersData[this.listSelectedId]);
 						break;
 					case 'password':
-						this.dataService.passwordsAction( 'deleteItem', this.listSelectedItem.listId, this.listSelectedItem.id ).then( () => {
-							const message = 'Password was deleted!';
-							this.modalService.closeAll();
-							this.notificationService.success( message );
-							this.deleteFormLoader.dismiss();
-						} ).catch( ( error ) => {
-							const message = 'Password was not deleted!';
-							this.deleteFormLoader.dismiss();
-							this.notificationService.error( message, 0 );
-							console.error( error )
-						} );
+						this.deletePassword(this.listSelectedItem.listId, this.listSelectedItem.id);
 						break;
 				}
 			}
 		);
 	}
 
-	folderFormSubmit() {
+	onConfirmFolderForm() {
 		const sub = this.folderFormLoader.present().subscribe(
 			() => {
 				sub.unsubscribe();
@@ -224,7 +208,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 		);
 	}
 
-	passwordFormSubmit() {
+	onConfirmPasswordForm() {
 		const sub = this.passwordFormLoader.present().subscribe(
 			() => {
 				sub.unsubscribe();
@@ -241,5 +225,33 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 				} );
 			}
 		);
+	}
+
+	deleteFolder(folder: SmartFolderModel) {
+		this.dataService.passwordsAction( 'deleteFolder', folder ).then( () => {
+			const message = 'Folder was deleted!';
+			this.modalService.closeAll();
+			this.notificationService.success( message );
+			this.deleteFormLoader.dismiss();
+		} ).catch( ( error ) => {
+			const message = 'Folder was not deleted!';
+			this.deleteFormLoader.dismiss();
+			this.notificationService.error( message, 0 );
+			console.error( error )
+		} );
+	}
+
+	deletePassword(folderId, passwordId) {
+		this.dataService.passwordsAction( 'deleteItem', folderId, passwordId ).then( () => {
+			const message = 'Password was deleted!';
+			this.modalService.closeAll();
+			this.notificationService.success( message );
+			this.deleteFormLoader.dismiss();
+		} ).catch( ( error ) => {
+			const message = 'Password was not deleted!';
+			this.deleteFormLoader.dismiss();
+			this.notificationService.error( message, 0 );
+			console.error( error )
+		} );
 	}
 }

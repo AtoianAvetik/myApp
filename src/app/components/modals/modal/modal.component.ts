@@ -9,6 +9,7 @@ import { ModalService } from '../modal.service';
 	selector: 'app-modal',
 	template: `
 		<div class="app-modal-wrap"
+		     (click)="onWrapClick($event);"
 		     [ngClass]="{'-is-forward': isForward}"
 		     [@zindex]='isForward ? "open" : "close"'
 		     [@modal]='isOpen ? "open" : "close"'
@@ -72,12 +73,6 @@ export class ModalComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		// close modal on background click
-		this.element.addEventListener( 'click', ( e: any ) => {
-			if ( !e.target.closest( '.app-modal' ) ) {
-				this._modalService.modalWillClosed.next( this.id );
-			}
-		} );
 		// add self (this modal instance) to the modal service so it's accessible from controllers
 		this._modalService.add( this );
 		// subscribe events
@@ -146,6 +141,12 @@ export class ModalComponent implements OnInit, OnDestroy {
 						break;
 				}
 				break;
+		}
+	}
+
+	onWrapClick( e ) {
+		if ( !e.target.closest( '.app-modal' ) ) {
+			this._modalService.closeModal();
 		}
 	}
 }

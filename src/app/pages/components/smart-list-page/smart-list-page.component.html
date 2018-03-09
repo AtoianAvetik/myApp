@@ -15,9 +15,10 @@
 			<div class="mr-3">
 				<div class="row no-gutters mb-2">
 					<smart-list-bulk-select
-						id="bulkSelect{{ i }}"
-						[listIdArray]="getListIdArray(section.listData)"
+						[lists]="getListArray(section.listData)"
+						[transferList]="getTransferListArray(section.listData)"
 						(deleteSelectedItems)="logger('Delete items')"
+						(transferSelectedItems)="logger('Transfer items to' + $event.listId)"
 					></smart-list-bulk-select>
 				</div>
 				<div class="row no-gutters mb-2">
@@ -64,7 +65,7 @@
 			</div>
 			<div class="col">
 				<div class="row no-gutters mb-3" *ngFor="let list of section.listData">
-					<h4>{{ list.id }}</h4>
+					<h4>{{ list.name }}</h4>
 					<smart-list
 						[id]="list.id"
 						[source]="list.content"

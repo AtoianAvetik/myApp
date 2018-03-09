@@ -30,6 +30,7 @@ export class SmartListPageComponent {
 			listData: 	[
 				{
 					id: 'list1',
+					name: 'List 1',
 					content: [
 						{
 							id: 'item1',
@@ -82,6 +83,7 @@ export class SmartListPageComponent {
 			listData: [
 				{
 					id: 'list2',
+					name: 'List 2',
 					content: [
 						{
 							id: 'item4',
@@ -107,6 +109,7 @@ export class SmartListPageComponent {
 				},
 				{
 					id: 'list3',
+					name: 'List 3',
 					content: [
 						{
 							id: 'item6',
@@ -134,9 +137,15 @@ export class SmartListPageComponent {
 		}
 	];
 
-	getListIdArray(list) {
+	getListArray(list) {
 		return list.map(el => {
 			return el.id;
+		})
+	}
+
+	getTransferListArray(list) {
+		return list.map(el => {
+			return {id: el.id, text: el.name};
 		})
 	}
 

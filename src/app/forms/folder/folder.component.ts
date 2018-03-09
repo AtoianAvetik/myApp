@@ -15,7 +15,7 @@ export class FolderComponent implements OnInit, OnChanges {
 	@Input() mode: string = 'add';
 	@Input() folderId: any = null;
 	@Input() foldersData: any = {};
-	@Input() folders: Array<any> = [];
+	@Input() foldersSelect: Array<any> = [];
 	private isTransfer = false;
 	private formDefaultValues = {
 		folderName: '',
@@ -41,12 +41,12 @@ export class FolderComponent implements OnInit, OnChanges {
 			return false;
 		}
 		this.form.reset();
-		this.curFoldersList = this.folders.slice();
+		this.curFoldersList = this.foldersSelect.slice();
 
 		const updatedValues = JSON.parse(JSON.stringify(this.formDefaultValues));
 
 		if (this.mode === 'edit' && this.foldersData[this.folderId]) {
-			this.curFoldersList = this.folders.filter((folder) => {
+			this.curFoldersList = this.foldersSelect.filter((folder) => {
 				if (folder.id === this.folderId || this.foldersData[this.folderId].parentFolder === folder.id) {
 					return false;
 				} else if (this.foldersData[folder.id].parentFolder) {
@@ -57,7 +57,7 @@ export class FolderComponent implements OnInit, OnChanges {
 			});
 
 			const parentFolder = this.foldersData[this.folderId].parentFolder;
-			this.activeFolder = parentFolder ? [this.folders.find((el, index) => el.id === parentFolder)] : null;
+			this.activeFolder = parentFolder ? [this.foldersSelect.find((el, index) => el.id === parentFolder)] : null;
 
 			const folder = this.foldersData[this.folderId];
 			updatedValues.folderName = folder.name;

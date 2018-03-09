@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ModalModule } from '../modals/modal.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CustomMaterialModule } from '../../shared/material.module';
 
 import { SmartListService } from './smart-list.service';
 import { SmartListControlsService } from './smart-list-controls.service';
@@ -14,8 +14,8 @@ import { SmartListBulkSelectComponent } from './smart-list-controls/smart-list-b
 @NgModule({
 	imports: [
 		CommonModule,
-		ModalModule,
-		NgbModule
+		CustomMaterialModule,
+		ModalModule
 	],
 	exports: [
 		SmartListComponent,

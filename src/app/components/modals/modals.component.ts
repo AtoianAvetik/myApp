@@ -10,7 +10,6 @@ import { ModalService } from './modal.service';
 		<div class="app-modal-container"></div>
 		<div
 			class="app-modal-overlay"
-			(click)="overlayClick($event)"
 			[@overlay]='isOpen ? "open" : "close"'>
 		</div>
 	`,
@@ -66,11 +65,5 @@ export class ModalsComponent implements OnInit {
 					}
 				}
 			);
-	}
-
-	overlayClick( e ) {
-		if ( !e.target.closest( '.app-modal' ) ) {
-			this._modalService.closeModal();
-		}
 	}
 }

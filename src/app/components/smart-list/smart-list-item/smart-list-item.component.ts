@@ -1,8 +1,6 @@
-import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, ElementRef, HostListener, Input, OnInit } from '@angular/core';
 
 import { SmartListService } from '../smart-list.service';
-import { ModalService } from "../../modals/modal.service";
 import { SmartListItemModel } from '../smart-list-item.model';
 
 @Component( {
@@ -10,57 +8,48 @@ import { SmartListItemModel } from '../smart-list-item.model';
 	templateUrl: './smart-list-item.component.html',
 	styleUrls: ['./smart-list-item.component.scss']
 } )
-export class SmartListItemComponent implements OnInit, OnDestroy {
+export class SmartListItemComponent implements OnInit {
 	@Input() item;
 	@Input() listId;
 	@Input() settings;
+
 	itemSmartModel: SmartListItemModel;
 
 	// States
+	isFocused = false;
 	private _isSelected = false;
-	private _isFocused = false;
 	@Input()
 	set isSelected(value: boolean) {
+		if ( this._isSelected === value )
+			return;
 		this._isSelected = value;
 		this.itemSmartModel.isSelected = value;
+		this._smartListService[value ? 'selectItem' : 'deselectItem'].next( this.itemSmartModel );
 	};
 	get isSelected() {
 		return this._isSelected;
 	}
-	@Input()
-	set isFocused(value: boolean) {
-		this._isFocused = value;
-	};
-	get isFocused() {
-		return this._isFocused;
-	}
-
-	private subscriptions: Array<Subscription> = [];
 
 	@HostListener('document:click', ['$event.target'])
 	onClick(targetElement) {
 		this.onClickOutside(targetElement);
 	}
 
-
 	constructor( private _smartListService: SmartListService,
-	             private _modalService: ModalService,
 	             private _elementRef: ElementRef) {
+		this._smartListService.deselectAll.subscribe(_ => {
+			this.isFocused = false;
+			this.isSelected = false;
+		});
 	}
 
 	ngOnInit() {
 		this.itemSmartModel = new SmartListItemModel(this.item.id, this.listId, this.isSelected);
-		this.subscriptions.push( this._modalService.modalClosingDidStart.subscribe(
-			() => {
-				this.isFocused = false;
-			}
-		) );
 	}
 
-	ngOnDestroy() {
-		this.subscriptions.forEach( ( subscription: Subscription ) => {
-			subscription.unsubscribe();
-		} );
+	onClickItem( event ) {
+		this.stopPropagation( event );
+		this.isSelected = !this.isSelected;
 	}
 
 	onEditItem( event ) {
@@ -75,24 +64,9 @@ export class SmartListItemComponent implements OnInit, OnDestroy {
 		this._smartListService.deleteSelectedItem.next();
 	}
 
-	onClickItem( event ) {
-		this.stopPropagation( event );
-		this.isSelected ? this.deselectItem() : this.selectItem();
-	}
-
 	onFocusItem() {
 		this.isFocused = true;
 		this._smartListService.selectItem.next( this.itemSmartModel );
-	}
-
-	selectItem() {
-		this.isSelected = true;
-		this._smartListService.selectItem.next( this.itemSmartModel );
-	}
-
-	deselectItem() {
-		this.isSelected = false;
-		this._smartListService.deselectItem.next( this.itemSmartModel );
 	}
 
 	stopPropagation( event ) {
@@ -102,8 +76,8 @@ export class SmartListItemComponent implements OnInit, OnDestroy {
 	onClickOutside(target) {
 		const clickedInside = this._elementRef.nativeElement.contains(target);
 		if (!clickedInside) {
-			this.isSelected = false;
 			this.isFocused = false;
+			this.isSelected = false;
 			this._smartListService.deselectAll.next();
 		}
 	}

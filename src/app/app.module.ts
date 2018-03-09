@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
+import { CustomMaterialModule } from './shared/material.module';
 import { PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { PANEL_CONFIG, PanelConfigInterface } from './components/panels/panel.config';
 
@@ -43,6 +44,7 @@ const CUSTOM_PANEL_CONFIG: PanelConfigInterface = {
 		BrowserModule,
 		BrowserAnimationsModule,
 		SharedModule,
+		CustomMaterialModule,
 		HttpClientModule,
 		AppRoutingModule,
 		NgbModule.forRoot()
