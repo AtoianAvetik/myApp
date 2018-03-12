@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import {
-	SMART_LIST_CELL_SIZES, SMART_LIST_IMG_SIZES,
+	SMART_LIST_CELL_SIZES, SMART_LIST_IMG_SIZES, SMART_LIST_SWITCHER_TYPES,
 	SMART_LIST_VIEW_TYPES
 } from '../../../components/smart-list/smart-list.config';
 
@@ -12,6 +12,7 @@ import {
 })
 
 export class SmartListPageComponent {
+	switcherTypes = SMART_LIST_SWITCHER_TYPES;
 	viewTypes = SMART_LIST_VIEW_TYPES;
 	imgSizes = SMART_LIST_IMG_SIZES;
 	cellSizes = SMART_LIST_CELL_SIZES;

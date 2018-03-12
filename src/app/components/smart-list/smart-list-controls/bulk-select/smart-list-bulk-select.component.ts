@@ -1,8 +1,8 @@
 import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-
-import { SmartListControlsService } from '../smart-list-controls.service';
 import { Subscription } from 'rxjs/Subscription';
+
+import { SmartListControlsService } from '../../smart-list-controls.service';
 
 @Component({
 	selector: 'smart-list-bulk-select',

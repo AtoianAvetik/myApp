@@ -47,6 +47,7 @@ export class SmartListComponent implements OnInit, OnDestroy, OnChanges {
 	constructor(private _smartListService: SmartListService) {}
 
 	ngOnInit() {
+		console.log(this.viewType);
 		this.settings = this.prepareSettings();
 		this.source = this.prepareSource();
 
@@ -91,6 +92,8 @@ export class SmartListComponent implements OnInit, OnDestroy, OnChanges {
 		this.viewType && (options['viewType'] = this.viewType);
 		this.imgSize && (options['imgSize'] = this.imgSize);
 		this.cellSize && (options['cellSize'] = this.cellSize);
+
+		console.log(options);
 
 		return Object.assign({}, options, this.inputOptions);
 	}

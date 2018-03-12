@@ -21,46 +21,29 @@
 						(transferSelectedItems)="logger('Transfer items to' + $event.listId)"
 					></smart-list-bulk-select>
 				</div>
-				<div class="row no-gutters mb-2">
-					<div class="btn-group btn-group-toggle" ngbRadioGroup name="activeViewType-{{ i }}" (ngModelChange)="section.actions.viewTypeChange.next($event)" [ngModel]="section.settings.viewType">
-						<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
-							<input type="radio" ngbButton [value]="viewTypes.list"> <i class="ft-list"></i>
-						</label>
-						<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
-							<input type="radio" ngbButton [value]="viewTypes.tile"> <i class="ft-grid"></i>
-						</label>
-					</div>
+
+				<div class="mb-2">
+					<smart-list-switcher
+						[type]="switcherTypes.view"
+						[state]="section.settings.viewType"
+						(onChange)="section.actions.viewTypeChange.next($event)"
+					></smart-list-switcher>
 				</div>
-				<div class="row no-gutters -middle mb-2">
-					<i class="ft-grid font-medium-3 mr-3"></i>
-					<div class="btn-list btn-group btn-group-toggle" ngbRadioGroup name="cellSize-{{ i }}" (ngModelChange)="section.actions.cellSizeChange.next($event)" [(ngModel)]="section.settings.cellSize">
-						<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
-							<input type="radio" ngbButton [value]="cellSizes.small"> SM
-						</label>
-						<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
-							<input type="radio" ngbButton [value]="cellSizes.medium"> MD
-						</label>
-						<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
-							<input type="radio" ngbButton [value]="cellSizes.big"> LG
-						</label>
-					</div>
+
+				<div class="mb-2">
+					<smart-list-switcher
+						[type]="switcherTypes.cellSize"
+						[state]="section.settings.cellSize"
+						(onChange)="section.actions.cellSizeChange.next($event)"
+					></smart-list-switcher>
 				</div>
-				<div class="row no-gutters -middle mb-2">
-					<i class="ft-image font-medium-3 mr-3"></i>
-					<div class="btn-list btn-group btn-group-toggle" ngbRadioGroup name="imageSize-{{ i }}" (ngModelChange)="section.actions.imgSizeChange.next($event)" [(ngModel)]="section.settings.imgSize">
-						<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
-							<input type="radio" ngbButton [value]="imgSizes.small"> SM
-						</label>
-						<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
-							<input type="radio" ngbButton [value]="imgSizes.medium"> MD
-						</label>
-						<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
-							<input type="radio" ngbButton [value]="imgSizes.square"> SQ
-						</label>
-						<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
-							<input type="radio" ngbButton [value]="imgSizes.big"> LG
-						</label>
-					</div>
+
+				<div class="mb-2">
+					<smart-list-switcher
+						[type]="switcherTypes.imgSize"
+						[state]="section.settings.imgSize"
+						(onChange)="section.actions.imgSizeChange.next($event)"
+					></smart-list-switcher>
 				</div>
 			</div>
 			<div class="col">

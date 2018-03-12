@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { SmartFolderModel } from '../../components/smart-folders/smart-folder.model';
 import { SmartListItemModel } from '../../components/smart-list/smart-list-item.model';
 import { AddMenuItem } from '../../components/add-menu/add-menu-item.model';
-import { SMART_LIST_VIEW_TYPES } from '../../components/smart-list/smart-list.config';
+import { SMART_LIST_SWITCHER_TYPES, SMART_LIST_VIEW_TYPES } from '../../components/smart-list/smart-list.config';
 
 import { DataService } from '../../shared/_services/data.service';
 import { ModalService } from '../../components/modals/modal.service';
@@ -45,6 +45,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 	expandAllFolders = true;
 
 	// smart list
+	switcherTypes = SMART_LIST_SWITCHER_TYPES;
 	viewTypeChange = new Subject<string>();
 	viewTypes = SMART_LIST_VIEW_TYPES;
 	confirmBulkDelete = new Subject();
@@ -156,11 +157,10 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 		this.deleteMode = 'bulk';
 		this.bulkMode = 'passwords';
 		this.selectedItemsLength = event.data.length;
-		this.onBulkPasswordsTransfer(event.newId);
+		this.onConfirmBulkTransfer(event.newId);
 	}
 
-	async onBulkPasswordsTransfer(newId) {
-		console.log(newId);
+	async onConfirmBulkTransfer(newId) {
 		try {
 			await this.selectedItems.forEach(async (item) => {
 				try {

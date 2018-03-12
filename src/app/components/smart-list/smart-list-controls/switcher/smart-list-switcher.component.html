@@ -1,0 +1,41 @@
+<div class="row no-gutters" *ngIf="type === types.view">
+	<div class="btn-group btn-group-toggle" ngbRadioGroup name="activeViewType-{{ i }}" (ngModelChange)="onChange.next($event)" [ngModel]="state">
+		<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
+			<input type="radio" ngbButton [value]="viewTypes.list"> <i class="ft-list"></i>
+		</label>
+		<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
+			<input type="radio" ngbButton [value]="viewTypes.tile"> <i class="ft-grid"></i>
+		</label>
+	</div>
+</div>
+<div class="row no-gutters -middle" *ngIf="type === types.cellSize">
+	<i class="ft-grid font-medium-3 mr-3"></i>
+	<div class="btn-list btn-group btn-group-toggle" ngbRadioGroup name="cellSize-{{ i }}" (ngModelChange)="onChange.next($event)" [ngModel]="state">
+		<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
+			<input type="radio" ngbButton [value]="cellSizes.small"> SM
+		</label>
+		<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
+			<input type="radio" ngbButton [value]="cellSizes.medium"> MD
+		</label>
+		<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
+			<input type="radio" ngbButton [value]="cellSizes.big"> LG
+		</label>
+	</div>
+</div>
+<div class="row no-gutters -middle" *ngIf="type === types.imgSize">
+	<i class="ft-image font-medium-3 mr-3"></i>
+	<div class="btn-list btn-group btn-group-toggle" ngbRadioGroup name="imageSize-{{ i }}" (ngModelChange)="onChange.next($event)" [ngModel]="state">
+		<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
+			<input type="radio" ngbButton [value]="imgSizes.small"> SM
+		</label>
+		<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
+			<input type="radio" ngbButton [value]="imgSizes.medium"> MD
+		</label>
+		<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
+			<input type="radio" ngbButton [value]="imgSizes.square"> SQ
+		</label>
+		<label class="btn-grey-card btn-darken-2" ngbButtonLabel>
+			<input type="radio" ngbButton [value]="imgSizes.big"> LG
+		</label>
+	</div>
+</div>

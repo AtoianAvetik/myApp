@@ -22,13 +22,26 @@ export const SMART_LIST_CELL_SIZES = {
 	medium: '-size-cell-medium',
 	big: '-size-cell-big'
 };
-
+export const SMART_LIST_SWITCHER_TYPES = {
+	view: {
+		name: 'view',
+		defValue: SMART_LIST_VIEW_TYPES.list
+	},
+	imgSize: {
+		name: 'imgSize',
+		defValue: SMART_LIST_IMG_SIZES.medium
+	},
+	cellSize: {
+		name: 'cellSize',
+		defValue: SMART_LIST_CELL_SIZES.medium
+	}
+};
 export const DEFAULT_SMART_LIST_SETTINGS: SmartListSettingsInterface = {
 	mode: SMART_LIST_MODES.internal,
 	selectMode: SMART_LIST_SELECT_MODES.multi,
-	viewType: SMART_LIST_VIEW_TYPES.list,
-	imgSize: SMART_LIST_IMG_SIZES.medium,
-	cellSize: SMART_LIST_CELL_SIZES.medium,
+	viewType: SMART_LIST_SWITCHER_TYPES.view.defValue,
+	imgSize: SMART_LIST_SWITCHER_TYPES.imgSize.defValue,
+	cellSize: SMART_LIST_SWITCHER_TYPES.cellSize.defValue,
 	actions: {
 		add: false,
 		edit: true,
