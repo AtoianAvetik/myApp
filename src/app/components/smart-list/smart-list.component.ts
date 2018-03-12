@@ -24,6 +24,7 @@ export class SmartListComponent implements OnInit, OnDestroy, OnChanges {
 
 	// Bind simple options;
 	inputOptions: SmartListSettingsInterface = {};
+	@Input() exceptionNodes: Array<string> = []; // for prevent deselect on click
 	@Input() viewType: string;
 	@Input() imgSize: string;
 	@Input() cellSize: string;
@@ -86,6 +87,7 @@ export class SmartListComponent implements OnInit, OnDestroy, OnChanges {
 	prepareInputOptions():SmartListSettingsInterface {
 		const options = {};
 
+		options['exceptionNodes'] = this.exceptionNodes;
 		this.viewType && (options['viewType'] = this.viewType);
 		this.imgSize && (options['imgSize'] = this.imgSize);
 		this.cellSize && (options['cellSize'] = this.cellSize);

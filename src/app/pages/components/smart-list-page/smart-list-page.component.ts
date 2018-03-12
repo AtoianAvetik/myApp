@@ -15,6 +15,7 @@ export class SmartListPageComponent {
 	viewTypes = SMART_LIST_VIEW_TYPES;
 	imgSizes = SMART_LIST_IMG_SIZES;
 	cellSizes = SMART_LIST_CELL_SIZES;
+	exceptionNodes = ['.app-modal-wrap', '.cdk-overlay-container'];
 	data = [
 		{
 			settings: {

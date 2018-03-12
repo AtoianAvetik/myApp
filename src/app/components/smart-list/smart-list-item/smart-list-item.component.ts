@@ -44,7 +44,7 @@ export class SmartListItemComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.itemSmartModel = new SmartListItemModel(this.item.id, this.listId, this.isSelected);
+		this.itemSmartModel = new SmartListItemModel(this.item.id, this.listId, this.item, this.isSelected);
 	}
 
 	onClickItem( event ) {
@@ -75,7 +75,14 @@ export class SmartListItemComponent implements OnInit {
 
 	onClickOutside(target) {
 		const clickedInside = this._elementRef.nativeElement.contains(target);
-		if (!clickedInside) {
+		let isExcNodes = false;
+
+		this.settings.exceptionNodes.forEach( sel => {
+			if ( target.closest( sel ) )
+			    isExcNodes = true;
+		});
+
+		if (!clickedInside && !isExcNodes) {
 			this.isFocused = false;
 			this.isSelected = false;
 			this._smartListService.deselectAll.next();

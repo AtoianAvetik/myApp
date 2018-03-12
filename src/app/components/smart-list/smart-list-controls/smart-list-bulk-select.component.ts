@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, Output } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 import { SmartListControlsService } from '../smart-list-controls.service';
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 		<div *ngIf="counter > 0" class="smart-list_bulk-select" (click)="$event.stopPropagation()">
 			<mat-menu #rootMenu="matMenu" yPosition="below" [overlapTrigger]="false" xPosition="after">
-				<button mat-menu-item (click)="deleteSelectedItems.next(selectedItems);$event.stopPropagation()">Delete</button>
+				<button mat-menu-item (click)="onDelete()">Delete</button>
 				<button mat-menu-item [matMenuTriggerFor]="transferMenu" *ngIf="transferList.length">Transfer to folder</button>
 			</mat-menu>
 	
@@ -18,7 +18,7 @@ import { Subscription } from 'rxjs/Subscription';
 				<button
 					mat-menu-item
 					*ngFor="let list of transferList"
-					(click)="this.transferSelectedItems.next({data: selectedItems, listId: list.id})"
+					(click)="onTransfer(list.id)"
 				>{{ list.text }}</button>
 			</mat-menu>
 			
@@ -32,13 +32,15 @@ import { Subscription } from 'rxjs/Subscription';
 	`
 })
 
-export class SmartListBulkSelectComponent implements OnDestroy {
+export class SmartListBulkSelectComponent implements OnInit, OnDestroy {
 	@Input() lists: Array<string> = [];
 	@Input() transferList: Array<{id: string, text: string}> = [];
+	@Input() deleteConfirm = new Subject();
+	@Input() transferConfirm = new Subject();
 
 	// Actions
 	@Output() deleteSelectedItems = new Subject<Array<any>>();
-	@Output() transferSelectedItems = new Subject<{data: Array<any>, listId: string}>();
+	@Output() transferSelectedItems = new Subject<{data: Array<any>, newId: string}>();
 
 	public counter: number = 0;
 
@@ -58,16 +60,19 @@ export class SmartListBulkSelectComponent implements OnDestroy {
 	constructor(private _slcs: SmartListControlsService ) {
 		this.subscriptions.push( this._slcs.selectItem.subscribe( item => this.checkList(this.lists, item) ) );
 		this.subscriptions.push( this._slcs.deselectItem.subscribe( item => this.checkList(this.lists, item) ) );
-		this.subscriptions.push( this._slcs.deselectAll.subscribe(_ => {
-			this.counter = 0;
-			this.selectedItems = [];
-		}) );
+		this.subscriptions.push( this._slcs.deselectAll.subscribe(_ => this.deselectAll()) );
+	}
+
+	ngOnInit() {
+		this.subscriptions.push( this.deleteConfirm.subscribe(_ => this.deselectAll()) );
+		this.subscriptions.push( this.transferConfirm.subscribe(_ => this.deselectAll()) );
 	}
 
 	checkList(lists, item) {
 		lists.forEach(id => {
 			if ( id === item.listId ) {
-				item.isSelected ? this.addToSelected(this.selectedItems, item) : this.removeFromSelected(this.selectedItems, item);
+				this.removeFromSelected(this.selectedItems, item);
+				item.isSelected && this.addToSelected(this.selectedItems, item);
 			}
 		});
 	}
@@ -91,6 +96,19 @@ export class SmartListBulkSelectComponent implements OnDestroy {
 			array.splice(index, 1);
 			this.decrement();
 		}
+	}
+
+	deselectAll() {
+		this.counter = 0;
+		this.selectedItems = [];
+	}
+
+	onDelete() {
+		this.deleteSelectedItems.next(this.selectedItems);
+	}
+
+	onTransfer(id: string) {
+		this.transferSelectedItems.next({data: this.selectedItems, newId: id});
 	}
 
 	ngOnDestroy() {

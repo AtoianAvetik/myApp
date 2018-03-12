@@ -47,8 +47,11 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 	// smart list
 	viewTypeChange = new Subject<string>();
 	viewTypes = SMART_LIST_VIEW_TYPES;
+	confirmBulkDelete = new Subject();
+	confirmBulkTransfer = new Subject();
 	smartListSettings = {
-		viewType: 'tile'
+		viewType: 'tile',
+		exceptionNodes: ['.app-modal-container', '.cdk-overlay-container']
 	};
 
 	// states
@@ -56,7 +59,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 	selectedItemsLength: number = 0;
 	selectedItems: SmartListItemModel[] = [];
 	listSelectedId: number;
-	listSelectedItem = new SmartListItemModel('', '');
+	listSelectedItem = new SmartListItemModel('', '', '');
 
 	constructor( private dataService: DataService,
 	             private modalService: ModalService,
@@ -149,8 +152,31 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 		this.modalService.openModal('delete-modal');
 	}
 
-	onBulkPasswordsTransfer(event) {
-		console.log(event);
+	bulkPasswordsTransfer(event) {
+		this.deleteMode = 'bulk';
+		this.bulkMode = 'passwords';
+		this.selectedItemsLength = event.data.length;
+		this.onBulkPasswordsTransfer(event.newId);
+	}
+
+	async onBulkPasswordsTransfer(newId) {
+		console.log(newId);
+		try {
+			await this.selectedItems.forEach(async (item) => {
+				try {
+					await this.dataService.passwordsAction('transferItem', item.listId, newId, item.data );
+				} catch (e) {
+					const message = 'Password was not transfer!';
+					this.notificationService.error( message, 0 );
+					console.error( e )
+				}
+			});
+			this.confirmBulkTransfer.next();
+			const message = 'Password was transfer!';
+			this.notificationService.success( message );
+		} catch(e) {
+			console.error( e );
+		}
 	}
 
 	async onConfirmBulkDelete() {
@@ -164,6 +190,7 @@ export class PasswordsComponent implements OnInit, AfterViewInit {
 					console.error( e )
 				}
 			});
+			this.confirmBulkDelete.next();
 			const message = 'Password was deleted!';
 			this.modalService.closeAll();
 			this.notificationService.success( message );
