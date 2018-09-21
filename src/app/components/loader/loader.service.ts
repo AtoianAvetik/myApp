@@ -22,6 +22,7 @@ export class LoaderService {
   create(data:{id: string, content?: string}) {
     let loader = _.findWhere(this.loaders, { id: data.id });
     if (!loader) {
+      console.error('Loader instance with id "' + data.id + '" not defined!');
       return null;
     } else {
       loader.content = data.content ? data.content: null;
