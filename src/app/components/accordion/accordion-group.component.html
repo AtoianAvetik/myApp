@@ -1,4 +1,4 @@
-<div class="accordion accordion-default" [class.-opened]="isOpen">
+<div class="accordion accordion-default" [class.-opened]="isOpen" [class.-disabled]="disabled">
 	<div class="accordion-heading" role="tab">
 		<span class="accordion-heading_title" (click)="onToggleClick($event)">
 			<a tabindex="0" *ngIf="heading" role="button">
