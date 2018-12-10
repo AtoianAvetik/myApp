@@ -61,8 +61,10 @@ export class LoaderComponent implements OnInit, OnDestroy {
   }
 
   // close loader
-  dismiss(): void {
-    this.isPresent = false;
+  dismiss(): Observable<boolean> | Promise<boolean> {
+	this.isPresent = false;
+	this._cdr.detectChanges();
+	return this._loaderService.isloaderClosed;
   }
 
   animationDone(event) {
